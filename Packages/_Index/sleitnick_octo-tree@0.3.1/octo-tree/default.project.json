@@ -1,0 +1,6 @@
+{
+  "name": "octo-tree",
+  "tree": {
+    "$path": "out"
+  }
+}

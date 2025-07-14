@@ -1,0 +1,38 @@
+{
+  "name": "24 Days In The Gym - Main Game",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "$path": "src/Mutuals/ReplicatedStorage",
+     
+      "Packages": {
+        "$path": "Packages"
+      },
+      "$ignoreUnknownInstances": true
+    },
+
+    "ServerScriptService": {
+      "$path": "src/MainGame/ServerScriptService",
+      "MutualServices": {
+        "$path": "src/Mutuals/MutualServices"
+      },
+      "$ignoreUnknownInstances": true
+    },
+
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "$path": "src/MainGame/StarterPlayerScripts",
+        "MutualControllers": {
+          "$path": "src/Mutuals/MutualControllers"
+        },
+        "$ignoreUnknownInstances": true
+      },
+      "StarterCharacterScripts": {
+        "$path": "src/MainGame/StarterCharacterScripts",
+        "$ignoreUnknownInstances": true
+      },
+      "$ignoreUnknownInstances": true
+    }
+  }
+}

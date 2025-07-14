@@ -1,0 +1,72 @@
+local RunService = game:GetService("RunService")
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Packages = ReplicatedStorage:WaitForChild("Packages")
+local Trove = require(Packages.Trove)
+
+function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model)
+	if not viewportFrame or not model then
+		return
+	end
+
+	viewportFrame:ClearAllChildren()
+
+	local camera = Instance.new("Camera")
+	camera.FieldOfView = 5
+	camera.Parent = viewportFrame
+	viewportFrame.CurrentCamera = camera
+
+    if not model:IsA("Model") then
+        local Model = Instance.new("Model")
+        model.Parent = Model
+        model = Model
+    end
+
+
+	-- Create a container to rotate
+	local container = Instance.new("Model")
+	container.Name = "ContainerModel"
+	container.Parent = viewportFrame
+
+	-- Clone and re-parent the model
+	local modelClone = model:Clone()
+	modelClone.Parent = container
+	modelClone:PivotTo(CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(90), 0, 0))
+
+	-- Set primary part for rotation reference
+	if not modelClone.PrimaryPart then
+		local primary = modelClone:FindFirstChildWhichIsA("BasePart")
+		if primary then
+			modelClone.PrimaryPart = primary
+		end
+	end
+
+	if not modelClone.PrimaryPart then
+		warn("No primary part found for model:", modelClone.Name)
+		return
+	end
+
+	local cf, size = modelClone:GetBoundingBox()
+	local maxDim = math.max(size.X, size.Y, size.Z)
+	local dist = maxDim / math.tan(math.rad(camera.FieldOfView)) * 0.85
+	local lookTarget = cf.Position
+	local camPos = lookTarget - Vector3.new(0, 0, dist)
+	camera.CFrame = CFrame.lookAt(camPos, lookTarget)
+
+	-- Trove to handle cleanup
+	local trove = Trove.new()
+	trove:AttachToInstance(viewportFrame)
+	-- Set container position
+	local offset = CFrame.new(0, 0, 0)
+	container:PivotTo(offset)
+
+	-- Rotate container
+	local angle = 0
+	trove:Connect(RunService.RenderStepped, function(dt)
+		angle += dt * math.rad(45) -- 45 degrees/sec
+		container:PivotTo(CFrame.new(0, 0, 0) * CFrame.Angles(0, angle, 0))
+	end)
+    return trove
+end
+
+return RenderModelInViewport

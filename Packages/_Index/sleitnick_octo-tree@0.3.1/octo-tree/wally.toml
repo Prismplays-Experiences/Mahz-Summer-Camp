@@ -1,0 +1,10 @@
+[package]
+name = "sleitnick/octo-tree"
+description = "Octree implementation"
+version = "0.3.1"
+license = "MIT"
+authors = ["Stephen Leitnick"]
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+exclude = ["**"]
+include = ["out", "out/**/*.lua", "wally.toml", "wally.lock", "default.project.json"]
