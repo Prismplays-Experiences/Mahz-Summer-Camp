@@ -30,11 +30,6 @@ local SoundEffects = game.ReplicatedStorage.Models.SoundEffects
 
 --> Utility Functions
 ----------------------------------------
-function AssignBedNumbers(Players:table)
-	for i,v in Players do
-		v:SetAttribute('BedNumber', i) -- i
-	end
-end
 
 function TeleportPlayersToBed(Players:table)
 
@@ -74,10 +69,16 @@ local BedService = Knit.CreateService{
 	},
 }
 
+function BedService:AssignBedNumbers(Players:table)
+	for i,v in Players do
+		v:SetAttribute('BedNumber', i) -- i
+	end
+end
+
 function BedService:SleepPlayers(Auto,halt) -- Makes player sleep, Auto ensures players automaticall get up
 	
 	if not self.BedAssigned then
-		AssignBedNumbers(game.Players:GetPlayers())
+		self:AssignBedNumbers(game.Players:GetPlayers())
 		self.BedAssigned = true
 	end
 	

@@ -50,23 +50,22 @@ function CreateTarget(Day, IdealWeight, MaxDays)
 end
 
 return {
-    Intro = {
+    Day1 = {
         "Welcome to Prism Gym!",
         "You got chunky...",
         "and pudgy...",
         `now you have {GeneralInfo.MaxDays} days to get shredded!`,
         `Lose {GeneralInfo.Weight} lbs or... it's game over.`,
-        "You got this, probably!",
-        "Time for bed. Wake-up call at 8 AM!",
-        "See ya tomorrow, champ!",
+        `You are tasked with losing {math.round(CreateTarget(1, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
+        "Go Now!",
     },
 
-    Day1 = {
-        'Arise Fellas!',
-        `You are tasked with losing {math.round(CreateTarget(1, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
-        `Use the workout equipments to lose weight.`,
-        'LETS GOO!!',
-    },
+    -- Day1 = {
+    --     'Arise Fellas!',
+    --     `You are tasked with losing {math.round(CreateTarget(1, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
+    --     `Use the workout equipments to lose weight.`,
+    --     'LETS GOO!!',
+    -- },
     Day2 = {
         "Congrats! You've made it to Day 2!",
         "I have decided to help you out a bit more!",
@@ -75,8 +74,6 @@ return {
         "so be careful what you eat!",
         "Lunch is at 12 PM",
         "Bye!!",
-        -- `You are tasked with losing {math.round(CreateTarget(2, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
-        -- 'Get to work!',
     },
     Day3 = {
         ' Day 3, baby!',
@@ -88,13 +85,4 @@ return {
         'From Devs: (We aim to have a new event everyday, we are working on it!)',
         'Goodluck!!',
     },
-    -- Day3 = {
-    --     "Congrats! You've made it to Day 2!",
-    --     "Now things get a little harder!",
-    --     "We will be introducing events to spice things up!",
-    --     "These events may help or hinder your weight loss progress.",
-    --     "Be careful!!"
-    --     -- `You are tasked with losing {math.round(CreateTarget(2, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
-    --     -- 'Get to work!',
-    -- },
 }

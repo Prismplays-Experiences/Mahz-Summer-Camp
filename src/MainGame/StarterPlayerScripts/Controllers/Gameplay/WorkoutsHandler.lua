@@ -447,7 +447,7 @@ function WorkoutsHandler:KnitStart()
             self.MachineLocked = status
         end
     end)
-    self:ControlProximityPrompts(true)
+    self:ControlProximityPrompts(false)
 end
 
 return WorkoutsHandler

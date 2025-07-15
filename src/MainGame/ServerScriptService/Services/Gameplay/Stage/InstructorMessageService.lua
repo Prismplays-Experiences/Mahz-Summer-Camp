@@ -89,7 +89,6 @@ function InstructorMessage:PlayMessage(Message)
         task.wait(35)
         self.NewInstructor:Destroy()
     end)
-
 end
 
 

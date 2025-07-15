@@ -130,7 +130,7 @@ function EventService:KnitStart()
         end
     end
     --testing
-    task.wait(15)
+    -- task.wait(15)
     -- print("Starting FoodBomb Event")
     -- print(EventsModules)
     -- EventsModules['FoodBomb']:Start()

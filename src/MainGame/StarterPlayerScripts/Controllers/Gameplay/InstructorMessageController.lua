@@ -31,7 +31,7 @@ local BaseAnim = Instance.new("Animation")
 BaseAnim.AnimationId = "rbxassetid://127679387441945"
 KeyPhrases = {
     Wave = {Text = {'Welcome','Bye'}, AnimId = 'rbxassetid://507770239', AnimSpeed = 0.7},
-    Go = {Text = {'GO!', 'GOO!!', 'Goodluck', 'See','careful'}, AnimId = 'rbxassetid://507770453', AnimSpeed = 0.6},
+    Go = {Text = {'GO!','Now!', 'GOO!!', 'Goodluck', 'See','careful'}, AnimId = 'rbxassetid://507770453', AnimSpeed = 0.6},
     -- Clap = {Text = {''}, AnimId = 'rbxassetid://3312847365', AnimSpeed = 0.7},
 }
 

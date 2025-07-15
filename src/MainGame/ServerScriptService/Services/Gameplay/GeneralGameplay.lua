@@ -35,7 +35,7 @@ local Testing = false
 ----------------------------------------
 local GeneralGameplay = Knit.CreateService {
     Name = "GeneralGameplay",
-    CountdownValue = RunService:IsStudio() and 25 or 30,
+    CountdownValue = RunService:IsStudio() and 20 or 30,
     CountdownEnabled = true,
     Client = {
         DisableControls = Knit.CreateSignal(),
@@ -112,21 +112,20 @@ function GeneralGameplay:KnitStart()
     end
     if not Testing then
         self.Client.StopWorkout:FireAll()
-        InstructorMessageService:PlayMessage(InstructorMessages.Intro)
-        task.wait(33)
-        self.BedService:SleepPlayers(true,true)
-        -- task.wait(2)
         InstructorMessageService:PlayMessage(InstructorMessages.Day1)
-        task.wait(8)
+        task.wait(31)
+        self.BedService:AssignBedNumbers(game.Players:GetPlayers())
+        -- task.wait(2)
+        -- InstructorMessageService:PlayMessage(InstructorMessages.Day1)
+        -- task.wait(8)
         TeleportPlayersToDay1Spawn()
-        task.wait(14)
+        -- task.wait(14)
         self.TargetService:SetTarget()
         self.ClockService:ResumeClock()
     end
     local function sendtobed()
         self.BedService:SleepPlayers(false,false)
     end
-
 
     for _, player in pairs(Players:GetPlayers()) do
         LogOnboardingEvent(player, 1, 'Day 1')

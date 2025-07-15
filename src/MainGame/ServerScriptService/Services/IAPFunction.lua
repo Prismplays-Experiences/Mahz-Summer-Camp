@@ -37,7 +37,6 @@ end
 function IAPFunction.Client:Purchase(Player,Item)
     local Data = IAPDATA.Suppliments[Item]
     local Price = Data.Cost
-    print('Price: '..Price, Player.PrivateStats.Currency.Value)
     if Player.PrivateStats.Currency.Value >= Price then
         Player.PrivateStats.Currency.Value -= Price
         GiveItem(Player, Item)
