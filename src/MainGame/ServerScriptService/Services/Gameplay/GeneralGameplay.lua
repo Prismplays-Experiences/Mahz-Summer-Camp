@@ -107,6 +107,10 @@ function GeneralGameplay:KnitStart()
 
     local EventCount = 1
 
+    for _, player in pairs(Players:GetPlayers()) do
+        LogOnboardingEvent(player, 1, 'Joined server')
+    end
+
     if self.CountdownEnabled then
         self:Countdown(self.CountdownValue)
     end
@@ -128,7 +132,7 @@ function GeneralGameplay:KnitStart()
     end
 
     for _, player in pairs(Players:GetPlayers()) do
-        LogOnboardingEvent(player, 1, 'Day 1')
+        LogOnboardingEvent(player, 2, 'Day 1')
     end
 
     self.ClockService.DayEnded:Connect(function()
@@ -170,7 +174,7 @@ function GeneralGameplay:KnitStart()
         
         for _, player in pairs(Players:GetPlayers()) do
             if not player:HasTag('Eliminated') then
-                LogOnboardingEvent(player, self.ClockService.Days, 'Day ' .. self.ClockService.Days)
+                LogOnboardingEvent(player, self.ClockService.Days+1, 'Day ' .. self.ClockService.Days)
                 player.PrivateStats.Currency.Value += GeneralInfo.RewardPerDay
                 SendNotification(player,`New Day! +{GeneralInfo.RewardPerDay} Coins`, Color3.fromRGB(0, 255, 0), 5, false, SoundEffects.CoinsSound)
             end

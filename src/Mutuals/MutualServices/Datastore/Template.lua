@@ -19,7 +19,7 @@ local PrivateStats = {
 	RobuxSpent = 0;
 	TimePlayed = 0;
 	GroupReward = false;
-	Lifes = 0;
+	Lifes = 1;
 }
 
 

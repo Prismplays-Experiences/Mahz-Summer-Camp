@@ -144,14 +144,24 @@ local function OpenFrame(Frame, Pos)
     return Close
 end
 
+for _, frame in pairs(Frames:GetChildren()) do
+    if frame:IsA("Frame") then
+        local UIScale = frame:FindFirstChild("UIScale") or Instance.new("UIScale", frame)
+        UIScale.Scale = 0
+    end
+end
+
 local function UIMovement(show, frame, speed)
     if not frame then return end
     frame.ZIndex = show and 50 or 49
+    local UIScale = frame:FindFirstChild("UIScale") or Instance.new("UIScale", frame)
 
     local blur = Lighting:FindFirstChild("UIBlur") or Instance.new("BlurEffect", Lighting)
     blur.Name = "UIBlur"
     animPlugin.target(blur, 1, 2, {Size = show and 15 or 0})
+    local tweenui = TweenService:Create(UIScale, TweenInfo.new(speed or 0.5, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out), {Scale = show and 1 or 0})
     frame.Visible = show
+    tweenui:Play()
 end
 
 local function GetCanvasPosition(scroller, DesiredFrame)
