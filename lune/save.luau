@@ -1,0 +1,13 @@
+--[=[ lunar
+	about = "[DESCRIPTION] Saves all instances in the project"
+]=]
+
+local InstancesManager = require("@LuneModules/InstancesManager")
+local Terminal = require("@LuneModules/Terminal")
+
+Terminal.Log("save_log", function()
+    print("Saving instances...")
+    local timePassed = InstancesManager.Save()
+    print("Saved instances in " .. tostring(timePassed) .. " seconds")
+end, true)
+

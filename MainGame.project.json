@@ -7,7 +7,7 @@
       "$path": "src/Mutuals/ReplicatedStorage",
      
       "Packages": {
-        "$path": "Packages"
+        "$path": "roblox_packages"
       },
       "$ignoreUnknownInstances": true
     },

@@ -1,0 +1,529 @@
+{
+  "children": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\evaera_promise@4.0.0\\promise\\lib\\init.spec.lua"
+                          ],
+                          "name": "init.spec"
+                        }
+                      ],
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\evaera_promise@4.0.0\\promise\\lib\\init.lua",
+                        "roblox_packages\\.pesde\\evaera_promise@4.0.0\\promise\\default.project.json"
+                      ],
+                      "name": "promise"
+                    }
+                  ],
+                  "className": "Folder",
+                  "name": "evaera_promise@4.0.0"
+                },
+                {
+                  "children": [
+                    {
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\Option.luau"
+                      ],
+                      "name": "Option"
+                    },
+                    {
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\Promise.luau"
+                      ],
+                      "name": "Promise"
+                    },
+                    {
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\Signal.luau"
+                      ],
+                      "name": "Signal"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "className": "ModuleScript",
+                              "filePaths": [
+                                "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Client\\ClientComm.lua"
+                              ],
+                              "name": "ClientComm"
+                            },
+                            {
+                              "className": "ModuleScript",
+                              "filePaths": [
+                                "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Client\\ClientRemoteProperty.lua"
+                              ],
+                              "name": "ClientRemoteProperty"
+                            },
+                            {
+                              "className": "ModuleScript",
+                              "filePaths": [
+                                "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Client\\ClientRemoteSignal.lua"
+                              ],
+                              "name": "ClientRemoteSignal"
+                            }
+                          ],
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Client\\init.lua"
+                          ],
+                          "name": "Client"
+                        },
+                        {
+                          "children": [
+                            {
+                              "className": "ModuleScript",
+                              "filePaths": [
+                                "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Server\\RemoteProperty.lua"
+                              ],
+                              "name": "RemoteProperty"
+                            },
+                            {
+                              "className": "ModuleScript",
+                              "filePaths": [
+                                "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Server\\RemoteSignal.lua"
+                              ],
+                              "name": "RemoteSignal"
+                            },
+                            {
+                              "className": "ModuleScript",
+                              "filePaths": [
+                                "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Server\\ServerComm.lua"
+                              ],
+                              "name": "ServerComm"
+                            }
+                          ],
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Server\\init.lua"
+                          ],
+                          "name": "Server"
+                        },
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Types.lua"
+                          ],
+                          "name": "Types"
+                        },
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\Util.lua"
+                          ],
+                          "name": "Util"
+                        },
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\wally.toml"
+                          ],
+                          "name": "wally"
+                        }
+                      ],
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_comm@1.0.1\\comm\\init.lua"
+                      ],
+                      "name": "comm"
+                    }
+                  ],
+                  "className": "Folder",
+                  "name": "sleitnick_comm@1.0.1"
+                },
+                {
+                  "children": [
+                    {
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_knit@1.7.0\\Comm.luau"
+                      ],
+                      "name": "Comm"
+                    },
+                    {
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_knit@1.7.0\\Promise.luau"
+                      ],
+                      "name": "Promise"
+                    },
+                    {
+                      "children": [
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_knit@1.7.0\\knit\\KnitClient.lua"
+                          ],
+                          "name": "KnitClient"
+                        },
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_knit@1.7.0\\knit\\KnitServer.lua"
+                          ],
+                          "name": "KnitServer"
+                        },
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_knit@1.7.0\\knit\\wally.toml"
+                          ],
+                          "name": "wally"
+                        },
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_knit@1.7.0\\knit\\wally_bundle.toml"
+                          ],
+                          "name": "wally_bundle"
+                        }
+                      ],
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_knit@1.7.0\\knit\\init.lua"
+                      ],
+                      "name": "knit"
+                    }
+                  ],
+                  "className": "Folder",
+                  "name": "sleitnick_knit@1.7.0"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_option@1.0.5\\option\\init.spec.lua"
+                          ],
+                          "name": "init.spec"
+                        },
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_option@1.0.5\\option\\wally.toml"
+                          ],
+                          "name": "wally"
+                        }
+                      ],
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_option@1.0.5\\option\\init.lua"
+                      ],
+                      "name": "option"
+                    }
+                  ],
+                  "className": "Folder",
+                  "name": "sleitnick_option@1.0.5"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_signal@2.0.3\\signal\\init.test.luau"
+                          ],
+                          "name": "init.test"
+                        },
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_signal@2.0.3\\signal\\wally.toml"
+                          ],
+                          "name": "wally"
+                        }
+                      ],
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_signal@2.0.3\\signal\\init.luau"
+                      ],
+                      "name": "signal"
+                    }
+                  ],
+                  "className": "Folder",
+                  "name": "sleitnick_signal@2.0.3"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_trove@1.5.1\\trove\\init.test.luau"
+                          ],
+                          "name": "init.test"
+                        },
+                        {
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "roblox_packages\\.pesde\\sleitnick_trove@1.5.1\\trove\\wally.toml"
+                          ],
+                          "name": "wally"
+                        }
+                      ],
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "roblox_packages\\.pesde\\sleitnick_trove@1.5.1\\trove\\init.luau"
+                      ],
+                      "name": "trove"
+                    }
+                  ],
+                  "className": "Folder",
+                  "name": "sleitnick_trove@1.5.1"
+                }
+              ],
+              "className": "Folder",
+              "name": ".pesde"
+            },
+            {
+              "className": "ModuleScript",
+              "filePaths": [
+                "roblox_packages\\knit.luau"
+              ],
+              "name": "knit"
+            },
+            {
+              "className": "ModuleScript",
+              "filePaths": [
+                "roblox_packages\\signal.luau"
+              ],
+              "name": "signal"
+            },
+            {
+              "className": "ModuleScript",
+              "filePaths": [
+                "roblox_packages\\trove.luau"
+              ],
+              "name": "trove"
+            }
+          ],
+          "className": "Folder",
+          "name": "Packages"
+        },
+        {
+          "children": [
+            {
+              "className": "ModuleScript",
+              "filePaths": [
+                "src/shared\\Bar.luau"
+              ],
+              "name": "Bar"
+            },
+            {
+              "className": "ModuleScript",
+              "filePaths": [
+                "src/shared\\Foo.luau"
+              ],
+              "name": "Foo"
+            },
+            {
+              "className": "ModuleScript",
+              "filePaths": [
+                "src/shared\\Hello.luau"
+              ],
+              "name": "Hello"
+            }
+          ],
+          "className": "Folder",
+          "name": "Shared"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [],
+                  "className": "TextLabel",
+                  "name": "TextLabel"
+                }
+              ],
+              "className": "Frame",
+              "name": "Frame"
+            }
+          ],
+          "className": "ScreenGui",
+          "name": "ScreenGui"
+        }
+      ],
+      "className": "ReplicatedStorage",
+      "name": "ReplicatedStorage"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "className": "ModuleScript",
+                  "filePaths": [
+                    "src/server\\Services\\TestService.luau"
+                  ],
+                  "name": "TestService"
+                }
+              ],
+              "className": "Folder",
+              "name": "Services"
+            }
+          ],
+          "className": "Script",
+          "filePaths": [
+            "src/server\\init.server.luau"
+          ],
+          "name": "Server"
+        }
+      ],
+      "className": "ServerScriptService",
+      "name": "ServerScriptService"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "className": "LocalScript",
+              "filePaths": [
+                "src/client\\init.client.luau"
+              ],
+              "name": "Client"
+            }
+          ],
+          "className": "StarterPlayerScripts",
+          "name": "StarterPlayerScripts"
+        }
+      ],
+      "className": "StarterPlayer",
+      "name": "StarterPlayer"
+    },
+    {
+      "children": [],
+      "className": "ServerStorage",
+      "name": "ServerStorage"
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [],
+              "className": "Part",
+              "name": "Part2"
+            },
+            {
+              "children": [],
+              "className": "Part",
+              "name": "Part1"
+            }
+          ],
+          "className": "Folder",
+          "name": "Folder"
+        },
+        {
+          "children": [],
+          "className": "Camera",
+          "name": "Camera"
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "className": "Texture",
+              "name": "Texture"
+            }
+          ],
+          "className": "Part",
+          "name": "Baseplate"
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "className": "Decal",
+              "name": "gaming"
+            }
+          ],
+          "className": "Part",
+          "name": "Part"
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "className": "Decal",
+              "name": "Decal"
+            }
+          ],
+          "className": "SpawnLocation",
+          "name": "SpawnLocation"
+        },
+        {
+          "children": [],
+          "className": "Terrain",
+          "name": "Terrain"
+        }
+      ],
+      "className": "Workspace",
+      "name": "Workspace"
+    },
+    {
+      "children": [],
+      "className": "StarterGui",
+      "name": "StarterGui"
+    },
+    {
+      "children": [
+        {
+          "children": [],
+          "className": "SunRaysEffect",
+          "name": "SunRays"
+        },
+        {
+          "children": [],
+          "className": "DepthOfFieldEffect",
+          "name": "DepthOfField"
+        },
+        {
+          "children": [],
+          "className": "Sky",
+          "name": "Sky"
+        },
+        {
+          "children": [],
+          "className": "Atmosphere",
+          "name": "Atmosphere"
+        },
+        {
+          "children": [],
+          "className": "BloomEffect",
+          "name": "Bloom"
+        }
+      ],
+      "className": "Lighting",
+      "name": "Lighting"
+    }
+  ],
+  "className": "DataModel",
+  "filePaths": [
+    "game.project.json"
+  ],
+  "name": "Autopublish Template (Sourcemap)"
+}

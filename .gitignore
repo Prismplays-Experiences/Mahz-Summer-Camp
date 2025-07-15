@@ -1,6 +1,12 @@
 # Project place file
-/MyCity.rbxlx
+/game.rbxlx
 
 # Roblox Studio lock files
 /*.rbxlx.lock
 /*.rbxl.lock
+
+/out
+
+/logs/**/*
+
+!/logs/.placeholder

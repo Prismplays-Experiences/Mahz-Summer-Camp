@@ -1,0 +1,15 @@
+{
+  "lint": {
+    "*": true,
+    "LocalShadow": false
+  },
+  "aliases": {
+    "Shared": "src/shared",
+    "lune": "~/.lune/.typedefs/0.9.4/",
+    "LuneModules": "lune/modules",
+    "Packages": "roblox_packages",
+    "LunePackages": "lune_packages",
+    "LuauPackages": "luau_packages",
+    "Services": "src/server/Services"
+  }
+}

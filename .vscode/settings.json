@@ -1,0 +1,9 @@
+{
+  "luau-lsp.sourcemap.rojoProjectFile": "game.project.json",
+  "luau-lsp.sourcemap.enabled": true,
+  "chat.promptFiles": true,
+  "workbench.editorAssociations": {
+    "*.md": "vscode.markdown.preview.editor"
+  },
+  "roblox-ui.sourcemap.autogenerate": false,
+}
