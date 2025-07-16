@@ -26,7 +26,7 @@ function Packages.Add(packageName: string, isWally: boolean?, target: "lune" | "
 	end
 
 	local fullPackageName = `{if isWally then "wally#" else "" }{packageName}`
-	local targetArg = if target then "-t ".. target else ""
+	local targetArg = if target and target ~= "roblox" then "-t ".. target else ""
 
 	Terminal.execute(`pesde add {fullPackageName} {targetArg}`)
 end

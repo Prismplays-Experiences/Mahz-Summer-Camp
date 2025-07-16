@@ -6,4 +6,31 @@
     "*.md": "vscode.markdown.preview.editor"
   },
   "roblox-ui.sourcemap.autogenerate": false,
+  "files.exclude": {
+    "luau_packages": true,
+    "lune_packages": true,
+    ".gitignore": true,
+    "logs": true,
+    "pesde.lock": true,
+    "pesde.toml": true,
+    ".env": true,
+    ".luaurc": true,
+    ".darklua.json": true,
+    "selene.toml": true,
+    "README.md": true,
+    ".pesde": true,
+    ".github": true,
+    "aftman.toml": true,
+    "sourcemap.json": true,
+  },
+
+  "[luau]": {
+    "editor.defaultFormatter": "JohnnyMorganz.stylua",
+    "editor.formatOnSave": true
+  },
+
+  "[lua]": {
+    "editor.defaultFormatter": "JohnnyMorganz.stylua",
+    "editor.formatOnSave": true
+  }
 }

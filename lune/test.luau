@@ -1,3 +1,3 @@
-local Test = require("./modules/Test")
+local Compiler = require("@LuneModules/Compiler")
 
-Test.Run()
+Compiler:ObserveFile("MainGame.project.json")

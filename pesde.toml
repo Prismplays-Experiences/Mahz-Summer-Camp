@@ -1,4 +1,4 @@
-name = "prismplay/autopublish_template"
+name = "prismplay/24DaysToLoseWeight"
 version = "0.1.0"
 license = "MIT"
 
@@ -22,3 +22,12 @@ knit = { wally = "sleitnick/knit", version = "^1.7.0" }
 trove = { wally = "sleitnick/trove", version = "^1.5.1" }
 pathfs = { name = "jiwonz/pathfs", version = "^0.6.0-rc.7", target = "lune" }
 simplepath = { wally = "jessekroeske/simplepath", version = "^2.2.2" }
+component = { wally = "sleitnick/component", version = "^2.4.8" }
+table-util = { wally = "sleitnick/table-util", version = "^1.2.1" }
+fastcastredux = { wally = "rocketcamel/fastcastredux", version = "^1.0.2" }
+comm = { wally = "sleitnick/comm", version = "^1.0.1" }
+fusion = { wally = "elttob/fusion", version = "^0.3.0" }
+timer = { wally = "sleitnick/timer", version = "^1.1.2" }
+zoneplus = { wally = "mattschrubb/zoneplus", version = "^3.2.0" }
+camerashaker = { wally = "brittonfischer/camerashaker", version = "^0.1.0" }
+octo-tree = { wally = "sleitnick/octo-tree", version = "^0.3.1" }

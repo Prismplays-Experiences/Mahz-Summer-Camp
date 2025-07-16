@@ -9,7 +9,7 @@ local Packages = require("./modules/Packages")
 
 local isWally = nil
 local packageName = nil
-local target = nil
+local target = "roblox"
 
 local args = process.args
 

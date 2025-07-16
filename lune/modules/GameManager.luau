@@ -31,7 +31,7 @@ end
 
 function GameManager.CopyProjectToOut()
 	local projectFile = fs.readFile(config.PROJECT)
-	fs.writeFile("out/" .. config.PROJECT, projectFile)
+	fs.writeFile(config.OUT_PATH .. "/" .. config.PROJECT, projectFile)
 end
 
 function GameManager.GenerateSourcemap(projectPath: string, outputPath: string?)
@@ -42,6 +42,23 @@ function GameManager.GenerateSourcemap(projectPath: string, outputPath: string?)
 	end
 
 	Terminal.execute(`rojo sourcemap {projectPath} {if needsToBeSaved then "-o" else ""} {outputPath}`)
+end
+
+function GameManager.FindAllPaths()
+	local projectFile = fs.readFile(config.PROJECT)
+	local paths = {}
+
+	for path in projectFile:gmatch(`"$path":%s*"(.-)"`) do
+		table.insert(paths, path)
+	end
+
+	return paths
+end
+
+function GameManager.Serve()
+	local projectPath = config.OUT_PATH .. "/" .. config.PROJECT
+	
+	Terminal.execute(`rojo serve {projectPath}`)
 end
 
 return GameManager

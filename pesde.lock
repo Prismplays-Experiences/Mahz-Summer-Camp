@@ -68,6 +68,20 @@ index_url = "https://github.com/daimond113/pesde-index"
 [graph."jiwonz/pesde_scripts_rojo@0.1.0-rc.1 lune".pkg_ref.dependencies]
 core = [{ name = "jiwonz/pesde_scripts_core", version = "^0.0.3-rc.1", index = "https://github.com/pesde-pkg/index", target = "lune" }, "standard"]
 
+[graph."wally#brittonfischer/camerashaker@0.1.0 roblox"]
+direct = ["camerashaker", { wally = "wally#brittonfischer/camerashaker", version = "^0.1.0", index = "default" }, "standard"]
+
+[graph."wally#brittonfischer/camerashaker@0.1.0 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#elttob/fusion@0.3.0 roblox"]
+direct = ["fusion", { wally = "wally#elttob/fusion", version = "^0.3.0", index = "default" }, "standard"]
+
+[graph."wally#elttob/fusion@0.3.0 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
 [graph."wally#evaera/promise@4.0.0 roblox".pkg_ref]
 ref_ty = "wally"
 index_url = "https://github.com/UpliftGames/wally-index"
@@ -78,6 +92,23 @@ direct = ["simplepath", { wally = "wally#jessekroeske/simplepath", version = "^2
 [graph."wally#jessekroeske/simplepath@2.2.2 roblox".pkg_ref]
 ref_ty = "wally"
 index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#mattschrubb/zoneplus@3.2.0 roblox"]
+direct = ["zoneplus", { wally = "wally#mattschrubb/zoneplus", version = "^3.2.0", index = "default" }, "standard"]
+
+[graph."wally#mattschrubb/zoneplus@3.2.0 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#rocketcamel/fastcastredux@1.0.2 roblox"]
+direct = ["fastcastredux", { wally = "wally#rocketcamel/fastcastredux", version = "^1.0.2", index = "default" }, "standard"]
+
+[graph."wally#rocketcamel/fastcastredux@1.0.2 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#sleitnick/comm@1.0.1 roblox"]
+direct = ["comm", { wally = "wally#sleitnick/comm", version = "^1.0.1", index = "default" }, "standard"]
 
 [graph."wally#sleitnick/comm@1.0.1 roblox".dependencies]
 Option = ["wally#sleitnick/option@1.0.5 roblox", "standard"]
@@ -92,6 +123,25 @@ index_url = "https://github.com/UpliftGames/wally-index"
 Option = [{ wally = "wally#sleitnick/option", version = ">=1.0.0, <2.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
 Promise = [{ wally = "wally#evaera/promise", version = ">=4.0.0, <5.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
 Signal = [{ wally = "wally#sleitnick/signal", version = ">=2.0.0, <3.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+
+[graph."wally#sleitnick/component@2.4.8 roblox"]
+direct = ["component", { wally = "wally#sleitnick/component", version = "^2.4.8", index = "default" }, "standard"]
+
+[graph."wally#sleitnick/component@2.4.8 roblox".dependencies]
+Promise = ["wally#evaera/promise@4.0.0 roblox", "standard"]
+Signal = ["wally#sleitnick/signal@2.0.3 roblox", "standard"]
+Symbol = ["wally#sleitnick/symbol@2.0.1 roblox", "standard"]
+Trove = ["wally#sleitnick/trove@1.5.1 roblox", "standard"]
+
+[graph."wally#sleitnick/component@2.4.8 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#sleitnick/component@2.4.8 roblox".pkg_ref.dependencies]
+Promise = [{ wally = "wally#evaera/promise", version = ">=4.0.0, <5.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+Signal = [{ wally = "wally#sleitnick/signal", version = ">=2.0.0, <3.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+Symbol = [{ wally = "wally#sleitnick/symbol", version = ">=2.0.0, <3.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+Trove = [{ wally = "wally#sleitnick/trove", version = ">=1.0.0, <2.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
 
 [graph."wally#sleitnick/knit@1.7.0 roblox"]
 direct = ["knit", { wally = "wally#sleitnick/knit", version = "^1.7.0", index = "default" }, "standard"]
@@ -108,7 +158,18 @@ index_url = "https://github.com/UpliftGames/wally-index"
 Comm = [{ wally = "wally#sleitnick/comm", version = ">=1.0.0, <2.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
 Promise = [{ wally = "wally#evaera/promise", version = ">=4.0.0, <5.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
 
+[graph."wally#sleitnick/octo-tree@0.3.1 roblox"]
+direct = ["octo-tree", { wally = "wally#sleitnick/octo-tree", version = "^0.3.1", index = "default" }, "standard"]
+
+[graph."wally#sleitnick/octo-tree@0.3.1 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
 [graph."wally#sleitnick/option@1.0.5 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#sleitnick/signal@1.5.0 roblox".pkg_ref]
 ref_ty = "wally"
 index_url = "https://github.com/UpliftGames/wally-index"
 
@@ -118,6 +179,30 @@ direct = ["signal", { wally = "wally#sleitnick/signal", version = "^2.0.3", inde
 [graph."wally#sleitnick/signal@2.0.3 roblox".pkg_ref]
 ref_ty = "wally"
 index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#sleitnick/symbol@2.0.1 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#sleitnick/table-util@1.2.1 roblox"]
+direct = ["table-util", { wally = "wally#sleitnick/table-util", version = "^1.2.1", index = "default" }, "standard"]
+
+[graph."wally#sleitnick/table-util@1.2.1 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#sleitnick/timer@1.1.2 roblox"]
+direct = ["timer", { wally = "wally#sleitnick/timer", version = "^1.1.2", index = "default" }, "standard"]
+
+[graph."wally#sleitnick/timer@1.1.2 roblox".dependencies]
+Signal = ["wally#sleitnick/signal@1.5.0 roblox", "standard"]
+
+[graph."wally#sleitnick/timer@1.1.2 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#sleitnick/timer@1.1.2 roblox".pkg_ref.dependencies]
+Signal = [{ wally = "wally#sleitnick/signal", version = ">=1.0.0, <2.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
 
 [graph."wally#sleitnick/trove@1.5.1 roblox"]
 direct = ["trove", { wally = "wally#sleitnick/trove", version = "^1.5.1", index = "default" }, "standard"]
