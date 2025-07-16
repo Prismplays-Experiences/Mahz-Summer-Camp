@@ -37,7 +37,7 @@ ObjectsTree._tree = {
 function ObjectsTree.Map(self: ObjectsTree, callback: (component: TreeComponent, name: string) -> {}, childrenName: string?, childKeyCallback: ((index: number, childName: string, child: TreeComponent) -> any)?): {[any]: any}
     local originalTree = self:GetTree()
 
-    local mappedObjects = TableUtils.NestedMap(originalTree, "objects", "Children", callback, childrenName, childKeyCallback)
+    local mappedObjects = TableUtils.NestedMap(originalTree, config.OBJECTS_PATH, "Children", callback, childrenName, childKeyCallback)
 
     return mappedObjects
 end

@@ -8,7 +8,7 @@
   "roblox-ui.sourcemap.autogenerate": false,
   "files.exclude": {
     "luau_packages": true,
-    "lune_packages": false,
+    "lune_packages": true,
     ".gitignore": true,
     "logs": true,
     "pesde.lock": true,

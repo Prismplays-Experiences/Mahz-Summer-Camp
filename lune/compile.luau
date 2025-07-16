@@ -9,9 +9,9 @@ local TableUtils = require("@LuneModules/TableUtils")
 local args = process.args
 local live = true
 
-for index, arg in pairs(args) do
-	if arg == "--live" or arg == "-l" then
-		live = if args[index + 1] == "true" then true else false
+for _, arg in pairs(args) do
+	if arg == "--one-time" or arg == "-o" then
+		live = false
 	end
 end
 
@@ -29,22 +29,24 @@ for _, path in ipairs(allStartPaths) do
 	allPaths = TableUtils.Extend(allPaths, paths)
 end
 
-if live then
-	task.spawn(function()
-		PathUtils.Observe(allPaths, function(path)
-			Compiler:Compile(path)
-		end)
-	end)
-else
-	for _, path in ipairs(allPaths) do
+if live == false then
+	for _, path in ipairs(allStartPaths) do
+		if path == "roblox_packages" then
+			continue
+		end
+
 		Compiler:Compile(path)
 	end
-end
 
-if live == false then
-	print("Compiled code successfully")
+	print("Compiled successfully")
 	return
 end
+
+task.spawn(function()
+	PathUtils.Observe(allPaths, function(path)
+		Compiler:Compile(path)
+	end)
+end)
 
 print("Watching for changes...")
 print("Started rojo server!")

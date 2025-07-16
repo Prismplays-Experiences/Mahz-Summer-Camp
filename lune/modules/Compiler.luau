@@ -79,7 +79,10 @@ function Compiler.CompileDirectory(path: pathfs.Path | string)
     local folderPath = path :: pathfs.Path
 	local powershellPath = transformPathIntoPoweshellOne(folderPath)
 
-	Terminal.execute(`powershell -Command \"Remove-Item -Path {powershellPath}* -Recurse -Force\"`)
+	if fs.isDir("out/"..folderPath:toString()) then
+		Terminal.execute(`powershell -Command \"Remove-Item -Path {powershellPath}* -Recurse -Force\"`)
+	end
+	
     Terminal.execute(`darklua process {folderPath:toString()} {Config.OUT_PATH.."/"..folderPath:toString()}`)
 end
 
@@ -90,12 +93,19 @@ function Compiler.CompileFile(path: pathfs.Path | string)
 
 	local filePath = path :: pathfs.Path
 
+	if filePath:fileStem() == ".placeholder" then
+		return
+	end
+
 	if filePath:extension() == ".luau" or filePath:extension() == ".lua" then
 		Terminal.execute(`darklua process {filePath:toString()} {Config.OUT_PATH.."/"..filePath:toString()}`)
 		return
 	end
 
 	local content = fs.readFile(filePath:toString())
+
+	print(Config.OUT_PATH.."/"..filePath:toString())
+
 	fs.writeFile(Config.OUT_PATH.."/"..filePath:toString(), content)
 end
 
