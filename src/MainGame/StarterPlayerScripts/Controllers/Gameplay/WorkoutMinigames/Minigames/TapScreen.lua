@@ -44,7 +44,7 @@ local Confetti = Assets:WaitForChild('Confetti')
 ----------------------------------------
 local TapGameplayMinigame = Knit.CreateController {
     Name = 'TapScreenMinigame',
-    Speed = 2.5,
+    Speed = 1.2,
     TapCount = 0,
     StopEvent = Signal.new()
 }
@@ -109,7 +109,7 @@ function TapGameplayMinigame:Start(Level)
             else
                 ShortNotification('Slower 😁',Color3.fromRGB(3, 255, 33))
             end
-            self.BarControl:AdjustSpeed(math.clamp(self.Speed, 1.5, 5))
+            self.BarControl:AdjustSpeed(math.clamp(self.Speed, 1.2, 5))
         end
     end)()
     local Data = {
@@ -125,7 +125,7 @@ function TapGameplayMinigame:Stop()
     self.BarControl:Stop()
     self.Enabled = false
     TapGameplay.Visible = false
-    self.Speed = 2.5
+    self.Speed = 1.2
     self.TapCount = 0
 end
 

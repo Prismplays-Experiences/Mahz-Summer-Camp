@@ -1,5 +1,5 @@
 return{
-    Weight = 10000,
+    Weight = 9000,
     EndWeight = 50,
     MaxDays = 24,
     MaxLifes = 2,
@@ -15,6 +15,6 @@ return{
         Dips = {Day = 18, UnlockIndex = 'DipsUnlock', LevelColor = Color3.fromRGB(221, 0, 0)},
         DumbellCurl = {Day = 10, UnlockIndex = 'DumbellCurlUnlock', LevelColor = Color3.fromRGB(221, 203, 0)},
         Pushups = {Day = 1, UnlockIndex = nil, LevelColor = Color3.fromRGB(48, 221, 0)},
-        Treadmill = {Day = 5, UnlockIndex = 'TreadmillUnlock', LevelColor = Color3.fromRGB(109, 221, 57)},
+        Treadmill = {Day = 3, UnlockIndex = 'TreadmillUnlock', LevelColor = Color3.fromRGB(109, 221, 57)},
     }
 }

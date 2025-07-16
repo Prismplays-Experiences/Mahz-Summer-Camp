@@ -50,22 +50,31 @@ function CreateTarget(Day, IdealWeight, MaxDays)
 end
 
 return {
-    Day1 = {
+    Intro = {
+        -- "Welcome to Prism Gym!",
+        -- "You got chunky...",
+        -- "and pudgy...",
+        -- `now you have {GeneralInfo.MaxDays} days to get shredded!`,
+        -- `Lose {GeneralInfo.Weight} lbs or... it's game over.`,
+        -- `Bedtime is at 8 PM,`
+        -- `You are tasked with losing {math.round(CreateTarget(1, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
+        -- "Go Now!",
         "Welcome to Prism Gym!",
         "You got chunky...",
         "and pudgy...",
         `now you have {GeneralInfo.MaxDays} days to get shredded!`,
         `Lose {GeneralInfo.Weight} lbs or... it's game over.`,
-        `You are tasked with losing {math.round(CreateTarget(1, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
-        "Go Now!",
+        "You got this, probably!",
+        "Time for bed. Wake-up call at 8 AM!",
+        "See ya tomorrow, champ!",
     },
 
-    -- Day1 = {
-    --     'Arise Fellas!',
-    --     `You are tasked with losing {math.round(CreateTarget(1, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
-    --     `Use the workout equipments to lose weight.`,
-    --     'LETS GOO!!',
-    -- },
+    Day1 = {
+        'Arise Fellas!',
+        `You are tasked with losing {math.round(CreateTarget(1, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
+        `Use the workout equipments to lose weight.`,
+        'LETS GOO!!',
+    },
     Day2 = {
         "Congrats! You've made it to Day 2!",
         "I have decided to help you out a bit more!",
