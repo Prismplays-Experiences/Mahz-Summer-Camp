@@ -261,6 +261,7 @@ function FoodBomb:DropBomb(food:Tool)
 	end)
 	FoodBomb.Trove:Connect(food.Unequipped,function()
         if food.Parent == nil then return end
+		if FoodBomb.PlayerWithFood == nil then self:ControlBombDeliver(food) end
 		food.Parent = FoodBomb.PlayerWithFood.Character
 	end)
 end

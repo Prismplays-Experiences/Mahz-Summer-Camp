@@ -106,7 +106,9 @@ end
 
 function Eliminated:MoveOutMap()
 	local OuterSpawnPoints = workspace:WaitForChild('Game'):WaitForChild('OuterSpawnPoints')
-	local SpawnPoint = OuterSpawnPoints:GetChildren()[math.random(1, #OuterSpawnPoints:GetChildren())]
+	local spawnPoints = OuterSpawnPoints:GetChildren()
+	local SpawnPoint = spawnPoints[math.random(1, #spawnPoints)]
+
 	Player.Character:MoveTo(SpawnPoint.Position)
 end
 

@@ -74,6 +74,7 @@ function EventService:RandomEvent()
     local Event, EventKey
     repeat
         Event, EventKey = RandomFromDictionary(EventsModules,self.PreviousEventKey)
+        task.wait(0.1)
     until self:EventValidationCheck(Event) and Event
 
     self.PreviousEventKey = EventKey

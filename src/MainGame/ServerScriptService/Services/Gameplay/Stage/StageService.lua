@@ -109,10 +109,10 @@ function StageService:WalkToStage(Players, Camera, AmountPerSegment, WalkPoints,
                 end
 
                 if func and not MultipleOnStage then
-                    -- local s,e = pcall(function()
-                        
-                    -- end)
-                    func(self, plr)
+                    local s,e = pcall(function()
+                        func(self, plr)
+                    end)
+                    
                 end
             end
 

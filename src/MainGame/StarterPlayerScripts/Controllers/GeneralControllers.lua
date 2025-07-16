@@ -95,6 +95,10 @@ end
 --> Main Functions
 ----------------------------------------
 
+function GeneralControllers:TransitionToDay()
+	TweenLightningClockTime(14.5)
+end
+
 function GeneralControllers:KnitStart()
 	local ClockService = Knit.GetService('ClockService')
     local GeneralGameplay = Knit.GetService('GeneralGameplay')
@@ -137,9 +141,7 @@ function GeneralControllers:KnitStart()
 		Timer.Text = string.format("%s | %02d:%02d", CurrentEmoji, displayHour, wholeMinutes, Suffix)
 	end)
 
-	function self:TransitionToDay()
-		TweenLightningClockTime(14.5)
-	end
+
 
     GeneralGameplay.EnableControls:Connect(function()
         self.PlayerModule:Enable()

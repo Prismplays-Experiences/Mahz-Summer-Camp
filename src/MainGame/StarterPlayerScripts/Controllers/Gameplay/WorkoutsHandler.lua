@@ -256,6 +256,7 @@ function WorkoutsHandler:StartWorkout(slot,Data)
     self.MinigameData= self:PlayMinigame(self.Minigames[Data.Minigame],Data.Level)
     Data.AnimTrack:AdjustSpeed(0)
     self.WorkoutValueEvent = self.MinigameData.Value:GetPropertyChangedSignal('Value'):Connect(function()
+        if self.MinigameData == nil then self.WorkoutValueEvent:Disconnect() return end
         if self.MinigameData.Value == nil then return end
         Data.AnimTrack:AdjustSpeed(self.MinigameData.Value.Value)
     end)
@@ -354,7 +355,7 @@ function CharacterAdded(Character)
         if v.AnimationId then
             local Animation = Instance.new('Animation')
             Animation.AnimationId = v.AnimationId
-            v.AnimTrack = Character.Humanoid.Animator:LoadAnimation(Animation)
+            v.AnimTrack = Character:WaitForChild('Humanoid').Animator:LoadAnimation(Animation)
         end
     end
 end
