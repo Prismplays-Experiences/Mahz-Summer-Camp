@@ -1,9 +1,13 @@
-local pathfs = require("@LunePackages/PathFS")
+local PathUtils = require("@LuneModules/PathUtils")
+local Compiler = require("@LuneModules/Compiler")
 local Test = {}
 
 function Test.Run()
-    pathfs.watchDirectories({"src/MainGame"}, function()
-        print("Changed")
+    local entries = PathUtils:GetDescendantEntries("src/MainGame/StarterPlayerScripts/Controllers")
+    local paths = PathUtils.EntriesToPaths(entries)
+
+    PathUtils.Observe(paths, function(path)
+        Compiler:Compile(path)
     end)
 end
 

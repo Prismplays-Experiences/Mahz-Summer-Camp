@@ -45,6 +45,10 @@ function Compiler.ObserveDirectory(self: Compiler, path: pathfs.Path | string)
 	pathfs.watchDirectories({ path }, function()
 		self.CompileDirectory(path)
 	end)
+
+	pathfs.observeDescendantEntry(path, function()
+		self.CompileDirectory(path)
+	end)
 end
 
 function Compiler.ObserveFile(self: Compiler, path: pathfs.Path | string)
@@ -85,8 +89,13 @@ function Compiler.CompileFile(path: pathfs.Path | string)
 	end
 
 	local filePath = path :: pathfs.Path
-	local content = fs.readFile(filePath:toString())
 
+	if filePath:extension() == ".luau" or filePath:extension() == ".lua" then
+		Terminal.execute(`darklua process {filePath:toString()} {Config.OUT_PATH.."/"..filePath:toString()}`)
+		return
+	end
+
+	local content = fs.readFile(filePath:toString())
 	fs.writeFile(Config.OUT_PATH.."/"..filePath:toString(), content)
 end
 

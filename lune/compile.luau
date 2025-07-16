@@ -1,8 +1,10 @@
 local process = require("@lune/process")
+local task = require("@lune/task")
 
 local Compiler = require("@LuneModules/Compiler")
 local GameManager = require("@LuneModules/GameManager")
-local Config = require("@LuneModules/Config")
+local PathUtils = require("@LuneModules/PathUtils")
+local TableUtils = require("@LuneModules/TableUtils")
 
 local args = process.args
 local live = true
@@ -13,15 +15,28 @@ for index, arg in pairs(args) do
 	end
 end
 
-local allPaths = GameManager.FindAllPaths()
+local allStartPaths = GameManager.FindAllPaths()
+local allPaths = {}
 
-table.insert(allPaths, Config.PROJECT)
-table.insert(allPaths, "roblox_packages")
+for _, path in ipairs(allStartPaths) do
+	if path == "roblox_packages" then
+		continue
+	end
 
-for _, path in ipairs(allPaths) do
-	if live then
-		Compiler:Observe(path)
-	else
+	local entries = PathUtils:GetDescendantEntries(path)
+	local paths = PathUtils.EntriesToPaths(entries)
+
+	allPaths = TableUtils.Extend(allPaths, paths)
+end
+
+if live then
+	task.spawn(function()
+		PathUtils.Observe(allPaths, function(path)
+			Compiler:Compile(path)
+		end)
+	end)
+else
+	for _, path in ipairs(allPaths) do
 		Compiler:Compile(path)
 	end
 end
@@ -31,6 +46,7 @@ if live == false then
 	return
 end
 
+print("Watching for changes...")
 print("Started rojo server!")
 
 GameManager.Serve()
