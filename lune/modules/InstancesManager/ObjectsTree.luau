@@ -30,14 +30,19 @@ type Component<K> = {[string] : {K: Component<K>}?} & {[any]: any}
 
 local ObjectsTree = {}
 ObjectsTree._tree = {
-    Path = OBJECTS_PATH,
-    Children = {}
+    Path = OBJECTS_PATH:components():collect()[1]:toString(),
+    Children = {
+        MainGame = {
+            Path = OBJECTS_PATH:toString(),
+            Children = {}
+        }
+    }
 } :: TreeComponent
 
 function ObjectsTree.Map(self: ObjectsTree, callback: (component: TreeComponent, name: string) -> {}, childrenName: string?, childKeyCallback: ((index: number, childName: string, child: TreeComponent) -> any)?): {[any]: any}
     local originalTree = self:GetTree()
 
-    local mappedObjects = TableUtils.NestedMap(originalTree, config.OBJECTS_PATH, "Children", callback, childrenName, childKeyCallback)
+    local mappedObjects = TableUtils.NestedMap(originalTree.Children.MainGame, OBJECTS_PATH, "Children", callback, childrenName, childKeyCallback)
 
     return mappedObjects
 end
@@ -60,15 +65,15 @@ function ObjectsTree._addComponent(self: ObjectsTree, path: pathfs.Path)
     local components = path:components():collect()
     local initPath = path:join("init.rbxm")
 
-    local treeComponent: TreeComponent = {
+    local treeComponent = {
         Path = if pathfs.findFile(initPath) then initPath else path,
         Children = {}
     }
 
-    local cursor = tree
+    local cursor = tree.Children.MainGame
 
     for index, component in components do
-        if index == 1 or index == #components then
+        if index == 1 or index == 2 or index == #components then
             continue
         end
 

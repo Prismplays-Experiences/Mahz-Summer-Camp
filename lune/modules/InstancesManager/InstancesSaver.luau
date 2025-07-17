@@ -85,8 +85,9 @@ function InstancesSaver._getFoldersAndNonFoldersFromDirectory(directoryInstance:
 	for _, instance: Instance in pairs(instancesForSaving) do
 		local isFolder = instance:IsA("Folder")
 		local excepted = (directoryInstance.Name == "ReplicatedStorage" and table.find(REPLICATED_STORAGE_EXCLUDED, instance.Name))
+		local isCamera = instance.Name == "Camera"
 
-		if isFolder or excepted then
+		if isFolder or excepted or isCamera then
 			continue
 		end
 
@@ -128,7 +129,7 @@ function InstancesSaver._saveAsFolder(self: InstancesSaver, folder: Instance, pa
 end
 
 function InstancesSaver._saveAsFile(self: InstancesSaver, instance, path: pathfs.Path, fileIndex: number?, fileName: string?)
-	if instance:IsA("Folder") then
+	if instance:IsA("Folder") or path:fileStem() == "Camera" then
 		return
 	end
 

@@ -1,5 +1,5 @@
 --[=[ lunar
-	about = "[DESCRIPTION] Adds given package to the project and then installs it"
+	about = "[DESCRIPTION] Generates a sourcemap for the project. This updates roblox-ui explorer and intellisense"
 ]=]
 
 local Sourcemapifier = require("@LuneModules/InstancesManager/Sourcemapifier")
@@ -8,3 +8,5 @@ local Config = require("@LuneModules/Config")
 
 GameManager.GenerateSourcemap(Config.PROJECT, Config.SOURCEMAP)
 Sourcemapifier:SyncWithObjects()
+
+print("Sourcemap generated and synced with objects")

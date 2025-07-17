@@ -1,3 +1,8 @@
+--[=[ lunar
+	about = "[DESCRIPTION] Compiles src into out using Darklua"
+    args = "\n\n[OPTIONAL]\n--one-time/-o if you want to compile code one time without watching for changes"
+]=]
+
 local process = require("@lune/process")
 local task = require("@lune/task")
 

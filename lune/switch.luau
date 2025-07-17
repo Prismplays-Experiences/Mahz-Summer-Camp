@@ -1,3 +1,7 @@
+--[=[ lunar
+	about = "[DESCRIPTION] Used for switching between different places in the project"
+]=]
+
 local process = require("@lune/process")
 local fs = require("@lune/fs")
 
@@ -5,6 +9,8 @@ local Config = require("@LuneModules/Config")
 
 local args = process.args
 local place = "MainGame"
+
+local previousPlace = Config.PROJECT:sub(1, -14)
 
 for _, arg in pairs(args) do
 	for _, placeName in ipairs(Config.PLACES) do
@@ -23,3 +29,5 @@ for _, placeName in ipairs(Config.PLACES) do
 end
 
 fs.writeFile("lune/modules/Config.luau", configContent)
+
+print("Switched from " .. previousPlace .. " to " .. place)

@@ -6,6 +6,7 @@
     "*.md": "vscode.markdown.preview.editor"
   },
   "roblox-ui.sourcemap.autogenerate": false,
+  "roblox-ui.explorer.showDataModel": true,
   "files.exclude": {
     "luau_packages": true,
     "lune_packages": true,
