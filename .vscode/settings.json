@@ -22,7 +22,7 @@
     ".pesde": true,
     ".github": true,
     "aftman.toml": true,
-    "sourcemap.json": true,
+    "sourcemap.json": false,
   },
 
   "[luau]": {

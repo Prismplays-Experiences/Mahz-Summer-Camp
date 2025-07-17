@@ -1,5 +1,5 @@
 --[=[ lunar
-	about = "[DESCRIPTION] Saves all instances in the project"
+	about = "[DESCRIPTION] Saves all instances of the project"
 ]=]
 
 local InstancesManager = require("@LuneModules/InstancesManager")

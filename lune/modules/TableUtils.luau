@@ -7,20 +7,22 @@ export type MarketingTable = {
 }
 
 export type TableUtils<T, S> = {
-	SourcifyMarketing: (marketingTable: MarketingTable) -> MarketingTable,
+	SourcifyMarketing: (marketingTable: MarketingTable) -> string,
 	Sourcify: (self: TableUtils<T, S>, tbl: T) -> string,
 	Copy: (t: T, deep: boolean?) -> T,
 	Reconcile: (self: TableUtils<T, S>, src: S, template: T) -> S & T,
 	Extend: (target: { T }, extension: { S }) -> { T } & { S },
 	Find: (tbl: { [T]: S }, callback: (S, T, { [T]: S }) -> boolean) -> (S?, T?),
-	NestedMap: (tbl: {}, callback: (...any) -> {}, childrenName: string?, childKeyCallback: ((index: number, ...any) -> any)?) -> {},
+	NestedMap: (tbl: {}, tblKey: any, tblChildrenName: string, callback: (...any) -> {}, childrenName: string?, childKeyCallback: ((index: number, ...any) -> any)?) -> {},
 
 	_recursiveSourcify: (self: TableUtils<T, S>, tbl: T) -> string,
 }
 
+local FAKE_ID = 111111111 -- Placeholder for fake asset IDs
+
 local TableUtils = {}
 
-function TableUtils.SourcifyMarketing(marketingTable: MarketingTable): MarketingTable
+function TableUtils.SourcifyMarketing(marketingTable: MarketingTable): string
 	local result = "return { \n"
 
 	for marketingType, marketingValues in pairs(marketingTable) do
@@ -42,6 +44,32 @@ function TableUtils.SourcifyMarketing(marketingTable: MarketingTable): Marketing
 		result = result .. "},"
 	end
 
+	result = result .. "}"
+	return result
+end
+
+function TableUtils.SourcifyFakeMarketing(mantleConfig: {})
+	local experienceInfo = mantleConfig.target.experience
+
+	local result = "return { \n"
+	result = result .. "Products = { \n"
+
+	for productName, _ in pairs(experienceInfo.products) do
+		local key = ("[%q]"):format(productName)
+		local value = "{assetId = " .. FAKE_ID .. ", productId = " .. FAKE_ID .. "}"
+		result = result .. key .. " = " .. value .. ",\n"
+	end
+
+	result = result .. "},\n"
+	result = result .. "Passes = { \n"
+
+	for passName, _ in pairs(experienceInfo.passes) do
+		local key = ("[%q]"):format(passName)
+		local value = FAKE_ID
+		result = result .. key .. " = " .. value .. ",\n"
+	end
+
+	result = result .. "}\n"
 	result = result .. "}"
 	return result
 end
