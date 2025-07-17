@@ -1,17 +1,28 @@
-local Tag = require("./Tag")
-local config = require("../config")
-
 local fs = require("@lune/fs")
 local serde = require("@lune/serde")
 
+local Tag = require("@LuneModules/Tag")
+local Config = require("@LuneModules/Config")
+
 export type MantleConfig = {
-	CreateWorkingConfig: () -> (),
+	target: {
+		experience: {
+			products: {},
+			passes: {},
+		},
+	},
+}
+
+export type MantleConfigModule = {
+	CreateWorkingConfig: (tag: string?) -> (),
+	GetWorkingConfig: (tag: string?) -> (string, string),
+	GetDecodedWorkingConfig: (self: MantleConfigModule, tag: string?) -> {},
 }
 
 local MantleConfig = {}
 
 function MantleConfig.CreateWorkingConfig(tag: string?)
-	tag = tag or Tag:Get()
+	tag = tag or Tag.Get()
 
 	local templateFile = fs.readFile("dev-mantle.yml")
 
@@ -19,7 +30,7 @@ function MantleConfig.CreateWorkingConfig(tag: string?)
 
 	gameConfig.environments[1].branches = nil
 	gameConfig.environments[1].label = tag
-	gameConfig.owner.group = config.SCRIPTING_GROUP_ID
+	gameConfig.owner.group = Config.SCRIPTING_GROUP_ID
 
 	gameConfig.state.remote.key = `{tag}` .. "-fishy-islands"
 
@@ -29,7 +40,7 @@ function MantleConfig.CreateWorkingConfig(tag: string?)
 end
 
 function MantleConfig.GetWorkingConfig(tag: string?): (string, string)
-	tag = tag or Tag:Get()
+	tag = tag or Tag.Get()
 
 	if tag == nil then
 		return "dev-mantle.yml", "dev"
@@ -46,7 +57,7 @@ function MantleConfig.GetWorkingConfig(tag: string?): (string, string)
 	return path, tag
 end
 
-function MantleConfig.GetDecodedWorkingConfig(self: MantleConfig, tag: string?): {}
+function MantleConfig.GetDecodedWorkingConfig(self: MantleConfigModule, tag: string?): {}
 	local mantleConfigPath = self.GetWorkingConfig(tag)
 	local mantleConfig = fs.readFile(mantleConfigPath)
 

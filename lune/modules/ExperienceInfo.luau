@@ -13,10 +13,15 @@ export type MarketingTable = {
 export type ExperienceInfo = {
 	GetGameLink: (self: ExperienceInfo, tag: string?) -> string,
 	GetPlaceId: (self: ExperienceInfo, tag: string?) -> string,
-	GetMarketing: (self: ExperienceInfo, tag: string?) -> MarketingTable,
+	GetMarketingTable: (self: ExperienceInfo, tag: string?) -> MarketingTable,
+	IsPublished: (tag: string?) -> boolean,
+
+	_getExperienceInfo: (self: ExperienceInfo, tag: string?) -> { [string]: any },
+	_getJson: (tag: string?) -> string,
+	_decodeJson: (experienceJson: string) -> { [string]: any },
 }
 
-local ExperienceInfo: ExperienceInfo = {}
+local ExperienceInfo = {}
 
 function ExperienceInfo.GetGameLink(self: ExperienceInfo, tag: string?): string
 	local placeId = self:GetPlaceId(tag)
@@ -43,7 +48,7 @@ function ExperienceInfo.GetMarketingTable(self: ExperienceInfo, tag: string?): M
 		Passes = {},
 	}
 
-	for key: string, value: string | {} in pairs(experienceInfo) do
+	for key: string, value: { [any]: any } in pairs(experienceInfo) do
 		if string.match(key, "product_") then
 			marketing.Products[string.sub(key, 9)] = value.product
 		elseif string.match(key, "pass_") then
@@ -55,7 +60,7 @@ function ExperienceInfo.GetMarketingTable(self: ExperienceInfo, tag: string?): M
 end
 
 function ExperienceInfo.IsPublished(tag: string?): boolean
-	tag = tag or Tag:Get()
+	tag = tag or Tag.Get()
 
 	if not tag then
 		return false

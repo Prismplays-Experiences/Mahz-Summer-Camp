@@ -13,7 +13,14 @@ export type TableUtils<T, S> = {
 	Reconcile: (self: TableUtils<T, S>, src: S, template: T) -> S & T,
 	Extend: (target: { T }, extension: { S }) -> { T } & { S },
 	Find: (tbl: { [T]: S }, callback: (S, T, { [T]: S }) -> boolean) -> (S?, T?),
-	NestedMap: (tbl: {}, tblKey: any, tblChildrenName: string, callback: (...any) -> {}, childrenName: string?, childKeyCallback: ((index: number, ...any) -> any)?) -> {},
+	NestedMap: (
+		tbl: {},
+		tblKey: any,
+		tblChildrenName: string,
+		callback: (...any) -> {},
+		childrenName: string?,
+		childKeyCallback: ((index: number, ...any) -> any)?
+	) -> {},
 
 	_recursiveSourcify: (self: TableUtils<T, S>, tbl: T) -> string,
 }
@@ -48,7 +55,7 @@ function TableUtils.SourcifyMarketing(marketingTable: MarketingTable): string
 	return result
 end
 
-function TableUtils.SourcifyFakeMarketing(mantleConfig: {})
+function TableUtils.SourcifyFakeMarketing(mantleConfig: { [any]: any })
 	local experienceInfo = mantleConfig.target.experience
 
 	local result = "return { \n"
@@ -124,12 +131,19 @@ function TableUtils.Reconcile<S, T>(self: TableUtils<T, S>, src: S, template: T)
 	return (tbl :: any) :: S & T
 end
 
-function TableUtils.NestedMap(tbl: {}, tblKey: any, tblChildrenName: string, callback: (...any) -> {}, childrenName: string?, childKeyCallback: ((index: number, ...any) -> any)?): {}
+function TableUtils.NestedMap(
+	tbl: {},
+	tblKey: any,
+	tblChildrenName: string,
+	callback: (...any) -> {},
+	childrenName: string?,
+	childKeyCallback: ((index: number, ...any) -> any)?
+): {}
 	childrenName = childrenName or "children"
 
 	local keyCallback: any = childKeyCallback or function(index: number)
-        return index
-    end
+		return index
+	end
 
 	local function mapComponent(value: {}, key: any)
 		local tree = {}
@@ -141,12 +155,12 @@ function TableUtils.NestedMap(tbl: {}, tblKey: any, tblChildrenName: string, cal
 		for childKey, childValue in pairs(value[tblChildrenName]) do
 			index += 1
 
-            local newChildKey = keyCallback(index, childKey, childValue)
+			local newChildKey = keyCallback(index, childKey, childValue)
 
-            tree[childrenName][newChildKey] = mapComponent(childValue, childKey)
-        end
+			tree[childrenName][newChildKey] = mapComponent(childValue, childKey)
+		end
 
-        return tree
+		return tree
 	end
 
 	local result = mapComponent(tbl, tblKey)

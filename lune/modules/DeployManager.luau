@@ -1,6 +1,6 @@
-local Terminal = require("./Terminal")
+local Terminal = require("@LuneModules/Terminal")
 
-local MantleConfig = require("./MantleConfig")
+local MantleConfig = require("@LuneModules/MantleConfig")
 
 local DeployManager = {}
 
