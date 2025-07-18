@@ -1,8 +1,6 @@
 local fs = require("@lune/fs")
 
-local ExperienceInfo = require("@LuneModules/ExperienceInfo")
 local TableUtils = require("@LuneModules/TableUtils")
-local MantleConfig = require("@LuneModules/MantleConfig")
 local Config = require("@LuneModules/Config")
 local Terminal = require("@LuneModules/Terminal")
 
@@ -12,23 +10,21 @@ export type MarketingTable = {
 }
 
 export type Marketing = {
-	Sync: (self: Marketing, tag: string?) -> (),
-	OfflineSync: (self: Marketing) -> (),
+	Sync: (self: Marketing, marketingTable: MarketingTable) -> (),
+	OfflineSync: (self: Marketing, mantleConfig: {[any]: any}) -> (),
 
 	_loadSource: (source: string) -> (),
 }
 
 local Marketing = {}
 
-function Marketing.Sync(self: Marketing, tag: string?): ()
-	local marketingTable: MarketingTable = ExperienceInfo:GetMarketingTable(tag)
+function Marketing.Sync(self: Marketing, marketingTable: MarketingTable): ()
 	local marketingScriptSource: string = TableUtils.SourcifyMarketing(marketingTable)
 
 	self._loadSource(marketingScriptSource)
 end
 
-function Marketing.OfflineSync(self: Marketing): ()
-	local mantleConfig: {} = MantleConfig:GetDecodedWorkingConfig()
+function Marketing.OfflineSync(self: Marketing, mantleConfig: {[any]: any}): ()
 	local marketingScriptSource: string = TableUtils.SourcifyFakeMarketing(mantleConfig)
 
 	self._loadSource(marketingScriptSource)

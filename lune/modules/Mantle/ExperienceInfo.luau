@@ -1,9 +1,7 @@
 local fs = require("@lune/fs")
 local serde = require("@lune/serde")
 
-local Terminal = require("./Terminal")
-local MantleConfig = require("./MantleConfig")
-local Tag = require("./Tag")
+local Terminal = require("@LuneModules/Terminal")
 
 export type MarketingTable = {
 	Products: { [string]: { assetId: number, productId: number } },
@@ -11,26 +9,26 @@ export type MarketingTable = {
 }
 
 export type ExperienceInfo = {
-	GetGameLink: (self: ExperienceInfo, tag: string?) -> string,
-	GetPlaceId: (self: ExperienceInfo, tag: string?) -> string,
-	GetMarketingTable: (self: ExperienceInfo, tag: string?) -> MarketingTable,
-	IsPublished: (tag: string?) -> boolean,
+	GetGameLink: (self: ExperienceInfo, path: string, environment: string) -> string,
+	GetPlaceId: (self: ExperienceInfo, path: string, environment: string) -> string,
+	GetMarketingTable: (self: ExperienceInfo, path: string, environment: string) -> MarketingTable,
+	IsPublished: (path: string, environment: string) -> boolean,
 
-	_getExperienceInfo: (self: ExperienceInfo, tag: string?) -> { [string]: any },
-	_getJson: (tag: string?) -> string,
+	_getExperienceInfo: (self: ExperienceInfo, path: string, environment: string) -> { [string]: any },
+	_getJson: (path: string, environment: string) -> string,
 	_decodeJson: (experienceJson: string) -> { [string]: any },
 }
 
 local ExperienceInfo = {}
 
-function ExperienceInfo.GetGameLink(self: ExperienceInfo, tag: string?): string
-	local placeId = self:GetPlaceId(tag)
+function ExperienceInfo.GetGameLink(self: ExperienceInfo, path: string, environment: string): string
+	local placeId = self:GetPlaceId(path, environment)
 
 	return "https://www.roblox.com/games/" .. placeId
 end
 
-function ExperienceInfo.GetPlaceId(self: ExperienceInfo, tag: string?): string
-	local experienceInfo = self:_getExperienceInfo(tag)
+function ExperienceInfo.GetPlaceId(self: ExperienceInfo, path: string, environment: string): string
+	local experienceInfo = self:_getExperienceInfo(path, environment)
 
 	local placeInfo = experienceInfo.place_start.place
 	local placeId = placeInfo.assetId
@@ -40,8 +38,8 @@ function ExperienceInfo.GetPlaceId(self: ExperienceInfo, tag: string?): string
 	return placeId
 end
 
-function ExperienceInfo.GetMarketingTable(self: ExperienceInfo, tag: string?): MarketingTable
-	local experienceInfo = self:_getExperienceInfo(tag)
+function ExperienceInfo.GetMarketingTable(self: ExperienceInfo, path: string, environment: string): MarketingTable
+	local experienceInfo = self:_getExperienceInfo(path, environment)
 
 	local marketing: MarketingTable = {
 		Products = {},
@@ -59,32 +57,21 @@ function ExperienceInfo.GetMarketingTable(self: ExperienceInfo, tag: string?): M
 	return marketing
 end
 
-function ExperienceInfo.IsPublished(tag: string?): boolean
-	tag = tag or Tag.Get()
-
-	if not tag then
-		return false
-	end
-
-	local path, environment = MantleConfig.GetWorkingConfig(tag)
-
+function ExperienceInfo.IsPublished(path: string, environment: string): boolean
 	local result = Terminal.execute(`mantle outputs {path} -e {environment} `)
-
 	local isPublished = not string.match(result.stdout, "{}")
 
 	return isPublished
 end
 
-function ExperienceInfo._getExperienceInfo(self: ExperienceInfo, tag: string?): { [string]: any }
-	local experienceJson = self._getJson(tag)
+function ExperienceInfo._getExperienceInfo(self: ExperienceInfo, path: string, environment: string): { [string]: any }
+	local experienceJson = self._getJson(path, environment)
 	local experienceInfo = self._decodeJson(experienceJson)
 
 	return experienceInfo
 end
 
-function ExperienceInfo._getJson(tag: string?): string
-	local path, environment = MantleConfig.GetWorkingConfig(tag)
-
+function ExperienceInfo._getJson(path: string, environment: string): string
 	Terminal.execute(`mantle outputs {path} -e {environment} -o experience.json`)
 
 	local experienceJson = fs.readFile("experience.json")
