@@ -1,0 +1,12 @@
+[codegen]
+strip_extensions = true
+style = "nested"
+typescript = false
+
+[creator]
+id = 35834292
+type = "group"
+
+[inputs.assets]
+output_path = "src/Mutuals/ReplicatedStorage"
+path = "assets/**/*"

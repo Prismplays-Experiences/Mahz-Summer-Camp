@@ -14,7 +14,7 @@
     "logs": true,
     "pesde.lock": true,
     "pesde.toml": true,
-    ".env": true,
+    ".env": false,
     ".luaurc": true,
     ".darklua.json": true,
     "selene.toml": true,

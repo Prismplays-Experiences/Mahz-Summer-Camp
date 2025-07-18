@@ -18,6 +18,7 @@ local Env = {}
 Env.env = {
 	MANTLE_AWS_ACCESS_KEY_ID = config.ENV_VARIABLES.MANTLE_AWS_ACCESS_KEY_ID,
 	MANTLE_AWS_SECRET_ACCESS_KEY = config.ENV_VARIABLES.MANTLE_AWS_SECRET_ACCESS_KEY,
+	ASPHALT_API_KEY = config.ENV_VARIABLES.ASPHALT_API_KEY,
 }
 
 function Env.Set(self: Env, key: string, value: any): ()
