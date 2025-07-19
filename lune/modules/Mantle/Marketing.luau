@@ -11,7 +11,7 @@ export type MarketingTable = {
 
 export type Marketing = {
 	Sync: (self: Marketing, marketingTable: MarketingTable) -> (),
-	OfflineSync: (self: Marketing, mantleConfig: {[any]: any}) -> (),
+	OfflineSync: (self: Marketing, mantleConfig: { [any]: any }) -> (),
 
 	_loadSource: (source: string) -> (),
 }
@@ -24,16 +24,17 @@ function Marketing.Sync(self: Marketing, marketingTable: MarketingTable): ()
 	self._loadSource(marketingScriptSource)
 end
 
-function Marketing.OfflineSync(self: Marketing, mantleConfig: {[any]: any}): ()
+function Marketing.OfflineSync(self: Marketing, mantleConfig: { [any]: any }): ()
 	local marketingScriptSource: string = TableUtils.SourcifyFakeMarketing(mantleConfig)
 
 	self._loadSource(marketingScriptSource)
 end
 
 function Marketing._loadSource(source: string)
-	fs.writeFile(Config.MARKETING_SCRIPT_PATH, source)
+	local path = `src/{Config.MARKETING_SCRIPT_PATH}`
+	fs.writeFile(path, source)
 
-	Terminal.execute(`stylua {Config.MARKETING_SCRIPT_PATH}`)
+	Terminal.execute(`stylua {path}`)
 end
 
 return Marketing

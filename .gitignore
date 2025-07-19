@@ -11,6 +11,8 @@
 /logs/**/*
 !/logs/.placeholder
 
+/feature-mantle.yml
+/marketing-mantle.yml
 /.env
 /lune/modules/Tag/TagStore.txt
 /asphalt.lock.toml

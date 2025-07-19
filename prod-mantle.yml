@@ -1,0 +1,36 @@
+owner:
+  group: 35058813
+
+state:
+  remote:
+    region: eu-north-1
+    bucket: r0rnor-mantle-states
+    key: days-to-lose-weight
+
+environments:
+  - label: prod
+    branches:
+      - main
+    targetAccess: private
+
+target:
+  experience:
+    configuration:
+      playableDevices: [computer, console, phone, tablet]
+      privateServers:
+        price: 0
+      enableStudioAccessToApis: true
+      avatarType: r15
+      avatarAnimationType: playerChoice
+    spatialVoice:
+      enabled: true
+    places:
+      start:
+        file: game.rbxlx
+        configuration:
+          name: 24 Days to lose weight
+          description: you only have 24^2 hours to lose weight
+          maxPlayerCount: 8
+          allowCopying: false
+    products:
+    passes:

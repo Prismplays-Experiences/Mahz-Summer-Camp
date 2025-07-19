@@ -61,7 +61,7 @@ function TableUtils.SourcifyFakeMarketing(mantleConfig: { [any]: any })
 	local result = "return { \n"
 	result = result .. "Products = { \n"
 
-	for productName, _ in pairs(experienceInfo.products) do
+	for productName, _ in pairs(experienceInfo.products or {}) do
 		local key = ("[%q]"):format(productName)
 		local value = "{assetId = " .. FAKE_ID .. ", productId = " .. FAKE_ID .. "}"
 		result = result .. key .. " = " .. value .. ",\n"
@@ -70,7 +70,7 @@ function TableUtils.SourcifyFakeMarketing(mantleConfig: { [any]: any })
 	result = result .. "},\n"
 	result = result .. "Passes = { \n"
 
-	for passName, _ in pairs(experienceInfo.passes) do
+	for passName, _ in pairs(experienceInfo.passes or {}) do
 		local key = ("[%q]"):format(passName)
 		local value = FAKE_ID
 		result = result .. key .. " = " .. value .. ",\n"

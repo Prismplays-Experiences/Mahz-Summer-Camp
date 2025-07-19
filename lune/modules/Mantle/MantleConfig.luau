@@ -4,6 +4,8 @@ local serde = require("@lune/serde")
 local Tag = require("@LuneModules/Tag")
 local Config = require("@LuneModules/Config")
 
+local GAME_SUFFIX = "24-days-to-lose-weight"
+
 export type MantleConfig = {
 	target: {
 		experience: {
@@ -30,9 +32,9 @@ function MantleConfig.CreateWorkingConfig(tag: string?)
 
 	gameConfig.environments[1].branches = nil
 	gameConfig.environments[1].label = tag
-	gameConfig.owner.group = Config.SCRIPTING_GROUP_ID
+	gameConfig.owner.group = Config.GROUPS.feature.id
 
-	gameConfig.state.remote.key = `{tag}` .. "-fishy-islands"
+	gameConfig.state.remote.key = `{tag} - {GAME_SUFFIX}`
 
 	local gameConfigEncoded = serde.encode("yaml", gameConfig)
 
@@ -42,7 +44,7 @@ end
 function MantleConfig.GetWorkingConfig(tag: string?): (string, string)
 	tag = tag or Tag.Get()
 
-	if tag == nil then
+	if tag == nil or tag == "nil" then
 		return "dev-mantle.yml", "dev"
 	end
 
