@@ -10,7 +10,7 @@
   "files.exclude": {
     "luau_packages": true,
     "lune_packages": true,
-    ".gitignore": true,
+    ".gitignore": false,
     "logs": true,
     "pesde.lock": true,
     "pesde.toml": true,

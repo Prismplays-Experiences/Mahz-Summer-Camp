@@ -1,10 +1,10 @@
 local assets = {
 	animations = {
-		sleeping = "rbxassetid://135461791890799",
-		test = "rbxassetid://94025405728730",
+		sleeping = "rbxassetid://123870834159286",
+		test = "rbxassetid://87118523815834",
 	},
 	images = {
-		TestingAsphalt = "rbxassetid://94672616329666",
+		TestingAsphalt = "rbxassetid://73186146853358",
 	},
 }
 

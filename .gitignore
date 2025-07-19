@@ -9,5 +9,9 @@
 !/out/.placeholder
 
 /logs/**/*
-
 !/logs/.placeholder
+
+/.env
+/lune/modules/Tag/TagStore.txt
+/asphalt.lock.toml
+/sourcemap.json

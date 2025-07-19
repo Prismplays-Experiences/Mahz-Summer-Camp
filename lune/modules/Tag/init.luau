@@ -1,9 +1,11 @@
+local Env = require("@LuneModules/Tag/Env")
+local TagManager = require("@LuneModules/Tag/TagManager")
+
+local Assets = require("@LuneModules/Assets")
 local Config = require("@LuneModules/Config")
-local Env = require("@LuneModules/Env")
-local Assets = require("@LuneModules/Assets/init")
 
 export type Tag = {
-	Set: (self: Tag, newTag: string) -> (),
+	Set: (self: Tag, newTag: string) -> string,
 	Get: (cropped: boolean?) -> string,
 
 	_getGroupId: (self: Tag) -> number?,
@@ -14,21 +16,30 @@ export type Tag = {
 
 local Tag = {}
 
-function Tag.Set(self: Tag, newTag: string): ()
+function Tag.Set(self: Tag, newTag: string): string
 	local previousTag = self.Get(true)
 	local newTagCropped = self._cropTag(newTag)
+	local apiKey = self:_getApiKey()
+	local groupId = self:_getGroupId() :: number
 
-	Env:Set("TAG", newTag)
-	Env:Set("MANTLE_OPEN_CLOUD_API_KEY", self:_getApiKey())
-	Env:Set("ASPHALT_API_KEY", self:_getApiKey())
-	Assets.SetId(self:_getGroupId() :: number)
+	TagManager.Set(newTag)
 
-	Assets.SaveLock(previousTag)
+	Env:Set("MANTLE_OPEN_CLOUD_API_KEY", apiKey)
+	Env:Set("ASPHALT_API_KEY", apiKey)
+
+	Assets.SetId(groupId)
+
+	if previousTag ~= "nil" then
+		Assets.SaveLock(previousTag)
+	end
+
 	Assets.LoadLock(newTagCropped)
+
+	return previousTag
 end
 
 function Tag.Get(cropped: boolean?): string
-	local tag = Env:Get("TAG")
+	local tag = TagManager.Get()
 
 	if cropped then
 		tag = Tag._cropTag(tag)
@@ -60,14 +71,10 @@ function Tag._getApiKey(self: Tag): string?
 end
 
 function Tag._getGroupInfo(self: Tag): { [string]: any }?
-	local tag = self.Get()
+	local tag = self.Get(true)
 
 	if not tag then
 		return
-	end
-
-	if string.match(tag, "feature_") then
-		tag = "feature"
 	end
 
 	return Config.GROUPS[tag]

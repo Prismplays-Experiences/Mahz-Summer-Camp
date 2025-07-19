@@ -9,7 +9,7 @@ function Assets.SetId(id: number)
 end
 
 function Assets.Sync()
-	AssetsModule:Sync()
+	AssetsModule.Sync()
 end
 
 function Assets.SaveLock(tag: string?)
