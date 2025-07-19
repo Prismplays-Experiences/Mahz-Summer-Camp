@@ -6,7 +6,7 @@ local Sourcemapifier = require("@LuneModules/InstancesManager/Sourcemapifier")
 local GameManager = require("@LuneModules/GameManager")
 local Config = require("@LuneModules/Config")
 
-GameManager.GenerateSourcemap(Config.PROJECT, Config.SOURCEMAP)
+GameManager.GenerateSourcemap(Config:GetProjectPath(), Config.GetSourcemapPath())
 Sourcemapifier:SyncWithObjects()
 
 print("Sourcemap generated and synced with objects")

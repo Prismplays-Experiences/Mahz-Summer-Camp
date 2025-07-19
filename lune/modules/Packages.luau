@@ -1,6 +1,9 @@
 local fs = require("@lune/fs")
 
 local Terminal = require("@LuneModules/Terminal")
+local Config = require("@LuneModules/Config")
+
+local OUT_PATH = Config.GetOutPath()
 
 local Packages = {}
 
@@ -13,7 +16,7 @@ function Packages.Copy()
 		overwrite = true,
 	}
 
-	fs.copy("roblox_packages", "out/roblox_packages", writeOptions)
+	fs.copy("roblox_packages", OUT_PATH.."/roblox_packages", writeOptions)
 end
 
 function Packages.Add(packageName: string, isWally: boolean?, target: "lune" | "luau" | "roblox" | nil)

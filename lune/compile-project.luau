@@ -5,5 +5,5 @@
 local Compiler = require("@LuneModules/Compiler")
 local Config = require("@LuneModules/Config")
 
-Compiler:Compile(Config.PROJECT)
+Compiler:Compile(Config:GetProjectPath())
 print("Compiled project successfully")

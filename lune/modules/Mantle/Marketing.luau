@@ -31,7 +31,7 @@ function Marketing.OfflineSync(self: Marketing, mantleConfig: { [any]: any }): (
 end
 
 function Marketing._loadSource(source: string)
-	local path = `src/{Config.MARKETING_SCRIPT_PATH}`
+	local path = Config:GetMarketingOutPath()
 	fs.writeFile(path, source)
 
 	Terminal.execute(`stylua {path}`)

@@ -14,7 +14,7 @@ export type AssetsLock = {
 local AssetsLock = {}
 
 function AssetsLock.Save(self: AssetsLock, tag: string?)
-    local savePath = Config.ASSETS_LOCK_PATH:format(tag)
+    local savePath = Config.GetAssetsLockPath(tag)
     local currentContent = self._getCurrentLockContent()
 
     fs.writeFile(savePath, currentContent)
@@ -27,7 +27,7 @@ function AssetsLock.Load(self: AssetsLock, tag: string?)
 end
 
 function AssetsLock._getSavedLockContent(tag: string?)
-    local savedPath = Config.ASSETS_LOCK_PATH:format(tag)
+    local savedPath = Config.GetAssetsLockPath(tag)
     local savedContent = fs.readFile(savedPath)
 
     return savedContent

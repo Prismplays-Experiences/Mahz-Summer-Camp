@@ -77,7 +77,7 @@ function Tag._getGroupInfo(self: Tag): { [string]: any }?
 		return
 	end
 
-	return Config.GROUPS[tag]
+	return Config.GetGroupInfo(tag)
 end
 
 function Tag._cropTag(tag: string): string

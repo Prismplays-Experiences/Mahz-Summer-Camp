@@ -2,7 +2,7 @@
 local InstancePathUtils = require("../InstancesManager/InstancePathUtils")
 local GameManager = require("@LuneModules/GameManager")
 
-local config = require("@LuneModules/Config")
+local Config = require("@LuneModules/Config")
 
 local pathfs = require("@LunePackages/pathfs")
 local Path = pathfs.Path
@@ -11,17 +11,17 @@ local fs = pathfs.fs
 local roblox = require("@lune/roblox")
 
 local REPLICATED_STORAGE_EXCLUDED = InstancePathUtils.GetReplicatedExcludedArray()
-local OBJECTS_PATH = config.OBJECTS_PATH
+local OBJECTS_PATH = Config:GetObjectsPath()
 
 export type InstancesLoader = {
 	LoadEverything: (self: InstancesLoader) -> (),
 
 	_clearDirectoryInstance: (directoryInstance: Instance) -> (),
 	_loadSaves: (self: InstancesLoader, parent: Instance, path: pathfs.Path) -> (),
-	_loadAsFile: (parent: Instance, path: pathfs.Path) -> (Instance),
-	_loadAsFolder: (self: InstancesLoader, parent: Instance, path: pathfs.Path) -> (Instance),
+	_loadAsFile: (parent: Instance, path: pathfs.Path) -> Instance,
+	_loadAsFolder: (self: InstancesLoader, parent: Instance, path: pathfs.Path) -> Instance,
 
-	_game: DataModel?
+	_game: DataModel?,
 }
 
 local InstancesLoader = {}
@@ -31,7 +31,7 @@ function InstancesLoader.LoadEverything(self: InstancesLoader)
 	self._game = GameManager.GetGame()
 
 	local objectsPath = Path.new(OBJECTS_PATH)
-	
+
 	for path, service in InstancePathUtils.GetServicesPathsDictionary(self._game :: DataModel) do
 		local servicePath = objectsPath:join(path)
 

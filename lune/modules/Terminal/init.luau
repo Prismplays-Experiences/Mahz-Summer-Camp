@@ -58,7 +58,7 @@ function Terminal.execute(command: string, options: ExecOptions?): process.ExecR
 		table.insert(args, parts[i])
 	end
 
-	local configuredOptions = if options then table.clone(options) else config.EXEC_OPTIONS
+	local configuredOptions = if options then table.clone(options) else config.GetExecOptions()
 
 	configuredOptions.shell = if configuredOptions.shell == nil or configuredOptions.shell == true then true else nil
 

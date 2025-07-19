@@ -1,9 +1,8 @@
-
 local InstancePathUtils = require("@LuneModules/InstancesManager/InstancePathUtils")
 local GameManager = require("@LuneModules/GameManager")
 local Terminal = require("@LuneModules/Terminal")
 
-local config = require("@LuneModules/Config")
+local Config = require("@LuneModules/Config")
 local roblox = require("@lune/roblox")
 
 local pathfs = require("@LunePackages/pathfs")
@@ -11,16 +10,24 @@ local fs = pathfs.fs
 local Path = pathfs.Path
 
 local REPLICATED_STORAGE_EXCLUDED = InstancePathUtils.GetReplicatedExcludedArray()
-local OBJECTS_PATH = Path.new(config.OBJECTS_PATH)
+local OBJECTS_PATH = Path.new(Config:GetObjectsPath())
 
 export type InstancesSaver = {
-    SaveEverything: (self: InstancesSaver) -> (),
+	SaveEverything: (self: InstancesSaver) -> (),
 
-    _saveAsFile: (self: InstancesSaver, instance: Instance, path: pathfs.Path, fileIndex: number?, fileName: string?) -> (),
+	_saveAsFile: (
+		self: InstancesSaver,
+		instance: Instance,
+		path: pathfs.Path,
+		fileIndex: number?,
+		fileName: string?
+	) -> (),
 	_saveAsFolder: (self: InstancesSaver, folder: Instance, path: pathfs.Path, fileIndex: number?) -> pathfs.Path,
-    _saveDirectory: (self: InstancesSaver, directoryInstance: Instance, directoryPath: pathfs.Path) -> (),
-    _clearSaves: (self: InstancesSaver, path: pathfs.Path) -> (),
-    _getFoldersAndNonFoldersFromDirectory: (directoryInstance: Instance) -> {folders: { Folder }, nonFolders: { Instance }},
+	_saveDirectory: (self: InstancesSaver, directoryInstance: Instance, directoryPath: pathfs.Path) -> (),
+	_clearSaves: (self: InstancesSaver, path: pathfs.Path) -> (),
+	_getFoldersAndNonFoldersFromDirectory: (
+		directoryInstance: Instance
+	) -> { folders: { Folder }, nonFolders: { Instance } },
 	_iterateOverInstances: (instances: { Instance }, callback: (instanceName: string, index: number) -> ()) -> (),
 }
 
@@ -46,7 +53,9 @@ function InstancesSaver._saveDirectory(self: InstancesSaver, directoryInstance: 
 	local foldersAndNonFolders = self._getFoldersAndNonFoldersFromDirectory(directoryInstance)
 	local folders, nonFolders = foldersAndNonFolders.folders, foldersAndNonFolders.nonFolders
 
-	Terminal.Out(`_saveDirectory: {directoryInstance.Name}, {directoryPath:toString():sub(1, 35)}, {#folders} folders, {#nonFolders} nonFolders`)
+	Terminal.Out(
+		`_saveDirectory: {directoryInstance.Name}, {directoryPath:toString():sub(1, 35)}, {#folders} folders, {#nonFolders} nonFolders`
+	)
 
 	self._iterateOverInstances(folders, function(folderName: string, index: number)
 		local instance = directoryInstance:FindFirstChild(folderName)
@@ -66,14 +75,16 @@ function InstancesSaver._saveDirectory(self: InstancesSaver, directoryInstance: 
 end
 
 function InstancesSaver._getFoldersAndNonFoldersFromDirectory(directoryInstance: Instance)
-    local instancesForSaving = directoryInstance:GetChildren()
+	local instancesForSaving = directoryInstance:GetChildren()
 
-    local folders = {}
+	local folders = {}
 	local nonFolders = {}
 
 	for _, folder: Folder in pairs(instancesForSaving) do
 		local notAFolder = not folder:IsA("Folder")
-		local excepted = (directoryInstance.Name == "ReplicatedStorage" and table.find(REPLICATED_STORAGE_EXCLUDED, folder.Name))
+		local excepted = (
+			directoryInstance.Name == "ReplicatedStorage" and table.find(REPLICATED_STORAGE_EXCLUDED, folder.Name)
+		)
 
 		if notAFolder or excepted then
 			continue
@@ -84,7 +95,9 @@ function InstancesSaver._getFoldersAndNonFoldersFromDirectory(directoryInstance:
 
 	for _, instance: Instance in pairs(instancesForSaving) do
 		local isFolder = instance:IsA("Folder")
-		local excepted = (directoryInstance.Name == "ReplicatedStorage" and table.find(REPLICATED_STORAGE_EXCLUDED, instance.Name))
+		local excepted = (
+			directoryInstance.Name == "ReplicatedStorage" and table.find(REPLICATED_STORAGE_EXCLUDED, instance.Name)
+		)
 		local isCamera = instance.Name == "Camera"
 
 		if isFolder or excepted or isCamera then
@@ -94,10 +107,13 @@ function InstancesSaver._getFoldersAndNonFoldersFromDirectory(directoryInstance:
 		table.insert(nonFolders, instance)
 	end
 
-    return {folders = folders, nonFolders = nonFolders}
+	return { folders = folders, nonFolders = nonFolders }
 end
 
-function InstancesSaver._iterateOverInstances(instances: { Instance }, callback: (instanceName: string, index: number) -> ())
+function InstancesSaver._iterateOverInstances(
+	instances: { Instance },
+	callback: (instanceName: string, index: number) -> ()
+)
 	local instancesCount = {}
 
 	for _, value in ipairs(instances) do
@@ -128,12 +144,24 @@ function InstancesSaver._saveAsFolder(self: InstancesSaver, folder: Instance, pa
 	return folderPath
 end
 
-function InstancesSaver._saveAsFile(self: InstancesSaver, instance, path: pathfs.Path, fileIndex: number?, fileName: string?)
+function InstancesSaver._saveAsFile(
+	self: InstancesSaver,
+	instance,
+	path: pathfs.Path,
+	fileIndex: number?,
+	fileName: string?
+)
 	if instance:IsA("Folder") or path:fileStem() == "Camera" then
 		return
 	end
 
-	Terminal.Out(`_saveAsFile: {instance.Name}, {instance.Parent}, {if instance then #instance:GetChildren() else "No children! Instance is nil"}, {path:toString():sub(1, 35)}, {tostring(fileIndex)}, {tostring(fileName)}`)
+	Terminal.Out(
+		`_saveAsFile: {instance.Name}, {instance.Parent}, {if instance
+			then #instance:GetChildren()
+			else "No children! Instance is nil"}, {path:toString():sub(1, 35)}, {tostring(fileIndex)}, {tostring(
+			fileName
+		)}`
+	)
 
 	if #instance:GetChildren() == 0 or fileName == "init.rbxm" then
 		local correctFileName = fileName or ""
@@ -142,7 +170,7 @@ function InstancesSaver._saveAsFile(self: InstancesSaver, instance, path: pathfs
 			correctFileName = InstancePathUtils.FixName(instance.Name)
 
 			correctFileName = if fileIndex == nil then correctFileName else correctFileName .. tostring(fileIndex)
-			correctFileName = correctFileName.. ".rbxm"
+			correctFileName = correctFileName .. ".rbxm"
 		end
 
 		local filePath: pathfs.Path = path:join(correctFileName)
@@ -171,7 +199,7 @@ function InstancesSaver._clearSaves(self: InstancesSaver, path: pathfs.Path)
 			self:_clearSaves(entryPath)
 		end
 	end
-	
+
 	local parentPath: pathfs.Path = path:parent() :: pathfs.Path
 
 	if parentPath:equal(OBJECTS_PATH) or path:equal(OBJECTS_PATH) then

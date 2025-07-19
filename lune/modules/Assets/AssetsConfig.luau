@@ -5,7 +5,7 @@ local fs = pathfs.fs
 
 local Config = require("@LuneModules/Config")
 
-local CONFIG_PATH = Config.ASSETS_CONFIG_PATH
+local CONFIG_PATH = Config.GetAssetsConfigPath()
 
 export type AssetsConfigModule = {
     SetId: (self: AssetsConfigModule, id: number) -> (),

@@ -1,7 +1,7 @@
 local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
 
-local config = require("@LuneModules/Config")
+local Config = require("@LuneModules/Config")
 
 local Terminal = require("@LuneModules/Terminal")
 
@@ -11,14 +11,18 @@ export type GameManager = {
 	SetGame: (game: DataModel) -> (),
 }
 
+local OUT_PATH = Config.GetOutPath()
+local PROJECT = Config:GetProjectPath()
+local GAME = Config:GetGamePath()
+
 local GameManager = {}
 
 function GameManager.Build()
-	Terminal.execute(`rojo build {config.PROJECT} --output {config.GAME}`)
+	Terminal.execute(`rojo build {PROJECT} --output {GAME}`)
 end
 
 function GameManager.GetGame()
-	local placeFile = fs.readFile(config.GAME)
+	local placeFile = fs.readFile(GAME)
 	local game = roblox.deserializePlace(placeFile)
 
 	return game
@@ -26,12 +30,12 @@ end
 
 function GameManager.SetGame(game)
 	local newPlaceFile = roblox.serializePlace(game)
-	fs.writeFile(config.GAME, newPlaceFile)
+	fs.writeFile(GAME, newPlaceFile)
 end
 
 function GameManager.CopyProjectToOut()
-	local projectFile = fs.readFile(config.PROJECT)
-	fs.writeFile(config.OUT_PATH .. "/" .. config.PROJECT, projectFile)
+	local projectFile = fs.readFile(PROJECT)
+	fs.writeFile(OUT_PATH .. "/" .. PROJECT, projectFile)
 end
 
 function GameManager.GenerateSourcemap(projectPath: string, outputPath: string?)
@@ -45,7 +49,7 @@ function GameManager.GenerateSourcemap(projectPath: string, outputPath: string?)
 end
 
 function GameManager.FindAllPaths()
-	local projectFile = fs.readFile(config.PROJECT)
+	local projectFile = fs.readFile(PROJECT)
 	local paths = {}
 
 	for path in projectFile:gmatch(`"$path":%s*"(.-)"`) do
@@ -56,7 +60,7 @@ function GameManager.FindAllPaths()
 end
 
 function GameManager.Serve()
-	local projectPath = config.OUT_PATH .. "/" .. config.PROJECT
+	local projectPath = OUT_PATH .. "/" .. PROJECT
 	
 	Terminal.execute(`rojo serve {projectPath}`)
 end
