@@ -20,7 +20,7 @@
     "selene.toml": true,
     "README.md": true,
     ".pesde": true,
-    ".github": true,
+    ".github": false,
     "aftman.toml": true,
     "sourcemap.json": true,
     "asphalt_locks_files": true,

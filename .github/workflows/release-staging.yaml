@@ -22,6 +22,18 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Switch place to Lobby
+        run: lunar switch Lobby
+
+      - name: Compile Lobby src
+        run: lunar compile -o
+
+      - name: Switch place to MainGame
+        run: lunar switch MainGame
+
+      - name: Compile MainGame src
+        run: lunar compile -o
+
       - name: Set tag
         run: lunar tag dev
 
