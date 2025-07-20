@@ -31,9 +31,11 @@ function PathUtils.GetDescendantEntries(self: PathUtils, path: pathfs.Path | str
 	local directoryPath = path :: pathfs.Path
 	local entries = {}
 
-	if fs.isFile(directoryPath:toString()) then
+	if fs.isFile(directoryPath) then
 		return entries
 	end
+
+	print(directoryPath)
 
 	for _, child in ipairs(pathfs.getEntries(directoryPath)) do
 		local childEntry = self._createEntryFromPath(child.path)
