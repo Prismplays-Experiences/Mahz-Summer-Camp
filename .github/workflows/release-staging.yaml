@@ -25,11 +25,17 @@ jobs:
       - name: Switch place to Lobby
         run: lunar switch Lobby
 
+      - name: Compile Lobby project
+        run: lunar compile-project
+
       - name: Compile Lobby src
         run: lunar compile -o
 
       - name: Switch place to MainGame
         run: lunar switch MainGame
+
+      - name: Compile MainGame project
+        run: lunar compile-project
 
       - name: Compile MainGame src
         run: lunar compile -o
