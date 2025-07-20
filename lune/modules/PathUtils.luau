@@ -1,4 +1,4 @@
-local pathfs = require("@LunePackages/pathfs")
+local pathfs = require("@LunePackages/PathFS")
 local fs = pathfs.fs
 local Path = pathfs.Path
 
@@ -56,7 +56,11 @@ function PathUtils.EntriesToPaths(entries: { Entry }): { pathfs.Path }
 	return paths
 end
 
-function PathUtils.Observe(paths: { pathfs.Path | string }, callback: (path: pathfs.Path) -> (), initialCallback: boolean?)
+function PathUtils.Observe(
+	paths: { pathfs.Path | string },
+	callback: (path: pathfs.Path) -> (),
+	initialCallback: boolean?
+)
 	initialCallback = initialCallback or false
 
 	local lastModified = {}
@@ -70,7 +74,7 @@ function PathUtils.Observe(paths: { pathfs.Path | string }, callback: (path: pat
 	while true do
 		for path, modified in lastModified do
 			local newModified = fs.metadata(path).modifiedAt
-            
+
 			if newModified == modified then
 				continue
 			end

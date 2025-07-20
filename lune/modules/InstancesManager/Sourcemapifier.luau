@@ -1,4 +1,4 @@
-local pathfs = require("@LunePackages/pathfs")
+local pathfs = require("@LunePackages/PathFS")
 
 local fs = pathfs.fs
 local roblox = require("@lune/roblox")

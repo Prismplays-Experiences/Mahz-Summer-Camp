@@ -4,7 +4,7 @@ local GameManager = require("@LuneModules/GameManager")
 
 local Config = require("@LuneModules/Config")
 
-local pathfs = require("@LunePackages/pathfs")
+local pathfs = require("@LunePackages/PathFS")
 local Path = pathfs.Path
 
 local fs = pathfs.fs

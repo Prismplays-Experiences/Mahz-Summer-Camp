@@ -1,4 +1,4 @@
-local pathfs = require("@LunePackages/pathfs")
+local pathfs = require("@LunePackages/PathFS")
 local Path = pathfs.Path
 
 local Config = require("@LuneModules/Config")

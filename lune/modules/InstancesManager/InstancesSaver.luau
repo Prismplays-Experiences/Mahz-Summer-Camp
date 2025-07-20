@@ -5,7 +5,7 @@ local Terminal = require("@LuneModules/Terminal")
 local Config = require("@LuneModules/Config")
 local roblox = require("@lune/roblox")
 
-local pathfs = require("@LunePackages/pathfs")
+local pathfs = require("@LunePackages/PathFS")
 local fs = pathfs.fs
 local Path = pathfs.Path
 
