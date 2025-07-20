@@ -1,12 +1,13 @@
+---@diagnostic disable: undefined-type
+
 --[=[ lunar
-	about = "syncs passes, products using Mantle"
+	about = "publishes game"
 ]=]
 
 local process = require("@lune/process")
-
 local Mantle = require("@LuneModules/Mantle")
-local GameManager = require("@LuneModules/GameManager")
 local Tag = require("@LuneModules/Tag")
+local GameManager = require("@LuneModules/GameManager")
 
 local args = process.args
 local tag = Tag.Get()
@@ -17,28 +18,20 @@ for _, arg in args do
 	end
 end
 
-if tag == "nil" then
-	Mantle.SyncMarketingOffline()
-	print("Game is not published. Syncing passes and products offline.")
-
-	return
-end
-
 if not GameManager.AreAllPlacesBuilt() then
 	print("Not all places are built. Please build all places before publishing")
 	return
 end
 
-Mantle.CreateWorkingConfig(tag)
-print("Mantle config file created")
+if tag == "nil" and Tag.Get() == "nil" then
+	print("No tag provided. Please specify a tag such as 'dev', 'prod', or 'feature_xxx'.")
+	return
+end
 
 Mantle.Deploy(tag)
 local gameLink = Mantle.GetGameLink(tag)
 print("Game published. Link: " .. gameLink)
 
-Mantle.SyncMarketing(tag)
-print("Passes, products loaded")
-
-if tag ~= "nil" and tag ~= nil then
+if tag ~= nil then
 	Tag:Set(tag)
 end

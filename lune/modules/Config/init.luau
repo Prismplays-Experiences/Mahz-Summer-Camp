@@ -2,6 +2,7 @@ local ConfigFile = require("@LuneModules/Config/ConfigFile")
 local process = require("@lune/process")
 
 export type Config = {
+	GetOutProjectPath: (self: Config, place: string?) -> string,
 	GetProjectPath: (self: Config, place: string?) -> string,
 	GetGamePath: (self: Config, place: string?) -> string,
 	GetSourcemapPath: () -> string,
@@ -95,6 +96,17 @@ function Config.GetGamePath(self: Config, place: string?): string
 	local gamePath = config.structure.game:format(place)
 
 	return gamePath
+end
+
+function Config.GetOutProjectPath(self: Config, place: string?): string
+	place = place or self.GetCurrentPlace()
+
+	local outPath = self.GetOutPath()
+	local projectPath = self:GetProjectPath(place)
+
+	local outProjectPath = `{outPath}/{projectPath}`
+
+	return outProjectPath
 end
 
 function Config.GetProjectPath(self: Config, place: string?): string

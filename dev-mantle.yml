@@ -27,9 +27,16 @@ target:
       enabled: true
     places:
       start:
-        file: game.rbxlx
+        file: Lobby.rbxlx
         configuration:
           name: 24 Days to lose weight
+          description: you only have 24^2 hours to lose weight
+          maxPlayerCount: 8
+          allowCopying: false
+      mainGame:
+        file: MainGame.rbxlx
+        configuration:
+          name: 24 Days to lose weight - Main Game
           description: you only have 24^2 hours to lose weight
           maxPlayerCount: 8
           allowCopying: false

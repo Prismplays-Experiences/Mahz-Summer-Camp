@@ -12,7 +12,7 @@ local Events = ReplicatedStorage.Events
 
 --> Modules
 ----------------------------------------
-local Knit = require(Packages.Knit)
+local Knit = require("@Packages/Knit")
 local Signal = require(Packages.Signal)
 
 local Modules = ReplicatedStorage:WaitForChild("Modules")
@@ -47,7 +47,7 @@ function TeleportZoneService:add(x)
 		holder = x:FindFirstChild("StatusHolder"),
 		UI = x:FindFirstChild("StatusHolder"):FindFirstChild("BillboardGui"),
 		Zone = Zone.new(x),
-		MaxPlayers = x:GetAttribute('MaxPlayers'),
+		MaxPlayers = x:GetAttribute("MaxPlayers"),
 
 		running_loops = {},
 		players = {},
@@ -108,7 +108,11 @@ function TeleportZoneService:Initialize(x)
 		self:PlayerExited(player, self.Portals[x])
 	end)
 
-	self:__UpdateText("Players", ("%d/%d"):format(#self.Portals[x].players, self.Portals[x].MaxPlayers), self.Portals[x])
+	self:__UpdateText(
+		"Players",
+		("%d/%d"):format(#self.Portals[x].players, self.Portals[x].MaxPlayers),
+		self.Portals[x]
+	)
 	self:__TeleportLoop(self.Portals[x])
 end
 

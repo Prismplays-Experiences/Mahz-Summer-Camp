@@ -10,11 +10,11 @@
   "files.exclude": {
     "luau_packages": true,
     "lune_packages": true,
-    ".gitignore": false,
+    ".gitignore": true,
     "logs": true,
     "pesde.lock": true,
     "pesde.toml": true,
-    ".env": false,
+    ".env": true,
     ".luaurc": true,
     ".darklua.json": true,
     "selene.toml": true,
@@ -22,7 +22,8 @@
     ".pesde": true,
     ".github": true,
     "aftman.toml": true,
-    "sourcemap.json": false,
+    "sourcemap.json": true,
+    "asphalt_locks_files": true
   },
 
   "[luau]": {

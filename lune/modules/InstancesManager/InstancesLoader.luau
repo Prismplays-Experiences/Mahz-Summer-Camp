@@ -11,7 +11,6 @@ local fs = pathfs.fs
 local roblox = require("@lune/roblox")
 
 local REPLICATED_STORAGE_EXCLUDED = InstancePathUtils.GetReplicatedExcludedArray()
-local OBJECTS_PATH = Config:GetObjectsPath()
 
 export type InstancesLoader = {
 	LoadEverything: (self: InstancesLoader) -> (),
@@ -27,10 +26,10 @@ export type InstancesLoader = {
 local InstancesLoader = {}
 InstancesLoader._game = nil
 
-function InstancesLoader.LoadEverything(self: InstancesLoader)
-	self._game = GameManager.GetGame()
+function InstancesLoader.LoadEverything(self: InstancesLoader, place: string?)
+	self._game = GameManager.GetGame(place)
 
-	local objectsPath = Path.new(OBJECTS_PATH)
+	local objectsPath = Path.new(Config:GetObjectsPath(place))
 
 	for path, service in InstancePathUtils.GetServicesPathsDictionary(self._game :: DataModel) do
 		local servicePath = objectsPath:join(path)
@@ -39,7 +38,7 @@ function InstancesLoader.LoadEverything(self: InstancesLoader)
 		self:_loadSaves(service, servicePath)
 	end
 
-	GameManager.SetGame(self._game)
+	GameManager.SetGame(self._game, place)
 end
 
 function InstancesLoader._clearDirectoryInstance(directoryInstance: Instance)

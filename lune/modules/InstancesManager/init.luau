@@ -9,14 +9,14 @@ export type InstancesManager = {
 
 local InstancesManager = {}
 
-function InstancesManager.Load()
+function InstancesManager.Load(place: string?)
 	local startTime = os.time()
 
-	InstancesLoader:LoadEverything()
+	InstancesLoader:LoadEverything(place)
 
 	local endTime = os.time()
 	local timePassed = endTime - startTime
-	
+
 	return timePassed
 end
 

@@ -6,36 +6,54 @@ local Config = require("@LuneModules/Config")
 local Terminal = require("@LuneModules/Terminal")
 
 export type GameManager = {
-	Build: () -> (),
+	Build: (place: string?) -> (),
 	GetGame: () -> DataModel,
 	SetGame: (game: DataModel) -> (),
 }
 
-local OUT_PATH = Config.GetOutPath()
-local PROJECT = Config:GetProjectPath()
-local GAME = Config:GetGamePath()
+local PROJECT = Config:GetOutProjectPath()
 
 local GameManager = {}
 
-function GameManager.Build()
-	Terminal.execute(`rojo build {PROJECT} --output {GAME}`)
+function GameManager.AreAllPlacesBuilt(): boolean
+	local allPlacesBuilt = true
+
+	for _, place in ipairs(Config.GetAllPlaces()) do
+		local gamePath = Config:GetGamePath(place)
+
+		if not fs.isFile(gamePath) then
+			allPlacesBuilt = false
+		end
+	end
+
+	return allPlacesBuilt
 end
 
-function GameManager.GetGame()
-	local placeFile = fs.readFile(GAME)
+function GameManager.Build(place: string?)
+	local project = Config:GetOutProjectPath(place)
+	local game = Config:GetGamePath(place)
+
+	Terminal.execute(`rojo build {project} --output {game}`)
+end
+
+function GameManager.GetGame(place: string?)
+	local gamePath = Config:GetGamePath(place)
+	local placeFile = fs.readFile(gamePath)
 	local game = roblox.deserializePlace(placeFile)
 
 	return game
 end
 
-function GameManager.SetGame(game)
+function GameManager.SetGame(game, place: string?)
+	local gamePath = Config:GetGamePath(place)
 	local newPlaceFile = roblox.serializePlace(game)
-	fs.writeFile(GAME, newPlaceFile)
+
+	fs.writeFile(gamePath, newPlaceFile)
 end
 
 function GameManager.CopyProjectToOut()
 	local projectFile = fs.readFile(PROJECT)
-	fs.writeFile(OUT_PATH .. "/" .. PROJECT, projectFile)
+	fs.writeFile(PROJECT, projectFile)
 end
 
 function GameManager.GenerateSourcemap(projectPath: string, outputPath: string?)
@@ -60,9 +78,7 @@ function GameManager.FindAllPaths()
 end
 
 function GameManager.Serve()
-	local projectPath = OUT_PATH .. "/" .. PROJECT
-	
-	Terminal.execute(`rojo serve {projectPath}`)
+	Terminal.execute(`rojo serve {PROJECT}`)
 end
 
 return GameManager

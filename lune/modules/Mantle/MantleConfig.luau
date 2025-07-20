@@ -24,13 +24,14 @@ export type MantleConfigModule = {
 local MantleConfig = {}
 
 function MantleConfig.CreateWorkingConfig(tag: string?)
-	local correctTag : string = tag or Tag.Get()
+	local correctTag: string = tag or Tag.Get()
+	local croppedTag: string = Tag._cropTag(correctTag)
 	local templateFile = fs.readFile("dev-mantle.yml")
 	local gameConfig = serde.decode("yaml", templateFile)
 
 	gameConfig.environments[1].branches = nil
 	gameConfig.environments[1].label = correctTag
-	gameConfig.owner.group = Config.GetGroupInfo(correctTag)
+	gameConfig.owner.group = Config.GetGroupInfo(croppedTag).id
 
 	gameConfig.state.remote.key = `{correctTag}-{GAME_SUFFIX}`
 
