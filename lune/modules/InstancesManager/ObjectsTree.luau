@@ -82,6 +82,8 @@ function ObjectsTree._addComponent(self: ObjectsTree, path: pathfs.Path)
 	local components = path:components():collect()
 	local initPath = path:join("init.rbxm")
 
+	print(initPath)
+
 	local treeComponent = {
 		Path = if pathfs.findFile(initPath) then initPath else path,
 		Children = {},
