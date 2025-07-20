@@ -89,6 +89,19 @@ function Config.GetExecOptions(): process.ExecOptions
 	return config.executor
 end
 
+function Config.GetGameStatusPath(self: Config, place: string?): string
+	place = place or self.GetCurrentPlace()
+
+	local config = ConfigFile.Get()
+
+	local srcPath = self:GetSrc(place)
+	local gameStatusPath = config.structure.game_status_path
+
+	local fullPath = `{srcPath}/{gameStatusPath}`
+
+	return fullPath
+end
+
 function Config.GetGamePath(self: Config, place: string?): string
 	place = place or self.GetCurrentPlace()
 

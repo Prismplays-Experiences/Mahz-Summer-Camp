@@ -16,6 +16,7 @@ export type ConfigFile = {
 		sourcemap: string,
 		game: string,
 		project: string,
+		game_status_path: string,
 	},
 	executor: {
 		shell: boolean,

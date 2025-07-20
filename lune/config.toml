@@ -34,6 +34,7 @@ places = [
 
 [structure]
 game = "%s.rbxlx"
+game_status_path = "ReplicatedStorage/GameStatus.luau"
 objects_path = "objects/%s"
 out_path = "out"
 project = "%s.project.json"

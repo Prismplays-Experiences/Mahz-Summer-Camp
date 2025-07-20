@@ -3,6 +3,7 @@ local fs = require("@lune/fs")
 local TableUtils = require("@LuneModules/TableUtils")
 local Config = require("@LuneModules/Config")
 local Terminal = require("@LuneModules/Terminal")
+local Compiler = require("@LuneModules/Compiler")
 
 export type MarketingTable = {
 	Products: { [string]: { assetId: number, productId: number } },
@@ -33,6 +34,8 @@ end
 function Marketing._loadSource(source: string)
 	local path = Config:GetMarketingOutPath()
 	fs.writeFile(path, source)
+
+	Compiler.CompileFile(path)
 
 	Terminal.execute(`stylua {path}`)
 end

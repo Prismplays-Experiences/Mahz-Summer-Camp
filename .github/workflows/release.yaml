@@ -1,0 +1,130 @@
+name: Release
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+concurrency:
+  group: production_environment
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Install Aftman
+        uses: ok-nick/setup-aftman@v0.3.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set tag
+        run: lunar tag prod
+
+      - name: Lock the game
+        run: lunar lock
+
+      - name: Game deploy to sync products/passes
+        run: lunar create
+        env:
+          ROBLOSECURITY: ${{ secrets.ROBLOSECURITY }}
+          ASPHALT_API_KEY: ${{ secrets.PROD_API_KEY }}
+          MANTLE_OPEN_CLOUD_API_KEY: ${{ secrets.PROD_API_KEY }}
+          MANTLE_AWS_ACCESS_KEY_ID: ${{ secrets.MANTLE_AWS_ACCESS_KEY_ID }}
+          MANTLE_AWS_SECRET_ACCESS_KEY: ${{ secrets.MANTLE_AWS_SECRET_ACCESS_KEY }}
+
+      - name: Unlock the game
+        run: lunar unlock
+
+      - name: Build game with synced products/passes
+        run: lunar load
+
+      - name: Upload Lobby place file
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+        with:
+          name: Lobby
+          path: Lobby.rbxlx
+          if-no-files-found: error
+      
+      - name: Upload MainGame place file
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+        with:
+          name: MainGame
+          path: MainGame.rbxlx
+          if-no-files-found: error
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: development
+    needs: build
+
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+    - name: Download Lobby artifact
+      uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4
+      with:
+        name: Lobby
+
+    - name: Download MainGame artifact
+      uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4
+      with:
+        name: MainGame
+
+    - name: Install Aftman
+      uses: ok-nick/setup-aftman@v0.3.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set tag
+      run: lunar tag dev
+
+    - name: Deploy game with synced products/passes
+      run: lunar deploy
+      env:
+        ROBLOSECURITY: ${{ secrets.ROBLOSECURITY }}
+        ASPHALT_API_KEY: ${{ secrets.PROD_API_KEY }}
+        MANTLE_OPEN_CLOUD_API_KEY: ${{ secrets.PROD_API_KEY }}
+        MANTLE_AWS_ACCESS_KEY_ID: ${{ secrets.MANTLE_AWS_ACCESS_KEY_ID }}
+        MANTLE_AWS_SECRET_ACCESS_KEY: ${{ secrets.MANTLE_AWS_SECRET_ACCESS_KEY }}
+
+  tag:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@a22cf08638b34d5badda920f9daf6e72c477b07b # v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download Lobby artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4
+        with:
+          name: Lobby
+
+      - name: Download MainGame artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4
+        with:
+          name: MainGame
+
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5 # v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          artifacts: game.rbxlx

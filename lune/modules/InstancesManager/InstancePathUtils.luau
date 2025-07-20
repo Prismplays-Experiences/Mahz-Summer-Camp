@@ -20,7 +20,7 @@ local BANNED_SYMBOLS = {
 	["|"] = true,
 }
 
-local REPLICATED_STORAGE_EXCLUDED = { "Assets", "CustomModules", "Events", "Info", "Packages", "Marketing", "GameStatus", "Shared" }
+local REPLICATED_STORAGE_EXCLUDED = { "assets", "CustomModules", "Events", "Info", "Packages", "Marketing", "GameStatus", "Shared", "Modules" }
 
 local module = {}
 

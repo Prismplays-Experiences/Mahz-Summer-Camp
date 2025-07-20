@@ -2,6 +2,7 @@ local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
 
 local Config = require("@LuneModules/Config")
+local Compiler = require("@LuneModules/Compiler")
 
 local Terminal = require("@LuneModules/Terminal")
 
@@ -9,6 +10,8 @@ export type GameManager = {
 	Build: (place: string?) -> (),
 	GetGame: () -> DataModel,
 	SetGame: (game: DataModel) -> (),
+
+	_writeNewLockedState: (locked: boolean, place: string?) -> (),
 }
 
 local PROJECT = Config:GetOutProjectPath()
@@ -79,6 +82,24 @@ end
 
 function GameManager.Serve()
 	Terminal.execute(`rojo serve {PROJECT}`)
+end
+
+function GameManager.Lock(self: GameManager, place: string?)
+	self._writeNewLockedState(true, place)
+end
+
+function GameManager.Unlock(self: GameManager, place: string?)
+	self._writeNewLockedState(false, place)
+end
+
+function GameManager._writeNewLockedState(locked: boolean, place: string?)
+	local source = "return { \n\tLocked = " .. tostring(locked) .. "\n}"
+
+	local stateFile = Config:GetGameStatusPath(place)
+	fs.writeFile(stateFile, source)
+
+	Terminal.execute(`stylua {stateFile}`)
+	Compiler.CompileFile(stateFile)
 end
 
 return GameManager

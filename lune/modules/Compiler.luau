@@ -106,8 +106,6 @@ function Compiler.CompileFile(path: pathfs.Path | string)
 
 	local content = fs.readFile(filePath:toString())
 
-	print(OUT_PATH.."/"..filePath:toString())
-
 	fs.writeFile(OUT_PATH.."/"..filePath:toString(), content)
 end
 
