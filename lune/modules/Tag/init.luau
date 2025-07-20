@@ -19,10 +19,11 @@ local Tag = {}
 function Tag.Set(self: Tag, newTag: string): string
 	local previousTag = self.Get(true)
 	local newTagCropped = self._cropTag(newTag)
-	local apiKey = self:_getApiKey()
-	local groupId = self:_getGroupId() :: number
 
 	TagManager.Set(newTag)
+
+	local groupId = self:_getGroupId() :: number
+	local apiKey = self:_getApiKey()
 
 	Env:Set("MANTLE_OPEN_CLOUD_API_KEY", apiKey)
 	Env:Set("ASPHALT_API_KEY", apiKey)
