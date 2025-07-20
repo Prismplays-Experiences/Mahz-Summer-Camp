@@ -85,7 +85,7 @@ function ObjectsTree._addComponent(self: ObjectsTree, path: pathfs.Path)
 	print(initPath)
 
 	local treeComponent = {
-		Path = if pathfs.findFile(initPath) then initPath else path,
+		Path = if pathfs.findDir(path) and pathfs.findFile(initPath) then initPath else path,
 		Children = {},
 	}
 
