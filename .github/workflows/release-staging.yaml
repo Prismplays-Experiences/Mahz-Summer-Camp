@@ -25,6 +25,9 @@ jobs:
       - name: Switch place to Lobby
         run: lunar switch Lobby
 
+      - name: Create sourcemap
+        run: lunar sourcemap
+
       - name: Compile Lobby project
         run: lunar compile-project
 
