@@ -71,8 +71,6 @@ function Compiler.CompileDirectory(path: pathfs.Path | string)
 	local folderPath = path :: pathfs.Path
 	local outFolderPath = OUT_PATH .. "/" .. folderPath:toString()
 
-	fs.removeDir(folderPath)
-
 	if fs.isDir(outFolderPath) then
 		fs.removeDir(outFolderPath)
 	end
