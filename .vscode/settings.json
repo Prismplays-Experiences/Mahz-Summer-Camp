@@ -14,16 +14,18 @@
     "logs": true,
     "pesde.lock": true,
     "pesde.toml": true,
-    ".env": false,
+    ".env": true,
     ".luaurc": true,
     ".darklua.json": true,
     "selene.toml": true,
     "README.md": true,
     ".pesde": true,
-    ".github": false,
+    ".github": true,
     "aftman.toml": true,
     "sourcemap.json": true,
-    "asphalt_locks_files": true
+    "asphalt_locks_files": true,
+    "feature-mantle.yml": true,
+    "asphalt.lock.toml": true,
   },
 
   "[luau]": {
