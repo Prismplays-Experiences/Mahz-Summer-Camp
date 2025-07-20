@@ -26,7 +26,7 @@
         }
       },
       "StarterCharacterScripts": {
-        "$path": "src/Lobby/StarterCharacterScripts",
+        "$path": "src/Lobby/StarterCharacterScripts"
       }
     }
   }
