@@ -17,16 +17,6 @@ export type Compiler = {
 
 local OUT_PATH = Config.GetOutPath()
 
-local function transformPathIntoPoweshellOne(path: pathfs.Path)
-	local resultPowershellPath = `.\\{OUT_PATH}\\`
-
-	for _, component in ipairs(path:components():collect()) do
-		resultPowershellPath = resultPowershellPath .. component:toString() .. "\\"
-	end
-
-	return resultPowershellPath
-end
-
 local Compiler = {}
 
 function Compiler.Observe(self: Compiler, path: pathfs.Path | string)
@@ -78,14 +68,16 @@ function Compiler.CompileDirectory(path: pathfs.Path | string)
 		path = Path.new(path)
 	end
 
-    local folderPath = path :: pathfs.Path
-	local powershellPath = transformPathIntoPoweshellOne(folderPath)
+	local folderPath = path :: pathfs.Path
+	local outFolderPath = OUT_PATH .. "/" .. folderPath:toString()
 
-	if fs.isDir("out/"..folderPath:toString()) then
-		Terminal.execute(`powershell -Command \"Remove-Item -Path {powershellPath}* -Recurse -Force\"`)
+	fs.removeDir(folderPath)
+
+	if fs.isDir(outFolderPath) then
+		fs.removeDir(outFolderPath)
 	end
-	
-    Terminal.execute(`darklua process {folderPath:toString()} {OUT_PATH.."/"..folderPath:toString()}`)
+
+	Terminal.execute(`darklua process {folderPath:toString()} {outFolderPath}`)
 end
 
 function Compiler.CompileFile(path: pathfs.Path | string)
@@ -100,13 +92,13 @@ function Compiler.CompileFile(path: pathfs.Path | string)
 	end
 
 	if filePath:extension() == ".luau" or filePath:extension() == ".lua" then
-		Terminal.execute(`darklua process {filePath:toString()} {OUT_PATH.."/"..filePath:toString()}`)
+		Terminal.execute(`darklua process {filePath:toString()} {OUT_PATH .. "/" .. filePath:toString()}`)
 		return
 	end
 
 	local content = fs.readFile(filePath:toString())
 
-	fs.writeFile(OUT_PATH.."/"..filePath:toString(), content)
+	fs.writeFile(OUT_PATH .. "/" .. filePath:toString(), content)
 end
 
 return Compiler
