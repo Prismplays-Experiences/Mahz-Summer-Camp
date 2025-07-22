@@ -213,7 +213,6 @@ function StageController:KnitStart()
     StageService.PlayerCameraTrack:Connect(function(status,character, target,randomPoint)
         if status then 
             repeat
-                print('waiting for character')
                 task.wait(0.1)
             until  target~= nil
             local angle = randomPoint.Name == '2' and -45  or 45
@@ -285,11 +284,11 @@ function StageController:KnitStart()
                 self.MusicController:PlayNewSong('StageEvent')
                 CurrentTune = 'StageEvent'
             end
-            Main.Enabled = false
+            -- Main.Enabled = false
             TweenCameraToSubject(campart, 1, distance, height)
         else
             TweenService:Create(Camera, TweenInfo.new(1), {FieldOfView = DefaultFOV}):Play()
-            Main.Enabled = true
+            -- Main.Enabled = true
             task.wait(2)
             Camera.CameraType = Enum.CameraType.Custom
             if CurrentTune ~= 'Normal' then

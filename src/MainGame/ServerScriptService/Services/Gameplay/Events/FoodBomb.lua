@@ -48,6 +48,7 @@ FoodBomb.MaxWeightGained = 250
 FoodBomb.MinPlayers = 2 -- 2
 FoodBomb.LockWorkoutMachines = true
 FoodBomb.YieldClock = true
+FoodBomb.Ended = Signal.new()
 FoodBomb.Details = {
     Text = "Food Bomb Event!",
     Image = "rbxassetid://70526751887027", 
@@ -314,12 +315,14 @@ function FoodBomb:Start()
     end)
     task.wait(3)
 	-- FoodBomb.ModeEnded:Fire(LastPlayer)
-    self:Clean()
+    -- self:Clean()
+	self.Ended:Fire()
 end
 
 function FoodBomb:Clean()
     self.EventsService.Client.EnableEventsInterfaces:FireAll(false)
-    self.ClockService:ResumeClock()
+
+    -- self.ClockService:ResumeClock()
 	for i,v in ItemSpawnPoints:GetChildren() do
 		v:RemoveTag('SpotTaken')
 	end

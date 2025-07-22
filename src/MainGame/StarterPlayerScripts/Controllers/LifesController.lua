@@ -92,7 +92,8 @@ closepopup = nil
 
 function PlayHealthPopup()
 	bought = false
-	local Time = 5
+	local Time =10
+	HealthPopupUI.Visible = true
 	TweenService:Create(HealthPopupUI.UIScale,TweenInfo.new(0.5,Enum.EasingStyle.Back),{Scale = 1}):Play()
 	local func
 	local closing = false
@@ -128,7 +129,7 @@ function PlayHealthPopup()
 		end
 		if bought then break end
 
-		TimerFiller.TextLabel.Text = Time
+		TimerFiller.TextLabel.Text = RoundTo1DP(Time)
 		if Time<=0 then
 			closepopup()
 			break
@@ -142,6 +143,9 @@ function PlayHealthPopup()
 	if not closing then closepopup() end
 end
 
+function RoundTo1DP(num)
+	return math.floor(num * 10 + 0.5) / 10
+end
 --> Main Functions
 ----------------------------------------
 

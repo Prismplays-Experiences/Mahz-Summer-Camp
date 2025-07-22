@@ -22,18 +22,14 @@ function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model)
         model = Model
     end
 
-
-	-- Create a container to rotate
 	local container = Instance.new("Model")
 	container.Name = "ContainerModel"
 	container.Parent = viewportFrame
 
-	-- Clone and re-parent the model
 	local modelClone = model:Clone()
 	modelClone.Parent = container
 	modelClone:PivotTo(CFrame.new(0, 0, 0) * CFrame.Angles(math.rad(90), 0, 0))
 
-	-- Set primary part for rotation reference
 	if not modelClone.PrimaryPart then
 		local primary = modelClone:FindFirstChildWhichIsA("BasePart")
 		if primary then
@@ -53,14 +49,12 @@ function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model)
 	local camPos = lookTarget - Vector3.new(0, 0, dist)
 	camera.CFrame = CFrame.lookAt(camPos, lookTarget)
 
-	-- Trove to handle cleanup
 	local trove = Trove.new()
 	trove:AttachToInstance(viewportFrame)
-	-- Set container position
+
 	local offset = CFrame.new(0, 0, 0)
 	container:PivotTo(offset)
 
-	-- Rotate container
 	local angle = 0
 	trove:Connect(RunService.RenderStepped, function(dt)
 		angle += dt * math.rad(45) -- 45 degrees/sec

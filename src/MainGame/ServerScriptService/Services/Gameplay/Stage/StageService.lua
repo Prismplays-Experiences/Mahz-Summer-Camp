@@ -256,6 +256,7 @@ function StageService:Eliminated(TransitionScreen,EndTransition,func)
     for i,p in Losers do
         task.spawn(function()
             p.leaderstats:WaitForChild('Lifes').Value = 0
+            self.LifeService.Client.EliminatePlayer:Fire(p)
         end)
     end
     self.Client.SetCamStatus:FireAll('Default',CenterCam)
@@ -312,6 +313,9 @@ function StageService:WeightPlayers(TransitionScreen, EndTransition, func)
     task.wait(2)
     End:FireAll()
     self:WalkToStage(Players,true, 1, WalkPoints, false, self.WeightingScale,SpawnPoints['2'])
+    if #self.LifeService:GetEliminated()>0 then
+        self:Eliminated(true, false)
+    end
     local End
     if EndTransition then
         End = self.TransitionService:SendTransitionAll()
@@ -388,8 +392,6 @@ function StageService.WeightingScale(self,Player)
         else
             Player:AddTag('Eliminated')
         end
-        -- if player life above 1 take 1 life, if not add to array of list to eliminate and eliminate after
-        -- 
     end
 
     Player:SetAttribute('BeforeWeight', CurrentWeight)

@@ -98,7 +98,6 @@ function InstructorMessage:KnitStart()
     --     task.wait(1)
     --     print("Instructor Message: " .. i)
     -- end
-    
     -- self:PlayMessage(InstructorMessages.Intro)
 end
 

@@ -76,7 +76,7 @@ function EventService:RandomEvent()
         Event, EventKey = RandomFromDictionary(EventsModules,self.PreviousEventKey)
     until self:EventValidationCheck(Event) and Event
 
-    self.PreviousEventKey = EventKey
+    -- self.PreviousEventKey = EventKey
     return Event,EventKey
 end
 
@@ -89,7 +89,13 @@ function EventService:StartEvent(Event)
         self.ClockService:YieldClock() 
     end
     self.Client.SendHardNotification:FireAll(self.Event.Details.Text,self.Event.Details.Image)
-    Event:Start()
+
+    Event.Ended:Connect(function()
+        self:Cleanup()
+    end)
+    task.spawn(function()
+        Event:Start()
+    end)
 end
 
 function EventService:Cleanup()
@@ -103,7 +109,7 @@ function EventService:Cleanup()
     task.delay(5,function()
         self.Client.EventStatus:Set("")
     end)
-    self.Event:Cleanup()
+    self.Event:Clean()
     self.Event = nil
 end
 

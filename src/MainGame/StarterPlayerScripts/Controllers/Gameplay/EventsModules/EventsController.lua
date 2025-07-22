@@ -100,12 +100,12 @@ function EventsController:KnitStart()
 
     self.EventsService.EnableEventsInterfaces:Connect(function(status, frame)
         if status then
-            HUD.Visible = false
+            HUD.Visible = true
             CoreFrames.Visible = false
             EventsInterfaces.Visible = true
             EnableFrame(EventsInterfaces, frame)
         else
-            HUD.Visible = true
+            -- HUD.Visible = true
             CoreFrames.Visible = true
             EventsInterfaces.Visible = false
         end

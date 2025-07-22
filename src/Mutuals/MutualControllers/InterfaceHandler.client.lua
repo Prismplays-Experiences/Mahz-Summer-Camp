@@ -252,15 +252,15 @@ end
 --     animPlugin.target(blur, 1, 2, {Size = 24})
 --     animPlugin.target(camera, 1, 2, {FieldOfView = 60})
 -- end)
-
+local GeneralInfo = require(game.ReplicatedStorage.Info.GeneralInfo)
 Player.Idled:Connect(function(time)
     if time > 1150 then
         pcall(function()
-            TeleportService:Teleport(game.PlaceId, Player)
+            TeleportService:Teleport(GeneralInfo.LobbyPlaceId, Player)
         end)
     end
 end)
-local GeneralInfo = require(game.ReplicatedStorage.Info.GeneralInfo)
+
 local Cash = Player:WaitForChild("PrivateStats"):WaitForChild("Currency")
 local CashLabel = game.PlaceId == GeneralInfo.LobbyPlaceId and HUD:WaitForChild("CashCounter"):WaitForChild('Amount') or HUD:WaitForChild("Coins")
 
