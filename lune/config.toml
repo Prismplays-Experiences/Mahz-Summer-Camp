@@ -26,7 +26,7 @@ id = 36072498
 marketing_out_path = "ReplicatedStorage/Marketing.luau"
 
 [multiplace]
-current_place = "Lobby"
+current_place = "MainGame"
 places = [
     "MainGame",
     "Lobby",

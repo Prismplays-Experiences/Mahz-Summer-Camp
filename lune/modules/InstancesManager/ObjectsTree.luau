@@ -78,8 +78,8 @@ end
 
 function ObjectsTree._addComponent(self: ObjectsTree, path: pathfs.Path)
 	local tree = self:GetTree()
-	local name = path:fileStem()
 	local components = path:components():collect()
+	local name = components[#components]:toString():gsub(".rbxm", "")
 	local initPath = path:join("init.rbxm")
 
 	local treeComponent = {

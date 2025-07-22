@@ -11,7 +11,7 @@
     "luau_packages": true,
     "lune_packages": false,
     ".gitignore": true,
-    "logs": true,
+    "logs": false,
     "pesde.lock": true,
     "pesde.toml": true,
     ".env": true,

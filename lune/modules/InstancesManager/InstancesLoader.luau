@@ -73,7 +73,10 @@ function InstancesLoader._loadSaves(self: InstancesLoader, parent: Instance, pat
 end
 
 function InstancesLoader._loadAsFile(parent: Instance, path: pathfs.Path)
-	local file = fs.readFile(path:toString())
+	local instanceName = path:fileName() :: string
+	instanceName = instanceName:gsub(".rbxm", "")
+
+	local file = fs.readFile(path)
 	local instance = roblox.deserializeModel(file)[1]
 
 	if instance:IsA("Camera") then
@@ -81,6 +84,7 @@ function InstancesLoader._loadAsFile(parent: Instance, path: pathfs.Path)
 	end
 
 	instance.Parent = parent
+	instance.Name = instanceName
 
 	return instance
 end
