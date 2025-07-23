@@ -85,8 +85,9 @@ function InstancesSaver._getFoldersAndNonFoldersFromDirectory(directoryInstance:
 		local excepted = (
 			directoryInstance.Name == "ReplicatedStorage" and table.find(REPLICATED_STORAGE_EXCLUDED, folder.Name)
 		)
+		local bannedName = table.find(InstancePathUtils.GetIgnoredNames(), folder.Name)
 
-		if notAFolder or excepted then
+		if notAFolder or excepted or bannedName then
 			continue
 		end
 
@@ -98,9 +99,10 @@ function InstancesSaver._getFoldersAndNonFoldersFromDirectory(directoryInstance:
 		local excepted = (
 			directoryInstance.Name == "ReplicatedStorage" and table.find(REPLICATED_STORAGE_EXCLUDED, instance.Name)
 		)
+		local bannedName = table.find(InstancePathUtils.GetIgnoredNames(), instance.Name)
 		local isCamera = instance.Name == "Camera"
 
-		if isFolder or excepted or isCamera then
+		if isFolder or excepted or bannedName or isCamera then
 			continue
 		end
 

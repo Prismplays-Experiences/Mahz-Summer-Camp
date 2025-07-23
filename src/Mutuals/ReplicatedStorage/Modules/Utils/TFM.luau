@@ -1,5 +1,4 @@
 local l = string.lower
-local min, hr, d, mon, yr, max = "minute", "hour", "day", "month", "year", "max"
 local secsInMonth, secsInYear = 2592000, 30672000
 local default, colon, short, full = "default", "colon", "short", "full"
 local a = { second = " s ", minute = " m ", hour = " hr ", day = " d ", month = " mon ", year = " yr " }
@@ -68,8 +67,8 @@ local function convert(secs, Form, addZero)
 			warn("TFM: Zeros are only togglable for the default form!")
 		end
 
-		local remainderYear, remainderMonth, remainderDay, remainderHour, remainderMin, remainderSecond, year, month, day, hour, minute =
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+		local remainderMonth, remainderDay, remainderHour, remainderMin, remainderSecond, year, month, day, hour, minute =
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 		local displayMin, displaySec, displayHr, displayDay, displayMon, displayYr
 
 		if secs < 60 then
@@ -375,6 +374,8 @@ local function convert(secs, Form, addZero)
 				.. displaySec
 		end
 	end
+
+	return nil
 end
 
 local function checkSec(secs)

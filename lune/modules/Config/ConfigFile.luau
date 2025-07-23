@@ -28,6 +28,7 @@ export type ConfigFile = {
 	},
 	mantle: {
 		marketing_out_path: string,
+		experience_info_out_path: string,
 	},
 	multiplace: {
 		places: { string },

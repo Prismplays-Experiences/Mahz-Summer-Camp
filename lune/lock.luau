@@ -1,5 +1,5 @@
 --[=[ lunar
-	about = "locks game for maintenance. This will prevent players from joining the game until it is unlocked again"
+	about = "[DESCRIPTION] Locks game for maintenance. This will prevent players from joining the game until it is unlocked again"
 ]=]
 
 local GameManager = require("@LuneModules/GameManager")

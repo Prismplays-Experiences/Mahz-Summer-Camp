@@ -1,8 +1,4 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local StarterPlayer = game:GetService("StarterPlayer")
-
-local packages = ReplicatedStorage:WaitForChild("Packages")
-local Knit = require(packages:WaitForChild("Knit"))
+local Knit = require("@Packages/Knit")
 
 -- local components = script.Parent.Components
 

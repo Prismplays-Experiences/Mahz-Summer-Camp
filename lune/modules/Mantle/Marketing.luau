@@ -14,29 +14,41 @@ export type Marketing = {
 	Sync: (self: Marketing, marketingTable: MarketingTable) -> (),
 	OfflineSync: (self: Marketing, mantleConfig: { [any]: any }) -> (),
 
-	_loadSource: (source: string) -> (),
+	_loadMarketing: (source: string) -> (),
+	_loadExperienceInfo: (source: string) -> (),
 }
 
 local Marketing = {}
 
-function Marketing.Sync(self: Marketing, marketingTable: MarketingTable): ()
-	local marketingScriptSource: string = TableUtils.SourcifyMarketing(marketingTable)
+function Marketing.Sync(self: Marketing, marketingTable: { [any]: any }): ()
+	local marketingSource = TableUtils.SourcifyMarketing(marketingTable)
+	local experienceInfoSource = TableUtils.SourcifyExperienceInfo(marketingTable)
 
-	self._loadSource(marketingScriptSource)
+	self._loadMarketing(marketingSource)
+	self._loadExperienceInfo(experienceInfoSource)
 end
 
 function Marketing.OfflineSync(self: Marketing, mantleConfig: { [any]: any }): ()
-	local marketingScriptSource: string = TableUtils.SourcifyFakeMarketing(mantleConfig)
+	local marketingSource: string = TableUtils.SourcifyFakeMarketing(mantleConfig)
+	local experienceInfoSource: string = TableUtils.SourcifyFakeExperienceInfo()
 
-	self._loadSource(marketingScriptSource)
+	self._loadMarketing(marketingSource)
+	self._loadExperienceInfo(experienceInfoSource)
 end
 
-function Marketing._loadSource(source: string)
+function Marketing._loadMarketing(source: string)
 	local path = Config:GetMarketingOutPath()
 	fs.writeFile(path, source)
 
 	Compiler.CompileFile(path)
+	Terminal.execute(`stylua {path}`)
+end
 
+function Marketing._loadExperienceInfo(source: string)
+	local path = Config:GetExperienceInfoOutPath()
+	fs.writeFile(path, source)
+
+	Compiler.CompileFile(path)
 	Terminal.execute(`stylua {path}`)
 end
 

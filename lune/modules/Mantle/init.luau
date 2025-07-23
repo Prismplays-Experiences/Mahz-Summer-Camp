@@ -5,8 +5,10 @@ local ExperienceInfo = require("@LuneModules/Mantle/ExperienceInfo")
 
 local Mantle = {}
 
+export type Info = ExperienceInfo.Info
+
 function Mantle.Deploy(tag: string?)
-    local path, environment = MantleConfig.GetWorkingConfig(tag)
+	local path, environment = MantleConfig.GetWorkingConfig(tag)
 
 	DeployManager.Deploy(path, environment)
 end
@@ -16,48 +18,48 @@ function Mantle.CreateWorkingConfig(tag: string?)
 end
 
 function Mantle.GetWorkingConfig(tag: string?): (string, string)
-    return MantleConfig.GetWorkingConfig(tag)
+	return MantleConfig.GetWorkingConfig(tag)
 end
 
 function Mantle.GetDecodedWorkingConfig(tag: string?): {}
-    return MantleConfig:GetDecodedWorkingConfig(tag)
+	return MantleConfig:GetDecodedWorkingConfig(tag)
 end
 
-function Mantle.SyncMarketing(tag: string?)
-    local path, environment = MantleConfig.GetWorkingConfig(tag)
-    local marketingTable = ExperienceInfo:GetMarketingTable(path, environment)
+function Mantle.SyncInfo(tag: string?)
+	local path, environment = MantleConfig.GetWorkingConfig(tag)
+	local marketingTable = ExperienceInfo:GetInfo(path, environment)
 
-    Marketing:Sync(marketingTable)
+	Marketing:Sync(marketingTable)
 end
 
-function Mantle.SyncMarketingOffline(tag: string?)
-    local mantleConfig = MantleConfig:GetDecodedWorkingConfig(tag)
+function Mantle.SyncInfoOffline(tag: string?)
+	local mantleConfig = MantleConfig:GetDecodedWorkingConfig(tag)
 
-    Marketing:OfflineSync(mantleConfig)
+	Marketing:OfflineSync(mantleConfig)
 end
 
 function Mantle.GetGameLink(tag: string?): string
-    local path, environment = MantleConfig.GetWorkingConfig(tag)
+	local path, environment = MantleConfig.GetWorkingConfig(tag)
 
-    return ExperienceInfo:GetGameLink(path, environment)
+	return ExperienceInfo:GetGameLink(path, environment)
 end
 
 function Mantle.GetPlaceId(tag: string?): string
-    local path, environment = MantleConfig.GetWorkingConfig(tag)
+	local path, environment = MantleConfig.GetWorkingConfig(tag)
 
-    return ExperienceInfo:GetPlaceId(path, environment)
+	return ExperienceInfo:GetPlaceId(path, environment)
 end
 
 function Mantle.IsPublished(tag: string?): boolean
-    local path, environment = MantleConfig.GetWorkingConfig(tag)
+	local path, environment = MantleConfig.GetWorkingConfig(tag)
 
-    return ExperienceInfo.IsPublished(path, environment)
+	return ExperienceInfo.IsPublished(path, environment)
 end
 
-function Mantle.GetMarketingTable(tag: string?): ExperienceInfo.MarketingTable
-    local path, environment = MantleConfig.GetWorkingConfig(tag)
+function Mantle.GetInfo(tag: string?): ExperienceInfo.Info
+	local path, environment = MantleConfig.GetWorkingConfig(tag)
 
-    return ExperienceInfo:GetMarketingTable(path, environment)
+	return ExperienceInfo:GetInfo(path, environment)
 end
 
 return Mantle

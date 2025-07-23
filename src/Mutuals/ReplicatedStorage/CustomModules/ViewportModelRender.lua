@@ -60,7 +60,7 @@ function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model)
 		angle += dt * math.rad(45) -- 45 degrees/sec
 		container:PivotTo(CFrame.new(0, 0, 0) * CFrame.Angles(0, angle, 0))
 	end)
-    return trove
+	return trove
 end
 
 return RenderModelInViewport

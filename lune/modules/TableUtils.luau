@@ -1,13 +1,25 @@
 ---@diagnostic disable: undefined-type
 -- Not the official TableUtils module, but a custom one for Lune
 
-export type MarketingTable = {
+export type PlaceInfo = {
+	Id: number,
+	Version: number,
+}
+
+export type Info = {
 	Products: { [string]: { assetId: number, productId: number } },
 	Passes: { [string]: number },
+	Places: {
+		MainGame: PlaceInfo,
+		Lobby: PlaceInfo,
+	},
+	CurrentPlace: "Lobby" | "MainGame",
+	ExperienceId: number,
 }
 
 export type TableUtils<T, S> = {
-	SourcifyMarketing: (marketingTable: MarketingTable) -> string,
+	SourcifyMarketing: (marketingTable: Info) -> string,
+	SourcifyExperienceInfo: (marketingTable: Info) -> string,
 	Sourcify: (self: TableUtils<T, S>, tbl: T) -> string,
 	Copy: (t: T, deep: boolean?) -> T,
 	Reconcile: (self: TableUtils<T, S>, src: S, template: T) -> S & T,
@@ -26,32 +38,103 @@ export type TableUtils<T, S> = {
 }
 
 local FAKE_ID = 111111111 -- Placeholder for fake asset IDs
+local FAKE_PLACE_ID = 0 -- Placeholder for fake place IDs
+local FAKE_PLACE_VERSION = 0 -- Placeholder for fake place version
+local FAKE_EXPERIENCE_ID = 0 -- Placeholder for fake experience ID
+
+local function sourcifyProductsPasses(
+	result: string,
+	marketingType: "Products" | "Passes",
+	originalKey: string,
+	originalValue: { assetId: number, productId: number? }
+): string
+	local key = ("[%q]"):format(originalKey)
+	local value
+
+	if marketingType == "Products" then
+		value = "{assetId = "
+			.. tostring(originalValue.assetId)
+			.. ", productId = "
+			.. tostring(originalValue.productId)
+			.. "}"
+	elseif marketingType == "Passes" then
+		value = tostring(originalValue.assetId)
+	end
+
+	result = result .. key .. " = " .. value .. ",\n"
+
+	return result
+end
+
+local function sourcifyPlaceInfo(result: string, key: string, value: PlaceInfo): string
+	local placeValue = "{Id = " .. tostring(value.Id) .. ", Version = " .. tostring(value.Version) .. "}"
+	result = result .. key .. " = " .. placeValue .. ",\n"
+	return result
+end
 
 local TableUtils = {}
 
-function TableUtils.SourcifyMarketing(marketingTable: MarketingTable): string
+function TableUtils.SourcifyMarketing(marketingTable: Info): string
 	local result = "return { \n"
 
 	for marketingType, marketingValues in pairs(marketingTable) do
-		result = result .. marketingType .. "= { \n"
-
-		for k, v in pairs(marketingValues) do
-			local key = ("[%q]"):format(k)
-			local value
-
-			if marketingType == "Products" then
-				value = "{assetId = " .. tostring(v.assetId) .. ", productId = " .. tostring(v.productId) .. "}"
-			elseif marketingType == "Passes" then
-				value = tostring(v.assetId)
-			end
-
-			result = result .. key .. " = " .. value .. ",\n"
+		if marketingType == "Places" or marketingType == "ExperienceId" or marketingType == "CurrentPlace" then
+			continue
 		end
 
-		result = result .. "},"
+		result = result .. marketingType .. " = "
+
+		if type(marketingValues) == "table" then
+			result = result .. "{ \n"
+
+			for k, v in pairs(marketingValues) do
+				if marketingType == "Products" or marketingType == "Passes" then
+					result = sourcifyProductsPasses(result, marketingType, k, v)
+				end
+			end
+
+			result = result .. "}"
+		end
+
+		result = result .. ","
 	end
 
-	result = result .. "}"
+	result = result:sub(1, -2)
+	result = result .. "}\n"
+
+	return result
+end
+
+function TableUtils.SourcifyExperienceInfo(marketingTable: Info): string
+	local result = "return { \n"
+
+	for marketingType, marketingValues in pairs(marketingTable) do
+		if marketingType == "Products" or marketingType == "Passes" then
+			continue
+		end
+
+		result = result .. marketingType .. " = "
+
+		if type(marketingValues) == "table" then
+			result = result .. "{ \n"
+
+			for k, v in pairs(marketingValues) do
+				result = sourcifyPlaceInfo(result, k, v)
+			end
+
+			result = result .. "}"
+		elseif marketingType == "ExperienceId" then
+			result = result .. tostring(marketingValues) .. ""
+		elseif marketingType == "CurrentPlace" then
+			result = result .. string.format("%q", marketingValues) .. ""
+		end
+
+		result = result .. ","
+	end
+
+	result = result:sub(1, -2)
+	result = result .. "}\n"
+
 	return result
 end
 
@@ -78,6 +161,22 @@ function TableUtils.SourcifyFakeMarketing(mantleConfig: { [any]: any })
 
 	result = result .. "}\n"
 	result = result .. "}"
+
+	return result
+end
+
+function TableUtils.SourcifyFakeExperienceInfo()
+	local result = "return { \n"
+
+	result = result .. "Places = {\n"
+	result = result .. "MainGame = {Id = " .. FAKE_PLACE_ID .. ", Version = " .. FAKE_PLACE_VERSION .. "},\n"
+	result = result .. "Lobby = {Id = " .. FAKE_PLACE_ID .. ", Version = " .. FAKE_PLACE_VERSION .. "},\n"
+	result = result .. "},\n"
+
+	result = result .. "ExperienceId = " .. FAKE_EXPERIENCE_ID .. "\n"
+
+	result = result .. "}"
+
 	return result
 end
 

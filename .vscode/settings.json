@@ -9,7 +9,7 @@
   "roblox-ui.explorer.showDataModel": true,
   "files.exclude": {
     "luau_packages": true,
-    "lune_packages": false,
+    "lune_packages": true,
     ".gitignore": true,
     "logs": true,
     "pesde.lock": true,
@@ -20,12 +20,13 @@
     "selene.toml": true,
     "README.md": true,
     ".pesde": true,
-    ".github": false,
+    ".github": true,
     "aftman.toml": true,
     "sourcemap.json": true,
     "asphalt_locks_files": true,
-    "feature-mantle.yml": true,
+    "feature-mantle.yml": false,
     "asphalt.lock.toml": true,
+    "roblox.yml": true
   },
 
   "[luau]": {

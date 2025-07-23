@@ -23,10 +23,11 @@ apiKey = "18XLqVmoTEGYmrqlzPeNR/5vgmIlIVsI8hxdPWurbbR6KXIKZXlKaGJHY2lPaUpTVXpJMU
 id = 36072498
 
 [mantle]
-marketing_out_path = "ReplicatedStorage/Marketing.luau"
+marketing_out_path = "ReplicatedStorage/Info/Marketing.luau"
+experience_info_out_path = "ReplicatedStorage/Info/ExperienceInfo.luau"
 
 [multiplace]
-current_place = "Lobby"
+current_place = "MainGame"
 places = [
     "MainGame",
     "Lobby",
