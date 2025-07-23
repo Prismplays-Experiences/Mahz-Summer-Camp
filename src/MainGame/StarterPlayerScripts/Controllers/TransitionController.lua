@@ -6,7 +6,7 @@ local TweenService = game:GetService("TweenService")
 --> Modules
 ----------------------------------------
 local Knit = require("@Packages/Knit")
-local TypeWriter = require("@Modules/TypeWriter")
+local TypeWriter = require("@Modules/Typewriter")
 
 --> Assets
 ----------------------------------------

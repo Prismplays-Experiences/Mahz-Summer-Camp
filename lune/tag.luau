@@ -1,5 +1,5 @@
 --[=[ lunar
-	about = "sets tag. This is used to identify the version of the game, such as dev, prod, or feature_xxx"
+	about = "[DESCRIPTION] Sets tag. This is used to identify the version of the game, such as dev, prod, or feature_xxx"
 ]=]
 
 local process = require("@lune/process")

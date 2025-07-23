@@ -4,7 +4,7 @@ local TweenService = game:GetService("TweenService")
 
 --> Modules
 ----------------------------------------
-local TypeWriter = require("@Modules/TypeWriter")
+local TypeWriter = require("@Modules/Typewriter")
 
 --> Utility Functions
 ----------------------------------------

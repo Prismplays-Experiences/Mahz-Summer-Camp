@@ -1,5 +1,5 @@
 --[=[ lunar
-	about = "syncs passes, products using Mantle"
+	about = "[DESCRIPTION] Syncs passes, products using Mantle"
 ]=]
 
 local process = require("@lune/process")

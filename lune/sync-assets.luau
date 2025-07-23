@@ -1,3 +1,7 @@
+--[=[ lunar
+	about = "[DESCRIPTION] Syncs assets for the game"
+]=]
+
 local Tag = require("@LuneModules/Tag")
 
 if Tag.Get() == "nil" then

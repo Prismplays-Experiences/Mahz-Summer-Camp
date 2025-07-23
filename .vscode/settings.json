@@ -24,7 +24,7 @@
     "aftman.toml": true,
     "sourcemap.json": true,
     "asphalt_locks_files": true,
-    "feature-mantle.yml": true,
+    "feature-mantle.yml": false,
     "asphalt.lock.toml": true,
     "roblox.yml": true
   },
