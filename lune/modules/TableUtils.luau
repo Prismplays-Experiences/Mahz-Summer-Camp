@@ -13,6 +13,7 @@ export type Info = {
 		MainGame: PlaceInfo,
 		Lobby: PlaceInfo,
 	},
+	CurrentPlace: "Lobby" | "MainGame",
 	ExperienceId: number,
 }
 
@@ -77,7 +78,7 @@ function TableUtils.SourcifyMarketing(marketingTable: Info): string
 	local result = "return { \n"
 
 	for marketingType, marketingValues in pairs(marketingTable) do
-		if marketingType == "Places" or marketingType == "ExperienceId" then
+		if marketingType == "Places" or marketingType == "ExperienceId" or marketingType == "CurrentPlace" then
 			continue
 		end
 
@@ -124,6 +125,8 @@ function TableUtils.SourcifyExperienceInfo(marketingTable: Info): string
 			result = result .. "}"
 		elseif marketingType == "ExperienceId" then
 			result = result .. tostring(marketingValues) .. ""
+		elseif marketingType == "CurrentPlace" then
+			result = result .. string.format("%q", marketingValues) .. ""
 		end
 
 		result = result .. ","

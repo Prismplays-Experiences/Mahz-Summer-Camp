@@ -4,6 +4,8 @@ local PlayerInitials = {}
 local ExperienceInfo = require("@Info/ExperienceInfo")
 local GeneralInfo = require("@Info/GeneralInfo")
 
+local placeId = require("@Info/PlaceId").Get()
+
 function Create_INST(TYPE: string, PARENT, NAME: string)
 	local NewINST = Instance.new(TYPE)
 	NewINST.Parent = PARENT
@@ -80,7 +82,7 @@ function PlayerInitials:Create(player: Player, profile)
 	UpdateValues(Lifes, profile.Data.PrivateStats, "Lifes")
 	local TutorialConcluded = Create_INST("BoolValue", PrivateStats, "TutorialConcluded")
 
-	if ExperienceInfo.Places.MainGame.Id == game.PlaceId then
+	if ExperienceInfo.Places.MainGame.Id == placeId then
 		Lifes = Create_INST("IntValue", leaderstats, "Lifes")
 		Lifes.Value = GeneralInfo.MaxLifes
 	end

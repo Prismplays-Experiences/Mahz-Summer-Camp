@@ -2,6 +2,7 @@ local fs = require("@lune/fs")
 local serde = require("@lune/serde")
 
 local Terminal = require("@LuneModules/Terminal")
+local Config = require("@LuneModules/Config")
 
 export type PlaceInfo = {
 	Id: number,
@@ -53,6 +54,7 @@ function ExperienceInfo.GetInfo(self: ExperienceInfo, path: string, environment:
 
 	local marketing: Info = {
 		ExperienceId = experienceInfo.experience_singleton.experience.assetId,
+		CurrentPlace = Config.GetCurrentPlace(),
 
 		Places = {
 			MainGame = {

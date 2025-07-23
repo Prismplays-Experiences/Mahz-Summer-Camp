@@ -32,6 +32,7 @@ repeat
 until DataLoaded.Value == true
 
 local camera = workspace.CurrentCamera
+local placeId = require("@Info/PlaceId").Get()
 
 --> Interfaces
 ----------------------------------------
@@ -169,7 +170,7 @@ Buttons.Invite.MouseButton1Click:Connect(InvitePrompt)
 Player.Idled:Connect(function(time)
 	if time > 1150 then
 		pcall(function()
-			TeleportService:Teleport(game.PlaceId, Player)
+			TeleportService:Teleport(placeId, Player)
 		end)
 	end
 end)

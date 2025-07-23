@@ -122,10 +122,10 @@ function Spectate:Open()
 	SpectateFrame.Visible = true
 end
 
-local GeneralInfo = require("@Info/GeneralInfo")
+local ExperienceInfo = require("@Info/ExperienceInfo")
 local TeleportService = game:GetService("TeleportService")
 SpectateFrame:WaitForChild("Lobby").MouseButton1Click:Connect(function()
-	TeleportService:Teleport(GeneralInfo.LobbyPlaceId, Player)
+	TeleportService:Teleport(ExperienceInfo.Places.Lobby.Id, Player)
 end)
 
 return Spectate

@@ -11,6 +11,7 @@ local AnalyticsService = game:GetService("AnalyticsService")
 ----------------------------------------
 local Knit = require("@Packages/Knit")
 local InstructorMessages = require("@Info/InstructorMessages")
+local ExperienceInfo = require("@Info/ExperienceInfo")
 local GeneralInfo = require("@Info/GeneralInfo")
 local ChatNotification = require("@Modules/Client/ChatNotification")
 
@@ -47,9 +48,9 @@ local GeneralGameplay = Knit.CreateService({
 function TeleportToLobby()
 	local players = game.Players:GetPlayers()
 	local teleportData = {
-		PlaceId = GeneralInfo.LobbyPlaceId,
+		PlaceId = ExperienceInfo.Places.Lobby.Id,
 	}
-	TeleportService:TeleportPartyAsync(GeneralInfo.LobbyPlaceId, players, teleportData)
+	TeleportService:TeleportPartyAsync(ExperienceInfo.Places.Lobby.Id, players, teleportData)
 end
 
 function TeleportPlayersToDay1Spawn()

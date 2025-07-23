@@ -267,7 +267,9 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 	end
 	Data.AnimTrack:Play()
 	self.CurrentTrack = Data.AnimTrack
+
 	self.MinigameData = self:PlayMinigame(self.Minigames[Data.Minigame], Data.Level)
+
 	Data.AnimTrack:AdjustSpeed(0)
 	self.WorkoutValueEvent = self.MinigameData.Value:GetPropertyChangedSignal("Value"):Connect(function()
 		if self.MinigameData.Value == nil then
