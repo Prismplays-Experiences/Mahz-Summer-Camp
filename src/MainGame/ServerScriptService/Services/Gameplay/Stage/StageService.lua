@@ -244,37 +244,37 @@ function StageService:Winners(TransitionScreen)
 	self.MusicService:NewSong("Default")
 end
 
-function StageService:Eliminated(TransitionScreen,EndTransition,func)
-    self.MusicService:NewSong('StageEvents')
-    self:WaitTillReady()
-    local End
-    if TransitionScreen then
-        End = self.TransitionService:SendTransitionAll('A player has been Eliminated.')
-        task.wait(2)
-    end
-    local WalkPoints = SetStage('Eliminated'):GetChildren()
-    local Losers = self.LifeService:GetEliminated()
-    for _,p in Losers do
-        task.spawn(function()
-            p.leaderstats:WaitForChild('Lifes').Value = 0
-            self.LifeService.Client.EliminatePlayer:Fire(p)
-        end)
-    end
-    self.Client.SetCamStatus:FireAll('Default',CenterCam)
-    task.wait(2)
-    End:FireAll()
-    self:WalkToStage(Losers,true, 2, WalkPoints, true)
-    -- task.wait(2)
-    self.Client.EliminatedStageEffect:FireAll(Losers)
-    task.wait(6)
-    local AnotherEnd
-    if EndTransition then
-        AnotherEnd = self.TransitionService:SendTransitionAll()
-    end
-    if func then
-        task.spawn(function()
-            func()
-        end)
+function StageService:Eliminated(TransitionScreen, EndTransition, func)
+	self.MusicService:NewSong("StageEvents")
+	self:WaitTillReady()
+	local End
+	if TransitionScreen then
+		End = self.TransitionService:SendTransitionAll("A player has been Eliminated.")
+		task.wait(2)
+	end
+	local WalkPoints = SetStage("Eliminated"):GetChildren()
+	local Losers = self.LifeService:GetEliminated()
+	for _, p in Losers do
+		task.spawn(function()
+			p.leaderstats:WaitForChild("Lifes").Value = 0
+			self.LifeService.Client.EliminatePlayer:Fire(p)
+		end)
+	end
+	self.Client.SetCamStatus:FireAll("Default", CenterCam)
+	task.wait(2)
+	End:FireAll()
+	self:WalkToStage(Losers, true, 2, WalkPoints, true)
+	-- task.wait(2)
+	self.Client.EliminatedStageEffect:FireAll(Losers)
+	task.wait(6)
+	local AnotherEnd
+	if EndTransition then
+		AnotherEnd = self.TransitionService:SendTransitionAll()
+	end
+	if func then
+		task.spawn(function()
+			func()
+		end)
 	end
 	if EndTransition then
 		AnotherEnd = self.TransitionService:SendTransitionAll()
@@ -309,29 +309,29 @@ end
 -- end
 
 function StageService:WeightPlayers(TransitionScreen, EndTransition, func)
-    self:WaitTillReady()
-    local End
-    if TransitionScreen then
-        End = self.TransitionService:SendTransitionAll('Weighting Time!', 'Day over.')
-        task.wait(3)
-    end
-    local WalkPoints = SetStage('ScalingStage'):GetChildren()
-    local Players = self.GeneralGameplay:GetWinners()
-    self.Client.SetCamStatus:FireAll('Default',CenterCam)
-    task.wait(2)
-    End:FireAll()
-    self:WalkToStage(Players,true, 1, WalkPoints, false, self.WeightingScale,SpawnPoints['2'])
-    if #self.LifeService:GetEliminated()>0 then
-        self:Eliminated(true, false)
-    end
-    local AnotherEnd
-    if EndTransition then
-        AnotherEnd = self.TransitionService:SendTransitionAll()
-    end
-    if func then
-        task.spawn(function()
-            func()
-        end)
+	self:WaitTillReady()
+	local End
+	if TransitionScreen then
+		End = self.TransitionService:SendTransitionAll("Weighting Time!", "Day over.")
+		task.wait(3)
+	end
+	local WalkPoints = SetStage("ScalingStage"):GetChildren()
+	local Players = self.GeneralGameplay:GetWinners()
+	self.Client.SetCamStatus:FireAll("Default", CenterCam)
+	task.wait(2)
+	End:FireAll()
+	self:WalkToStage(Players, true, 1, WalkPoints, false, self.WeightingScale, SpawnPoints["2"])
+	if #self.LifeService:GetEliminated() > 0 then
+		self:Eliminated(true, false)
+	end
+	local AnotherEnd
+	if EndTransition then
+		AnotherEnd = self.TransitionService:SendTransitionAll()
+	end
+	if func then
+		task.spawn(function()
+			func()
+		end)
 	end
 
 	if EndTransition then
@@ -418,77 +418,76 @@ function Effects.Failed(character)
 	end)
 end
 
-function StageService.WeightingScale(self,Player)
+function StageService.WeightingScale(self, Player)
+	local BeforeWeight = Player:GetAttribute("BeforeWeight") or GeneralInfo.Weight
+	local CurrentWeight = Player.leaderstats.Weight.Value
+	local TargetWeight = self.TargetService:GetTarget()
 
-    local BeforeWeight = Player:GetAttribute('BeforeWeight') or GeneralInfo.Weight
-    local CurrentWeight = Player.leaderstats.Weight.Value
-    local TargetWeight = self.TargetService:GetTarget()
+	local ScriptItems = CurrentStageItem:FindFirstChild("ScriptItems")
+	local SurfaceUIS = ScriptItems:FindFirstChild("Screens")
+	local BeforeScreen = SurfaceUIS:FindFirstChild("Before")
+	local AfterScreen = SurfaceUIS:FindFirstChild("After")
 
-    local ScriptItems = CurrentStageItem:FindFirstChild('ScriptItems')
-    local SurfaceUIS = ScriptItems:FindFirstChild('Screens')
-    local BeforeScreen = SurfaceUIS:FindFirstChild('Before')
-    local AfterScreen = SurfaceUIS:FindFirstChild('After')
+	local Character = Player.Character
+	pcall(function()
+		Character.PlayerDetails.Enabled = false
+		Character.HumanoidRootPart.InfluencerLogos.Enabled = false
+	end)
 
-    local Character = Player.Character
-    pcall(function()
-        Character.PlayerDetails.Enabled = false
-        Character.HumanoidRootPart.InfluencerLogos.Enabled = false
-    end)
+	local CamParts = ScriptItems:FindFirstChild("Cameras")
 
-    local CamParts = ScriptItems:FindFirstChild('Cameras')
+	self.Client.SetCamStatus:FireAll("Default", CamParts.ScaleView)
+	task.wait(2)
+	self.Client.SetCamStatus:FireAll("Before", CamParts.Before)
+	task.wait(2)
+	TweenNumberOnLabel(BeforeScreen.Weight, BeforeWeight, 4, "lbs", true)
+	task.wait(2)
+	self.Client.SetCamStatus:FireAll("Default", CamParts.ScaleView)
+	task.wait(3)
+	self.Client.SetCamStatus:FireAll("FOVIncrease")
+	local NewWeight = ScaleWeight:Clone()
+	NewWeight.TextLabel.Text = "N/A"
+	NewWeight.Enabled = true
+	NewWeight.Parent = Character
+	TweenNumberOnLabel(NewWeight.TextLabel, CurrentWeight, 7, " lbs", true, SoundEffects.Tick)
+	self.Client.SetCamStatus:FireAll("FOVDecrease")
+	task.wait(1)
+	self.Client.SetCamStatus:FireAll("After", CamParts.After)
+	task.wait(2)
+	TweenNumberOnLabel(AfterScreen.Weight, CurrentWeight, 4, "lbs", false)
+	TweenNumberOnLabel(AfterScreen.TargetWeight, TargetWeight, 4, "lbs", true)
+	task.wait(2)
+	self.Client.SetCamStatus:FireAll("Default", CamParts.ScaleView)
+	task.wait(1)
+	if CurrentWeight <= TargetWeight then
+		SoundEffects.HappyCrowd:Play()
+		Effects.Passed(Player.Character)
+	else
+		Effects.Failed(Player.Character)
+		if Player.leaderstats.Lifes.Value > 1 then
+			Player.leaderstats.Lifes.Value -= 1
+		else
+			Player:AddTag("Eliminated")
+		end
+	end
 
-    self.Client.SetCamStatus:FireAll('Default',CamParts.ScaleView)
-    task.wait(2)
-    self.Client.SetCamStatus:FireAll('Before', CamParts.Before)
-    task.wait(2)
-    TweenNumberOnLabel(BeforeScreen.Weight, BeforeWeight, 4, 'lbs',true)
-    task.wait(2)
-    self.Client.SetCamStatus:FireAll('Default',CamParts.ScaleView)
-    task.wait(3)
-    self.Client.SetCamStatus:FireAll('FOVIncrease')
-    local NewWeight = ScaleWeight:Clone()
-    NewWeight.TextLabel.Text = 'N/A'
-    NewWeight.Enabled = true
-    NewWeight.Parent = Character
-    TweenNumberOnLabel(NewWeight.TextLabel, CurrentWeight, 7, ' lbs',true,SoundEffects.Tick)
-    self.Client.SetCamStatus:FireAll('FOVDecrease')
-    task.wait(1)
-    self.Client.SetCamStatus:FireAll('After',CamParts.After)
-    task.wait(2)
-    TweenNumberOnLabel(AfterScreen.Weight, CurrentWeight, 4, 'lbs',false)
-    TweenNumberOnLabel(AfterScreen.TargetWeight, TargetWeight, 4, 'lbs',true)
-    task.wait(2)
-    self.Client.SetCamStatus:FireAll('Default',CamParts.ScaleView)
-    task.wait(1)
-    if CurrentWeight <= TargetWeight then
-        SoundEffects.HappyCrowd:Play()
-        Effects.Passed(Player.Character)
-    else
-        Effects.Failed(Player.Character)
-        if Player.leaderstats.Lifes.Value>1 then
-            Player.leaderstats.Lifes.Value -= 1
-        else
-            Player:AddTag('Eliminated')
-        end
-    end
+	Player:SetAttribute("BeforeWeight", CurrentWeight)
+	task.wait(3)
+	local SpawnPoint = SpawnPoints["1"]
+	task.spawn(function()
+		WalktoSpot(Player.Character, { SpawnPoint }, true)
+	end)
 
-    Player:SetAttribute('BeforeWeight', CurrentWeight)
-    task.wait(3)
-    local SpawnPoint = SpawnPoints['1']
-    task.spawn(function()
-        WalktoSpot(Player.Character,{SpawnPoint}, true)
-    end)
-
-    task.wait(2)
-    NewWeight:Destroy()
-    SoundEffects.HappyCrowd:Stop()
-    pcall(function()
-        Character.PlayerDetails.Enabled = true
-        Character.HumanoidRootPart.InfluencerLogos.Enabled = true
-    end)
-    AfterScreen.Weight.Text = 'N/A'
-    AfterScreen.TargetWeight.Text = 'N/A'
-    BeforeScreen.Weight.Text = 'N/A'
+	task.wait(2)
+	NewWeight:Destroy()
+	SoundEffects.HappyCrowd:Stop()
+	pcall(function()
+		Character.PlayerDetails.Enabled = true
+		Character.HumanoidRootPart.InfluencerLogos.Enabled = true
+	end)
+	AfterScreen.Weight.Text = "N/A"
+	AfterScreen.TargetWeight.Text = "N/A"
+	BeforeScreen.Weight.Text = "N/A"
 end
 
 return StageService

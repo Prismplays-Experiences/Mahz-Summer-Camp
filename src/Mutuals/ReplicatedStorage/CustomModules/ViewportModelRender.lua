@@ -16,11 +16,11 @@ function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model)
 	camera.Parent = viewportFrame
 	viewportFrame.CurrentCamera = camera
 
-    if not model:IsA("Model") then
-        local Model = Instance.new("Model")
-        model.Parent = Model
-        model = Model
-    end
+	if not model:IsA("Model") then
+		local Model = Instance.new("Model")
+		model.Parent = Model
+		model = Model
+	end
 
 	local container = Instance.new("Model")
 	container.Name = "ContainerModel"

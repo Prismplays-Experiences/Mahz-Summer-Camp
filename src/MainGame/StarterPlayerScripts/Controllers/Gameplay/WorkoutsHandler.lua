@@ -44,8 +44,6 @@ local GeneralInfo = require("@Info/GeneralInfo")
 ----------------------------------------
 local Player = game.Players.LocalPlayer
 local LockedCap = Player:WaitForChild("PrivateStats"):WaitForChild("LockedCap")
-local Camera = workspace.CurrentCamera
-local DefaultFOV = Camera.FieldOfView
 
 local WeightLossIncrements = {
 	[1] = nil,
@@ -362,7 +360,7 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 		end
 		self.InjuryLogic.Value = boolean
 	end)
-	self.AnimTrackSignal = Data.AnimTrack:GetMarkerReachedSignal("RepCount"):Connect(function(param)
+	self.AnimTrackSignal = Data.AnimTrack:GetMarkerReachedSignal("RepCount"):Connect(function()
 		self:LoseWeight(math.random(Data.MinWeightLoss, Data.MaxWeightLoss))
 	end)
 end

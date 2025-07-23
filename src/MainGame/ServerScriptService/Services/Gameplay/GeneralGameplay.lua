@@ -132,7 +132,6 @@ function GeneralGameplay:KnitStart()
 		self.Client.StopWorkout:FireAll()
 		task.wait(3)
 
-		local EliminatedPlayers = self.LifeService:GetEliminated()
 		self.StageService:WeightPlayers(true, false, sendtobed)
 		-- if #EliminatedPlayers<=0 then
 		--     self.StageService:WeightPlayers(true,false,sendtobed)
@@ -301,7 +300,7 @@ function GeneralGameplay.Client:GetDays()
 	return self.Server.ClockService.Days
 end
 
-function GeneralGameplay.Client:PivotCharacter(Player, Character, CFrame)
+function GeneralGameplay.Client:PivotCharacter(_, Character, CFrame)
 	Character:PivotTo(CFrame)
 end
 

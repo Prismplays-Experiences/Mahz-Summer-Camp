@@ -50,18 +50,18 @@ end
 function EventsController:KnitStart()
 	self.EventsService = Knit.GetService("EventsService")
 
-    self.EventsService.EnableEventsInterfaces:Connect(function(status, frame)
-        if status then
-            HUD.Visible = true
-            CoreFrames.Visible = false
-            EventsInterfaces.Visible = true
-            EnableFrame(EventsInterfaces, frame)
-        else
-            -- HUD.Visible = true
-            CoreFrames.Visible = true
-            EventsInterfaces.Visible = false
-        end
-    end)
+	self.EventsService.EnableEventsInterfaces:Connect(function(status, frame)
+		if status then
+			HUD.Visible = true
+			CoreFrames.Visible = false
+			EventsInterfaces.Visible = true
+			EnableFrame(EventsInterfaces, frame)
+		else
+			-- HUD.Visible = true
+			CoreFrames.Visible = true
+			EventsInterfaces.Visible = false
+		end
+	end)
 
 	self.EventsService.EventStatus:Observe(function(txt)
 		EventTxt.Text = txt

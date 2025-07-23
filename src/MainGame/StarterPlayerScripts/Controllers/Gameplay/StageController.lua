@@ -162,24 +162,24 @@ local StageController = Knit.CreateController({
 })
 
 function StageController:KnitStart()
-    local StageService = Knit.GetService('StageService')
-    self.MusicController = Knit.GetController('MusicController')
-    StageService.PlayerCameraTrack:Connect(function(status,character, target,randomPoint)
-        if status then 
-            repeat
-                task.wait(0.1)
-            until  target~= nil
-            local angle = randomPoint.Name == '2' and -45  or 45
-            StartTrackingCam(character, target.Position, angle, 15, 12)
-            TweenCameraToSubject(CenterCam, 1, 5, 6)
-            -- task.wait(1)
-            -- TweenCameraToSubject(character.Head, 1,20, 2)
-        else
-            Main.Enabled = true
-            task.wait(2)
-            Camera.CameraType = Enum.CameraType.Custom
-        end
-    end)
+	local StageService = Knit.GetService("StageService")
+	self.MusicController = Knit.GetController("MusicController")
+	StageService.PlayerCameraTrack:Connect(function(status, character, target, randomPoint)
+		if status then
+			repeat
+				task.wait(0.1)
+			until target ~= nil
+			local angle = randomPoint.Name == "2" and -45 or 45
+			StartTrackingCam(character, target.Position, angle, 15, 12)
+			TweenCameraToSubject(CenterCam, 1, 5, 6)
+			-- task.wait(1)
+			-- TweenCameraToSubject(character.Head, 1,20, 2)
+		else
+			Main.Enabled = true
+			task.wait(2)
+			Camera.CameraType = Enum.CameraType.Custom
+		end
+	end)
 
 	StageService.WinnersStageEffect:Connect(function()
 		SoundEffects.HappyCrowd:Play()
@@ -221,35 +221,35 @@ function StageController:KnitStart()
 			return
 		end
 
-        local distance = 0
-        local height = 0
-        if status == 'Before' then
-            distance = 6
-            height = 0.5
-        elseif status == 'After' then
-            distance = 3
-            height = 0
-        elseif status == 'Default' then
-            distance = 5
-            height = 6
-        end
-        if status~='cleanup' then
-            if CurrentTune ~= 'StageEvent' then
-                self.MusicController:PlayNewSong('StageEvent')
-                CurrentTune = 'StageEvent'
-            end
-            -- Main.Enabled = false
-            TweenCameraToSubject(campart, 1, distance, height)
-        else
-            TweenService:Create(Camera, TweenInfo.new(1), {FieldOfView = DefaultFOV}):Play()
-            -- Main.Enabled = true
-            task.wait(2)
-            Camera.CameraType = Enum.CameraType.Custom
-            if CurrentTune ~= 'Normal' then
-                self.MusicController:PlayNewSong('Normal')
-                CurrentTune = 'Normal'
-            end
-        end
+		local distance = 0
+		local height = 0
+		if status == "Before" then
+			distance = 6
+			height = 0.5
+		elseif status == "After" then
+			distance = 3
+			height = 0
+		elseif status == "Default" then
+			distance = 5
+			height = 6
+		end
+		if status ~= "cleanup" then
+			if CurrentTune ~= "StageEvent" then
+				self.MusicController:PlayNewSong("StageEvent")
+				CurrentTune = "StageEvent"
+			end
+			-- Main.Enabled = false
+			TweenCameraToSubject(campart, 1, distance, height)
+		else
+			TweenService:Create(Camera, TweenInfo.new(1), { FieldOfView = DefaultFOV }):Play()
+			-- Main.Enabled = true
+			task.wait(2)
+			Camera.CameraType = Enum.CameraType.Custom
+			if CurrentTune ~= "Normal" then
+				self.MusicController:PlayNewSong("Normal")
+				CurrentTune = "Normal"
+			end
+		end
 
 		-- if status == 'Default' and playeronscale and playerweight then
 		--     local Character = playeronscale.Character

@@ -36,11 +36,11 @@ local ClockService = Knit.CreateService({
 --> Main Functions
 ----------------------------------------
 function ClockService:KnitInit()
-    local CurrentTime = 0
-    self.Days = 1
-    self.MinutesPerDay = 2.5 -- 1.5
-    local START_HOUR = 8     -- 8 AM
-	local END_HOUR = 22      -- 10 PM
+	local CurrentTime = 0
+	self.Days = 1
+	self.MinutesPerDay = 2.5 -- 1.5
+	local START_HOUR = 8 -- 8 AM
+	local END_HOUR = 22 -- 10 PM
 	local HOUR_RANGE = END_HOUR - START_HOUR
 	local KitchenTime = 12 -- PM
 	local KitchenRun = false

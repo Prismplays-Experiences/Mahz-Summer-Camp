@@ -338,16 +338,16 @@ function FoodBomb:Start()
 	end)
 	task.wait(3)
 	-- FoodBomb.ModeEnded:Fire(LastPlayer)
-    -- self:Clean()
+	-- self:Clean()
 	self.Ended:Fire()
 end
 
 function FoodBomb:Clean()
-    self.EventsService.Client.EnableEventsInterfaces:FireAll(false)
+	self.EventsService.Client.EnableEventsInterfaces:FireAll(false)
 
-    -- self.ClockService:ResumeClock()
-	for _,v in ItemSpawnPoints:GetChildren() do
-		v:RemoveTag('SpotTaken')
+	-- self.ClockService:ResumeClock()
+	for _, v in ItemSpawnPoints:GetChildren() do
+		v:RemoveTag("SpotTaken")
 	end
 	self.Trove:Clean()
 end

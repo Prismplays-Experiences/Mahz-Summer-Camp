@@ -69,41 +69,41 @@ function EventService:RandomEvent()
 		Event, EventKey = RandomFromDictionary(EventsModules, self.PreviousEventKey)
 	until self:EventValidationCheck(Event) and Event
 
-    -- self.PreviousEventKey = EventKey
-    return Event,EventKey
+	-- self.PreviousEventKey = EventKey
+	return Event, EventKey
 end
 
 function EventService:StartEvent(Event)
-    self.Event = Event
-    if self.Event.LockWorkoutMachines then
-        self.GeneralService.Client.LockWorkoutMachines:FireAll(true)
-    end
-    if self.Event.YieldClock then
-        self.ClockService:YieldClock() 
-    end
-    self.Client.SendHardNotification:FireAll(self.Event.Details.Text,self.Event.Details.Image)
+	self.Event = Event
+	if self.Event.LockWorkoutMachines then
+		self.GeneralService.Client.LockWorkoutMachines:FireAll(true)
+	end
+	if self.Event.YieldClock then
+		self.ClockService:YieldClock()
+	end
+	self.Client.SendHardNotification:FireAll(self.Event.Details.Text, self.Event.Details.Image)
 
-    Event.Ended:Connect(function()
-        self:Cleanup()
-    end)
-    task.spawn(function()
-        Event:Start()
-    end)
+	Event.Ended:Connect(function()
+		self:Cleanup()
+	end)
+	task.spawn(function()
+		Event:Start()
+	end)
 end
 
 function EventService:Cleanup()
-    self.Client.EventStatus:Set("Event Over")
-    if self.Event.LockWorkoutMachines then
-        self.GeneralService.Client.LockWorkoutMachines:FireAll(false)
-    end
-    if self.Event.YieldClock then
-        self.ClockService:ResumeClock() 
-    end
-    task.delay(5,function()
-        self.Client.EventStatus:Set("")
-    end)
-    self.Event:Clean()
-    self.Event = nil
+	self.Client.EventStatus:Set("Event Over")
+	if self.Event.LockWorkoutMachines then
+		self.GeneralService.Client.LockWorkoutMachines:FireAll(false)
+	end
+	if self.Event.YieldClock then
+		self.ClockService:ResumeClock()
+	end
+	task.delay(5, function()
+		self.Client.EventStatus:Set("")
+	end)
+	self.Event:Clean()
+	self.Event = nil
 end
 
 function EventService:EventLoop(ValueDelay)

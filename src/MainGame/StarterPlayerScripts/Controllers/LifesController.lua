@@ -50,11 +50,15 @@ local LifesController = Knit.CreateController({
 ----------------------------------------
 local closepopup = nil
 
+function RoundTo1DP(num)
+	return math.floor(num * 10 + 0.5) / 10
+end
+
 function PlayHealthPopup()
 	bought = false
-	local Time =10
+	local Time = 10
 	HealthPopupUI.Visible = true
-	TweenService:Create(HealthPopupUI.UIScale,TweenInfo.new(0.5,Enum.EasingStyle.Back),{Scale = 1}):Play()
+	TweenService:Create(HealthPopupUI.UIScale, TweenInfo.new(0.5, Enum.EasingStyle.Back), { Scale = 1 }):Play()
 	local func
 	local closing = false
 	closepopup = function()
@@ -92,7 +96,7 @@ function PlayHealthPopup()
 		end
 
 		TimerFiller.TextLabel.Text = RoundTo1DP(Time)
-		if Time<=0 then
+		if Time <= 0 then
 			closepopup()
 			break
 		end
@@ -107,10 +111,6 @@ function PlayHealthPopup()
 	if not closing then
 		closepopup()
 	end
-end
-
-function RoundTo1DP(num)
-	return math.floor(num * 10 + 0.5) / 10
 end
 --> Main Functions
 ----------------------------------------

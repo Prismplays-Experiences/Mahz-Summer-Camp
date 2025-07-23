@@ -72,21 +72,21 @@ MarketService.ProductIds = {
 
 	["InjuryRecovery"] = { Price = 19, Id = 3328138304 },
 
-	['TreadmillUnlock'] = {Price = 19, Id = 3329031259},
-	['BenchPressUnlock'] = {Price = 19, Id = 3329031262},
-	['DipsUnlock'] = {Price = 19, Id = 3329031261},
-	['DumbellCurlUnlock'] = {Price = 19, Id = 3329031260},
+	["TreadmillUnlock"] = { Price = 19, Id = 3329031259 },
+	["BenchPressUnlock"] = { Price = 19, Id = 3329031262 },
+	["DipsUnlock"] = { Price = 19, Id = 3329031261 },
+	["DumbellCurlUnlock"] = { Price = 19, Id = 3329031260 },
 
-	['1.2xWeightLoss'] = {Price = 19, Id = 3340140921},
-	['1.4xWeightLoss'] = {Price = 49, Id = 3340140919},
-	['1.6xWeightLoss'] = {Price = 49, Id = 3340140922},
-	['1.8xWeightLoss'] = {Price = 49, Id = 3340140923},
-	['2xWeightLoss'] = {Price = 49, Id = 3339707427},
-	['2.4xWeightLoss'] = {Price = 199, Id = 3340140917},
-	['2.8xWeightLoss'] = {Price = 199, Id = 3340140918},
-	['3xWeightLoss'] = {Price = 199, Id = 3339707424},
-	['3.2xWeightLoss'] = {Price = 399, Id = 3340140915},
-	['4xWeightLoss'] = {Price = 399, Id = 3339707425},
+	["1.2xWeightLoss"] = { Price = 19, Id = 3340140921 },
+	["1.4xWeightLoss"] = { Price = 49, Id = 3340140919 },
+	["1.6xWeightLoss"] = { Price = 49, Id = 3340140922 },
+	["1.8xWeightLoss"] = { Price = 49, Id = 3340140923 },
+	["2xWeightLoss"] = { Price = 49, Id = 3339707427 },
+	["2.4xWeightLoss"] = { Price = 199, Id = 3340140917 },
+	["2.8xWeightLoss"] = { Price = 199, Id = 3340140918 },
+	["3xWeightLoss"] = { Price = 199, Id = 3339707424 },
+	["3.2xWeightLoss"] = { Price = 399, Id = 3340140915 },
+	["4xWeightLoss"] = { Price = 399, Id = 3339707425 },
 }
 
 local MPS = game:GetService("MarketplaceService")
@@ -227,45 +227,45 @@ MarketService.ProductFunctions = {
 		LockedCap.Value = GeneralInfo.WorkoutStartDays.DumbellCurl.Day
 	end,
 
-	['1.2xWeightLoss'] = function(Player)
+	["1.2xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 1.2)
+		Player:SetAttribute("WeightLossMultiplier", 1.2)
 	end,
-	['1.4xWeightLoss'] = function(Player)
+	["1.4xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 1.4)
+		Player:SetAttribute("WeightLossMultiplier", 1.4)
 	end,
-	['1.6xWeightLoss'] = function(Player)
+	["1.6xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 1.6)
+		Player:SetAttribute("WeightLossMultiplier", 1.6)
 	end,
-	['1.8xWeightLoss'] = function(Player)
+	["1.8xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 1.8)
+		Player:SetAttribute("WeightLossMultiplier", 1.8)
 	end,
-	['2xWeightLoss'] = function(Player)
+	["2xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 2)
+		Player:SetAttribute("WeightLossMultiplier", 2)
 	end,
-	['2.4xWeightLoss'] = function(Player)
+	["2.4xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 2.4)
+		Player:SetAttribute("WeightLossMultiplier", 2.4)
 	end,
-	['2.8xWeightLoss'] = function(Player)
+	["2.8xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 2.8)
+		Player:SetAttribute("WeightLossMultiplier", 2.8)
 	end,
-	['3xWeightLoss'] = function(Player)
+	["3xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 3)
+		Player:SetAttribute("WeightLossMultiplier", 3)
 	end,
-	['3.2xWeightLoss'] = function(Player)
+	["3.2xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 3.2)
+		Player:SetAttribute("WeightLossMultiplier", 3.2)
 	end,
-	['4xWeightLoss'] = function(Player)
+	["4xWeightLoss"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute('WeightLossMultiplier', 4)
+		Player:SetAttribute("WeightLossMultiplier", 4)
 	end,
 }
 
