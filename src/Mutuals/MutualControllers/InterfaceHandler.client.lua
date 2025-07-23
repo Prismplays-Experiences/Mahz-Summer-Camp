@@ -231,9 +231,9 @@ Player.Idled:Connect(function(time)
 		end)
 	end
 end)
-local GeneralInfo = require(game.ReplicatedStorage.Info.GeneralInfo)
+local ExperienceInfo = require("@Info/ExperienceInfo")
 local Cash = Player:WaitForChild("PrivateStats"):WaitForChild("Currency")
-local CashLabel = game.PlaceId == GeneralInfo.LobbyPlaceId and HUD:WaitForChild("CashCounter"):WaitForChild("Amount")
+local CashLabel = game.PlaceId == ExperienceInfo.Places.Lobby.Id and HUD:WaitForChild("CashCounter"):WaitForChild("Amount")
 	or HUD:WaitForChild("Coins")
 
 local TweenCash = Instance.new("IntValue")
@@ -264,12 +264,12 @@ local Scroller = ShopFrame:WaitForChild("InnerFrame"):WaitForChild("ScrollingFra
 
 task.spawn(function()
 	-- ToggleControl(Buttons.Shop, BalloonShop)
-	if GeneralInfo.LobbyPlaceId == game.PlaceId then
+	if ExperienceInfo.Places.Lobby.Id == game.PlaceId then
 		local Buttons = HUD:WaitForChild("Buttons")
 		Buttons.Invite.MouseButton1Click:Connect(InvitePrompt)
 		ToggleControl(Buttons.Wheel, WheelFrame)
 		ToggleControl(Buttons.Shop, ShopFrame)
-	elseif GeneralInfo.MainPlaceId == game.PlaceId then
+	elseif ExperienceInfo.Places.MainGame.Id == game.PlaceId then
 		ToggleControl(
 			HUD:WaitForChild("AddCash"),
 			ShopFrame,
@@ -292,7 +292,7 @@ end)
 local ZonePoints = ScriptingProperties:WaitForChild("ZonePoints")
 local WheelZone = ZonePoints:WaitForChild("Wheel")
 
-if game.PlaceId == GeneralInfo.LobbyPlaceId then
+if game.PlaceId == ExperienceInfo.Places.Lobby.Id then
 	local GroupZone = ZonePoints:WaitForChild("GroupChest")
 	local GroupRewardService = Knit.GetService("GroupRewardService")
 	ZoneConnect:new(GroupZone, function()

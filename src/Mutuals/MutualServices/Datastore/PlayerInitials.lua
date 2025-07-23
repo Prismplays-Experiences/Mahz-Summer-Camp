@@ -1,6 +1,7 @@
 local PlayerInitials = {}
 -- local CollectionService = game:GetService('CollectionService')
 -- local MarketplaceService = game:GetService('MarketplaceService')
+local ExperienceInfo = require("@Info/ExperienceInfo")
 local GeneralInfo = require("@Info/GeneralInfo")
 
 function Create_INST(TYPE: string, PARENT, NAME: string)
@@ -79,7 +80,7 @@ function PlayerInitials:Create(player: Player, profile)
 	UpdateValues(Lifes, profile.Data.PrivateStats, "Lifes")
 	local TutorialConcluded = Create_INST("BoolValue", PrivateStats, "TutorialConcluded")
 
-	if GeneralInfo.MainPlaceId == game.PlaceId then
+	if ExperienceInfo.Places.MainGame.Id == game.PlaceId then
 		Lifes = Create_INST("IntValue", leaderstats, "Lifes")
 		Lifes.Value = GeneralInfo.MaxLifes
 	end

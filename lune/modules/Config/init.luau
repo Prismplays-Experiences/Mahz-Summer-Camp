@@ -25,9 +25,19 @@ export type Config = {
 	GetGroupInfo: (tag: string) -> { id: number, apiKey: string },
 
 	GetMarketingOutPath: (self: Config) -> string,
+	GetExperienceInfoOutPath: (self: Config) -> string,
 }
 
 local Config = {}
+
+function Config.GetExperienceInfoOutPath(self: Config): string
+	local config = ConfigFile.Get()
+	local experienceInfoOutPath = config.mantle.experience_info_out_path
+	local srcPath = self:GetSrc("Mutuals")
+	local fullPath = `{srcPath}/{experienceInfoOutPath}`
+
+	return fullPath
+end
 
 function Config.GetMarketingOutPath(self: Config): string
 	local config = ConfigFile.Get()

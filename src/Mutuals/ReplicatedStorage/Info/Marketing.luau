@@ -1,4 +1,4 @@
 return {
-	Passes = {},
 	Products = {},
+	Passes = {},
 }

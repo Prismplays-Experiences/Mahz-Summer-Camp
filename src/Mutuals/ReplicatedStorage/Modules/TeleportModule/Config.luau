@@ -1,5 +1,5 @@
 local RunService = game:GetService("RunService")
-local GeneralInfo = require("@Info/GeneralInfo")
+local ExperienceInfo = require("@Info/ExperienceInfo")
 
 return {
 	MinPlayers = RunService:IsStudio() and 1 or 1, --6,
@@ -7,5 +7,5 @@ return {
 
 	tp_delay = 15, -- in seconds
 
-	target_id = GeneralInfo.MainPlaceId, -- place id to get teleported to
+	target_id = ExperienceInfo.Places.MainGame.Id, -- place id to get teleported to
 }
