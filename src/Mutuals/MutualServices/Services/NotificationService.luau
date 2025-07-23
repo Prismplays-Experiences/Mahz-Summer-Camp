@@ -1,11 +1,6 @@
---> Services
-----------------------------------------
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild("Packages")
-local Knit = require(Packages:WaitForChild("Knit"))
+local Knit = require("@Packages/Knit")
 
 --> NotificationsService
 ----------------------------------------

@@ -23,11 +23,8 @@ local TweenService = game:GetService("TweenService")
 
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild("Packages")
-local Modules = ReplicatedStorage:WaitForChild("Modules")
-local Knit = require(Packages:WaitForChild("Knit"))
-local ClientModules = Modules:WaitForChild("Client")
-local confettiParticles = require(ClientModules:WaitForChild("ConfettiParticles"))
+local Knit = require("@Packages/Knit")
+local confettiParticles = require("@Modules/Client/ConfettiParticles")
 
 --> Variables
 ----------------------------------------
@@ -69,8 +66,13 @@ local confetti = {}
 --> Confetti
 ----------------------------------------
 confettiParticles.setGravity(Vector2.new(0, 1))
-for i = 1, AmountOfConfetti do
-	local p = confettiParticles.createParticle(Vector2.new(0.5, 1), Vector2.new(math.random(90) - 45, math.random(70, 100)), ConfettiFrame, { Color3.fromRGB(255, 255, 100), Color3.fromRGB(255, 100, 100) })
+for _ = 1, AmountOfConfetti do
+	local p = confettiParticles.createParticle(
+		Vector2.new(0.5, 1),
+		Vector2.new(math.random(90) - 45, math.random(70, 100)),
+		ConfettiFrame,
+		{ Color3.fromRGB(255, 255, 100), Color3.fromRGB(255, 100, 100) }
+	)
 	table.insert(confetti, p)
 end
 
@@ -141,7 +143,11 @@ function NotificationsController:ShowNotification(data)
 		-- Check for duplicate notifications
 		for _, child in ipairs(frame:GetChildren()) do
 			if child:IsA("Frame") and child:FindFirstChild("TextLabel") then
-				if child.Holder.TextLabel.Text == message and child.Holder.TextLabel.TextTransparency == 0 and not noDuplicates then
+				if
+					child.Holder.TextLabel.Text == message
+					and child.Holder.TextLabel.TextTransparency == 0
+					and not noDuplicates
+				then
 					return
 				end
 			end
@@ -177,11 +183,16 @@ function NotificationsController:ShowNotification(data)
 		local rotateLeft = TweenService:Create(NotificationHolder, tweenInfo, { Rotation = -13 })
 		local rotateRight = TweenService:Create(NotificationHolder, tweenInfo, { Rotation = 13 })
 		local resetrotation = TweenService:Create(NotificationHolder, tweenInfo, { Rotation = 0 })
-		local MoveUp = TweenService:Create(NotificationHolder, TweenInfo.new(0.5), { Position = UDim2.fromScale(0.5, 0) })
+		local MoveUp =
+			TweenService:Create(NotificationHolder, TweenInfo.new(0.5), { Position = UDim2.fromScale(0.5, 0) })
 
 		-- Tween in the notification
 
-		local scaleTween = TweenService:Create(notification.UIScale, TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.InOut), { Scale = 1 })
+		local scaleTween = TweenService:Create(
+			notification.UIScale,
+			TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
+			{ Scale = 1 }
+		)
 		scaleTween:Play()
 
 		MoveUp:Play()
@@ -199,7 +210,8 @@ function NotificationsController:ShowNotification(data)
 		task.wait(duration)
 
 		-- Fade out
-		local CloseTween = TweenService:Create(NotificationHolder, TweenInfo.new(0.5), { Position = UDim2.fromScale(-1.5, 0) })
+		local CloseTween =
+			TweenService:Create(NotificationHolder, TweenInfo.new(0.5), { Position = UDim2.fromScale(-1.5, 0) })
 		CloseTween:Play()
 		CloseTween.Completed:Wait()
 

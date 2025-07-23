@@ -1,5 +1,5 @@
 local RunService = game:GetService("RunService")
-local GeneralInfo = require(game.ReplicatedStorage.Info.GeneralInfo)
+local GeneralInfo = require("@Info/GeneralInfo")
 
 return {
 	MinPlayers = RunService:IsStudio() and 1 or 1, --6,

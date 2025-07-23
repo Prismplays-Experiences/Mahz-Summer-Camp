@@ -16,12 +16,11 @@ function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model)
 	camera.Parent = viewportFrame
 	viewportFrame.CurrentCamera = camera
 
-    if not model:IsA("Model") then
-        local Model = Instance.new("Model")
-        model.Parent = Model
-        model = Model
-    end
-
+	if not model:IsA("Model") then
+		local Model = Instance.new("Model")
+		model.Parent = Model
+		model = Model
+	end
 
 	-- Create a container to rotate
 	local container = Instance.new("Model")
@@ -66,7 +65,7 @@ function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model)
 		angle += dt * math.rad(45) -- 45 degrees/sec
 		container:PivotTo(CFrame.new(0, 0, 0) * CFrame.Angles(0, angle, 0))
 	end)
-    return trove
+	return trove
 end
 
 return RenderModelInViewport

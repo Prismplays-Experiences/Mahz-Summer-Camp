@@ -1,3 +1,6 @@
 std = "luau+roblox"
 
 exclude = ["out/*"]
+
+[lints]
+incorrect_standard_library_use = "allow"

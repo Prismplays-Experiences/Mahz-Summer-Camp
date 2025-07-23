@@ -69,14 +69,14 @@ local function cellPadding(
 	end
 end
 
-local function autoScale(scrollingFrame: ScrollingFrame, layout: UIGridLayout | UIListLayout?, axis: Enum.AutomaticSize)
+local function autoScale(scrollingFrame: ScrollingFrame, layout: UIGridLayout | UIListLayout, axis: Enum.AutomaticSize)
 	resize(scrollingFrame, layout, axis)
 	cellPadding(scrollingFrame, layout, axis)
 end
 
 function ScrollingFrameAutoScale:Do(
 	scrollingFrame: ScrollingFrame,
-	layout: UIGridLayout | UIListLayout?,
+	layout: UIGridLayout | UIListLayout,
 	axis: Enum.AutomaticSize
 ): RBXScriptConnection
 	autoScale(scrollingFrame, layout, axis)

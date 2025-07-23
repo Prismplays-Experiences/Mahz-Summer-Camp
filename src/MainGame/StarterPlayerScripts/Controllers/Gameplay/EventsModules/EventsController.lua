@@ -1,124 +1,75 @@
 --> Services
 ----------------------------------------
-local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerStorage = game:GetService('ServerStorage')
-local ServerScriptService = game:GetService('ServerScriptService')
-local RunService = game:GetService("RunService")
-local TweenService = game:GetService("TweenService")
 
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild("Packages")
-local Signal = require(Packages:WaitForChild("Signal"))
-local Knit = require(Packages:WaitForChild("Knit"))
-
-local Modules = ReplicatedStorage:WaitForChild('Modules')
-local HardNotification = require(Modules.HardNotification)
+local Knit = require("@Packages/Knit")
+local HardNotification = require("@Modules/HardNotification")
 
 --. Assets
 ----------------------------------------
 local Player = game.Players.LocalPlayer
-local Assets = ReplicatedStorage:WaitForChild('Assets')
-local Confetti = Assets:WaitForChild('Confetti')
+local Assets = ReplicatedStorage:WaitForChild("Assets")
+Assets:WaitForChild("Confetti")
 
 local PlayerGui = Player.PlayerGui
-local Main = PlayerGui:WaitForChild('Main')
-local EventsInterfaces = Main:WaitForChild('EventsInterfaces')
-local CoreFrames = Main:WaitForChild('Core')
-local HUD = Main:WaitForChild('HUD')
-local EventTxt = CoreFrames:WaitForChild('Event')
+local Main = PlayerGui:WaitForChild("Main")
+local EventsInterfaces = Main:WaitForChild("EventsInterfaces")
+local CoreFrames = Main:WaitForChild("Core")
+local HUD = Main:WaitForChild("HUD")
+local EventTxt = CoreFrames:WaitForChild("Event")
 
-local Models = ReplicatedStorage:WaitForChild('Models')
-local SoundEffects = Models:WaitForChild('SoundEffects')
+local Models = ReplicatedStorage:WaitForChild("Models")
+local SoundEffects = Models:WaitForChild("SoundEffects")
 
---> Variables
+--> Knit Setup
 ----------------------------------------
-local EventsModules = {}
-
---> Knit Setup 
-----------------------------------------
-local EventsController = Knit.CreateController {
-    Name = "EventsController",
-}
+local EventsController = Knit.CreateController({
+	Name = "EventsController",
+})
 
 --> Utility Functions
 ----------------------------------------
-function ShortNotification(Text,TextColor, Random)
-    local NotificationTemplete = Confetti:WaitForChild('ShortNotification'):Clone()
-    local randomx = math.random(25,85)/100
-    local randomy = math.random(35,85)/100
-    if Random then
-        NotificationTemplete.Position = UDim2.fromScale(randomx, randomy)
-    else
-        NotificationTemplete.Position = UDim2.fromScale(0.5, 0.5)
-    end
 
-    local UIStroke = NotificationTemplete:WaitForChild('UIStroke')
-    NotificationTemplete.Text = Text
-    NotificationTemplete.TextColor3 = TextColor or Color3.fromRGB(255, 255, 255)
-    NotificationTemplete.Visible = false
-    NotificationTemplete.Parent = Player.PlayerGui:WaitForChild('Main'):WaitForChild('EventsInterfaces')
-    local tweeninstroke = TweenService:Create(UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {Transparency = 0})
-    local tweenintext = TweenService:Create(NotificationTemplete, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {TextTransparency = 0})
-    local tweentextpos = TweenService:Create(NotificationTemplete, TweenInfo.new(1.6, Enum.EasingStyle.Quad), {Position = UDim2.fromScale(randomx,randomy-0.35)})
-    local tweenoutstroke = TweenService:Create(UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {Transparency = 1})
-    local tweenouttext = TweenService:Create(NotificationTemplete, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {TextTransparency = 1})
-    tweeninstroke:Play()
-    tweentextpos:Play()
-    tweenintext:Play()
-    NotificationTemplete.Visible = true
-    task.wait(0.5)
-    tweenoutstroke:Play()
-    tweenouttext:Play()
-    tweenouttext.Completed:Connect(function()
-        NotificationTemplete:Destroy()
-    end)
-end 
-
-function RoundTo2DecimalPlaces(value)
-    return math.floor(value * 100 + 0.5) / 100
-end
-
-function EnableFrame(Frames,TargetFrame)
-    for _,frame in Frames:GetChildren() do
-        if frame:IsA('Frame') then
-            if frame.Name == TargetFrame then
-                frame.Visible = true
-            else
-                frame.Visible = false
-            end
-        end
-    end
+function EnableFrame(Frames, TargetFrame)
+	for _, frame in Frames:GetChildren() do
+		if frame:IsA("Frame") then
+			if frame.Name == TargetFrame then
+				frame.Visible = true
+			else
+				frame.Visible = false
+			end
+		end
+	end
 end
 
 --> Main Functions
 ----------------------------------------
 
 function EventsController:KnitStart()
-    self.EventsService = Knit.GetService('EventsService')
+	self.EventsService = Knit.GetService("EventsService")
 
-    self.EventsService.EnableEventsInterfaces:Connect(function(status, frame)
-        if status then
-            HUD.Visible = false
-            CoreFrames.Visible = false
-            EventsInterfaces.Visible = true
-            EnableFrame(EventsInterfaces, frame)
-        else
-            HUD.Visible = true
-            CoreFrames.Visible = true
-            EventsInterfaces.Visible = false
-        end
-    end)
+	self.EventsService.EnableEventsInterfaces:Connect(function(status, frame)
+		if status then
+			HUD.Visible = false
+			CoreFrames.Visible = false
+			EventsInterfaces.Visible = true
+			EnableFrame(EventsInterfaces, frame)
+		else
+			HUD.Visible = true
+			CoreFrames.Visible = true
+			EventsInterfaces.Visible = false
+		end
+	end)
 
-    self.EventsService.EventStatus:Observe(function(txt)
-        EventTxt.Text = txt
-    end)
+	self.EventsService.EventStatus:Observe(function(txt)
+		EventTxt.Text = txt
+	end)
 
-    self.EventsService.SendHardNotification:Connect(function(txt,Image)
-        HardNotification.Send(Player,txt,Image,SoundEffects.FoodReady,2.5)
-    end)
-
+	self.EventsService.SendHardNotification:Connect(function(txt, Image)
+		HardNotification.Send(Player, txt, Image, SoundEffects.FoodReady, 2.5)
+	end)
 end
 
 return EventsController

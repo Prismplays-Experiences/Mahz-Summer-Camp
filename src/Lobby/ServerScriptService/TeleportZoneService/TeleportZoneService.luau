@@ -1,26 +1,16 @@
 --> Services
 ----------------------------------------
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HttpService = game:GetService("HttpService")
 
 --> Assets
 ----------------------------------------
 
-local Packages = ReplicatedStorage.Packages
-local Events = ReplicatedStorage.Events
-
 --> Modules
 ----------------------------------------
 local Knit = require("@Packages/Knit")
-local Signal = require(Packages.Signal)
-
-local Modules = ReplicatedStorage:WaitForChild("Modules")
-local TeleportModule = Modules:WaitForChild("TeleportModule")
-local TeleportZoneService = script.Parent
-local SafeTeleport = require(TeleportModule.SafeTeleport)
-local Config = require(TeleportModule.Config)
-local Zone = require(Packages:WaitForChild("ZonePlus"))
+local SafeTeleport = require("@Modules/TeleportModule/SafeTeleport")
+local Config = require("@Modules/TeleportModule/Config")
+local Zone = require("@Packages/ZonePlus")
 
 --> Workspace
 ----------------------------------------
@@ -70,18 +60,9 @@ function TeleportZoneService:PlayerEntered(player: Player, x)
 
 	table.insert(x.players, player)
 
-	local ZoneData = {
-		Cam = x.Cam,
-		StatusHolder = x.UI,
-	}
-
 	-- self.Client.Status:Fire(player, true, ZoneData)
 
 	self:__UpdateText("Players", ("%d/%d"):format(#x.players, x.MaxPlayers), x)
-
-	if #x.players < x.MaxPlayers then
-		-- Events.Exit:FireClient(player, true)
-	end
 end
 function TeleportZoneService:PlayerExited(player: Player, x)
 	if not table.find(x.players, player) then
@@ -184,7 +165,7 @@ end
 --> Knit Start
 ----------------------------------------
 function TeleportZoneService:KnitStart()
-	for i, v in Zones:GetChildren() do
+	for _, v in Zones:GetChildren() do
 		self:add(v)
 	end
 end
