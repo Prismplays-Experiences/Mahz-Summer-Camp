@@ -12,7 +12,7 @@ environments:
     branches:
       - staging
     targetNamePrefix: environmentLabel
-    targetAccess: private
+    targetAccess: public
 
 target:
   experience:
