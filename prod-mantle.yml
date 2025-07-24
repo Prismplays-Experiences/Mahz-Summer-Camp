@@ -11,7 +11,7 @@ environments:
   - label: prod
     branches:
       - main
-    targetAccess: private
+    targetAccess: public
 
 target:
   experience:
