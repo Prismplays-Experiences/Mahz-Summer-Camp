@@ -16,8 +16,6 @@ local Confetti = Assets:WaitForChild("Confetti")
 local PlayerGui = Player.PlayerGui
 local Main = PlayerGui:WaitForChild("Main")
 local EventsInterfaces = Main:WaitForChild("EventsInterfaces")
-Main:WaitForChild("Core")
-Main:WaitForChild("HUD")
 local FoodBombFrame = EventsInterfaces:WaitForChild("FoodBomb")
 local StatusTxt = FoodBombFrame:WaitForChild("Status")
 local SubStatusTxt = FoodBombFrame:WaitForChild("SubStatus")
@@ -27,7 +25,7 @@ local SoundEffects = Models:WaitForChild("SoundEffects")
 
 --> Knit Setup
 ----------------------------------------
-local EventsController = Knit.CreateController({
+local FoodBombController = Knit.CreateController({
 	Name = "FoodBombController",
 })
 
@@ -77,7 +75,7 @@ end
 --> Main Functions
 ----------------------------------------
 
-function EventsController:KnitStart()
+function FoodBombController:KnitStart()
 	self.FoodBombEvent = Knit.GetService("FoodBomb")
 
 	self.FoodBombEvent.EventStatus:Observe(function(txt)
@@ -99,4 +97,4 @@ function EventsController:KnitStart()
 	end)
 end
 
-return EventsController
+return FoodBombController
