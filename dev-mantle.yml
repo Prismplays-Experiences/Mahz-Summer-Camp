@@ -21,7 +21,7 @@ target:
       - marketing/MainThumbnail.png
       - marketing/SecondThumbnail.png
     configuration:
-      playableDevices: [computer, console, phone, tablet]
+      playableDevices: [computer, console, phone]
       privateServers:
         price: 25
       enableStudioAccessToApis: true
