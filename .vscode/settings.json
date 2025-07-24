@@ -1,5 +1,5 @@
 {
-  "luau-lsp.sourcemap.rojoProjectFile": "game.project.json",
+  "luau-lsp.sourcemap.rojoProjectFile": "MainGame.project.json",
   "luau-lsp.sourcemap.enabled": true,
   "chat.promptFiles": true,
   "workbench.editorAssociations": {

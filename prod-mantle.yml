@@ -15,6 +15,10 @@ environments:
 
 target:
   experience:
+    icon: marketing/DefaultIcon.png
+    thumbnails:
+      - marketing/MainThumbnail.png
+      - marketing/SecondThumbnail.png
     configuration:
       playableDevices: [computer, console, phone, tablet]
       privateServers:
