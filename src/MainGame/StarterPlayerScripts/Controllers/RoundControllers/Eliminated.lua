@@ -1,25 +1,22 @@
 --> Services
 ----------------------------------------
-local ReplicatedStorage = game:GetService('ReplicatedStorage')
-local MarketplaceService = game:GetService('MarketplaceService')
+local MarketplaceService = game:GetService("MarketplaceService")
 
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild('Packages')
-local Knit = require(Packages:WaitForChild('Knit'))
-local Modules = ReplicatedStorage:WaitForChild('Modules')
-local MarketModule = require(Modules:WaitForChild('MarketService'))
+local Knit = require("@Packages/Knit")
+local MarketModule = require("@Modules/MarketService")
 
 --> Assets
 ----------------------------------------
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player.PlayerGui
-local EliminatedScreenGui = PlayerGui:WaitForChild('Eliminated')
-local EliminatedFrame = EliminatedScreenGui:WaitForChild('Eliminated')
-local Main = PlayerGui:WaitForChild('Main')
-local ReviveBtn = EliminatedFrame:WaitForChild('Revive')
-local ReviveUpgradeBtn = EliminatedFrame:WaitForChild('ReviveUpgrade')
-local CountdownText = EliminatedFrame:WaitForChild('Countdown')
+local EliminatedScreenGui = PlayerGui:WaitForChild("Eliminated")
+local EliminatedFrame = EliminatedScreenGui:WaitForChild("Eliminated")
+local Main = PlayerGui:WaitForChild("Main")
+local ReviveBtn = EliminatedFrame:WaitForChild("Revive")
+local ReviveUpgradeBtn = EliminatedFrame:WaitForChild("ReviveUpgrade")
+local CountdownText = EliminatedFrame:WaitForChild("Countdown")
 
 --> Variables
 ----------------------------------------
@@ -27,32 +24,29 @@ local max = 15
 local currenttime = max
 local Result = nil
 local Purchased = false
-local RejoinId = MarketModule.ProductIds.Rejoin.Id
-local RejoinUpgradeId = MarketModule.ProductIds.RejoinUpgrade.Id
-
 
 --> Main Functions
 ----------------------------------------
-Eliminated = Knit.CreateController {
-    Name = "EliminateController",
-}
+local Eliminated = Knit.CreateController({
+	Name = "EliminateController",
+})
 
 function Eliminated:KnitStart()
-    local LifeService = Knit.GetService('LifeService')
-	self.SpectateController = Knit.GetController('SpectateController')
-	ReviveUpgradeBtn:WaitForChild('Price').Text = MarketModule.ProductIds.RejoinUpgrade.Price..' Robux'
-	ReviveBtn:WaitForChild('Price').Text = MarketModule.ProductIds.Rejoin.Price..' Robux'
-    ReviveBtn.MouseButton1Click:Connect(function()
+	local LifeService = Knit.GetService("LifeService")
+	self.SpectateController = Knit.GetController("SpectateController")
+	ReviveUpgradeBtn:WaitForChild("Price").Text = MarketModule.ProductIds.RejoinUpgrade.Price .. " Robux"
+	ReviveBtn:WaitForChild("Price").Text = MarketModule.ProductIds.Rejoin.Price .. " Robux"
+	ReviveBtn.MouseButton1Click:Connect(function()
 		self.OnPrompt = true
-		MarketplaceService:PromptProductPurchase(Player,MarketModule.ProductIds.Rejoin.Id)
+		MarketplaceService:PromptProductPurchase(Player, MarketModule.ProductIds.Rejoin.Id)
 	end)
 	ReviveUpgradeBtn.MouseButton1Click:Connect(function()
 		self.OnPrompt = true
-		MarketplaceService:PromptProductPurchase(Player,MarketModule.ProductIds.RejoinUpgrade.Id)
+		MarketplaceService:PromptProductPurchase(Player, MarketModule.ProductIds.RejoinUpgrade.Id)
 	end)
-    LifeService.EliminatePlayer:Connect(function()
-        self:Eliminate()
-    end)
+	LifeService.EliminatePlayer:Connect(function()
+		self:Eliminate()
+	end)
 end
 
 function RoundTo1DP(num)
@@ -65,7 +59,7 @@ function Eliminated:Eliminate()
 	EliminatedScreenGui.Enabled = true
 	EliminatedFrame.Visible = true
 
-	local Prompted = MarketplaceService.PromptProductPurchaseFinished:Connect(function(userid,productid,waspurchased)
+	local Prompted = MarketplaceService.PromptProductPurchaseFinished:Connect(function(userid, productid, waspurchased)
 		self.OnPrompt = false
 		currenttime = max
 		local idcheck = false
@@ -85,17 +79,19 @@ function Eliminated:Eliminate()
 			currenttime -= Resolution
 		end
 		CountdownText.Text = `{RoundTo1DP(currenttime)}s`
-		
-		if currenttime<=0 and not Purchased then
+
+		if currenttime <= 0 and not Purchased then
 			Result = false
 			break
-		end	
+		end
 	end
 
-	repeat task.wait() until Result~= nil
+	repeat
+		task.wait()
+	until Result ~= nil
 	EliminatedScreenGui.Enabled = false
 	EliminatedFrame.Visible = false
-	Player.PlayerGui:WaitForChild('Main').Enabled = true
+	Player.PlayerGui:WaitForChild("Main").Enabled = true
 	Prompted:Disconnect()
 	if not Result then
 		self.SpectateController:Open()
@@ -105,7 +101,7 @@ function Eliminated:Eliminate()
 end
 
 function Eliminated:MoveOutMap()
-	local OuterSpawnPoints = workspace:WaitForChild('Game'):WaitForChild('OuterSpawnPoints')
+	local OuterSpawnPoints = workspace:WaitForChild("Game"):WaitForChild("OuterSpawnPoints")
 	local SpawnPoint = OuterSpawnPoints:GetChildren()[math.random(1, #OuterSpawnPoints:GetChildren())]
 	Player.Character:MoveTo(SpawnPoint.Position)
 end

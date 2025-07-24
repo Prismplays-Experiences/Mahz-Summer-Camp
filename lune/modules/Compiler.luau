@@ -89,7 +89,7 @@ function Compiler.CompileFile(path: pathfs.Path | string)
 		return
 	end
 
-	if filePath:extension() == ".luau" or filePath:extension() == ".lua" then
+	if filePath:extension() == "luau" or filePath:extension() == "lua" then
 		Terminal.execute(`darklua process {filePath:toString()} {OUT_PATH .. "/" .. filePath:toString()}`)
 		return
 	end

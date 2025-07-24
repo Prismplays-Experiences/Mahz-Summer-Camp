@@ -2,16 +2,27 @@ local fs = require("@lune/fs")
 local serde = require("@lune/serde")
 
 local Terminal = require("@LuneModules/Terminal")
+local Config = require("@LuneModules/Config")
 
-export type MarketingTable = {
+export type PlaceInfo = {
+	Id: number,
+	Version: number,
+}
+
+export type Info = {
 	Products: { [string]: { assetId: number, productId: number } },
 	Passes: { [string]: number },
+	Places: {
+		MainGame: PlaceInfo,
+		Lobby: PlaceInfo,
+	},
+	ExperienceId: number,
 }
 
 export type ExperienceInfo = {
 	GetGameLink: (self: ExperienceInfo, path: string, environment: string) -> string,
 	GetPlaceId: (self: ExperienceInfo, path: string, environment: string) -> string,
-	GetMarketingTable: (self: ExperienceInfo, path: string, environment: string) -> MarketingTable,
+	GetInfo: (self: ExperienceInfo, path: string, environment: string) -> Info,
 	IsPublished: (path: string, environment: string) -> boolean,
 
 	_getExperienceInfo: (self: ExperienceInfo, path: string, environment: string) -> { [string]: any },
@@ -38,10 +49,24 @@ function ExperienceInfo.GetPlaceId(self: ExperienceInfo, path: string, environme
 	return placeId
 end
 
-function ExperienceInfo.GetMarketingTable(self: ExperienceInfo, path: string, environment: string): MarketingTable
+function ExperienceInfo.GetInfo(self: ExperienceInfo, path: string, environment: string): Info
 	local experienceInfo = self:_getExperienceInfo(path, environment)
 
-	local marketing: MarketingTable = {
+	local marketing: Info = {
+		ExperienceId = experienceInfo.experience_singleton.experience.assetId,
+		CurrentPlace = Config.GetCurrentPlace(),
+
+		Places = {
+			MainGame = {
+				Id = experienceInfo.place_mainGame.place.assetId,
+				Version = experienceInfo.placeFile_mainGame.placeFile.version,
+			},
+			Lobby = {
+				Id = experienceInfo.place_start.place.assetId,
+				Version = experienceInfo.placeFile_start.placeFile.version,
+			},
+		},
+
 		Products = {},
 		Passes = {},
 	}

@@ -1,8 +1,8 @@
-PhysicsService = game:GetService("PhysicsService")
+local PhysicsService = game:GetService("PhysicsService")
 
-BorderCollissionGroup = 'BorderCollision'
-PlayerCollissionGroup = 'PlayerCollission'
-NPCCollision = 'NPCCollision'
+local BorderCollissionGroup = "BorderCollision"
+local PlayerCollissionGroup = "PlayerCollission"
+local NPCCollision = "NPCCollision"
 
 PhysicsService:RegisterCollisionGroup(BorderCollissionGroup)
 PhysicsService:RegisterCollisionGroup(PlayerCollissionGroup)
@@ -15,8 +15,8 @@ PhysicsService:CollisionGroupSetCollidable(NPCCollision, NPCCollision, false)
 PhysicsService:CollisionGroupSetCollidable(BorderCollissionGroup, PlayerCollissionGroup, true)
 PhysicsService:CollisionGroupSetCollidable(BorderCollissionGroup, NPCCollision, false)
 
-function TurnOfCollisions(Character,player)
-	for Index, BodyPart in pairs(Character:GetDescendants()) do
+function TurnOfCollisions(Character)
+	for _, BodyPart in pairs(Character:GetDescendants()) do
 		if BodyPart:IsA("Part") or BodyPart:IsA("MeshPart") then
 			--BodyPart:SetNetworkOwner(player)
 			BodyPart.CollisionGroup = PlayerCollissionGroup
@@ -26,14 +26,14 @@ end
 
 function PlayerAdded(player)
 	player.CharacterAdded:Connect(function(char)
-		TurnOfCollisions(char,player)
+		TurnOfCollisions(char)
 	end)
 end
 
-for i,v in pairs(game.Players:GetPlayers()) do
-	if game:GetService('RunService'):IsStudio() then
+for _, v in pairs(game.Players:GetPlayers()) do
+	if game:GetService("RunService"):IsStudio() then
 		PlayerAdded(v)
 	end
 end
 
-game:GetService('Players').PlayerAdded:Connect(PlayerAdded)
+game:GetService("Players").PlayerAdded:Connect(PlayerAdded)

@@ -1,145 +1,138 @@
 --> Services
 ----------------------------------------
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerStorage = game:GetService('ServerStorage')
-local ServerScriptService = game:GetService('ServerScriptService')
-local RunService = game:GetService("RunService")
+local ServerScriptService = game:GetService("ServerScriptService")
 
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild("Packages")
-local Signal = require(Packages:WaitForChild("Signal"))
-local Knit = require(Packages:WaitForChild("Knit"))
+local Knit = require("@Packages/Knit")
 
-local Info = ReplicatedStorage:WaitForChild("Info")
-local InstructorMessages = require(Info:WaitForChild("InstructorMessages"))
-local GeneralInfo = require(Info:WaitForChild("GeneralInfo"))
-
-local EventsFolder = ServerScriptService:WaitForChild('Services'):WaitForChild('Gameplay'):WaitForChild('Events')
+local EventsFolder = ServerScriptService:WaitForChild("Services"):WaitForChild("Gameplay"):WaitForChild("Events")
 
 --> Variables
 ----------------------------------------
 local EventsModules = {}
 
---> Knit Setup 
+--> Knit Setup
 ----------------------------------------
-local EventService = Knit.CreateService {
-    Name = "EventsService",
-    Client = {
-        EventStatus = Knit.CreateProperty(),
-        EnableEventsInterfaces = Knit.CreateSignal(),
-        SendHardNotification = Knit.CreateSignal(),
-    }
-}
+local EventService = Knit.CreateService({
+	Name = "EventsService",
+	Client = {
+		EventStatus = Knit.CreateProperty(),
+		EnableEventsInterfaces = Knit.CreateSignal(),
+		SendHardNotification = Knit.CreateSignal(),
+	},
+})
 
 --> Utility Functions
 ----------------------------------------
 
-function RandomFromDictionary(dict,previous)
-    local keys = {}
-    for key in pairs(dict) do
-        if key ~= previous then
-            table.insert(keys, key)
-        end
-    end
-    if #keys == 0 then return nil end
-    local randomKey = keys[math.random(1, #keys)]
-    return dict[randomKey], randomKey
+function RandomFromDictionary(dict, previous)
+	local keys = {}
+	for key in pairs(dict) do
+		if key ~= previous then
+			table.insert(keys, key)
+		end
+	end
+	if #keys == 0 then
+		return nil
+	end
+	local randomKey = keys[math.random(1, #keys)]
+	return dict[randomKey], randomKey
 end
 
 function GetPlayersInGame()
-    local plrs = {}
-    for _,plr in game.Players:GetPlayers() do
-        if plr:HasTag('Eliminated') then continue end
-        table.insert(plrs, plr)
-    end 
-    return plrs
+	local plrs = {}
+	for _, plr in game.Players:GetPlayers() do
+		if plr:HasTag("Eliminated") then
+			continue
+		end
+		table.insert(plrs, plr)
+	end
+	return plrs
 end
 
 --> Main Functions
 ----------------------------------------
 
-
 function EventService:EventValidationCheck(Event)
-    local MinPlayers = Event.MinPlayers
-    local Players = GetPlayersInGame()
-    if #Players < MinPlayers then
-        return false
-    end
-    return true
+	local MinPlayers = Event.MinPlayers
+	local Players = GetPlayersInGame()
+	if #Players < MinPlayers then
+		return false
+	end
+	return true
 end
 
 function EventService:RandomEvent()
-    local Event, EventKey
-    repeat
-        Event, EventKey = RandomFromDictionary(EventsModules,self.PreviousEventKey)
-    until self:EventValidationCheck(Event) and Event
+	local Event, EventKey
+	repeat
+		Event, EventKey = RandomFromDictionary(EventsModules, self.PreviousEventKey)
+	until self:EventValidationCheck(Event) and Event
 
-    -- self.PreviousEventKey = EventKey
-    return Event,EventKey
+	-- self.PreviousEventKey = EventKey
+	return Event, EventKey
 end
 
 function EventService:StartEvent(Event)
-    self.Event = Event
-    if self.Event.LockWorkoutMachines then
-        self.GeneralService.Client.LockWorkoutMachines:FireAll(true)
-    end
-    if self.Event.YieldClock then
-        self.ClockService:YieldClock() 
-    end
-    self.Client.SendHardNotification:FireAll(self.Event.Details.Text,self.Event.Details.Image)
+	self.Event = Event
+	if self.Event.LockWorkoutMachines then
+		self.GeneralService.Client.LockWorkoutMachines:FireAll(true)
+	end
+	if self.Event.YieldClock then
+		self.ClockService:YieldClock()
+	end
+	self.Client.SendHardNotification:FireAll(self.Event.Details.Text, self.Event.Details.Image)
 
-    Event.Ended:Connect(function()
-        self:Cleanup()
-    end)
-    task.spawn(function()
-        Event:Start()
-    end)
+	Event.Ended:Connect(function()
+		self:Cleanup()
+	end)
+	task.spawn(function()
+		Event:Start()
+	end)
 end
 
 function EventService:Cleanup()
-    self.Client.EventStatus:Set("Event Over")
-    if self.Event.LockWorkoutMachines then
-        self.GeneralService.Client.LockWorkoutMachines:FireAll(false)
-    end
-    if self.Event.YieldClock then
-        self.ClockService:ResumeClock() 
-    end
-    task.delay(5,function()
-        self.Client.EventStatus:Set("")
-    end)
-    self.Event:Clean()
-    self.Event = nil
+	self.Client.EventStatus:Set("Event Over")
+	if self.Event.LockWorkoutMachines then
+		self.GeneralService.Client.LockWorkoutMachines:FireAll(false)
+	end
+	if self.Event.YieldClock then
+		self.ClockService:ResumeClock()
+	end
+	task.delay(5, function()
+		self.Client.EventStatus:Set("")
+	end)
+	self.Event:Clean()
+	self.Event = nil
 end
 
 function EventService:EventLoop(ValueDelay)
-    for i = 1, ValueDelay do
-        self.Client.EventStatus:Set(`Next event in {ValueDelay-i}s`)
-        task.wait(1)
-    end
-    local Event = self:RandomEvent()
+	for i = 1, ValueDelay do
+		self.Client.EventStatus:Set(`Next event in {ValueDelay - i}s`)
+		task.wait(1)
+	end
+	local Event = self:RandomEvent()
 
-    self:StartEvent(Event)
-    self.Client.EventStatus:Set(`Event in progress: {Event.Name}`)
+	self:StartEvent(Event)
+	self.Client.EventStatus:Set(`Event in progress: {Event.Name}`)
 end
 
 function EventService:KnitStart()
-    self.GeneralService = Knit.GetService('GeneralGameplay')
-    self.ClockService = Knit.GetService('ClockService')
-    for _,evnt in pairs(EventsFolder:GetChildren()) do
-        if evnt:IsA('ModuleScript') then
-            local EventModule = Knit.GetService(evnt.Name) or require(evnt)
-            if EventModule then
-                EventsModules[evnt.Name] = EventModule
-            end
-        end
-    end
-    --testing
-    -- task.wait(15)
-    -- print("Starting FoodBomb Event")
-    -- print(EventsModules)
-    -- EventsModules['FoodBomb']:Start()
+	self.GeneralService = Knit.GetService("GeneralGameplay")
+	self.ClockService = Knit.GetService("ClockService")
+	for _, evnt in pairs(EventsFolder:GetChildren()) do
+		if evnt:IsA("ModuleScript") then
+			local EventModule = Knit.GetService(evnt.Name) or require(evnt)
+			if EventModule then
+				EventsModules[evnt.Name] = EventModule
+			end
+		end
+	end
+	--testing
+	-- task.wait(15)
+	-- print("Starting FoodBomb Event")
+	-- print(EventsModules)
+	-- EventsModules['FoodBomb']:Start()
 end
 
 return EventService

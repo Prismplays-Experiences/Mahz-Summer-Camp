@@ -1,0 +1,10 @@
+name = "avafe/profileservice"
+version = "1.0.0"
+authors = ["Loleris", "grilme99"]
+private = false
+includes = []
+
+[target]
+environment = "roblox"
+lib = "ProfileService.lua"
+build_files = ["ProfileService.lua"]

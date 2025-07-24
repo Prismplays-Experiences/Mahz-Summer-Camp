@@ -7,9 +7,7 @@ local Lightning = game:GetService("Lighting")
 
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild("Packages")
-local Signal = require(Packages:WaitForChild("Signal"))
-local Knit = require(Packages:WaitForChild("Knit"))
+local Knit = require("@Packages/Knit")
 --> Assets
 ----------------------------------------
 local Player = game.Players.LocalPlayer
@@ -33,7 +31,6 @@ local SoundEffects = Models:WaitForChild("SoundEffects")
 ----------------------------------------
 local MinutesPerDay = 6
 
-
 --> Knit Setup
 ----------------------------------------
 local GeneralControllers = Knit.CreateController({
@@ -42,12 +39,6 @@ local GeneralControllers = Knit.CreateController({
 
 --> Utility Functions
 ----------------------------------------
-function ConvertToTime(totalMinutes)
-	local hours = math.floor(totalMinutes / 60)
-	local minutes = totalMinutes % 60
-	return string.format("%02d:%02d", hours, minutes)
-end
-
 function SendNotification(msg, color, duration, reward, sound)
 	local Notify = Knit.GetController("UINotificationsController")
 	Notify:ShowNotification({
@@ -60,7 +51,6 @@ function SendNotification(msg, color, duration, reward, sound)
 end
 
 function TweenLightningClockTime(DesiredTime)
-	local CurrentTime = Lightning.ClockTime
 	local tinfo = TweenInfo.new(3.5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
 	local Tween = TweenService:Create(Lightning, tinfo, { ClockTime = DesiredTime })
 	Tween:Play()
@@ -68,7 +58,8 @@ end
 
 function OpenFrame(Frame, Pos)
 	Frame.Position = Pos or Frame.Position
-	local UIScale = Frame:FindFirstChild("UIScale") or Instance.new("UIScale", Frame)
+	local UIScale = Frame:FindFirstChild("UIScale") or Instance.new("UIScale")
+	UIScale.Parent = Frame
 	UIScale.Scale = 0
 
 	local OpenTween = TweenService:Create(
@@ -101,15 +92,15 @@ function GeneralControllers:KnitStart()
 	local GeneralGameplay = Knit.GetService("GeneralGameplay")
 	local TargetService = Knit.GetService("TargetService")
 	self.WorkoutsHandler = Knit.GetController("WorkoutsHandler")
-	self.PlayerModule =
-		require(game.Players.LocalPlayer:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule")):GetControls()
+	self.PlayerModule = require(
+		game.Players.LocalPlayer:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule") :: ModuleScript
+	):GetControls()
 	ClockService:GetMinutesPerDay()
 		:andThen(function(value)
 			MinutesPerDay = value
 		end)
 		:await()
 	local CurrentEmoji = "☀️"
-	local Suffix = "AM"
 	local START_HOUR = 8 -- 8 AM
 	local END_HOUR = 22 -- 10 PM
 	local HOUR_RANGE = END_HOUR - START_HOUR
@@ -121,11 +112,6 @@ function GeneralControllers:KnitStart()
 		local currentHour = START_HOUR + (progress * HOUR_RANGE)
 		local wholeMinutes = math.floor((currentHour - math.floor(currentHour)) * 60)
 		local displayHour = math.floor(currentHour)
-		if displayHour >= 12 then
-			Suffix = "PM"
-		else
-			Suffix = "AM"
-		end
 		if displayHour > 12 then
 			displayHour -= 12
 		elseif displayHour == 0 then
@@ -137,10 +123,10 @@ function GeneralControllers:KnitStart()
 		else
 			CurrentEmoji = "☀️"
 		end
-		Timer.Text = string.format("%s | %02d:%02d", CurrentEmoji, displayHour, wholeMinutes, Suffix)
+		Timer.Text = string.format("%s | %02d:%02d", CurrentEmoji, displayHour, wholeMinutes)
 	end)
 
-	function self:TransitionToDay()
+	function self.TransitionToDay()
 		TweenLightningClockTime(14.5)
 	end
 

@@ -1,1 +1,1 @@
-require(script.Parent:WaitForChild('DataManager'))
+require(script.Parent:WaitForChild("DataManager"))

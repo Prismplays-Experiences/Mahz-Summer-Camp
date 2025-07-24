@@ -9,16 +9,11 @@ local AnalyticsService = game:GetService("AnalyticsService")
 
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild("Packages")
-local Signal = require(Packages:WaitForChild("Signal"))
-local Knit = require(Packages:WaitForChild("Knit"))
-
-local Info = ReplicatedStorage:WaitForChild("Info")
-local InstructorMessages = require(Info:WaitForChild("InstructorMessages"))
-local GeneralInfo = require(Info:WaitForChild("GeneralInfo"))
-
-local Modules = ReplicatedStorage:WaitForChild("Modules")
-local ChatNotification = require(Modules:WaitForChild("Client"):WaitForChild("ChatNotification"))
+local Knit = require("@Packages/Knit")
+local InstructorMessages = require("@Info/InstructorMessages")
+local ExperienceInfo = require("@Info/ExperienceInfo")
+local GeneralInfo = require("@Info/GeneralInfo")
+local ChatNotification = require("@Modules/Client/ChatNotification")
 
 --> Assets
 ----------------------------------------
@@ -50,6 +45,13 @@ local GeneralGameplay = Knit.CreateService({
 
 --> Utility Functions
 ----------------------------------------
+function TeleportToLobby()
+	local players = game.Players:GetPlayers()
+	local teleportData = {
+		PlaceId = ExperienceInfo.Places.Lobby.Id,
+	}
+	TeleportService:TeleportPartyAsync(ExperienceInfo.Places.Lobby.Id, players, teleportData)
+end
 
 function TeleportPlayersToDay1Spawn()
 	for _, plr in game.Players:GetPlayers() do
@@ -130,7 +132,6 @@ function GeneralGameplay:KnitStart()
 		self.Client.StopWorkout:FireAll()
 		task.wait(3)
 
-		local EliminatedPlayers = self.LifeService:GetEliminated()
 		self.StageService:WeightPlayers(true, false, sendtobed)
 		-- if #EliminatedPlayers<=0 then
 		--     self.StageService:WeightPlayers(true,false,sendtobed)
@@ -188,14 +189,6 @@ function GeneralGameplay:KnitStart()
 	-- self.StageService:WeightPlayers(true)
 	-- task.wait(10)
 	-- self.StageService:WeightPlayers(true)
-end
-
-function TeleportToLobby()
-	local players = game.Players:GetPlayers()
-	local teleportData = {
-		PlaceId = GeneralInfo.LobbyPlaceId,
-	}
-	TeleportService:TeleportPartyAsync(GeneralInfo.LobbyPlaceId, players, teleportData)
 end
 
 function GeneralGameplay:GetWinners()
@@ -307,7 +300,7 @@ function GeneralGameplay.Client:GetDays()
 	return self.Server.ClockService.Days
 end
 
-function GeneralGameplay.Client:PivotCharacter(Player, Character, CFrame)
+function GeneralGameplay.Client:PivotCharacter(_, Character, CFrame)
 	Character:PivotTo(CFrame)
 end
 

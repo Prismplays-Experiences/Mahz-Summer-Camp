@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-type
 --[=[ lunar
-	about = "creates a game file, publishes it, syncs passes and products"
+	about = "[DESCRIPTION] Creates a game file, publishes it, syncs passes and products"
 ]=]
 
 local process = require("@lune/process")
@@ -63,7 +63,7 @@ Mantle.Deploy(tag)
 local gameLink = Mantle.GetGameLink(tag)
 print("Game published. Link: " .. gameLink)
 
-Mantle.SyncMarketing(tag)
+Mantle.SyncInfo(tag)
 print("Passes, products loaded")
 
 Compiler.CompileFile(Config:GetMarketingOutPath())

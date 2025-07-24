@@ -14,6 +14,7 @@
     "ClientComponents": "src/MainGame/StarterPlayerScripts/Components",
     "ServerComponents": "src/MainGame/ServerScriptService/Components",
     "CustomModules": "src/Mutuals/ReplicatedStorage/CustomModules",
+    "Modules": "src/Mutuals/ReplicatedStorage/Modules",
     "Info": "src/Mutuals/ReplicatedStorage/Info"
   }
 }

@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-type
 
 --[=[ lunar
-	about = "publishes game"
+	about = "[DESCRIPTION] Publishes game"
 ]=]
 
 local process = require("@lune/process")

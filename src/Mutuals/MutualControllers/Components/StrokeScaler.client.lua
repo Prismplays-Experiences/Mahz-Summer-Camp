@@ -1,8 +1,10 @@
-local DefaultScreenSize = Vector2.new(1366, 651) 
+local DefaultScreenSize = Vector2.new(1366, 651)
 local CurrentScreenHeight = game.Players.LocalPlayer:GetMouse().ViewSizeY
 
 function ScaleStroke(stroke)
-	if stroke:GetAttribute("AlreadyScaled") then return end
+	if stroke:GetAttribute("AlreadyScaled") then
+		return
+	end
 	stroke.Thickness = stroke.Thickness * (CurrentScreenHeight / DefaultScreenSize.Y)
 
 	stroke:SetAttribute("AlreadyScaled", true)
@@ -26,7 +28,7 @@ function SetUpUI(ui)
 	if ui.ResetOnSpawn then
 		game.Players.LocalPlayer.CharacterAdded:Connect(scaleAll)
 	end
-	
+
 	scaleAll()
 end
 

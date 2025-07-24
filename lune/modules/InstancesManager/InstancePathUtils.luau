@@ -20,7 +20,10 @@ local BANNED_SYMBOLS = {
 	["|"] = true,
 }
 
-local REPLICATED_STORAGE_EXCLUDED = { "assets", "CustomModules", "Events", "Info", "Packages", "Marketing", "GameStatus", "Shared", "Modules" }
+local REPLICATED_STORAGE_EXCLUDED =
+	{ "assets", "CustomModules", "Events", "Info", "Packages", "Marketing", "GameStatus", "Shared", "Modules", "ScriptsStorage" }
+
+local IGNORED_NAMES = { "AnimSaves" }
 
 local module = {}
 
@@ -29,13 +32,19 @@ function module.FixName(name: string)
 
 	for characterIndex = 1, #name do
 		local character = name:sub(characterIndex, characterIndex)
-		
+
 		if not BANNED_SYMBOLS[character] then
 			table.insert(result, character)
 		end
 	end
 
-	return table.concat(result)
+	local fixedName = table.concat(result)
+
+	if fixedName == " " or fixedName == "" then
+		fixedName = "Unnamed"
+	end
+
+	return fixedName
 end
 
 function module.GetInstanceByPath(path: string, game: DataModel)
@@ -85,6 +94,10 @@ end
 
 function module.GetReplicatedExcludedArray()
 	return REPLICATED_STORAGE_EXCLUDED
+end
+
+function module.GetIgnoredNames()
+	return IGNORED_NAMES
 end
 
 return module

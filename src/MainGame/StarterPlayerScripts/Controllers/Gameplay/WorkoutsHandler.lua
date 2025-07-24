@@ -2,8 +2,6 @@
 ----------------------------------------
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local StarterPlayer = game:GetService("StarterPlayer")
 local TweenService = game:GetService("TweenService")
 local Workspace = game:GetService("Workspace")
 local MarketplaceService = game:GetService("MarketplaceService")
@@ -35,27 +33,17 @@ local Confetti = Assets:WaitForChild("Confetti")
 local Packages = ReplicatedStorage:WaitForChild("Packages")
 local Knit = require(Packages:WaitForChild("Knit"))
 local Trove = require(Packages:WaitForChild("Trove"))
-local Modules = ReplicatedStorage:WaitForChild("Modules")
 
-local Modules = ReplicatedStorage:WaitForChild("Modules")
-local HardNotification = require(Modules.HardNotification)
+local HardNotification = require("@Modules/HardNotification")
 
-local Info = ReplicatedStorage:WaitForChild("Info")
-local WorkoutMetaData = require(Info:WaitForChild("WorkoutMetaData"))
-
-local MarketModule = require(Modules:WaitForChild("MarketService"))
-
--- local WorkoutLabelTemplate = Assets:WaitForChild('WorkoutTemplate')
--- local WorkoutBillboards = ScriptingProperties:WaitForChild('WorkoutBillboards')
-
-local GeneralInfo = require(Info:WaitForChild("GeneralInfo"))
+local WorkoutMetaData = require("@Info/WorkoutMetaData")
+local MarketModule = require("@Modules/MarketService")
+local GeneralInfo = require("@Info/GeneralInfo")
 
 --> Variables
 ----------------------------------------
 local Player = game.Players.LocalPlayer
 local LockedCap = Player:WaitForChild("PrivateStats"):WaitForChild("LockedCap")
-local Camera = workspace.CurrentCamera
-local DefaultFOV = Camera.FieldOfView
 
 local WeightLossIncrements = {
 	[1] = nil,
@@ -302,7 +290,7 @@ function WorkoutsHandler:ControlProximityPrompts(Enabled)
 		end
 	end
 
-	for i, billboard in WorkoutBillboards:GetChildren() do
+	for _, billboard in WorkoutBillboards:GetChildren() do
 		local unlockDay = GeneralInfo.WorkoutStartDays[billboard.Name].Day
 		if CurrentDay < unlockDay and LockedCap.Value < unlockDay then
 			billboard.Enabled = true
@@ -372,7 +360,7 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 		end
 		self.InjuryLogic.Value = boolean
 	end)
-	self.AnimTrackSignal = Data.AnimTrack:GetMarkerReachedSignal("RepCount"):Connect(function(param)
+	self.AnimTrackSignal = Data.AnimTrack:GetMarkerReachedSignal("RepCount"):Connect(function()
 		self:LoseWeight(math.random(Data.MinWeightLoss, Data.MaxWeightLoss))
 	end)
 end
@@ -434,7 +422,7 @@ end
 function WorkoutsHandler:InitialiseWorkouts()
 	for _, workout in WorkoutEquipments:GetChildren() do
 		local workoutdata = WorkoutMetaData[workout.Name]
-		for index, slot in workout:GetChildren() do
+		for _, slot in workout:GetChildren() do
 			local ProximityPrompt = Instance.new("ProximityPrompt")
 			table.insert(self.ProximityPrompts, ProximityPrompt)
 			ProximityPrompt.ActionText = workoutdata.ActionText
@@ -482,7 +470,7 @@ function WorkoutsHandler:InitialiseWorkouts()
 end
 
 function CharacterAdded(Character)
-	for i, v in WorkoutMetaData do
+	for _, v in WorkoutMetaData do
 		if v.AnimationId then
 			local Animation = Instance.new("Animation")
 			Animation.AnimationId = v.AnimationId
@@ -501,7 +489,7 @@ function WorkoutsHandler:KnitStart()
 	local Gameplay = script.Parent
 	local WorkoutMinigames = Gameplay:WaitForChild("WorkoutMinigames"):WaitForChild("Minigames")
 	self.Minigames = {}
-	for i, Minigame in pairs(WorkoutMinigames:GetChildren()) do
+	for _, Minigame in pairs(WorkoutMinigames:GetChildren()) do
 		if Minigame:IsA("ModuleScript") then
 			local MinigameModule = Knit.GetController(Minigame.Name .. "Minigame")
 			self.Minigames[Minigame.Name] = MinigameModule
@@ -516,7 +504,7 @@ function WorkoutsHandler:KnitStart()
 
 	Player.CharacterAdded:Connect(CharacterAdded)
 
-	self.GeneralService.UpdateSlots:Connect(function(Slots)
+	self.GeneralService.UpdateSlots:Connect(function()
 		if self.CurrentTrack then
 			return
 		end
@@ -545,7 +533,7 @@ function WorkoutsHandler:KnitStart()
 		MarketplaceService:PromptProductPurchase(Players.LocalPlayer, MarketModule.ProductIds.InjuryRecovery.Id) -- Replace with actual product ID for injury recovery
 	end)
 
-	for i, billboard in WorkoutBillboards:GetChildren() do
+	for _, billboard in WorkoutBillboards:GetChildren() do
 		if GeneralInfo.WorkoutStartDays[billboard.Name].Day < 2 then
 			continue
 		end
@@ -607,7 +595,7 @@ function WorkoutsHandler:KnitStart()
 
 	local function WeightLossMultiplierChanged()
 		local currentWeightLoss = Player:GetAttribute("WeightLossMultiplier") or 1
-		local nextWeightLoss, productId = GetNextWeightLossIncrement(currentWeightLoss, WeightLossIncrements)
+		local nextWeightLoss, _ = GetNextWeightLossIncrement(currentWeightLoss, WeightLossIncrements)
 		WeightLossBtn:WaitForChild("Amount").Text = `{nextWeightLoss}x Weight Loss`
 		WeightLossBtn.BackgroundColor3 = GetWeightLossColor(nextWeightLoss)
 		if currentWeightLoss >= 4 then

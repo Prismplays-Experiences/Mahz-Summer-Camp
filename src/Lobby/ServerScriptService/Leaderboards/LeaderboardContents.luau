@@ -8,10 +8,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 --> Modules
 ----------------------------------------
-local Modules = ReplicatedStorage.Modules
-local Utils = Modules.Utils
-local TFM = require(Utils:WaitForChild("TFM"))
-local ScrollingFrameAutoScale = require(Utils.ScrollingFrameAutoScale)
+local TFM = require("@Modules/Utils/TFM")
+local ScrollingFrameAutoScale = require("@Modules/Utils/ScrollingFrameAutoScale")
 
 --> Assets
 ----------------------------------------
@@ -26,12 +24,11 @@ local PositionTemplates = {
 
 --> Variables
 ----------------------------------------
-MaxAvaters = 3
+local MaxAvaters = 3
 local Leaderboards = {
 	WinsLb = "Wins",
 	LosesLb = "Loses",
 	DonateLb = "Donate",
-	-- ElimsLb = "Elims",
 }
 
 local LbData = {}
@@ -103,6 +100,8 @@ local function formatNumber(val)
 			return math.floor(val / ((10 ^ ((i - 1) * 3)) / 100)) / 100 .. Suffixes[i]
 		end
 	end
+
+	return nil
 end
 
 local function getNameFromUserId(userId)
@@ -163,9 +162,11 @@ local function FillTemplate(template, data, index, statType)
 	end
 end
 
-local function AddToSpot(data,rank, leaderboardGui)
-	if not rank then return end
-	local Characters = leaderboardGui.Parent:WaitForChild('Characters')
+local function AddToSpot(data, rank, leaderboardGui)
+	if not rank then
+		return
+	end
+	local Characters = leaderboardGui.Parent:WaitForChild("Characters")
 	local charModel = Characters[rank]
 	if not charModel then
 		return
@@ -174,10 +175,13 @@ local function AddToSpot(data,rank, leaderboardGui)
 	task.spawn(function()
 		local description = Players:GetHumanoidDescriptionFromUserId(data.key)
 		local humanoid = charModel:FindFirstChildOfClass("Humanoid")
-		local animator = humanoid:FindFirstChildOfClass("Animator") or Instance.new("Animator", humanoid)
+		local animator = humanoid:FindFirstChildOfClass("Animator") or Instance.new("Animator")
 		local tags = charModel:FindFirstChild("Tags")
 		local emotes = charModel.Parent:FindFirstChild("CharacterModelEmotes")
 		local charscale = charModel:GetScale()
+
+		animator.Parent = humanoid
+
 		if tags then
 			tags.Enabled = true
 			tags.Container.pName.Text = getNameFromUserId(data.key)
@@ -222,13 +226,15 @@ local function RefreshLeaderboard(leaderboardGui, statKey, showAvatars)
 		end
 
 		local template = PositionTemplates[rank == 1 and "First" or rank == 2 and "Second" or rank == 3 and "Third"]
-		if not template then template = PositionTemplates.Others end
+		if not template then
+			template = PositionTemplates.Others
+		end
 		template = template:Clone()
-		
+
 		FillTemplate(template, entry, rank, statKey)
 		template.Parent = leaderboardGui.Container.ScrollingFrame
-		if rank <=MaxAvaters and showAvatars then
-			AddToSpot(entry,rank, leaderboardGui)
+		if rank <= MaxAvaters and showAvatars then
+			AddToSpot(entry, rank, leaderboardGui)
 		end
 	end
 end
@@ -250,10 +256,10 @@ local function EmbedLeaderboard(leaderboardGui, statKey, showAvatars)
 				end
 
 				local stats = player:FindFirstChild("leaderstats")
-				local privstats = player:FindFirstChild('PrivateStats')
+				local privstats = player:FindFirstChild("PrivateStats")
 				local Wins = stats and stats:FindFirstChild("Wins")
 				local Loses = stats and stats:FindFirstChild("Loses")
-				local Donate = privstats and privstats:FindFirstChild('Donate')
+				local Donate = privstats and privstats:FindFirstChild("Donate")
 				-- local elims = stats and stats:FindFirstChild("Elims")
 
 				local StatValues = {
