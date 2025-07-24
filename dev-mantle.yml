@@ -23,7 +23,7 @@ target:
     configuration:
       playableDevices: [computer, console, phone, tablet]
       privateServers:
-        price: 0
+        price: 25
       enableStudioAccessToApis: true
       avatarType: r15
       avatarAnimationType: playerChoice
