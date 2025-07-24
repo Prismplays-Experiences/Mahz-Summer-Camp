@@ -17,18 +17,19 @@ sourcemap_generator = ".pesde/scripts/sourcemap_generator.luau"
 
 [dependencies]
 scripts = { name = "jiwonz/pesde_scripts_rojo", version = "^0.1.0-rc.1", target = "lune" }
-signal = { wally = "sleitnick/signal", version = "^2.0.3" }
-knit = { wally = "sleitnick/knit", version = "^1.7.0" }
-trove = { wally = "sleitnick/trove", version = "^1.5.1" }
-pathfs = { name = "jiwonz/pathfs", version = "^0.6.0-rc.7", target = "lune" }
-simplepath = { wally = "jessekroeske/simplepath", version = "^2.2.2" }
-component = { wally = "sleitnick/component", version = "^2.4.8" }
-table-util = { wally = "sleitnick/table-util", version = "^1.2.1" }
-fastcastredux = { wally = "rocketcamel/fastcastredux", version = "^1.0.2" }
-comm = { wally = "sleitnick/comm", version = "^1.0.1" }
-fusion = { wally = "elttob/fusion", version = "^0.3.0" }
-timer = { wally = "sleitnick/timer", version = "^1.1.2" }
-zoneplus = { wally = "mattschrubb/zoneplus", version = "^3.2.0" }
-camerashaker = { wally = "brittonfischer/camerashaker", version = "^0.1.0" }
-octo-tree = { wally = "sleitnick/octo-tree", version = "^0.3.1" }
-profileservice = { name = "avafe/profileservice", version = "^1.0.0" }
+Signal = { wally = "sleitnick/signal", version = "^2.0.3" }
+Knit = { wally = "sleitnick/knit", version = "^1.7.0" }
+Trove = { wally = "sleitnick/trove", version = "^1.5.1" }
+PathFS = { name = "jiwonz/pathfs", version = "^0.6.0-rc.7", target = "lune" }
+SimplePath = { wally = "jessekroeske/simplepath", version = "^2.2.2" }
+Component = { wally = "sleitnick/component", version = "^2.4.8" }
+TableUtil = { wally = "sleitnick/table-util", version = "^1.2.1" }
+FastCastRedux = { wally = "rocketcamel/fastcastredux", version = "^1.0.2" }
+Comm = { wally = "sleitnick/comm", version = "^1.0.1" }
+Fusion = { wally = "elttob/fusion", version = "^0.3.0" }
+Timer = { wally = "sleitnick/timer", version = "^1.1.2" }
+ZonePlus = { wally = "mattschrubb/zoneplus", version = "^3.2.0" }
+CameraShaker = { wally = "brittonfischer/camerashaker", version = "^0.1.0" }
+OctoTree = { wally = "sleitnick/octo-tree", version = "^0.3.1" }
+ProfileService = { name = "avafe/profileservice", version = "^1.0.0" }
+ProgressBar = { name = "veternitzz/progressbar", version = "^1.0.1", target = "lune" }
