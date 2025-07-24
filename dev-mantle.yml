@@ -20,10 +20,11 @@ target:
     thumbnails:
       - marketing/MainThumbnail.png
       - marketing/SecondThumbnail.png
+    genre: Adventure
     configuration:
-      playableDevices: [computer, console, phone]
+      playableDevices: [computer, console, phone, tablet]
       privateServers:
-        price: 25
+        price: 0
       enableStudioAccessToApis: true
       avatarType: r15
       avatarAnimationType: playerChoice
