@@ -25,7 +25,7 @@ local FoodBombItems = EventScriptingItems:WaitForChild("FoodBomb")
 local ItemSpawnPoints = FoodBombItems:WaitForChild("ItemSpawnPoints")
 local PowerupHolder = FoodBombItems:WaitForChild("PowerupHolder")
 
---> Setup
+--> Setups
 -----------------------------------------
 local FoodBomb = Knit.CreateService({
 	Name = "FoodBomb",
@@ -38,7 +38,6 @@ local FoodBomb = Knit.CreateService({
 
 --> Variables
 -----------------------------------------
-FoodBomb.ModeEnded = Signal.new()
 FoodBomb.ExplodeTime = 60
 FoodBomb.PlayerWithFood = nil
 FoodBomb.Trove = Trove.new()
@@ -337,15 +336,12 @@ function FoodBomb:Start()
 		self.Client.WeightGained:Fire(LastPlayer, WeightGained)
 	end)
 	task.wait(3)
-	-- FoodBomb.ModeEnded:Fire(LastPlayer)
-	-- self:Clean()
 	self.Ended:Fire()
 end
 
 function FoodBomb:Clean()
 	self.EventsService.Client.EnableEventsInterfaces:FireAll(false)
 
-	-- self.ClockService:ResumeClock()
 	for _, v in ItemSpawnPoints:GetChildren() do
 		v:RemoveTag("SpotTaken")
 	end
@@ -356,10 +352,6 @@ function FoodBomb:KnitStart()
 	self.GeneralService = Knit.GetService("GeneralGameplay")
 	self.ClockService = Knit.GetService("ClockService")
 	self.EventsService = Knit.GetService("EventsService")
-
-	-- FoodBomb.ModeEnded:Connect(function(PlayerWithFood)
-
-	-- end)
 end
 
 return FoodBomb

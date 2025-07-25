@@ -2,6 +2,7 @@
 ----------------------------------------
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
 
 --> Modules
 ----------------------------------------
@@ -28,8 +29,8 @@ local Puff = Vfx:WaitForChild("Puff")
 local PlayerGui = Player.PlayerGui
 local Main = PlayerGui:WaitForChild("Main")
 local EventsInterfaces = Main:WaitForChild("EventsInterfaces")
--- local FoodBombFrame = EventsInterfaces:WaitForChild("FoodBomb")
--- local StatusTxt = FoodBombFrame:WaitForChild("Status")
+local FoodChaosFrame = EventsInterfaces:WaitForChild("FoodChaos")
+local StatusTxt = FoodChaosFrame:WaitForChild("Status")
 -- local SubStatusTxt = FoodBombFrame:WaitForChild("SubStatus")
 
 local Models = ReplicatedStorage:WaitForChild("Models")
@@ -120,7 +121,69 @@ end
 --> Main Functions
 ----------------------------------------
 
-function FoodChaosController:FoodGainEffect(Food) end
+function FoodChaosController:FoodGainEffect(Food, Time, SizeFactor)
+	if not Food then
+		return
+	end
+
+	local parts = {}
+
+	-- Handle BasePart or Model
+	if Food:IsA("Model") then
+		for _, descendant in ipairs(Food:GetDescendants()) do
+			if descendant:IsA("BasePart") then
+				table.insert(parts, descendant)
+			end
+		end
+	elseif Food:IsA("BasePart") then
+		table.insert(parts, Food)
+	else
+		return
+	end
+
+	-- Store original sizes and transparency
+	local originalSizes = {}
+	local originalTransparencies = {}
+
+	for _, part in ipairs(parts) do
+		originalSizes[part] = part.Size
+		originalTransparencies[part] = part.Transparency
+	end
+
+	local elapsed = 0
+
+	local connection
+	connection = RunService.RenderStepped:Connect(function(dt)
+		elapsed += dt
+		local alpha = math.clamp(elapsed / Time, 0, 1)
+
+		for _, part in ipairs(parts) do
+			if part and part.Parent then
+				local newSize = originalSizes[part]:Lerp(originalSizes[part] * SizeFactor, alpha)
+				part.Size = newSize
+
+				local newTransparency = originalTransparencies[part] + (1 - originalTransparencies[part]) * alpha
+				part.Transparency = math.clamp(newTransparency, 0, 1)
+			end
+		end
+
+		if alpha >= 1 then
+			connection:Disconnect()
+		end
+	end)
+	if connection then
+		self.Trove:Add(connection)
+	end
+	local Weight = Food:GetAttribute("Weight")
+	local AbsWeight = math.abs(Weight)
+	if Weight < 0 then
+		SoundEffects.SuperFood:Play()
+		ShortNotification(`-{AbsWeight} lbs`, Color3.fromRGB(0, 255, 0), false)
+	else
+		SoundEffects.BadFood:Play()
+		ShortNotification(`+{AbsWeight} lbs`, Color3.fromRGB(255, 0, 0), false)
+	end
+end
 
 function FoodChaosController:CircleSpawn(Food, Position, Weight)
 	local CircularPart = self.Trove:Add(Instance.new("Part"))
@@ -188,6 +251,10 @@ function FoodChaosController:KnitStart()
 	end)
 
 	FoodChaosService.Ended:Connect(function()
-		self.Trove:Cleanup()
+		self.Trove:Clean()
+	end)
+
+	FoodChaosService.EventStatus:Observe(function(txt)
+		StatusTxt.Text = txt
 	end)
 end
