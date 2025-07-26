@@ -12,11 +12,16 @@ environments:
     branches:
       - staging
     targetNamePrefix: environmentLabel
-    targetAccess: private
+    targetAccess: public
 
 target:
   experience:
+    icon: marketing/DefaultIcon.png
+    thumbnails:
+      - marketing/MainThumbnail.png
+      - marketing/SecondThumbnail.png
     configuration:
+      genre: Adventure
       playableDevices: [computer, console, phone, tablet]
       privateServers:
         price: 0
@@ -30,15 +35,19 @@ target:
         file: Lobby.rbxlx
         configuration:
           name: 24 Days to lose weight
-          description: you only have 24^2 hours to lose weight
-          maxPlayerCount: 8
+          description: Dev deployment for 25-days-to-lose weight.
+          maxPlayerCount: 50
           allowCopying: false
       mainGame:
+        icon: marketing/DefaultIcon.png
+        thumbnails:
+          - marketing/MainThumbnail.png
+          - marketing/SecondThumbnail.png
         file: MainGame.rbxlx
         configuration:
           name: 24 Days to lose weight - Main Game
-          description: you only have 24^2 hours to lose weight
-          maxPlayerCount: 8
+          description: Dev deployment for 25-days-to-lose weight.
+          maxPlayerCount: 4
           allowCopying: false
     products:
     passes:

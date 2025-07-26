@@ -15,6 +15,7 @@
     "ServerComponents": "src/MainGame/ServerScriptService/Components",
     "CustomModules": "src/Mutuals/ReplicatedStorage/CustomModules",
     "Modules": "src/Mutuals/ReplicatedStorage/Modules",
-    "Info": "src/Mutuals/ReplicatedStorage/Info"
+    "Info": "src/Mutuals/ReplicatedStorage/Info",
+    "Assets": "src/Mutuals/ReplicatedStorage/assets"
   }
 }

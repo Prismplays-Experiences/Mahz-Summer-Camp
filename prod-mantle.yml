@@ -1,5 +1,5 @@
 owner:
-  group: 35058813
+  group: 35058813 
 
 state:
   remote:
@@ -11,14 +11,18 @@ environments:
   - label: prod
     branches:
       - main
-    targetAccess: private
+    targetAccess: public
 
 target:
   experience:
+    icon: marketing/DefaultIcon.png
+    thumbnails:
+      - marketing/MainThumbnail.png
+      - marketing/SecondThumbnail.png
     configuration:
       playableDevices: [computer, console, phone, tablet]
       privateServers:
-        price: 0
+        price: 75
       enableStudioAccessToApis: true
       avatarType: r15
       avatarAnimationType: playerChoice
@@ -29,15 +33,25 @@ target:
         file: Lobby.rbxlx
         configuration:
           name: 24 Days to lose weight
-          description: you only have 24^2 hours to lose weight
-          maxPlayerCount: 8
+          description: |-
+            You are locked in summer camp.
+            Lose weight before the end or coach gets mad!
+            Goodluck!
+
+
+            --------------------------------------------------------------------------
+            Brought to you by PrismPlays ❤️
+
+            Report bugs in the community server below!
+            ⭐️👍Like and favourite the game if you enjoy it!
+          maxPlayerCount: 50
           allowCopying: false
       mainGame:
         file: MainGame.rbxlx
         configuration:
           name: 24 Days to lose weight - Main Game
           description: you only have 24^2 hours to lose weight
-          maxPlayerCount: 8
+          maxPlayerCount: 4
           allowCopying: false
     products:
     passes:
