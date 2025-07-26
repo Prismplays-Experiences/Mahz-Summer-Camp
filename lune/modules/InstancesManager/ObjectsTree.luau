@@ -79,8 +79,8 @@ end
 function ObjectsTree._addComponent(self: ObjectsTree, path: pathfs.Path)
 	local tree = self:GetTree()
 	local components = path:components():collect()
-	local name = components[#components]:toString():gsub(".rbxm", "")
-	local initPath = path:join("init.rbxm")
+	local name = components[#components]:toString():gsub(".rbxmx", "")
+	local initPath = path:join("init.rbxmx")
 
 	local treeComponent = {
 		Path = if pathfs.findDir(path) and pathfs.findFile(initPath) then initPath else path,
@@ -110,7 +110,7 @@ function ObjectsTree._addComponent(self: ObjectsTree, path: pathfs.Path)
 	end
 
 	for _, entry in pathfs.getEntries(path) do
-		if entry.name == "init.rbxm" then
+		if entry.name == "init.rbxmx" then
 			continue
 		end
 

@@ -165,14 +165,15 @@ function InstancesSaver._saveAsFile(
 		)}`
 	)
 
-	if #instance:GetChildren() == 0 or fileName == "init.rbxm" then
+	if #instance:GetChildren() == 0 or fileName == "init.rbxmx" then
 		local correctFileName = fileName or ""
 
 		if correctFileName == "" then
 			correctFileName = InstancePathUtils.FixName(instance.Name)
+			correctFileName = correctFileName:gsub("%.rbxmx?$", "")
 
 			correctFileName = if fileIndex == nil then correctFileName else correctFileName .. tostring(fileIndex)
-			correctFileName = correctFileName .. ".rbxm"
+			correctFileName = correctFileName .. ".rbxmx"
 		end
 
 		local filePath: pathfs.Path = path:join(correctFileName)
@@ -180,12 +181,12 @@ function InstancesSaver._saveAsFile(
 
 		Terminal.Out(`File path: {stringifiedFilePath}`)
 
-		local file = roblox.serializeModel({ instance })
+		local file = roblox.serializeModel({ instance }, true)
 		fs.writeFile(stringifiedFilePath, file)
 	else
 		local initPath: pathfs.Path = self:_saveAsFolder(instance, path, fileIndex)
 
-		self:_saveAsFile(instance, initPath, nil, "init.rbxm")
+		self:_saveAsFile(instance, initPath, nil, "init.rbxmx")
 	end
 
 	instance:Destroy()

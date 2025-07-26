@@ -1,0 +1,40 @@
+<roblox version="4">
+  <Item class="Humanoid" referent="0">
+    <Properties>
+      <string name="Name">Humanoid</string>
+      <BinaryString name="AttributesSerialize"></BinaryString>
+      <bool name="AutoJumpEnabled">true</bool>
+      <bool name="AutoRotate">true</bool>
+      <bool name="AutomaticScalingEnabled">true</bool>
+      <bool name="BreakJointsOnDeath">true</bool>
+      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+      <token name="CollisionType">0</token>
+      <token name="DisplayDistanceType">2</token>
+      <string name="DisplayName"></string>
+      <bool name="EvaluateStateMachine">true</bool>
+      <float name="HealthDisplayDistance">0</float>
+      <token name="HealthDisplayType">2</token>
+      <float name="Health_XML">100</float>
+      <float name="HipHeight">0</float>
+      <Vector3 name="InternalBodyScale">
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Vector3>
+      <float name="InternalHeadScale">1</float>
+      <float name="JumpHeight">10.243514</float>
+      <float name="JumpPower">59.63871</float>
+      <float name="MaxHealth">100</float>
+      <float name="MaxSlopeAngle">89</float>
+      <float name="NameDisplayDistance">0</float>
+      <token name="NameOcclusion">2</token>
+      <bool name="RequiresNeck">true</bool>
+      <token name="RigType">0</token>
+      <bool name="DefinesCapabilities">false</bool>
+      <int64 name="SourceAssetId">-1</int64>
+      <BinaryString name="Tags"></BinaryString>
+      <bool name="UseJumpPower">true</bool>
+      <float name="WalkSpeed">22.763365</float>
+    </Properties>
+  </Item>
+</roblox>

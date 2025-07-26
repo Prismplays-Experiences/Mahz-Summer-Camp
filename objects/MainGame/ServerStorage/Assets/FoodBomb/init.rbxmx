@@ -1,0 +1,78 @@
+<roblox version="4">
+  <Item class="Tool" referent="0">
+    <Properties>
+      <string name="Name">FoodBomb</string>
+      <BinaryString name="AttributesSerialize"></BinaryString>
+      <bool name="CanBeDropped">false</bool>
+      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+      <bool name="Enabled">true</bool>
+      <CoordinateFrame name="Grip">
+        <X>-0.000108242035</X>
+        <Y>-0.61391354</Y>
+        <Z>-0.009502411</Z>
+        <R00>-0.2578338</R00>
+        <R01>-0.93275285</R01>
+        <R02>-0.2519799</R02>
+        <R10>0.08715433</R10>
+        <R11>0.23728162</R11>
+        <R12>-0.96752346</R12>
+        <R20>0.9622504</R20>
+        <R21>-0.27142137</R21>
+        <R22>0.020114224</R22>
+      </CoordinateFrame>
+      <token name="LevelOfDetail">0</token>
+      <bool name="ManualActivationOnly">false</bool>
+      <CoordinateFrame name="ModelMeshCFrame">
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+        <R00>1</R00>
+        <R01>0</R01>
+        <R02>0</R02>
+        <R10>0</R10>
+        <R11>1</R11>
+        <R12>0</R12>
+        <R20>0</R20>
+        <R21>0</R21>
+        <R22>1</R22>
+      </CoordinateFrame>
+      <SharedString name="ModelMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
+      <Vector3 name="ModelMeshSize">
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Vector3>
+      <token name="ModelStreamingMode">0</token>
+      <bool name="NeedsPivotMigration">false</bool>
+      <Ref name="PrimaryPart">null</Ref>
+      <bool name="RequiresHandle">true</bool>
+      <bool name="DefinesCapabilities">false</bool>
+      <float name="ScaleFactor">1</float>
+      <int64 name="SourceAssetId">47586</int64>
+      <BinaryString name="Tags"></BinaryString>
+      <ContentId name="TextureId">
+        <url>rbxasset://Textures/Bomb.png</url>
+      </ContentId>
+      <string name="ToolTip"></string>
+      <OptionalCoordinateFrame name="WorldPivotData">
+        <CFrame>
+          <X>-11.481651</X>
+          <Y>1.0938909</Y>
+          <Z>-15.059767</Z>
+          <R00>0.24999945</R00>
+          <R01>-0.06698686</R01>
+          <R02>-0.96592396</R02>
+          <R10>-0.93301034</R10>
+          <R11>0.24999931</R11>
+          <R12>-0.2588182</R12>
+          <R20>0.25881812</R20>
+          <R21>0.9659227</R21>
+          <R22>0.00000025522394</R22>
+        </CFrame>
+      </OptionalCoordinateFrame>
+    </Properties>
+  </Item>
+  <SharedStrings>
+    <SharedString md5="rxNJufX5oaagQE3qNtzJSQ=="></SharedString>
+  </SharedStrings>
+</roblox>
