@@ -57,7 +57,7 @@ function InstancesLoader._loadSaves(self: InstancesLoader, parent: Instance, pat
 	end
 
 	for _, entry in pathfs.getEntries(path) do
-		if entry.name == "init.rbxm" then
+		if entry.name == "init.rbxmx" then
 			continue
 		end
 
@@ -74,7 +74,7 @@ end
 
 function InstancesLoader._loadAsFile(parent: Instance, path: pathfs.Path)
 	local instanceName = path:fileName() :: string
-	instanceName = instanceName:gsub(".rbxm", "")
+	instanceName = instanceName:gsub(".rbxmx", "")
 
 	local file = fs.readFile(path)
 	local instance = roblox.deserializeModel(file)[1]
@@ -91,7 +91,7 @@ end
 
 function InstancesLoader._loadAsFolder(self: InstancesLoader, parent: Instance, path: pathfs.Path)
 	local instanceName = path:fileName() :: string
-	local initPath = path:join("init.rbxm")
+	local initPath = path:join("init.rbxmx")
 
 	local instance
 
