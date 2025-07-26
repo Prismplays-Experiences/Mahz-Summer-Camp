@@ -33,7 +33,6 @@ local FoodChaosFrame = EventsInterfaces:WaitForChild("FoodChaos")
 local StatusTxt = FoodChaosFrame:WaitForChild("Status")
 -- local SubStatusTxt = FoodBombFrame:WaitForChild("SubStatus")
 
-local Models = ReplicatedStorage:WaitForChild("Models")
 local SoundEffects = Models:WaitForChild("SoundEffects")
 
 --> Variables
@@ -84,10 +83,6 @@ function ShortNotification(Text, TextColor, Random)
 	tweenouttext.Completed:Connect(function()
 		NotificationTemplete:Destroy()
 	end)
-end
-
-function RoundTo2DecimalPlaces(value)
-	return math.floor(value * 100 + 0.5) / 100
 end
 
 --> Utility Functions
