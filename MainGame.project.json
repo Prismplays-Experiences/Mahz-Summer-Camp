@@ -51,6 +51,14 @@
         "ExposureCompensation": 0.2,
         "FogColor": [0.710,0.545,0.753]
       }
+    },
+
+    "TextChatService": {
+      "$className": "TextChatService",
+      "$properties": {
+        "ChatVersion": "TextChatService"
+      },
+      "$ignoreUnknownInstances": true
     }
   }
 }
