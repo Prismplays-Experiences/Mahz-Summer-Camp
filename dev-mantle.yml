@@ -39,10 +39,6 @@ target:
           maxPlayerCount: 50
           allowCopying: false
       mainGame:
-        icon: marketing/DefaultIcon.png
-        thumbnails:
-          - marketing/MainThumbnail.png
-          - marketing/SecondThumbnail.png
         file: MainGame.rbxlx
         configuration:
           name: 24 Days to lose weight - Main Game
