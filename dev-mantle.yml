@@ -21,7 +21,7 @@ target:
       - marketing/MainThumbnail.png
       - marketing/SecondThumbnail.png
     configuration:
-      genre: Adventure
+      genre: adventure
       playableDevices: [computer, console, phone, tablet]
       privateServers:
         price: 0
