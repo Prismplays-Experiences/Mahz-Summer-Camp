@@ -16,6 +16,10 @@ environments:
 
 target:
   experience:
+    icon: marketing/DefaultIcon.png
+    thumbnails:
+      - marketing/MainThumbnail.png
+      - marketing/SecondThumbnail.png
     configuration:
       genre: adventure
       playableDevices: [computer, console, phone, tablet]
@@ -24,10 +28,6 @@ target:
       enableStudioAccessToApis: true
       avatarType: r15
       avatarAnimationType: playerChoice
-      icon: marketing/DefaultIcon.png
-      thumbnails:
-        - marketing/MainThumbnail.png
-        - marketing/SecondThumbnail.png
     spatialVoice:
       enabled: true
     places:
