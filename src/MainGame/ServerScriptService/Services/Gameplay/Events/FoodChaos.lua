@@ -1,3 +1,5 @@
+--- there are bugs so dont use this event
+
 --> Services
 -----------------------------------------
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -16,12 +18,12 @@ local Trove = require("@Packages/Trove")
 -----------------------------------------
 local Assets = ServerStorage:WaitForChild("Assets")
 -- local Models = ReplicatedStorage:WaitForChild("Models")
-local ModelAssets = require("@Assets")
-local ImageAssets = ModelAssets.images
+-- local ModelAssets = require("@assets")
+-- local ImageAssets = ModelAssets.images
 -- local SoundEffects = ReplicatedStorage:WaitForChild("Models"):WaitForChild("SoundEffects")
 local SpeedBoostModel = Assets:WaitForChild("SpeedBoost")
 
-local KitchenFoods = ReplicatedStorage:WaitForChild("Models")
+local KitchenFoods = ReplicatedStorage:WaitForChild("Models"):WaitForChild("KitchenFoods")
 
 local ScriptingProperties = workspace:WaitForChild("Game"):WaitForChild("ScriptingProperties")
 local EventScriptingItems = ScriptingProperties:WaitForChild("Events")
@@ -40,22 +42,22 @@ local FoodChaos = Knit.CreateService({
 	Client = {
 		DropFood = Knit.CreateSignal(),
 		EventStatus = Knit.CreateProperty(""),
+		ModeEnded = Knit.CreateSignal(),
 	},
 })
 
 --> Variables
 -----------------------------------------
-FoodChaos.ModeEnded = Signal.new()
-FoodChaos.EventTIme = 60
+FoodChaos.EventTime = 60
 FoodChaos.Trove = Trove.new()
 FoodChaos.MaxWeightGained = 250
-FoodChaos.MinPlayers = 2 -- 2
+FoodChaos.MinPlayers = 10 --- there are bugs so dont use this event
 FoodChaos.LockWorkoutMachines = true
 FoodChaos.YieldClock = true
 FoodChaos.Ended = Signal.new()
 FoodChaos.Details = {
 	Text = "Food chaos!",
-	Image = ImageAssets.FoodChaos,
+	Image = "rbxassetid://74060213881216",
 }
 
 local DropHeight = 260
@@ -67,6 +69,30 @@ local fireColorSequence = {
 
 --> Utility Functions
 -----------------------------------------
+function MoveItem(Item, Position)
+	if not Item then
+		return
+	end
+	if Item and Item:IsA("BasePart") or Item:IsA("MeshPart") then
+		Item.Position = Position
+	elseif Item and Item:IsA("Model") then
+		Item:MoveTo(Position)
+	end
+end
+
+function AnchorItem(Item, Anchor)
+	if not Item then
+		return
+	end
+	if Item:IsA("BasePart") then
+		Item.Anchored = Anchor
+	end
+	for _, Part in ipairs(Item:GetDescendants()) do
+		if Part:IsA("BasePart") or Part:IsA("MeshPart") then
+			Part.Anchored = Anchor
+		end
+	end
+end
 
 function isInteger(num)
 	return type(num) == "number" and num % 1 == 0
@@ -139,11 +165,21 @@ function SpeedPowerup(Powerup, spot)
 	end)
 end
 
+function ScaleObject(object, scaleFactor)
+	if object:IsA("BasePart") then
+		object.Size *= scaleFactor
+	elseif object:IsA("Model") then
+		local currentScale = object:GetScale()
+		object:ScaleTo(currentScale * scaleFactor)
+	end
+end
+
 --> Main Functions
 -----------------------------------------
 
 function FoodChaos:RandomFood()
 	local Food = KitchenFoods:GetChildren()[math.random(1, #KitchenFoods:GetChildren())]:Clone()
+	ScaleObject(Food, 2)
 	Food:SetAttribute("Weight", Food:GetAttribute("Weight") * self.ClockService.Days)
 	self.Trove:Add(Food)
 	return Food
@@ -186,6 +222,9 @@ end
 function FoodChaos:DropFood(Count)
 	for _ = 1, Count do
 		local RandomFood = self:RandomFood()
+
+		AnchorItem(RandomFood, true)
+		RandomFood.Parent = FoodsDropped
 		local SpawnPoint = SpawnPoints:GetChildren()[math.random(1, #SpawnPoints:GetChildren())]
 
 		local size = SpawnPoint.Size
@@ -196,40 +235,42 @@ function FoodChaos:DropFood(Count)
 		local randomZ = math.random() * size.Z - size.Z / 2
 
 		local rayOrigin = Vector3.new(basePos.X + randomX, basePos.Y + DropHeight, basePos.Z + randomZ)
+		MoveItem(RandomFood, rayOrigin)
 
-		local rayDirection = Vector3.new(0, -DropHeight, 0)
+		local rayDirection = Vector3.new(0, -(DropHeight + 1000), 0)
 
 		local raycastParams = RaycastParams.new()
-		raycastParams.FilterDescendantsInstances = { workspace }
-		raycastParams.FilterType = Enum.RaycastFilterType.Include
-		raycastParams.IgnoreWater = true
+		raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+		raycastParams.FilterDescendantsInstances = { RandomFood }
 
 		local result = nil
 		repeat
-			workspace:Raycast(rayOrigin, rayDirection, raycastParams)
+			result = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
 			task.wait()
 		until result and result.Instance == SpawnPoint
-		RandomFood.Parent = FoodsDropped
+		-- RandomFood.Parent = FoodsDropped
 		self.Client.DropFood:FireAll(RandomFood, rayOrigin, result.Position)
-		task.wait(15)
-		RandomFood:Destroy()
+		task.delay(15, function()
+			RandomFood:Destroy()
+		end)
 	end
 end
 
 function FoodChaos:Start()
 	self.EventsService.Client.EnableEventsInterfaces:FireAll(true, "FoodChaos")
-	local totalTime = self.EventTIme
+	local totalTime = self.EventTime
 	self:DropPowerups(2, SpeedBoostModel, SpeedPowerup)
 	for i = totalTime, 0, -1 do
 		self.Client.EventStatus:Set(`{i}s`)
 		local progress = (totalTime - i) / totalTime
 		local wave = math.sin(progress * math.pi)
 		local dropAmount = math.floor(3 + wave * 10)
-		if isInteger(i / 15) and i < self.ExplodeTime - 10 then
+		if isInteger(i / 15) and i < self.EventTime - 10 then
 			self:DropPowerups(3, SpeedBoostModel, SpeedPowerup)
 		end
 
-		self:DropFood(dropAmount)
+		self:DropFood(50) -- dropAmount
+		print("done 2")
 		task.wait(1)
 	end
 	self.Client.EventStatus:Set("Food Chaos ended!")
@@ -238,6 +279,7 @@ function FoodChaos:Start()
 end
 
 function FoodChaos:Clean()
+	self.Client.ModeEnded:FireAll()
 	self.EventsService.Client.EnableEventsInterfaces:FireAll(false)
 	for _, v in ItemSpawnPoints:GetChildren() do
 		v:RemoveTag("SpotTaken")
@@ -248,4 +290,7 @@ end
 function FoodChaos:KnitStart()
 	self.ClockService = Knit.GetService("ClockService")
 	self.EventsService = Knit.GetService("EventsService")
+	self.WeightControl = Knit.GetService("WeightControl")
 end
+
+return FoodChaos

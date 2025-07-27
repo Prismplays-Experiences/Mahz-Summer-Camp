@@ -16,25 +16,30 @@ local IAPFunction = Knit.CreateService({
 
 --> Utility Functions
 -----------------------------------------
-function GiveItem(Player, Item)
-	local Tool = ServerStorage.Suppliments:FindFirstChild(Item)
-	if Tool then
-		local Clone = Tool:Clone()
-		Clone.Parent = Player.Backpack
-	else
-		warn(`Item {Item} not found in ServerStorage`)
-	end
-end
 
 --> Main Functions
 -----------------------------------------
 
-function IAPFunction.Client:Purchase(Player, Item)
-	local Data = IAPDATA.Suppliments[Item]
-	local Price = Data.Cost
+function IAPFunction.Client:GiveItem(Player, Item, Category)
+	if Category == "Suppliments" then
+		local Tool = ServerStorage.Suppliments:FindFirstChild(Item.ToolName)
+		if Tool then
+			local Clone = Tool:Clone()
+			Clone.Parent = Player.Backpack
+		else
+			warn(`Item {Item.ToolName} not found in ServerStorage`)
+		end
+	elseif Category == "Events" then
+		print("events")
+	elseif Category == "Auras" then
+		print("auras")
+	end
+end
+
+function IAPFunction.Client:Purchase(Player, Price, Data, Category)
 	if Player.PrivateStats.Currency.Value >= Price then
 		Player.PrivateStats.Currency.Value -= Price
-		GiveItem(Player, Item)
+		self:GiveItem(Player, Data, Category)
 		return true, "Purchase successful"
 	else
 		return false, "Not enough currency"

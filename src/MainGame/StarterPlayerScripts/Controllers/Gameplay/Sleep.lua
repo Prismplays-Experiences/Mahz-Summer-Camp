@@ -86,6 +86,9 @@ function SleepController:KnitStart()
 	local BedService = Knit.GetService("BedService")
 
 	BedService.SleepAnim:Connect(function(Boolean)
+		if Player:HasTag("Eliminated") then
+			return
+		end
 		if Boolean then
 			if self.WorkoutsHandler.InWorkout then
 				self.WorkoutsHandler:StopWorkout()

@@ -10,8 +10,8 @@ ReplicatedStorage:WaitForChild("Assets")
 local Models = ReplicatedStorage:WaitForChild("Models")
 Models:WaitForChild("SoundEffects")
 local PlayerGui = Player.PlayerGui
-local Frames = PlayerGui:WaitForChild("Main"):WaitForChild("Frames")
-local SpectateFrame = Frames:WaitForChild("Spectate")
+local Main = PlayerGui:WaitForChild("Main")
+local SpectateFrame = Main:WaitForChild("Spectate")
 
 --> Modules
 ----------------------------------------

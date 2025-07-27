@@ -23,7 +23,7 @@ local Player = game.Players.LocalPlayer
 local Assets = ReplicatedStorage:WaitForChild("Assets")
 local Confetti = Assets:WaitForChild("Confetti")
 
-local Vfx = Assets:WaitForChild("Vfx")
+local Vfx = Assets:WaitForChild("VFX")
 local Puff = Vfx:WaitForChild("Puff")
 
 local PlayerGui = Player.PlayerGui
@@ -37,8 +37,8 @@ local SoundEffects = Models:WaitForChild("SoundEffects")
 
 --> Variables
 ----------------------------------------
-local CircleSpawnOffset = Vector3.new(0, 10, 0)
-local CircleTargetSize = Vector3.new(25, 1, 25)
+local CircleSpawnOffset = Vector3.new(0, 5, 0)
+local CircleTargetSize = Vector3.new(1, 25, 25)
 
 --> Knit Setup
 ----------------------------------------
@@ -87,17 +87,6 @@ end
 
 --> Utility Functions
 ----------------------------------------
-
-function MoveItem(Item, Position)
-	if not Item then
-		return
-	end
-	if Item and Item:IsA("BasePart") or Item:IsA("MeshPart") then
-		Item.Position = Position
-	elseif Item and Item:IsA("Model") then
-		Item:MoveTo(Position)
-	end
-end
 
 function AnchorItem(Item, Anchor)
 	if not Item then
@@ -182,10 +171,15 @@ end
 
 function FoodChaosController:CircleSpawn(Food, Position, Weight)
 	local CircularPart = self.Trove:Add(Instance.new("Part"))
+	CircularPart.Shape = Enum.PartType.Cylinder
 	CircularPart.Size = Vector3.new(0.001, 0.001, 0.001)
 	CircularPart.Position = Position - CircleSpawnOffset
 	CircularPart.Anchored = true
 	CircularPart.CanCollide = false
+	CircularPart.Transparency = 0.6
+	CircularPart.Parent = workspace
+
+	CircularPart.Orientation = Vector3.new(0, 0, 90)
 	local CircleGood = false
 	if Weight > 0 then
 		CircularPart.Color = Color3.fromRGB(0, 255, 0)
@@ -202,6 +196,7 @@ function FoodChaosController:CircleSpawn(Food, Position, Weight)
 	})
 
 	CircleTween:Play()
+	local HumanoidDebounce = false
 	self.Trove:Connect(CircularPart.Touched, function(hit)
 		local Humanoid = hit.Parent:FindFirstChild("Humanoid")
 		local Obj
@@ -209,23 +204,38 @@ function FoodChaosController:CircleSpawn(Food, Position, Weight)
 			Obj = Humanoid.Parent
 		else
 			if KitchenFoods:FindFirstChild(hit.Name) then
+				print(hit)
 				Obj = hit
+				AnchorItem(Obj, true)
 			end
 			if KitchenFoods:FindFirstChild(hit.Parent.Name) then
+				print(hit.Parent)
 				Obj = hit.Parent
+				AnchorItem(Obj, true)
 			end
 		end
+		if Obj == nil then
+			return
+		end
 		if Obj:FindFirstChild("Humanoid") then
+			if HumanoidDebounce then
+				return
+			end
+			HumanoidDebounce = true
 			if not CircleGood then
 				ShortNotification("Bad Food Zone!", Color3.fromRGB(255, 0, 0), false)
 				SoundEffects.Alarm:Play()
 			end
+			task.delay(2, function()
+				HumanoidDebounce = false
+			end)
 		else
 			local PlrCharacter = Player.Character
 			local Mag = (PlrCharacter.HumanoidRootPart.Position - CircularPart.Position).Magnitude
 			local NewPuff = Puff:Clone()
 			NewPuff.Parent = CircularPart
 			NewPuff:Emit(45)
+			print("landed")
 			if Mag > CircularPart.Size.X / 2 then
 				return
 			end
@@ -233,19 +243,37 @@ function FoodChaosController:CircleSpawn(Food, Position, Weight)
 		end
 		ShrinkTween:Play()
 	end)
+	return CircularPart.Position
 end
 
 function FoodChaosController:KnitStart()
 	self.Trove = Trove.new()
-	local FoodChaosService = Knit.GetService("FoodChaosEvent")
+	local FoodChaosService = Knit.GetService("FoodChaos")
 	FoodChaosService.DropFood:Connect(function(Food, Origin, TargetPosition)
+		print("fired")
 		Food.Parent = FoodsDropped
-		MoveItem(Food, Origin)
-		AnchorItem(Food, false)
-		self:CircleSpawn(Food, TargetPosition, Food:GetAttribute("Weight"))
+		local circlepos = self:CircleSpawn(Food, TargetPosition, Food:GetAttribute("Weight"))
+		TargetPosition = circlepos
+		local elapsedTime = 0
+		local connection
+		local duration = 5
+		connection = RunService.RenderStepped:Connect(function(dt)
+			elapsedTime += dt
+			local alpha = math.clamp(elapsedTime / duration, 0, 1)
+
+			local pos = Origin:Lerp(TargetPosition, alpha)
+			local currentPivot = Food:GetPivot()
+			local rotation = currentPivot - currentPivot.Position
+			local newCFrame = CFrame.new(pos) * rotation
+			Food:PivotTo(newCFrame)
+
+			if alpha >= 1 then
+				connection:Disconnect()
+			end
+		end)
 	end)
 
-	FoodChaosService.Ended:Connect(function()
+	FoodChaosService.ModeEnded:Connect(function()
 		self.Trove:Clean()
 	end)
 
@@ -253,3 +281,5 @@ function FoodChaosController:KnitStart()
 		StatusTxt.Text = txt
 	end)
 end
+
+return FoodChaosController

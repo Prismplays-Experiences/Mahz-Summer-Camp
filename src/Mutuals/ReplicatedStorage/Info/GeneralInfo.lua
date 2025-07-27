@@ -1,5 +1,5 @@
 return {
-	Weight = 10000,
+	Weight = 9500,
 	EndWeight = 50,
 	MaxDays = 24,
 	MaxLifes = 2,

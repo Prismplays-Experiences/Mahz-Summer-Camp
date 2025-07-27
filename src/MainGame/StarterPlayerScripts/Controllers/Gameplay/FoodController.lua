@@ -43,7 +43,7 @@ function ShortNotification(Text, TextColor, Random)
 	NotificationTemplete.Text = Text
 	NotificationTemplete.TextColor3 = TextColor or Color3.fromRGB(255, 255, 255)
 	NotificationTemplete.Visible = false
-	NotificationTemplete.Parent = Player.PlayerGui:WaitForChild("Main"):WaitForChild("Gameplay")
+	NotificationTemplete.Parent = Player.PlayerGui:WaitForChild("Main"):WaitForChild("Core")
 	local tweeninstroke = TweenService:Create(UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { Transparency = 0 })
 	local tweenintext =
 		TweenService:Create(NotificationTemplete, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { TextTransparency = 0 })

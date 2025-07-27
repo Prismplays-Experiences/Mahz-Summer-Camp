@@ -30,15 +30,17 @@ local Confetti = Assets:WaitForChild("Confetti")
 
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild("Packages")
-local Knit = require(Packages:WaitForChild("Knit"))
-local Trove = require(Packages:WaitForChild("Trove"))
+
+local Knit = require("@Packages/Knit")
+local Trove = require("@Packages/Trove")
 
 local HardNotification = require("@Modules/HardNotification")
 
 local WorkoutMetaData = require("@Info/WorkoutMetaData")
 local MarketModule = require("@Modules/MarketService")
 local GeneralInfo = require("@Info/GeneralInfo")
+
+local IAPDATA = require("@Info/IAPDATA")
 
 --> Variables
 ----------------------------------------
@@ -349,7 +351,10 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 		if self.MinigameData.Value == nil then
 			return
 		end
-		Data.AnimTrack:AdjustSpeed(self.MinigameData.Value.Value)
+		local SpeedMultiplier = 1
+		SpeedMultiplier *= Player:HasTag("HyperShredMax") and IAPDATA.Suppliments.HyperShredMax.Multiplier or 1
+		SpeedMultiplier *= Player:HasTag("CaffeinePill") and IAPDATA.Suppliments.CaffeinePill.Multiplier or 1
+		Data.AnimTrack:AdjustSpeed(self.MinigameData.Value.Value * SpeedMultiplier)
 	end)
 	self.StoppedEvent = self.MinigameData.Stopped:Connect(function()
 		self:StopWorkout()
@@ -366,17 +371,12 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 end
 
 function WorkoutsHandler:LoseWeight(Value)
-	if Player:HasTag("DoubleWeightLoss") then
-		Value = Value * 2
-	end
-	local WeightLossMultiplier = Player:GetAttribute("WeightLossMultiplier") or 1
-	local suffix = ""
-	if WeightLossMultiplier > 1 then
-		Value = Value * WeightLossMultiplier
-		suffix = ` ({WeightLossMultiplier}x)`
-	end
-	ShortNotification(`-{Value}{suffix} lbs`, Color3.fromRGB(255, 209, 57), true)
-	self.GeneralService:LoseWeight(Value)
+	self.WeightControl:DecreaseWeight(Value, true):andThen(function(status, value)
+		if status then
+			local suffix = ` ({value / Value}x)`
+			ShortNotification(`-{value}{suffix} lbs`, Color3.fromRGB(255, 209, 57), true)
+		end
+	end)
 end
 
 function WorkoutsHandler:StopWorkout()
@@ -484,6 +484,7 @@ function WorkoutsHandler:KnitStart()
 	self.GeneralController = Knit.GetController("GeneralControllers")
 	self.GeneralService = Knit.GetService("GeneralGameplay")
 	self.MusicController = Knit.GetController("MusicController")
+	self.WeightControl = Knit.GetService("WeightControl")
 
 	--load minigames
 	local Gameplay = script.Parent

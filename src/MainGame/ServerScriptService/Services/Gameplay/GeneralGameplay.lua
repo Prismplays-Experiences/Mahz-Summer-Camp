@@ -23,13 +23,13 @@ local SoundEffects = ReplicatedStorage:WaitForChild("Models"):WaitForChild("Soun
 
 --> Variables
 ----------------------------------------
-local Testing = false
+local Testing = true
 
 --> Knit Setup
 ----------------------------------------
 local GeneralGameplay = Knit.CreateService({
 	Name = "GeneralGameplay",
-	CountdownValue = RunService:IsStudio() and 20 or 30,
+	CountdownValue = RunService:IsStudio() and 10 or 30,
 	CountdownEnabled = true,
 	Client = {
 		DisableControls = Knit.CreateSignal(),
@@ -88,7 +88,6 @@ function GeneralGameplay:Countdown(seconds)
 end
 
 function GeneralGameplay:KnitStart()
-	-- 20
 	local InstructorMessageService = Knit.GetService("InstructorMessage")
 	self.ClockService = Knit.GetService("ClockService")
 	self.BedService = Knit.GetService("BedService")
@@ -107,6 +106,9 @@ function GeneralGameplay:KnitStart()
 	if self.CountdownEnabled then
 		self:Countdown(self.CountdownValue)
 	end
+
+	-- self.EventsService:EventLoop(5) -- event testing
+
 	if not Testing then
 		self.Client.StopWorkout:FireAll()
 		InstructorMessageService:PlayMessage(InstructorMessages.Day1)
@@ -214,22 +216,6 @@ function GeneralGameplay:RunInstructorMessage(Day)
 	end
 end
 
-function GeneralGameplay.Client:LoseWeight(Player, Weight)
-	local leaderstats = Player:FindFirstChild("leaderstats")
-	if not leaderstats then
-		return
-	end
-	local WeightStat = leaderstats:FindFirstChild("Weight")
-	if not WeightStat then
-		return
-	end
-	Weight = math.clamp(WeightStat.Value - Weight, GeneralInfo.EndWeight, GeneralInfo.Weight)
-	WeightStat.Value = Weight
-	if WeightStat.Value < 0 then
-		WeightStat.Value = 0
-	end
-end
-
 function GeneralGameplay.Client:TagSlot(Player, Slot, Tag)
 	if not Slot or not Slot:IsA("BasePart") then
 		return
@@ -278,14 +264,18 @@ function GeneralGameplay.Client:SetInjured(Player, Injured)
 		Player.Character:FindFirstChild("RecoveryBar"):Destroy()
 		return
 	end
-	self.InjuredCount:SetFor(Player, 35)
+	local CountVal = 35
+	if Player:HasTag("HyperShredMax") then
+		CountVal /= 2
+	end
+	self.InjuredCount:SetFor(Player, CountVal)
 	local RecoveryBar = ServerStorage:WaitForChild("Assets"):WaitForChild("RecoveryBar"):Clone()
 	local Filler = RecoveryBar:WaitForChild("Bar"):WaitForChild("Fill")
 	RecoveryBar.Parent = Player.Character
 	while Player:GetAttribute("Injured") and task.wait(1) do
 		local Count = self.InjuredCount:GetFor(Player)
 		self.InjuredCount:SetFor(Player, Count - 1)
-		Filler.Size = UDim2.fromScale(1, 1 - ((Count - 1) / 35))
+		Filler.Size = UDim2.fromScale(1, 1 - ((Count - 1) / CountVal))
 		if Count - 1 <= 0 then
 			Player:SetAttribute("Injured", false)
 			self.InjuredNotify:Fire(Player, false)

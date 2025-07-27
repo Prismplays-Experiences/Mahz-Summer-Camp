@@ -54,11 +54,13 @@ local Frames = Main:WaitForChild("Frames")
 -- local DailyFrame = Frames:WaitForChild("Daily")
 local WheelFrame = Frames:WaitForChild("Wheel")
 local ShopFrame = Frames:WaitForChild("Shop")
+local TimedShop = Frames:WaitForChild("TimedShop")
 
 local FramesTable = {
 	-- DailyFrame,
 	WheelFrame,
 	ShopFrame,
+	TimedShop,
 }
 
 --> Utility Functions
@@ -316,6 +318,28 @@ if placeId == ExperienceInfo.Places.Lobby.Id then
 			end)
 		end
 	end
+end
+
+if placeId == ExperienceInfo.Places.MainGame.Id then
+	local TimedShopZone = ZonePoints:WaitForChild("TimedShop")
+	ZoneConnect:new(TimedShopZone, function()
+		for _, v in FramesTable do
+			if v == TimedShop then
+				continue
+			end
+			task.spawn(function()
+				UIMovement(false, v)
+			end)
+		end
+		animPlugin.target(camera, 0.5, 3, { FieldOfView = 85 })
+		animPlugin.target(blur, 0.5, 3, { Size = 15 })
+		UIMovement(true, TimedShop)
+	end, function()
+		animPlugin.target(camera, 0.5, 3, { FieldOfView = 70 })
+		animPlugin.target(blur, 0.5, 3, { Size = 0 })
+		UIMovement(false, TimedShop)
+	end, Player)
+	ToggleControl(TimedShop.Close, TimedShop)
 end
 
 local ShopZone = ZonePoints:WaitForChild("Shop")

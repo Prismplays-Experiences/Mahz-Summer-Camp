@@ -177,6 +177,17 @@ function SpeedPowerup(Powerup, spot)
 	end)
 end
 
+function SendNotification(player, msg, color, duration, reward, sound)
+	local Notify = Knit.GetService("NotificationService")
+	Notify:SendNotification(player, {
+		message = msg,
+		color = color or Color3.fromRGB(255, 255, 255),
+		duration = duration or 2,
+		reward = reward or false,
+		sound = sound or SoundEffects.Positive,
+	})
+end
+
 --> Main Functions
 -----------------------------------------
 
@@ -332,8 +343,10 @@ function FoodBomb:Start()
 	Food:Destroy()
 	task.spawn(function()
 		local WeightGained = self.MaxWeightGained * self.ClockService.Days / GeneralInfo.MaxDays
-		LastPlayer.leaderstats.Weight.Value += WeightGained
-		self.Client.WeightGained:Fire(LastPlayer, WeightGained)
+		local Status = self.WeightControl:DecreaseWeight(LastPlayer, WeightGained)
+		if Status then
+			self.Client.WeightGained:Fire(LastPlayer, WeightGained)
+		end
 	end)
 	task.wait(3)
 	self.Ended:Fire()
@@ -352,6 +365,7 @@ function FoodBomb:KnitStart()
 	self.GeneralService = Knit.GetService("GeneralGameplay")
 	self.ClockService = Knit.GetService("ClockService")
 	self.EventsService = Knit.GetService("EventsService")
+	self.WeightControl = Knit.GetService("WeightControl")
 end
 
 return FoodBomb

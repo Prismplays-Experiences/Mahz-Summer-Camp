@@ -21,6 +21,8 @@ local Assets = ReplicatedStorage:WaitForChild("Assets")
 local VFX = Assets:WaitForChild("VFX")
 local Highlights = Assets:WaitForChild("Highlights")
 
+local SoundEffects = Models:WaitForChild("SoundEffects")
+
 --> Variables
 ----------------------------------------
 local SpawnTakenTag = "SpawnTaken"
@@ -139,23 +141,24 @@ function KitchenService:SpawnFoods(FoodCount)
 
 		local ProximityPrompt, WeightLoss, IsHighFood = self:ApplyFoodDetails(Food)
 		self.FoodSpawnTrove:Connect(ProximityPrompt.Triggered, function(player)
-			local PlayerWeight = player:WaitForChild("leaderstats"):WaitForChild("Weight")
-			PlayerWeight.Value -= WeightLoss
+			local Status = self.WeightControl:DecreaseWeight(player, WeightLoss, true)
+			if Status then
+				self.Client.FoodEaten:Fire(player, Food.Name, WeightLoss, IsHighFood)
+			end
 			Food:Destroy()
-			self.Client.FoodEaten:Fire(player, Food.Name, WeightLoss, IsHighFood)
 		end)
-		-- local Highlight = Instance.new("Highlight")
-		-- Highlight.Enabled = false
-		-- Highlight.FillColor = Color3.fromRGB(255, 255, 255)
-		-- Highlight.FillTransparency = 0.9
-		-- Highlight.OutlineColor = Color3.fromRGB(255,255,255)
-		-- Highlight.Parent = Food
-		-- self.FoodSpawnTrove:Connect(ProximityPrompt.PromptShown, function()
-		--     Highlight.Enabled = true
-		-- end)
-		-- self.FoodSpawnTrove:Connect(ProximityPrompt.PromptHidden, function()
-		--     Highlight.Enabled = false
-		-- end)
+		local Highlight = Instance.new("Highlight")
+		Highlight.Enabled = false
+		Highlight.FillColor = Color3.fromRGB(255, 255, 255)
+		Highlight.FillTransparency = 0.9
+		Highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+		Highlight.Parent = Food
+		self.FoodSpawnTrove:Connect(ProximityPrompt.PromptShown, function()
+			Highlight.Enabled = true
+		end)
+		self.FoodSpawnTrove:Connect(ProximityPrompt.PromptHidden, function()
+			Highlight.Enabled = false
+		end)
 		Food.Parent = SpawnPoint
 		if Food:IsA("Model") then
 			Food:MoveTo(SpawnPoint.Position)
@@ -178,6 +181,7 @@ end
 function KitchenService:KnitStart()
 	self.FoodSpawnTrove = Trove.new()
 	self.ClockService = Knit.GetService("ClockService")
+	self.WeightControl = Knit.GetService("WeightControl")
 end
 
 return KitchenService

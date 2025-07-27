@@ -1,3 +1,4 @@
+local RunService = game:GetService("RunService")
 local DailyReward = {
 	Due = true,
 	Streak = 1,
@@ -13,7 +14,7 @@ local leaderstats = {
 local PrivateStats = {
 
 	Spins = 0,
-	Currency = 50,
+	Currency = RunService:IsStudio() and 1000 or 50,
 	TutorialConcluded = false,
 	Donate = 0,
 	RobuxSpent = 0,
