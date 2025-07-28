@@ -3,7 +3,7 @@
     <Properties>
       <string name="Name">Pizza</string>
       <bool name="Anchored">true</bool>
-      <BinaryString name="AttributesSerialize"></BinaryString>
+      <BinaryString name="AttributesSerialize">AQAAAAYAAABXZWlnaHQGAAAAAAAAFMA=</BinaryString>
       <bool name="AudioCanCollide">true</bool>
       <float name="BackParamA">-0.5</float>
       <float name="BackParamB">0.5</float>

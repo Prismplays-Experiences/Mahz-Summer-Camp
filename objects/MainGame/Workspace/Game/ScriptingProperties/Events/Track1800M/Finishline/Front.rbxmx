@@ -2,7 +2,8 @@
   <Item class="Texture" referent="0">
     <Properties>
       <string name="Name">Front</string>
-      <BinaryString name="AttributesSerialize"></BinaryString>
+      <BinaryString name="AttributesSerialize">
+      </BinaryString>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <Color3 name="Color3">
         <R>0</R>
@@ -12,11 +13,12 @@
       <token name="Face">5</token>
       <float name="OffsetStudsU">0</float>
       <float name="OffsetStudsV">0</float>
-<bool name="DefinesCapabilities">false</bool>
+      <bool name="DefinesCapabilities">false</bool>
       <int64 name="SourceAssetId">-1</int64>
       <float name="StudsPerTileU">2</float>
       <float name="StudsPerTileV">2</float>
-      <BinaryString name="Tags"></BinaryString>
+      <BinaryString name="Tags">
+      </BinaryString>
       <Content name="TextureContent">
         <uri>http://www.roblox.com/asset/?id=6905003203</uri>
       </Content>

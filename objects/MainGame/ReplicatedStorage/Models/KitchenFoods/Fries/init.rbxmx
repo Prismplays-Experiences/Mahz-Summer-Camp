@@ -2,7 +2,7 @@
   <Item class="Model" referent="0">
     <Properties>
       <string name="Name">Fries</string>
-      <BinaryString name="AttributesSerialize"></BinaryString>
+      <BinaryString name="AttributesSerialize">AQAAAAYAAABXZWlnaHQGAAAAAAAACMA=</BinaryString>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <token name="LevelOfDetail">0</token>
       <CoordinateFrame name="ModelMeshCFrame">
