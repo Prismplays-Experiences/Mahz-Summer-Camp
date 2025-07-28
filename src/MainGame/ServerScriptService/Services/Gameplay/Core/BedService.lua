@@ -7,12 +7,16 @@ local Players = game:GetService("Players")
 local Knit = require("@Packages/Knit")
 local Trove = require("@Packages/Trove")
 
+--> Constants
+----------------------------------------
+local BED_TIME_TRANSITION_TEXT = "Bed Time!"
+local SLEEP_TIME = 7
+
 --> Variables
 ----------------------------------------
 local ScriptingProperties = workspace:WaitForChild("Game"):WaitForChild("ScriptingProperties")
 local Beds = ScriptingProperties:WaitForChild("Beds")
 
-local SleepTime = 7
 local SeatsTrove = Trove.new()
 
 local SoundEffects = game.ReplicatedStorage.Models.SoundEffects
@@ -70,7 +74,7 @@ function BedService:SleepPlayers(Auto, halt) -- Makes player sleep, Auto ensures
 		self.BedAssigned = true
 	end
 
-	self.EndTransition = self.TransitionService:SendTransitionAll("BedTime.")
+	self.EndTransition = self.TransitionService:SendTransitionAll(BED_TIME_TRANSITION_TEXT)
 
 	task.wait(1)
 
@@ -81,10 +85,10 @@ function BedService:SleepPlayers(Auto, halt) -- Makes player sleep, Auto ensures
 		return
 	end
 	if halt then
-		task.wait(SleepTime)
+		task.wait(SLEEP_TIME)
 		self:RisePlayers()
 	else
-		task.delay(SleepTime, function()
+		task.delay(SLEEP_TIME, function()
 			self:RisePlayers()
 		end)
 	end

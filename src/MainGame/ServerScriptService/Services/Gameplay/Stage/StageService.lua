@@ -9,6 +9,12 @@ local TweenService = game:GetService("TweenService")
 local Knit = require("@Packages/Knit")
 local GeneralInfo = require("@Info/GeneralInfo")
 
+--> Constants
+----------------------------------------
+local NUMBER_LABEL_TWEEN_STYLE = Enum.EasingStyle.Bounce
+local NUMBER_LABEL_TWEEN_DIRECTION = Enum.EasingDirection.Out
+local NUMBER_LABEL_DEFAULT_DURATION = 1
+
 --> Assets
 ----------------------------------------
 local ScriptingProperties = workspace.Game.ScriptingProperties
@@ -136,7 +142,7 @@ function TweenNumberOnLabel(label: TextLabel, targetValue: number, duration: num
 
 	local tween = TweenService:Create(
 		numberValue,
-		TweenInfo.new(duration or 1, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out),
+		TweenInfo.new(duration or NUMBER_LABEL_DEFAULT_DURATION, NUMBER_LABEL_TWEEN_STYLE, NUMBER_LABEL_TWEEN_DIRECTION),
 		{ Value = targetValue }
 	)
 

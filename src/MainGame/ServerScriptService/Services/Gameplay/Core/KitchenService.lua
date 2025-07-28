@@ -157,6 +157,9 @@ function KitchenService:SpawnFoods(FoodCount)
 		--     Highlight.Enabled = false
 		-- end)
 		Food.Parent = SpawnPoint
+
+		table.insert(self.ListOfFood, Food)
+
 		if Food:IsA("Model") then
 			Food:MoveTo(SpawnPoint.Position)
 		else
@@ -173,11 +176,19 @@ end
 function KitchenService:Clear()
 	self.FoodSpawnTrove:Clean()
 	ClearSpawnPointTags()
+	self:_clearListOfFood()
 end
 
 function KitchenService:KnitStart()
+	self.ListOfFood = {}
 	self.FoodSpawnTrove = Trove.new()
 	self.ClockService = Knit.GetService("ClockService")
+end
+
+function KitchenService:_clearListOfFood()
+	for _, food in ipairs(self.ListOfFood) do
+		food:Destroy()
+	end
 end
 
 return KitchenService
