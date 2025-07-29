@@ -19,8 +19,8 @@ end
 
 function Race.Start(self: RaceService)
 	self.bordersService.ChangeCollision(true)
-	self.powerupsService:SpawnAll()
-	self.boostsService:SpawnAll()
+	self.powerupsService:Spawn()
+	self.boostsService:Spawn()
 end
 
 return Race

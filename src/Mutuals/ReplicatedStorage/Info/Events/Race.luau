@@ -10,6 +10,7 @@ local RACE_MODELS_FOLDER = EVENTS_MODELS_FOLDER:WaitForChild("Race")
 local BORDERS_FOLDER = RACE_WORKSPACE_FOLDER:WaitForChild("Borders")
 local FINISH_LINE = RACE_WORKSPACE_FOLDER:WaitForChild("FinishLine")
 local LANDMARKS_FOLDER = RACE_WORKSPACE_FOLDER:WaitForChild("Landmarks")
+local POWERUP_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Powerup")
 
 local BANANA_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Banana")
 local BOMB_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Bomb")
@@ -24,6 +25,7 @@ return {
 			bordersFolder = BORDERS_FOLDER,
 			finishLine = FINISH_LINE,
 			landmarksFolder = LANDMARKS_FOLDER,
+			powerup = POWERUP_TEMPLATE,
 		},
 		powerups = {
 			bananaTemplate = BANANA_TEMPLATE,
@@ -43,10 +45,19 @@ return {
 		distanceBetweenParallelLines = 3.35,
 	},
 
+	slotsOffsets = {
+		powerup = Vector3.new(0, 4, 0),
+		boost = Vector3.new(0, 0.5, 0),
+		spikes = Vector3.new(0, 0.1, 0),
+	},
+
 	powerups = {
 		count = 7,
 	},
 	boosts = {
+		count = 7
+	},
+	spikes = {
 		count = 7
 	}
 }

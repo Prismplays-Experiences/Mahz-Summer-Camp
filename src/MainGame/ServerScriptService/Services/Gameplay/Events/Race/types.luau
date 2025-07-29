@@ -29,7 +29,7 @@ export type LandmarksService = {
 		[number]: Landmark
 	},
 
-	OccupyFreeSlots: (self: LandmarksService, callback: (slotCframe: CFrame) -> Instance, numberOfSlots: number?) -> (),
+	OccupyFreeSlots: (self: LandmarksService, callback: (slotCframe: CFrame) -> Instance, numberOfSlots: number?) -> { LandmarkSlot },
 	GetFreeSlots: (self: LandmarksService) -> { LandmarkSlot },
 
 	AddLandmark: (self: LandmarksService, landmark: Landmark) -> (),
@@ -39,27 +39,28 @@ export type LandmarksService = {
 	GetAllLandmarks: (self: LandmarksService) -> { Landmark },
 }
 
-export type BoostsService = {
-	SpawnAll: (self: BoostsService) -> (),
-	_spawnOne: () -> (),
-}
-
 export type BordersService = {
 	ChangeCollision: (state: boolean) -> (),
 }
 
-export type PowerupsService = {
+export type SlotSpawnerService = {
+	slots: {
+		[number]: LandmarkSlot
+	},
 	landmarksService: LandmarksService,
 
-	SpawnAll: (self: PowerupsService) -> (),
+	Spawn: (self: SlotSpawnerService, slotsCount: number?) -> (),
+	Clean: (self: SlotSpawnerService, slotsCount: number?) -> (),
 
-	_spawnOne: () -> (),
+	SetSlots: (self: SlotSpawnerService, slots: { LandmarkSlot }) -> (),
+	GetSlots: (self: SlotSpawnerService) -> { LandmarkSlot },
 }
 
 export type RaceService = {
 	bordersService: BordersService,
-	powerupsService: PowerupsService,
-	boostsService: BoostsService,
+	powerupsService: SlotSpawnerService,
+	boostsService: SlotSpawnerService,
+	spikesService: SlotSpawnerService,
 
 	Start: (self: RaceService) -> (),
 

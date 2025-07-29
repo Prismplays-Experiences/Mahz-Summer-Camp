@@ -29,13 +29,14 @@ end
 
 function LandmarksService.OccupyFreeSlots(self: LandmarksService, callback: (slotCframe: CFrame) -> Instance, numberOfSlots: number?)
 	local allFreeSlots = self:GetFreeSlots()
+	local slots = {}
 
 	local iterationNumber = numberOfSlots or #allFreeSlots
 
 	if iterationNumber == 0 then
 		warn("LandmarksService: OccupyFreeSlots called with 0 slots, no slots will be iterated over")
 
-		return
+		return slots
 	end
 
 	for _ = 1, iterationNumber do
@@ -43,11 +44,14 @@ function LandmarksService.OccupyFreeSlots(self: LandmarksService, callback: (slo
 		local slot = allFreeSlots[randomIndex]
 
 		table.remove(allFreeSlots, randomIndex)
+		table.insert(slots, slot)
 		
 		local instance = callback(slot.cframe)
 
 		slot:Occupy(instance)
 	end
+
+	return slots
 end
 
 function LandmarksService.GetFreeSlots(self: LandmarksService)
