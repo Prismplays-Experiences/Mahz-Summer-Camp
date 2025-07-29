@@ -41,12 +41,12 @@ function Landmark._initSpawnSlots(self: Landmark)
 	end
 end
 
-function Landmark.GetFreeSlotsAmount(self: Landmark)
+function Landmark.GetFreeSlots(self: Landmark)
 	local freeSlots = TableUtils.Filter(self.slots, function(slot: LandmarkSlot)
 		return slot:IsFree()
 	end)
 
-	return #freeSlots
+	return freeSlots
 end
 
 function Landmark.GetFreeSlotIndex(self: Landmark)

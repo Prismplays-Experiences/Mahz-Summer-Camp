@@ -14,7 +14,7 @@ export type Landmark = {
 		[number]: LandmarkSlot
 	},
 
-	GetFreeSlotsAmount: (self: Landmark) -> number,
+	GetFreeSlots: (self: Landmark) -> { LandmarkSlot },
 	GetFreeSlotIndex: (self: Landmark) -> number?,
 	IsSlotFree: (self: Landmark, slotIndex: number) -> boolean,
 
@@ -29,7 +29,14 @@ export type LandmarksService = {
 		[number]: Landmark
 	},
 
-	IterateOverLandmarks: (callback: (landmarkCframe: CFrame) -> (), numberOfLandmarks: number?) -> (),
+	OccupyFreeSlots: (self: LandmarksService, callback: (slotCframe: CFrame) -> Instance, numberOfSlots: number?) -> (),
+	GetFreeSlots: (self: LandmarksService) -> { LandmarkSlot },
+
+	AddLandmark: (self: LandmarksService, landmark: Landmark) -> (),
+	SetLandmarks: (self: LandmarksService, landmarks: { Landmark }) -> (),
+
+	GetLandmark: (self: LandmarksService, landmarkIndex: number) -> Landmark?,
+	GetAllLandmarks: (self: LandmarksService) -> { Landmark },
 }
 
 export type BoostsService = {

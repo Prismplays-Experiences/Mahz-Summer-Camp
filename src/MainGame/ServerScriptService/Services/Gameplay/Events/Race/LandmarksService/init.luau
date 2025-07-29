@@ -7,6 +7,7 @@ local types = require("./types")
 
 local LANDMARKS_FOLDER = RaceInfo.instances.track.landmarksFolder
 
+type LandmarkSlot = types.LandmarkSlot
 type LandmarksService = types.LandmarksService
 
 local LandmarksService = Knit.CreateService({
@@ -22,25 +23,64 @@ function LandmarksService.KnitInit(self: LandmarksService)
 	for _, landmarkPart in ipairs(LANDMARKS_FOLDER:GetChildren()) do
 		local landmark = Landmark.new(landmarkPart)
 
-		table.insert(self.landmarks, landmark)
+		self:AddLandmark(landmark)
 	end
 end
 
-function LandmarksService.IterateOverLandmarks(callback: (landmarkCframe: CFrame) -> (), numberOfLandmarks: number?)
-	local landmarksFolderChildren = LANDMARKS_FOLDER:GetChildren()
-	local landmarks = {}
+function LandmarksService.OccupyFreeSlots(self: LandmarksService, callback: (slotCframe: CFrame) -> Instance, numberOfSlots: number?)
+	local allFreeSlots = self:GetFreeSlots()
 
-	for _ = 1, numberOfLandmarks or #LANDMARKS_FOLDER:GetChildren() do
-		local randomIndex = math.random(1, #landmarksFolderChildren)
-		local landmark = landmarksFolderChildren[randomIndex]
+	local iterationNumber = numberOfSlots or #allFreeSlots
 
-		table.insert(landmarks, landmark)
-		table.remove(landmarksFolderChildren, randomIndex)
+	if iterationNumber == 0 then
+		warn("LandmarksService: OccupyFreeSlots called with 0 slots, no slots will be iterated over")
+
+		return
 	end
 
-	for _, landmark in ipairs(landmarks) do
-		callback(landmark.CFrame)
+	for _ = 1, iterationNumber do
+		local randomIndex = math.random(1, #allFreeSlots)
+		local slot = allFreeSlots[randomIndex]
+
+		table.remove(allFreeSlots, randomIndex)
+		
+		local instance = callback(slot.cframe)
+
+		slot:Occupy(instance)
 	end
+end
+
+function LandmarksService.GetFreeSlots(self: LandmarksService)
+	local allLandmarks = self:GetAllLandmarks()
+	local freeSlots = {}
+
+	for _, landmark in ipairs(allLandmarks) do
+		for _, slot in ipairs(landmark:GetFreeSlots()) do
+			if slot:IsFree() then
+				table.insert(freeSlots, slot)
+			end
+		end
+	end
+
+	return freeSlots
+end
+
+function LandmarksService.AddLandmark(self: LandmarksService, landmark: types.Landmark)
+	table.insert(self.landmarks, landmark)
+end
+
+function LandmarksService.SetLandmarks(self: LandmarksService, landmarks: { types.Landmark })
+	self.landmarks = landmarks
+end
+
+function LandmarksService.GetLandmark(self: LandmarksService, landmarkIndex: number)
+	local landmarks = self:GetAllLandmarks()
+
+	return landmarks[landmarkIndex]
+end
+
+function LandmarksService.GetAllLandmarks(self: LandmarksService)
+	return self.landmarks
 end
 
 return LandmarksService
