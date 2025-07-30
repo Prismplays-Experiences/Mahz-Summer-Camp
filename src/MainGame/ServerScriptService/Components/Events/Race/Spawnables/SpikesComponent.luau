@@ -19,7 +19,7 @@ export type SpikesComponent = {
 }
 
 local SpikesComponent = Component.new({
-	Tag = "Boost",
+	Tag = "Spikes",
 })
 
 function SpikesComponent.Construct(self: SpikesComponent)

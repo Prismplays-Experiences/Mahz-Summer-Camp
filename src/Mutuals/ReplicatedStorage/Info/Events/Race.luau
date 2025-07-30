@@ -10,6 +10,8 @@ local RACE_MODELS_FOLDER = EVENTS_MODELS_FOLDER:WaitForChild("Race")
 local BORDERS_FOLDER = RACE_WORKSPACE_FOLDER:WaitForChild("Borders")
 local FINISH_LINE = RACE_WORKSPACE_FOLDER:WaitForChild("FinishLine")
 local LANDMARKS_FOLDER = RACE_WORKSPACE_FOLDER:WaitForChild("Landmarks")
+local POLAR_PERPENDICULAR_AXIS = RACE_WORKSPACE_FOLDER:WaitForChild("PolarPerpendicularAxis")
+
 local POWERUP_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Powerup")
 
 local BANANA_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Banana")
@@ -25,6 +27,7 @@ return {
 			bordersFolder = BORDERS_FOLDER,
 			finishLine = FINISH_LINE,
 			landmarksFolder = LANDMARKS_FOLDER,
+			polarPerpendicularAxis = POLAR_PERPENDICULAR_AXIS
 		},
 		powerups = {
 			bananaTemplate = BANANA_TEMPLATE,
@@ -43,6 +46,7 @@ return {
 
 	trackConfig = {
 		distanceBetweenParallelLines = 3.35,
+		laps = 2,
 	},
 
 	slotsOffsets = {
@@ -67,6 +71,16 @@ return {
 
 	spikes = {
 		impulse = Vector3.new(0, 1000, 0), -- relative to world space
-		ragdollDuration = 3, -- seconds
+		ragdollDuration = 3,
+	},
+
+	powerups = {
+		bomb = {
+			impulse = Vector3.new(0, 1000, 0), -- relative to world space
+			ragdollDuration = 3,
+		},
+		iceBlock = {
+			duration = 5, 
+		}
 	}
 }
