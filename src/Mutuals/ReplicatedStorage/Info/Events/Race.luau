@@ -62,6 +62,11 @@ return {
 
 		boostDuration = 3, 
 		boostedSpeed = 18,
-		boostImpulse = Vector3.new(0, 1000, 1000) -- x -> right, y -> up, z -> forward
+		boostImpulse = Vector3.new(0, 1000, 1000), -- x -> right, y -> up, z -> forward. Relative to humanoid root part's look vector
+	},
+
+	spikes = {
+		impulse = Vector3.new(0, 1000, 0), -- relative to world space
+		ragdollDuration = 3, -- seconds
 	}
 }
