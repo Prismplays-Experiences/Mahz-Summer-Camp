@@ -32,9 +32,12 @@ function BoostComponent._connectEvents(self: BoostComponent)
 	self.Instance.Touched:Connect(function(otherPart)
 		local player = self._getPlayerFromPart(otherPart)
 
-		if player then
-			self._speedUpPlayer(player)
+		if not player then
+			return
 		end
+
+		self._speedUpPlayer(player)
+		
 	end)
 end
 
