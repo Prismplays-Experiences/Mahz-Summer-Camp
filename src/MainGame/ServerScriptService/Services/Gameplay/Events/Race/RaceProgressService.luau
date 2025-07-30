@@ -11,6 +11,9 @@ local REQUIRED_LAPS = RaceInfo.trackConfig.laps
 export type RaceProgressService = {
 	_laps: { [Player]: number },
 
+	IncrementLap: (self: RaceProgressService, player: Player) -> (),
+	ResetLaps: (self: RaceProgressService) -> (),
+
 	GetNearestPlayer: (self: RaceProgressService, player: Player) -> Player?,
 	GetRelativePlayerInfo: (self: RaceProgressService, player: Player, deltaIndex: number, excludeLaps: boolean?) -> {player: Player, progress: number}?,
 
@@ -29,6 +32,18 @@ local RaceProgressService = Knit.CreateService({
 })
 
 function RaceProgressService.KnitInit(self: RaceProgressService)
+	self._laps = {}
+end
+
+function RaceProgressService.IncrementLap(self: RaceProgressService, player: Player)
+	if not self._laps[player] then
+		self._laps[player] = 0
+	end
+
+	self._laps[player] = math.min(self._laps[player] + 1, REQUIRED_LAPS)
+end
+
+function RaceProgressService.ResetLaps(self: RaceProgressService)
 	self._laps = {}
 end
 
