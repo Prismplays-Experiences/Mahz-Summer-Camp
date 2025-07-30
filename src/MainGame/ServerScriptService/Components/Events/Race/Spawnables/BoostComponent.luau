@@ -1,5 +1,9 @@
 local Component = require("@Packages/Component")
 local Knit = require("@Packages/Knit")
+local RaceInfo = require("@Info/Events/Race")
+local Physics = require("@Modules/Utils/Physics")
+
+local IMPULSE = RaceInfo.playerStats.boostImpulse
 
 export type BoostComponent = {
 	Instance: BasePart & {
@@ -12,6 +16,7 @@ export type BoostComponent = {
 	_connectEvents: (self: BoostComponent) -> (),
 	_getPlayerFromPart: (part: BasePart) -> Player?,
 	_speedUpPlayer: (player: Player) -> (),
+	_applyImpulseToPlayer: (player: Player) -> (),
 }
 
 local BoostComponent = Component.new({
@@ -36,8 +41,8 @@ function BoostComponent._connectEvents(self: BoostComponent)
 			return
 		end
 
+		self._applyImpulseToPlayer(player)
 		self._speedUpPlayer(player)
-		
 	end)
 end
 
@@ -56,6 +61,17 @@ function BoostComponent._speedUpPlayer(player: Player)
 	local raceSpeedService = Knit.GetService("RaceSpeedService")
 
 	raceSpeedService:BoostPlayer(player)
+end
+
+function BoostComponent._applyImpulseToPlayer(player: Player)
+	local character = player.Character
+	local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+
+	if not humanoidRootPart then
+		return
+	end
+
+	Physics.ApplyImpulseRelativeToLookVector(IMPULSE, humanoidRootPart)
 end
 
 return BoostComponent

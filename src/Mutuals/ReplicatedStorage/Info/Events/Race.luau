@@ -61,6 +61,7 @@ return {
 		defaultSpeed = 12,
 
 		boostDuration = 3, 
-		boostedSpeed = 18
+		boostedSpeed = 18,
+		boostImpulse = Vector3.new(0, 1000, 1000) -- x -> right, y -> up, z -> forward
 	}
 }
