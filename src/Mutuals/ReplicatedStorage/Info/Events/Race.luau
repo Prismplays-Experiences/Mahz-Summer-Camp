@@ -25,14 +25,14 @@ return {
 			bordersFolder = BORDERS_FOLDER,
 			finishLine = FINISH_LINE,
 			landmarksFolder = LANDMARKS_FOLDER,
-			powerup = POWERUP_TEMPLATE,
 		},
 		powerups = {
 			bananaTemplate = BANANA_TEMPLATE,
 			bombTemplate = BOMB_TEMPLATE,
 			smallIceBlockTemplate = SMALL_ICE_BLOCK_TEMPLATE,
 		},
-		obstacles = {
+		spawnables = {
+			powerupTemplate = POWERUP_TEMPLATE,
 			spikesTemplate = SPIKES_TEMPLATE,
 			boostTemplate = BOOST_TEMPLATE
 		},
@@ -51,13 +51,16 @@ return {
 		spikes = Vector3.new(0, 0.1, 0),
 	},
 
-	powerups = {
-		count = 7,
+	spawnCounts = {
+		powerups = 7,
+		boosts = 7,
+		spikes = 7,
 	},
-	boosts = {
-		count = 7
-	},
-	spikes = {
-		count = 7
+
+	playerStats = {
+		defaultSpeed = 12,
+
+		boostDuration = 3, 
+		boostedSpeed = 18
 	}
 }

@@ -9,20 +9,20 @@ type SlotSpawnerService = types.SlotSpawnerService
 local SERVICES_INFO = {
 	{
 		name = "PowerupsService",
-		template = RaceInfo.instances.track.powerup,
-		count = RaceInfo.powerups.count,
+		template = RaceInfo.instances.spawnables.powerupTemplate,
+		count = RaceInfo.spawnCounts.powerups,
 		offset = RaceInfo.slotsOffsets.powerup,
 	},
 	{
 		name = "BoostsService",
-		template = RaceInfo.instances.obstacles.boostTemplate,
-		count = RaceInfo.boosts.count,
+		template = RaceInfo.instances.spawnables.boostTemplate,
+		count = RaceInfo.spawnCounts.boosts,
 		offset = RaceInfo.slotsOffsets.boost,
 	},
 	{
 		name = "SpikesService",
-		template = RaceInfo.instances.obstacles.spikesTemplate,
-		count = RaceInfo.spikes.count,
+		template = RaceInfo.instances.spawnables.spikesTemplate,
+		count = RaceInfo.spawnCounts.spikes,
 		offset = RaceInfo.slotsOffsets.spikes,
 	}
 }

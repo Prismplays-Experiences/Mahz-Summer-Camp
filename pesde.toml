@@ -33,3 +33,4 @@ CameraShaker = { wally = "brittonfischer/camerashaker", version = "^0.1.0" }
 OctoTree = { wally = "sleitnick/octo-tree", version = "^0.3.1" }
 ProfileService = { name = "avafe/profileservice", version = "^1.0.0" }
 ProgressBar = { name = "veternitzz/progressbar", version = "^1.0.1", target = "lune" }
+Arch = { wally = "bohraz/arch", version = "^0.3.8" }

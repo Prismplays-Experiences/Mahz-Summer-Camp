@@ -4,10 +4,7 @@
   "luau-lsp.completion.imports.enabled": true,
   "luau-lsp.completion.imports.suggestServices": true,
   "luau-lsp.completion.imports.stringRequires.enabled": true,
-  "luau-lsp.completion.imports.ignoreGlobs": [
-    "**/.pesde/**",
-    "**/out/**"
-  ],
+  "luau-lsp.completion.imports.ignoreGlobs": ["**/.pesde/**", "**/out/**"],
   "luau-lsp.completion.autocompleteEnd": true,
   "luau-lsp.completion.addParentheses": true,
   "luau-lsp.completion.fillCallArguments": true,
@@ -50,5 +47,6 @@
   "[lua]": {
     "editor.defaultFormatter": "JohnnyMorganz.stylua",
     "editor.formatOnSave": true
-  }
+  },
+  "stylua.targetReleaseVersion": "latest"
 }
