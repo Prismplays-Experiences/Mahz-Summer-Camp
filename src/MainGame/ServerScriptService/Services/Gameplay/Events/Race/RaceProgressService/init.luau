@@ -1,29 +1,24 @@
-local Players = game:GetService("Players")
-
-local RaceInfo = require("@Info/Events/Race")
-local Mathematics = require("@Modules/Utils/Mathematics")
 local Knit = require("@Packages/Knit")
 
-local POLAR_PERPENDICULAR_AXIS_INSTANCE = RaceInfo.instances.track.polarPerpendicularAxis
-local MAX_ANGLE = 2 * math.pi
-local REQUIRED_LAPS = RaceInfo.trackConfig.laps
+local ProgressCompiler = require("./RaceProgressService/ProgressCompiler")
+
+type ProgressTable = ProgressCompiler.ProgressTable
 
 export type RaceProgressService = {
-	_laps: { [Player]: number },
+	_progressCompiler: ProgressCompiler.ProgressCompiler?,
 
 	IncrementLap: (self: RaceProgressService, player: Player) -> (),
-	ResetLaps: (self: RaceProgressService) -> (),
 
 	GetNearestPlayer: (self: RaceProgressService, player: Player) -> Player?,
 	GetRelativePlayerInfo: (self: RaceProgressService, player: Player, deltaIndex: number, excludeLaps: boolean?) -> {player: Player, progress: number}?,
 
 	GetLeaderboard: (self: RaceProgressService, excludeLaps: boolean?) -> { [number]: {player: Player, progress: number} },
 
-	GetProgresses: (self: RaceProgressService, excludeLaps: boolean?) -> { [Player]: number },
-	GetProgressForPlayer: (self: RaceProgressService, player: Player, excludeLaps: boolean?) -> number,
+	GetProgresses: (self: RaceProgressService) -> { [Player]: ProgressTable },
+	GetPlayerProgress: (self: RaceProgressService, player: Player) -> ProgressTable,
 
-	GetLaps: (self: RaceProgressService) -> { [Player]: number },
-	GetLapsForPlayer: (self: RaceProgressService, player: Player) -> number
+	GetEveryoneLaps: (self: RaceProgressService) -> { [Player]: number },
+	GetPlayerLaps: (self: RaceProgressService, player: Player) -> number
 }
 
 local RaceProgressService = Knit.CreateService({
@@ -31,20 +26,18 @@ local RaceProgressService = Knit.CreateService({
 	Client = {},
 })
 
-function RaceProgressService.KnitInit(self: RaceProgressService)
-	self._laps = {}
+function RaceProgressService.Start(self: RaceProgressService)
+	self._progressCompiler = ProgressCompiler.new()
+end
+
+function RaceProgressService.Stop(self: RaceProgressService)
+	self._progressCompiler = nil
 end
 
 function RaceProgressService.IncrementLap(self: RaceProgressService, player: Player)
-	if not self._laps[player] then
-		self._laps[player] = 0
-	end
+	assert(self._progressCompiler, "ProgressCompiler is not initialized. Run :Start() before using this method")
 
-	self._laps[player] = math.min(self._laps[player] + 1, REQUIRED_LAPS)
-end
-
-function RaceProgressService.ResetLaps(self: RaceProgressService)
-	self._laps = {}
+	self._progressCompiler:IncrementLap(player)
 end
 
 function RaceProgressService.GetNearestPlayer(self: RaceProgressService, player: Player): Player?
@@ -114,36 +107,28 @@ function RaceProgressService.GetLeaderboard(self: RaceProgressService, excludeLa
 	return leaderboard
 end
 
-function RaceProgressService.GetProgresses(self: RaceProgressService, excludeLaps: boolean?): { [Player]: number }
-	local progresses = {}
+function RaceProgressService.GetProgresses(self: RaceProgressService): { [Player]: ProgressTable }
+	assert(self._progressCompiler, "ProgressCompiler is not initialized. Run :Start() before using this method")
 
-	for _, player in Players:GetPlayers() do
-		progresses[player] = self:GetProgressForPlayer(player, excludeLaps)
-	end
-
-	return progresses
+	return self._progressCompiler:GetProgresses()
 end
 
-function RaceProgressService.GetProgressForPlayer(self: RaceProgressService, player: Player, excludeLaps: boolean?): number
-	local angle = Mathematics.CalculateAngleBetweenPlayerAndPart(player, POLAR_PERPENDICULAR_AXIS_INSTANCE)
-	local progress = angle / MAX_ANGLE
+function RaceProgressService.GetPlayerProgress(self: RaceProgressService, player: Player): ProgressTable
+	assert(self._progressCompiler, "ProgressCompiler is not initialized. Run :Start() before using this method")
 
-	if excludeLaps == false or excludeLaps == nil then
-		local laps = self:GetLapsForPlayer(player)
-		progress = (progress + laps) / REQUIRED_LAPS
-	end
-
-	return progress
+	return self._progressCompiler:GetProgressForPlayer(player)
 end
 
-function RaceProgressService.GetLapsForPlayer(self: RaceProgressService, player: Player): number
-	local laps = self:GetLaps()
+function RaceProgressService.GetEveryoneLaps(self: RaceProgressService): { [Player]: number }
+	assert(self._progressCompiler, "ProgressCompiler is not initialized. Run :Start() before using this method")
 
-	return laps[player]
+	return self._progressCompiler:GetEveryoneLaps()
 end
 
-function RaceProgressService.GetLaps(self: RaceProgressService): { [Player]: number }
-	return self._laps
+function RaceProgressService.GetPlayerLaps(self: RaceProgressService, player: Player): number
+	assert(self._progressCompiler, "ProgressCompiler is not initialized. Run :Start() before using this method")
+
+	return self._progressCompiler:GetPlayerLaps(player)
 end
 
 return RaceProgressService

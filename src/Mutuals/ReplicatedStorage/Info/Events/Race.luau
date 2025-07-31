@@ -47,6 +47,7 @@ return {
 	trackConfig = {
 		distanceBetweenParallelLines = 3.35,
 		laps = 2,
+		leadeboardsUpdateInterval = 1,
 	},
 
 	slotsOffsets = {
