@@ -1,5 +1,5 @@
 local TableUtils = require("@Packages/TableUtil")
-local RaceInfo = require("@Info/Events/Race")
+local RaceInfo = require("@Info/Events/RaceInfo")
 
 local LandmarkSlot = require("./LandmarkSlot")
 

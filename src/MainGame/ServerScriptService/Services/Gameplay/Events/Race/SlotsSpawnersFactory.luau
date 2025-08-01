@@ -1,5 +1,5 @@
 local Knit = require("@Packages/Knit")
-local RaceInfo = require("@Info/Events/Race")
+local RaceInfo = require("@Info/Events/RaceInfo")
 local TableUtil = require("@Packages/TableUtil")
 
 local types = require("./types")
@@ -24,7 +24,7 @@ local SERVICES_INFO = {
 		template = RaceInfo.instances.spawnables.spikesTemplate,
 		count = RaceInfo.spawnCounts.spikes,
 		offset = RaceInfo.slotsOffsets.spikes,
-	}
+	},
 }
 
 local function setCframe(instance: Instance, cframe: CFrame)

@@ -1,4 +1,4 @@
-local RaceInfo = require("@Info/Events/Race")
+local RaceInfo = require("@Info/Events/RaceInfo")
 
 local types = require("../types")
 

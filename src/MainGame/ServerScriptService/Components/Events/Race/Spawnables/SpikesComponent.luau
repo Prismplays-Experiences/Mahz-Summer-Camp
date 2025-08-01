@@ -1,6 +1,6 @@
 local Component = require("@Packages/Component")
 local Knit = require("@Packages/Knit")
-local RaceInfo = require("@Info/Events/Race")
+local RaceInfo = require("@Info/Events/RaceInfo")
 
 local IMPULSE = RaceInfo.spikes.impulse
 local RAGDOLL_DURATION = RaceInfo.spikes.ragdollDuration

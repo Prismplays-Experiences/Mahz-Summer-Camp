@@ -1,5 +1,5 @@
 local Knit = require("@Packages/Knit")
-local RaceInfo = require("@Info/Events/Race")
+local RaceInfo = require("@Info/Events/RaceInfo")
 local types = require("./types")
 
 local BORDERS_FOLDER = RaceInfo.instances.track.bordersFolder

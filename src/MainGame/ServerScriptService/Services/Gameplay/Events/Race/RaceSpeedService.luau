@@ -1,4 +1,4 @@
-local RaceInfo = require("@Info/Events/Race")
+local RaceInfo = require("@Info/Events/RaceInfo")
 local Knit = require("@Packages/Knit")
 local Arch = require("@Packages/Arch")
 
@@ -14,10 +14,10 @@ export type RaceSpeedService = {
 	StartStateMachines: (self: RaceSpeedService) -> (),
 	StopStateMachines: (self: RaceSpeedService) -> (),
 
-	_getPlayerStateMachine: (self: RaceSpeedService, player: Player) -> ({ [any]: any }?),
-	_getAllPlayersStateMachines: (self: RaceSpeedService) -> ({ [Player]: { [any]: any } }),
+	_getPlayerStateMachine: (self: RaceSpeedService, player: Player) -> { [any]: any }?,
+	_getAllPlayersStateMachines: (self: RaceSpeedService) -> { [Player]: { [any]: any } },
 
-	_playersStates: { [Player]: {[any]: any} },
+	_playersStates: { [Player]: { [any]: any } },
 	_setPlayerSpeed: (player: Player, speed: number) -> (),
 }
 
@@ -60,7 +60,7 @@ end
 function RaceSpeedService.CreateStateMachineForPlayer(self: RaceSpeedService, player: Player)
 	local states = self:_getAllPlayersStateMachines()
 	local stateMachine = Arch.createMachine({
-		id = "race_speed_machine_".. player.Name,
+		id = "race_speed_machine_" .. player.Name,
 		initial = "default",
 
 		states = {
@@ -70,7 +70,7 @@ function RaceSpeedService.CreateStateMachineForPlayer(self: RaceSpeedService, pl
 				end,
 				events = {
 					startBoost = "boosted",
-				}
+				},
 			},
 			boosted = {
 				onEntry = function()
@@ -78,9 +78,9 @@ function RaceSpeedService.CreateStateMachineForPlayer(self: RaceSpeedService, pl
 				end,
 				events = {
 					stopBoost = { target = "default", delay = BOOST_DURATION },
-				}
-			}
-		}
+				},
+			},
+		},
 	})
 
 	states[player] = stateMachine

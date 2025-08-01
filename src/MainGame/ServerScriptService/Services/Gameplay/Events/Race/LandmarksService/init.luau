@@ -1,5 +1,5 @@
 local Knit = require("@Packages/Knit")
-local RaceInfo = require("@Info/Events/Race")
+local RaceInfo = require("@Info/Events/RaceInfo")
 
 local Landmark = require("./LandmarksService/Landmark")
 
@@ -27,7 +27,11 @@ function LandmarksService.KnitInit(self: LandmarksService)
 	end
 end
 
-function LandmarksService.OccupyFreeSlots(self: LandmarksService, callback: (slotCframe: CFrame) -> Instance, numberOfSlots: number?)
+function LandmarksService.OccupyFreeSlots(
+	self: LandmarksService,
+	callback: (slotCframe: CFrame) -> Instance,
+	numberOfSlots: number?
+)
 	local allFreeSlots = self:GetFreeSlots()
 	local slots = {}
 
@@ -45,7 +49,7 @@ function LandmarksService.OccupyFreeSlots(self: LandmarksService, callback: (slo
 
 		table.remove(allFreeSlots, randomIndex)
 		table.insert(slots, slot)
-		
+
 		local instance = callback(slot.cframe)
 
 		slot:Occupy(instance)

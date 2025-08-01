@@ -1,6 +1,6 @@
 local Component = require("@Packages/Component")
 local Knit = require("@Packages/Knit")
-local RaceInfo = require("@Info/Events/Race")
+local RaceInfo = require("@Info/Events/RaceInfo")
 local Physics = require("@Modules/Utils/Physics")
 
 local IMPULSE = RaceInfo.playerStats.boostImpulse
