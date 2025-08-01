@@ -16,7 +16,9 @@
           "@Modules": "src/Mutuals/ReplicatedStorage/Modules",
           "@Info": "src/Mutuals/ReplicatedStorage/Info",
           "@Assets": "src/Mutuals/ReplicatedStorage/assets"
-        }
+        },
+        "module_folder_name": "init.luau",
+        "use_luau_configuration": true
       },
       "rule": "convert_require",
       "target": {
