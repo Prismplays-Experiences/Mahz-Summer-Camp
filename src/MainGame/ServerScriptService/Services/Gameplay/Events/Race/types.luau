@@ -91,6 +91,9 @@ export type ProgressTypes = "total" | "circle" | "laps"
 export type RaceProgressService = {
 	_progressCompiler: ProgressCompiler?,
 
+	Start: (self: RaceProgressService) -> (),
+	Stop: (self: RaceProgressService) -> (),
+
 	IncrementLap: (self: RaceProgressService, player: Player) -> (),
 
 	GetNearestPlayer: (self: RaceProgressService, player: Player) -> Player?,

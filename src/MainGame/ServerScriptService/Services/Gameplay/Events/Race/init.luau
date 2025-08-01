@@ -15,12 +15,24 @@ function Race.KnitStart(self: RaceService)
 	self.bordersService = Knit.GetService("BordersService")
 	self.powerupsService = Knit.GetService("PowerupsService")
 	self.boostsService = Knit.GetService("BoostsService")
+	self.spikesService = Knit.GetService("SpikesService")
+	self.raceProgressService = Knit.GetService("RaceProgressService")
 end
 
 function Race.Start(self: RaceService)
 	self.bordersService.ChangeCollision(true)
 	self.powerupsService:Spawn()
 	self.boostsService:Spawn()
+	self.spikesService:Spawn()
+	self.raceProgressService:Start()
+end
+
+function Race.Stop(self: RaceService)
+	self.bordersService.ChangeCollision(false)
+	self.powerupsService:Clean()
+	self.boostsService:Clean()
+	self.spikesService:Clean()
+	self.raceProgressService:Stop()
 end
 
 return Race
