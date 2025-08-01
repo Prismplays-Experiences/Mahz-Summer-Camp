@@ -19,6 +19,8 @@ export type ProgressCompiler = {
 	_lapsProgress: LapsProgress.LapsProgress,
 }
 
+export type ProgressTypes = "total" | "circle" | "laps"
+
 local ProgressCompiler = {}
 ProgressCompiler.__index = ProgressCompiler
 

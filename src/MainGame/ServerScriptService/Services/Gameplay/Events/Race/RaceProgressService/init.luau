@@ -1,6 +1,7 @@
 local Knit = require("@Packages/Knit")
 
 local ProgressCompiler = require("./RaceProgressService/ProgressCompiler")
+local RaceLeaderboard = require("./RaceProgressService/RaceLeaderboard")
 
 type ProgressTable = ProgressCompiler.ProgressTable
 
@@ -40,71 +41,22 @@ function RaceProgressService.IncrementLap(self: RaceProgressService, player: Pla
 	self._progressCompiler:IncrementLap(player)
 end
 
-function RaceProgressService.GetNearestPlayer(self: RaceProgressService, player: Player): Player?
-	local nearestPlayer = nil
-	
-	local previousPlayerInfo = self:GetRelativePlayerInfo(player, -1)
-	local nextPlayerInfo = self:GetRelativePlayerInfo(player, 1)
+function RaceProgressService.GetNearestPlayer(self: RaceProgressService, player: Player, progressKey: ProgressCompiler.ProgressTypes?): Player?
+	local progresses = self:GetProgresses()
 
-	if previousPlayerInfo and nextPlayerInfo then
-		if previousPlayerInfo.progress < nextPlayerInfo.progress then
-			nearestPlayer = previousPlayerInfo.player
-		else
-			nearestPlayer = nextPlayerInfo.player
-		end
-	else
-		nearestPlayer = if nextPlayerInfo then nextPlayerInfo.player elseif previousPlayerInfo then previousPlayerInfo.player else nil
-	end
-
-	return nearestPlayer
+	return RaceLeaderboard:GetNearestPlayer(progresses, player, progressKey)
 end
 
-function RaceProgressService.GetRelativePlayerInfo(self: RaceProgressService, player: Player, deltaIndex: number, excludeLaps: boolean?): {player: Player, progress: number}?
-	local leaderboard = self:GetLeaderboard(excludeLaps)
-	local playerInfo = nil
-	local playerIndex = nil
+function RaceProgressService.GetRelativePlayerInfo(self: RaceProgressService, player: Player, deltaIndex: number, progressKey: ProgressCompiler.ProgressTypes?): {player: Player, progress: number}?
+	local progresses = self:GetProgresses()
 
-	for index, entry in ipairs(leaderboard) do
-		if entry.player == player then
-			playerIndex = index
-			playerInfo = entry
-			break
-		end
-	end
-
-	if not playerIndex then
-		return nil
-	end
-
-	local relativeIndex = playerIndex + deltaIndex
-
-	if relativeIndex < 1 or relativeIndex > #leaderboard then
-		return nil
-	end
-
-	local relativePlayerInfo = leaderboard[relativeIndex]
-
-	relativePlayerInfo.progress = math.abs(relativePlayerInfo.progress - playerInfo.progress)
-
-	return relativePlayerInfo
+	return RaceLeaderboard:GetRelativePlayerInfo(progresses, player, deltaIndex, progressKey)
 end
 
-function RaceProgressService.GetLeaderboard(self: RaceProgressService, excludeLaps: boolean?): { [number]: {player: Player, progress: number} }
-	local progresses = self:GetProgresses(excludeLaps)
-	local leaderboard = {}
+function RaceProgressService.GetLeaderboard(self: RaceProgressService, progressKey: ProgressCompiler.ProgressTypes?): { [number]: {player: Player, progress: number} }
+	local progresses = self:GetProgresses()
 
-	for player, progress in pairs(progresses) do
-		table.insert(leaderboard, {
-			player = player,
-			progress = progress
-		})
-	end
-
-	table.sort(leaderboard, function(a, b)
-		return a.progress > b.progress
-	end)
-
-	return leaderboard
+	return RaceLeaderboard.SortByLeaders(progresses, progressKey)
 end
 
 function RaceProgressService.GetProgresses(self: RaceProgressService): { [Player]: ProgressTable }
