@@ -23,7 +23,7 @@ local Player = game.Players.LocalPlayer
 local Assets = ReplicatedStorage:WaitForChild("Assets")
 local Confetti = Assets:WaitForChild("Confetti")
 
-local Vfx = Assets:WaitForChild("Vfx")
+local Vfx = Assets:WaitForChild("VFX")
 local Puff = Vfx:WaitForChild("Puff")
 
 local PlayerGui = Player.PlayerGui
@@ -253,3 +253,5 @@ function FoodChaosController:KnitStart()
 		StatusTxt.Text = txt
 	end)
 end
+
+return FoodChaosController

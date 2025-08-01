@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="CharacterMesh" referent="0">
     <Properties>
-      <string name="Name">CharacterMesh</string>
+      <string name="Name">CharacterMesh1</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <int64 name="BaseTextureId">0</int64>
       <token name="BodyPart">5</token>

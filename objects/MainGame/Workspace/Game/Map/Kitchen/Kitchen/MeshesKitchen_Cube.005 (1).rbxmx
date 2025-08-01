@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="MeshPart" referent="0">
     <Properties>
-      <string name="Name">Meshes/Kitchen_Cube.005 (1)</string>
+      <string name="Name">MeshesKitchen_Cube.005 (1)</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
@@ -18,7 +18,7 @@
         <X>-121.69356</X>
         <Y>3.6275802</Y>
         <Z>-47.258038</Z>
-        <R00>0.9999996</R00>
+        <R00>1</R00>
         <R01>0</R01>
         <R02>0</R02>
         <R10>0</R10>

@@ -99,6 +99,8 @@ function AddLogos(Player: Player)
 		CreateLogo(DataHolder.Icons.Premium)
 	end
 
+	Player:WaitForChild("GamepassFolder", 15)
+
 	if (Player:WaitForChild("GamepassFolder"):WaitForChild("VIP") :: BoolValue).Value == true then
 		CreateLogo("rbxassetid://15911620773")
 	end

@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="BodyPartDescription" referent="0">
     <Properties>
-      <string name="Name">BodyPartDescription</string>
+      <string name="Name">BodyPartDescription5</string>
       <int64 name="AssetId">0</int64>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <token name="BodyPart">5</token>

@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="AccessoryDescription" referent="0">
     <Properties>
-      <string name="Name">AccessoryDescription</string>
+      <string name="Name">AccessoryDescription3</string>
       <token name="AccessoryType">6</token>
       <int64 name="AssetId">125771397735402</int64>
       <BinaryString name="AttributesSerialize"></BinaryString>

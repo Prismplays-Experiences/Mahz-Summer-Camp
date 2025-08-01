@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="TextLabel" referent="0">
     <Properties>
-      <string name="Name">EliminateText</string>
+      <string name="Name">EliminateText2</string>
       <bool name="Active">false</bool>
       <Vector2 name="AnchorPoint">
         <X>0.5</X>

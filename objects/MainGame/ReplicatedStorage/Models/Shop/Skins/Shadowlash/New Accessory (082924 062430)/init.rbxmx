@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Accessory" referent="0">
     <Properties>
-      <string name="Name">New Accessory (08/29/24 06:24:30)</string>
+      <string name="Name">New Accessory (082924 062430)</string>
       <token name="AccessoryType">1</token>
       <CoordinateFrame name="AttachmentPoint">
         <X>0</X>

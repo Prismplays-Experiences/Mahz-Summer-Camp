@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="MeshPart" referent="0">
     <Properties>
-      <string name="Name">Meshes/Treadmill_Cube.004 (1)</string>
+      <string name="Name">MeshesTreadmill_Cube.004 (1)</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>

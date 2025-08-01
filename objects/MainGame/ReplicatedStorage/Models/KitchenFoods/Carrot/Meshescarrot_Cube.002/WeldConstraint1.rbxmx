@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="WeldConstraint" referent="0">
     <Properties>
-      <string name="Name">WeldConstraint</string>
+      <string name="Name">WeldConstraint1</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <CoordinateFrame name="CFrame0">
         <X>0</X>

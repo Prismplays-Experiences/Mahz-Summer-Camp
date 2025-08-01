@@ -26,7 +26,7 @@
         <R12>0</R12>
         <R20>0</R20>
         <R21>0</R21>
-        <R22>0.9999999</R22>
+        <R22>1</R22>
       </CoordinateFrame>
       <bool name="CanCollide">true</bool>
       <bool name="CanQuery">true</bool>

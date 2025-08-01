@@ -2,7 +2,7 @@ local ServerScriptService = game:GetService("ServerScriptService")
 
 local Knit = require("@Packages/Knit")
 
-local services = ServerScriptService.
+local services = ServerScriptService
 
 ---- THIS IS FOR TESTING WHICH SERVICE RETURNS NIL
 -- for _, module in ipairs(services:GetDescendants()) do

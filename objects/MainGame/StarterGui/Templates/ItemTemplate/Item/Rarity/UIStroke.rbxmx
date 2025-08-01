@@ -4,6 +4,11 @@
       <string name="Name">UIStroke</string>
       <token name="ApplyStrokeMode">1</token>
       <BinaryString name="AttributesSerialize"></BinaryString>
+      <UDim name="BorderOffset">
+        <S>0</S>
+        <O>0</O>
+      </UDim>
+      <token name="BorderStrokePosition">0</token>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <Color3 name="Color">
         <R>0</R>

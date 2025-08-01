@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="SpawnLocation" referent="0">
     <Properties>
-      <string name="Name">SpawnLocation</string>
+      <string name="Name">SpawnLocation2</string>
       <bool name="AllowTeamChangeOnTouch">false</bool>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>

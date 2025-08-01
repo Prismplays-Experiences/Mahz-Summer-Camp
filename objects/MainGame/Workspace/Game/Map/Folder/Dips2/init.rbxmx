@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Model" referent="0">
     <Properties>
-      <string name="Name">Dips</string>
+      <string name="Name">Dips2</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <token name="LevelOfDetail">0</token>
@@ -35,7 +35,7 @@
       <OptionalCoordinateFrame name="WorldPivotData">
         <CFrame>
           <X>-142.80423</X>
-          <Y>6.4499993</Y>
+          <Y>6.45</Y>
           <Z>97.80473</Z>
           <R00>0.70710677</R00>
           <R01>0</R01>
