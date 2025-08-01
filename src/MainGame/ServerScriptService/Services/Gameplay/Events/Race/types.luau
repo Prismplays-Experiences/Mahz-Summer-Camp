@@ -1,3 +1,5 @@
+local Booker = require("@CustomModules/Booker")
+
 export type LandmarkSlot = {
 	claimed: boolean,
 	cframe: CFrame,
@@ -48,6 +50,7 @@ export type SlotSpawnerService = {
 		[number]: LandmarkSlot
 	},
 	landmarksService: LandmarksService,
+	template: Booker.Booker,
 
 	Spawn: (self: SlotSpawnerService, slotsCount: number?) -> (),
 	Clean: (self: SlotSpawnerService, slotsCount: number?) -> (),

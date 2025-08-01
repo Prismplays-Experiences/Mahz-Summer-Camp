@@ -1,3 +1,4 @@
+local Booker = require("@CustomModules/Booker")
 local Knit = require("@Packages/Knit")
 local RaceInfo = require("@Info/Events/RaceInfo")
 local TableUtil = require("@Packages/TableUtil")
@@ -44,21 +45,26 @@ for _, serviceInfo in pairs(SERVICES_INFO) do
 	function Service.KnitInit(self: SlotSpawnerService)
 		self:SetSlots({})
 		self.landmarksService = Knit.GetService("LandmarksService")
+		self.template = Booker.new(serviceInfo.template)
+
+		self.template:Book(serviceInfo.count + 3)
 	end
 
 	function Service.Spawn(self: SlotSpawnerService, slotsCount: number?)
-		local slots = self.landmarksService:OccupyFreeSlots(function(slotCframe: CFrame): Instance
-			local spawnedInstance = serviceInfo.template:Clone()
-			local resultCframe = slotCframe * CFrame.new(serviceInfo.offset)
+		task.spawn(function()
+			local slots = self.landmarksService:OccupyFreeSlots(function(slotCframe: CFrame): Instance
+				local spawnedInstance = self.template:Clone()
+				local resultCframe = slotCframe * CFrame.new(serviceInfo.offset)
 
-			spawnedInstance.Parent = RaceInfo.instances.spawnables.spawnedInstancesFolder
+				spawnedInstance.Parent = RaceInfo.instances.spawnables.spawnedInstancesFolder
 
-			setCframe(spawnedInstance, resultCframe)
+				setCframe(spawnedInstance, resultCframe)
 
-			return spawnedInstance
-		end, slotsCount or serviceInfo.count)
+				return spawnedInstance
+			end, slotsCount or serviceInfo.count)
 
-		self:SetSlots(slots)
+			self:SetSlots(slots)
+		end)
 	end
 
 	function Service.Clean(self: SlotSpawnerService, slotsCount: number?)
