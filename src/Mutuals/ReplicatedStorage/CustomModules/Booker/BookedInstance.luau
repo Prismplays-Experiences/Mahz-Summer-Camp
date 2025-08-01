@@ -1,13 +1,13 @@
-export type BookedInstance = Instance & {
-	_instance: Instance,
+export type BookedInstance<T> = T & {
+	_instance: T,
 	_active: boolean,
 
-	Activate: (self: BookedInstance) -> (),
-	Destroy: (self: BookedInstance) -> (),
-	IsActive: (self: BookedInstance) -> boolean,
-	GetRawInstance: (self: BookedInstance) -> Instance,
+	Activate: (self: BookedInstance<T>) -> (),
+	Destroy: (self: BookedInstance<T>) -> (),
+	IsActive: (self: BookedInstance<T>) -> boolean,
+	GetRawInstance: (self: BookedInstance<T>) -> T,
 
-	_setPosition: (self: BookedInstance, position: Vector3) -> (),
+	_setPosition: (self: BookedInstance<T>, position: Vector3) -> (),
 }
 
 local DESTROY_POSITION = Vector3.one * 512
@@ -16,9 +16,8 @@ BOOKED_INSTANCES_FOLDER.Name = "__BOOKED_INSTANCES__"
 BOOKED_INSTANCES_FOLDER.Parent = workspace
 
 local BookedInstance = {}
-BookedInstance._active = false
 
-function BookedInstance.new(instance: Instance): BookedInstance
+function BookedInstance.new<T>(instance: T & {[any]: any}): BookedInstance<T>
 	local info = {}
 
 	local self = newproxy(true)
@@ -28,9 +27,9 @@ function BookedInstance.new(instance: Instance): BookedInstance
 		local value
 
 		if key == "_active" or key == "_instance" or BookedInstance[key] ~= nil then
-			value = BookedInstance[key]
+			value = info[key] or BookedInstance[key]
 		else
-			value = instance[key]
+			value = (instance :: {[any]: any})[key]
 
 			if typeof(value) == "function" then
 				return function(_, ...)
@@ -46,7 +45,7 @@ function BookedInstance.new(instance: Instance): BookedInstance
 		if key == "_active" or key == "_instance" then
 			rawset(info, key, value)
 		else
-			instance[key] = value
+			(instance :: {[any]: any})[key] = value
 		end
 	end
 
@@ -56,7 +55,7 @@ function BookedInstance.new(instance: Instance): BookedInstance
 	return self
 end
 
-function BookedInstance.Activate(self: BookedInstance)
+function BookedInstance.Activate<T>(self: BookedInstance<T>)
 	if self:IsActive() then
 		return
 	end
@@ -64,33 +63,32 @@ function BookedInstance.Activate(self: BookedInstance)
 	self._active = true
 end
 
-function BookedInstance.Destroy(self: BookedInstance)
+function BookedInstance.Destroy<T>(self: BookedInstance<T>)
 	if self:IsActive() == false then
 		return
 	end
 
-	local instance = self:GetRawInstance()
-
 	self:_setPosition(DESTROY_POSITION)
 	self._active = false
-	instance.Parent = BOOKED_INSTANCES_FOLDER
+
+	(self :: {[any]: any}).Parent = BOOKED_INSTANCES_FOLDER
 end
 
-function BookedInstance.IsActive(self: BookedInstance): boolean
+function BookedInstance.IsActive<T>(self: BookedInstance<T>): boolean
 	return self._active
 end
 
-function BookedInstance._setPosition(self: BookedInstance, position: Vector3)
+function BookedInstance._setPosition<T>(self: BookedInstance<T>, position: Vector3)
 	local instance = self:GetRawInstance()
 
-	if typeof(instance) == "Model" then
+	if instance.PivotTo ~= nil then
 		instance:PivotTo(CFrame.new(position))
-	elseif typeof(instance) == "BasePart" then
-		instance.Position = position
+	elseif instance.Position ~= nil then
+		(instance :: Part).Position = position
 	end
 end
 
-function BookedInstance.GetRawInstance(self: BookedInstance): Instance
+function BookedInstance.GetRawInstance<T>(self: BookedInstance<T>): T
 	return self._instance
 end
 

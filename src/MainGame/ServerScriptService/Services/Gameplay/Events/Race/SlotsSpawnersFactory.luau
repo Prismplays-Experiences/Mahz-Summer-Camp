@@ -5,7 +5,7 @@ local TableUtil = require("@Packages/TableUtil")
 
 local types = require("./types")
 
-type SlotSpawnerService = types.SlotSpawnerService
+type SlotSpawnerService<T> = types.SlotSpawnerService<T>
 
 local SERVICES_INFO = {
 	{
@@ -42,7 +42,7 @@ for _, serviceInfo in pairs(SERVICES_INFO) do
 		Client = {},
 	})
 
-	function Service.KnitInit(self: SlotSpawnerService)
+	function Service.KnitInit<T>(self: SlotSpawnerService<T>)
 		self:SetSlots({})
 		self.landmarksService = Knit.GetService("LandmarksService")
 		self.template = Booker.new(serviceInfo.template)
@@ -50,7 +50,7 @@ for _, serviceInfo in pairs(SERVICES_INFO) do
 		self.template:Book(serviceInfo.count + 3)
 	end
 
-	function Service.Spawn(self: SlotSpawnerService, slotsCount: number?)
+	function Service.Spawn<T>(self: SlotSpawnerService<T>, slotsCount: number?)
 		task.spawn(function()
 			local slots = self.landmarksService:OccupyFreeSlots(function(slotCframe: CFrame): Instance
 				local spawnedInstance = self.template:Clone()
@@ -67,7 +67,7 @@ for _, serviceInfo in pairs(SERVICES_INFO) do
 		end)
 	end
 
-	function Service.Clean(self: SlotSpawnerService, slotsCount: number?)
+	function Service.Clean<T>(self: SlotSpawnerService<T>, slotsCount: number?)
 		local allSlots = self:GetSlots()
 		local count = slotsCount or #allSlots
 
@@ -84,11 +84,11 @@ for _, serviceInfo in pairs(SERVICES_INFO) do
 		self:SetSlots(remainingSlots)
 	end
 
-	function Service.SetSlots(self: SlotSpawnerService, slots: { types.LandmarkSlot })
+	function Service.SetSlots<T>(self: SlotSpawnerService<T>, slots: { types.LandmarkSlot })
 		self.slots = slots
 	end
 
-	function Service.GetSlots(self: SlotSpawnerService)
+	function Service.GetSlots<T>(self: SlotSpawnerService<T>)
 		return self.slots
 	end
 end

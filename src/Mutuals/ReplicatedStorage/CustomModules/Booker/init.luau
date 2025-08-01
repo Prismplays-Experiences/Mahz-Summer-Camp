@@ -1,19 +1,19 @@
 local BookedInstance = require(script.BookedInstance)
 local TableUtil = require("@Packages/TableUtil")
 
-export type Booker = {
-	_template: Instance,
+export type Booker<T> = {
+	_template: T,
 	_bookedInstances: {},
 
-	new: (template: Instance) -> Booker,
+	new: (template: T) -> Booker<T>,
 
-	Book: (self: Booker, quantity: number?, cloningTimeInterval: number?, await: boolean?) -> (),
-	GetTemplate: (self: Booker) -> Instance,
+	Book: (self: Booker<T>, quantity: number?, cloningTimeInterval: number?, await: boolean?) -> (),
+	GetTemplate: (self: Booker<T>) -> T,
 
-	Clone: (self: Booker) -> BookedInstance.BookedInstance,
+	Clone: (self: Booker<T>) -> BookedInstance.BookedInstance<T>,
 
-	GetFreeInstances: (self: Booker) -> { BookedInstance.BookedInstance },
-	GetBookedInstances: (self: Booker) -> { BookedInstance.BookedInstance },
+	GetFreeInstances: (self: Booker<T>) -> { BookedInstance.BookedInstance<T> },
+	GetBookedInstances: (self: Booker<T>) -> { BookedInstance.BookedInstance<T> },
 }
 
 local DEFAULT_CLONING_TIME_INTERVAL = 0
@@ -21,7 +21,7 @@ local DEFAULT_CLONING_TIME_INTERVAL = 0
 local Booker = {}
 Booker.__index = Booker
 
-function Booker.new(template: Instance): Booker
+function Booker.new<T>(template: T): Booker<T>
 	local self = setmetatable({}, Booker)
 
 	self._template = template
@@ -30,7 +30,7 @@ function Booker.new(template: Instance): Booker
 	return self
 end
 
-function Booker.Book(self: Booker, quantity: number?, cloningTimeInterval: number?, await: boolean?)
+function Booker.Book<T>(self: Booker<T>, quantity: number?, cloningTimeInterval: number?, await: boolean?)
 	cloningTimeInterval = cloningTimeInterval or DEFAULT_CLONING_TIME_INTERVAL
 	await = await or false
 	quantity = quantity or 1
@@ -55,7 +55,7 @@ function Booker.Book(self: Booker, quantity: number?, cloningTimeInterval: numbe
 	end
 end
 
-function Booker.Clone(self: Booker): BookedInstance.BookedInstance?
+function Booker.Clone<T>(self: Booker<T>): BookedInstance.BookedInstance<T>?
 	local freeInstances = self:GetFreeInstances()
 
 	if #freeInstances == 0 then
@@ -73,7 +73,7 @@ function Booker.Clone(self: Booker): BookedInstance.BookedInstance?
 	return randomBookedInstance
 end
 
-function Booker.GetFreeInstances(self: Booker)
+function Booker.GetFreeInstances<T>(self: Booker<T>): { BookedInstance.BookedInstance<T> }
 	local bookedInstances = self:GetBookedInstances()
 
 	local freeInstances = TableUtil.Filter(bookedInstances, function(instance)
@@ -83,11 +83,11 @@ function Booker.GetFreeInstances(self: Booker)
 	return freeInstances
 end
 
-function Booker.GetBookedInstances(self: Booker): { BookedInstance.BookedInstance }
+function Booker.GetBookedInstances<T>(self: Booker<T>): { BookedInstance.BookedInstance<T> }
 	return self._bookedInstances
 end
 
-function Booker.GetTemplate(self: Booker): Instance
+function Booker.GetTemplate<T>(self: Booker<T>): T
 	return self._template
 end
 

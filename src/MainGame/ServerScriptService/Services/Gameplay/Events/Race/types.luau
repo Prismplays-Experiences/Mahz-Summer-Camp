@@ -45,18 +45,18 @@ export type BordersService = {
 	ChangeCollision: (state: boolean) -> (),
 }
 
-export type SlotSpawnerService = {
+export type SlotSpawnerService<T> = {
 	slots: {
 		[number]: LandmarkSlot
 	},
 	landmarksService: LandmarksService,
-	template: Booker.Booker,
+	template: Booker.Booker<T>,
 
-	Spawn: (self: SlotSpawnerService, slotsCount: number?) -> (),
-	Clean: (self: SlotSpawnerService, slotsCount: number?) -> (),
+	Spawn: (self: SlotSpawnerService<T>, slotsCount: number?) -> (),
+	Clean: (self: SlotSpawnerService<T>, slotsCount: number?) -> (),
 
-	SetSlots: (self: SlotSpawnerService, slots: { LandmarkSlot }) -> (),
-	GetSlots: (self: SlotSpawnerService) -> { LandmarkSlot },
+	SetSlots: (self: SlotSpawnerService<T>, slots: { LandmarkSlot }) -> (),
+	GetSlots: (self: SlotSpawnerService<T>) -> { LandmarkSlot },
 }
 
 export type ProgressTable = {
@@ -113,9 +113,9 @@ export type RaceProgressService = {
 
 export type RaceService = {
 	bordersService: BordersService,
-	powerupsService: SlotSpawnerService,
-	boostsService: SlotSpawnerService,
-	spikesService: SlotSpawnerService,
+	powerupsService: SlotSpawnerService<MeshPart>,
+	boostsService: SlotSpawnerService<Part>,
+	spikesService: SlotSpawnerService<Model>,
 	raceProgressService: RaceProgressService,
 
 	Start: (self: RaceService) -> (),
