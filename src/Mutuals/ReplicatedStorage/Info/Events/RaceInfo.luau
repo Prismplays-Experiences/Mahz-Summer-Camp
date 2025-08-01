@@ -93,5 +93,10 @@ return {
 		iceBlock = {
 			duration = 5, 
 		}
+	},
+	
+	teleportation = {
+		raceStartPosition = Vector3.new(-107.9, 6.438, 124.05),
+		mapCenterPosition = Vector3.new(-103.269, 6.675, 19.281),
 	}
 }

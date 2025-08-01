@@ -1,5 +1,12 @@
 local Booker = require("@CustomModules/Booker")
 
+export type Service = {
+	Name: string,
+	Client: { [string]: any },
+
+	[any]: any,
+}
+
 export type LandmarkSlot = {
 	claimed: boolean,
 	cframe: CFrame,
@@ -111,12 +118,37 @@ export type RaceProgressService = {
 	GetPlayerLaps: (self: RaceProgressService, player: Player) -> number
 }
 
+export type RaceMembersService = {
+	raceMembersStoreService: RaceMembersStoreService,
+	teleportationService: Service,
+
+	AddAllPlayers: (self: RaceMembersService) -> (),
+	RemoveAllPlayers: (self: RaceMembersService) -> (),
+
+	AddPlayer: (self: RaceMembersService, player: Player) -> (),
+	RemovePlayer: (self: RaceMembersService, player: Player) -> (),
+
+	IsPlayerInRace: (self: RaceMembersService, player: Player) -> boolean,
+	GetPlayers: (self: RaceMembersService) -> { [Player]: boolean },
+}
+
+export type RaceMembersStoreService = {
+	_players: { [number]: Player },
+
+	AddPlayer: (self: RaceMembersStoreService, player: Player) -> (),
+	RemovePlayer: (self: RaceMembersStoreService, player: Player) -> (),
+
+	IsPlayerInRace: (self: RaceMembersStoreService, player: Player) -> boolean,
+	GetPlayers: (self: RaceMembersStoreService) -> { [Player]: boolean },
+}
+
 export type RaceService = {
 	bordersService: BordersService,
 	powerupsService: SlotSpawnerService<MeshPart>,
 	boostsService: SlotSpawnerService<Part>,
 	spikesService: SlotSpawnerService<Model>,
 	raceProgressService: RaceProgressService,
+	raceMembersService: RaceMembersService,
 
 	Start: (self: RaceService) -> (),
 

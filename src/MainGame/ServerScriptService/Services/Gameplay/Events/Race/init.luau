@@ -17,6 +17,7 @@ function Race.KnitStart(self: RaceService)
 	self.boostsService = Knit.GetService("BoostsSpawnerService")
 	self.spikesService = Knit.GetService("SpikesSpawnerService")
 	self.raceProgressService = Knit.GetService("RaceProgressService")
+	self.raceMembersService = Knit.GetService("RaceMembersService")
 end
 
 function Race.Start(self: RaceService)
@@ -25,6 +26,7 @@ function Race.Start(self: RaceService)
 	self.boostsService:Spawn()
 	self.spikesService:Spawn()
 	self.raceProgressService:Start()
+	self.raceMembersService:AddAllPlayers()
 end
 
 function Race.Stop(self: RaceService)
@@ -33,6 +35,7 @@ function Race.Stop(self: RaceService)
 	self.boostsService:Clean()
 	self.spikesService:Clean()
 	self.raceProgressService:Stop()
+	self.raceMembersService:RemoveAllPlayers()
 end
 
 return Race
