@@ -249,3 +249,5 @@ function FoodChaos:KnitStart()
 	self.ClockService = Knit.GetService("ClockService")
 	self.EventsService = Knit.GetService("EventsService")
 end
+
+return FoodChaos

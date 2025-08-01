@@ -13,9 +13,9 @@ local Race = Knit.CreateService({
 
 function Race.KnitStart(self: RaceService)
 	self.bordersService = Knit.GetService("BordersService")
-	self.powerupsService = Knit.GetService("PowerupsService")
-	self.boostsService = Knit.GetService("BoostsService")
-	self.spikesService = Knit.GetService("SpikesService")
+	self.powerupsService = Knit.GetService("PowerupsSpawnerService")
+	self.boostsService = Knit.GetService("BoostsSpawnerService")
+	self.spikesService = Knit.GetService("SpikesSpawnerService")
 	self.raceProgressService = Knit.GetService("RaceProgressService")
 end
 

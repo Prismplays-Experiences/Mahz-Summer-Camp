@@ -8,19 +8,19 @@ type SlotSpawnerService = types.SlotSpawnerService
 
 local SERVICES_INFO = {
 	{
-		name = "PowerupsService",
+		name = "PowerupsSpawnerService",
 		template = RaceInfo.instances.spawnables.powerupTemplate,
 		count = RaceInfo.spawnCounts.powerups,
 		offset = RaceInfo.slotsOffsets.powerup,
 	},
 	{
-		name = "BoostsService",
+		name = "BoostsSpawnerService",
 		template = RaceInfo.instances.spawnables.boostTemplate,
 		count = RaceInfo.spawnCounts.boosts,
 		offset = RaceInfo.slotsOffsets.boost,
 	},
 	{
-		name = "SpikesService",
+		name = "SpikesSpawnerService",
 		template = RaceInfo.instances.spawnables.spikesTemplate,
 		count = RaceInfo.spawnCounts.spikes,
 		offset = RaceInfo.slotsOffsets.spikes,
@@ -85,4 +85,4 @@ for _, serviceInfo in pairs(SERVICES_INFO) do
 	end
 end
 
-return nil
+return {}
