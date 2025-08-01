@@ -1,18 +1,10 @@
 local RaceInfo = require("@Info/Events/Race")
 
+local types = require("../types")
+
+type LapsProgress = types.LapsProgress
+
 local REQUIRED_LAPS = RaceInfo.trackConfig.laps
-
-export type LapsProgress = {
-	_laps: { [Player]: number },
-
-	GetPlayerProgress: (self: LapsProgress, player: Player) -> number,
-
-	IncrementLap: (self: LapsProgress, player: Player) -> (),
-	GetPlayerLaps: (self: LapsProgress, player: Player) -> number,
-	GetEveryoneLaps: (self: LapsProgress) -> { [Player]: number },
-
-	GetMaxLaps: () -> number,
-}
 
 local LapsProgress = {}
 LapsProgress.__index = LapsProgress

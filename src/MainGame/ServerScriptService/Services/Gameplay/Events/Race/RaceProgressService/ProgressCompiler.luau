@@ -1,25 +1,10 @@
 local LapsProgress = require("./LapsProgress")
 local CircleProgress = require("./CircleProgress")
 
-export type ProgressTable = {
-	total: number,
-	circle: number,
-	laps: number
-}
+local types = require("../types")
 
-export type ProgressCompiler = {
-	IncrementLap: (self: ProgressCompiler, player: Player) -> (),
-
-	GetEveryoneLaps: (self: ProgressCompiler) -> { [Player]: number },
-	GetPlayerLaps: (self: ProgressCompiler, player: Player) -> number,
-
-	GetProgresses: (self: ProgressCompiler) -> { [Player]: ProgressTable },
-	GetProgressForPlayer: (self: ProgressCompiler, player: Player) -> ProgressTable,
-
-	_lapsProgress: LapsProgress.LapsProgress,
-}
-
-export type ProgressTypes = "total" | "circle" | "laps"
+type ProgressCompiler = types.ProgressCompiler
+type ProgressTable = types.ProgressTable
 
 local ProgressCompiler = {}
 ProgressCompiler.__index = ProgressCompiler

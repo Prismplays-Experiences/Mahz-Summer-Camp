@@ -56,11 +56,61 @@ export type SlotSpawnerService = {
 	GetSlots: (self: SlotSpawnerService) -> { LandmarkSlot },
 }
 
+export type ProgressTable = {
+	total: number,
+	circle: number,
+	laps: number
+}
+
+export type LapsProgress = {
+	_laps: { [Player]: number },
+
+	GetPlayerProgress: (self: LapsProgress, player: Player) -> number,
+
+	IncrementLap: (self: LapsProgress, player: Player) -> (),
+	GetPlayerLaps: (self: LapsProgress, player: Player) -> number,
+	GetEveryoneLaps: (self: LapsProgress) -> { [Player]: number },
+
+	GetMaxLaps: () -> number,
+}
+
+export type ProgressCompiler = {
+	IncrementLap: (self: ProgressCompiler, player: Player) -> (),
+
+	GetEveryoneLaps: (self: ProgressCompiler) -> { [Player]: number },
+	GetPlayerLaps: (self: ProgressCompiler, player: Player) -> number,
+
+	GetProgresses: (self: ProgressCompiler) -> { [Player]: ProgressTable },
+	GetProgressForPlayer: (self: ProgressCompiler, player: Player) -> ProgressTable,
+
+	_lapsProgress: LapsProgress,
+}
+
+export type ProgressTypes = "total" | "circle" | "laps"
+
+export type RaceProgressService = {
+	_progressCompiler: ProgressCompiler?,
+
+	IncrementLap: (self: RaceProgressService, player: Player) -> (),
+
+	GetNearestPlayer: (self: RaceProgressService, player: Player) -> Player?,
+	GetRelativePlayerInfo: (self: RaceProgressService, player: Player, deltaIndex: number, excludeLaps: boolean?) -> {player: Player, progress: number}?,
+
+	GetLeaderboard: (self: RaceProgressService, excludeLaps: boolean?) -> { [number]: {player: Player, progress: number} },
+
+	GetProgresses: (self: RaceProgressService) -> { [Player]: ProgressTable },
+	GetPlayerProgress: (self: RaceProgressService, player: Player) -> ProgressTable,
+
+	GetEveryoneLaps: (self: RaceProgressService) -> { [Player]: number },
+	GetPlayerLaps: (self: RaceProgressService, player: Player) -> number
+}
+
 export type RaceService = {
 	bordersService: BordersService,
 	powerupsService: SlotSpawnerService,
 	boostsService: SlotSpawnerService,
 	spikesService: SlotSpawnerService,
+	raceProgressService: RaceProgressService,
 
 	Start: (self: RaceService) -> (),
 

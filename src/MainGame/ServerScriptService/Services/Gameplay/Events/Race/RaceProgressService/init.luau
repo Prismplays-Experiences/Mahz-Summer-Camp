@@ -3,24 +3,11 @@ local Knit = require("@Packages/Knit")
 local ProgressCompiler = require("./RaceProgressService/ProgressCompiler")
 local RaceLeaderboard = require("./RaceProgressService/RaceLeaderboard")
 
-type ProgressTable = ProgressCompiler.ProgressTable
+local types = require("./types")
 
-export type RaceProgressService = {
-	_progressCompiler: ProgressCompiler.ProgressCompiler?,
-
-	IncrementLap: (self: RaceProgressService, player: Player) -> (),
-
-	GetNearestPlayer: (self: RaceProgressService, player: Player) -> Player?,
-	GetRelativePlayerInfo: (self: RaceProgressService, player: Player, deltaIndex: number, excludeLaps: boolean?) -> {player: Player, progress: number}?,
-
-	GetLeaderboard: (self: RaceProgressService, excludeLaps: boolean?) -> { [number]: {player: Player, progress: number} },
-
-	GetProgresses: (self: RaceProgressService) -> { [Player]: ProgressTable },
-	GetPlayerProgress: (self: RaceProgressService, player: Player) -> ProgressTable,
-
-	GetEveryoneLaps: (self: RaceProgressService) -> { [Player]: number },
-	GetPlayerLaps: (self: RaceProgressService, player: Player) -> number
-}
+type ProgressTable = types.ProgressTable
+type ProgressTypes = types.ProgressTypes
+type RaceProgressService = types.RaceProgressService
 
 local RaceProgressService = Knit.CreateService({
 	Name = "RaceProgressService",
@@ -41,19 +28,19 @@ function RaceProgressService.IncrementLap(self: RaceProgressService, player: Pla
 	self._progressCompiler:IncrementLap(player)
 end
 
-function RaceProgressService.GetNearestPlayer(self: RaceProgressService, player: Player, progressKey: ProgressCompiler.ProgressTypes?): Player?
+function RaceProgressService.GetNearestPlayer(self: RaceProgressService, player: Player, progressKey: ProgressTypes?): Player?
 	local progresses = self:GetProgresses()
 
 	return RaceLeaderboard:GetNearestPlayer(progresses, player, progressKey)
 end
 
-function RaceProgressService.GetRelativePlayerInfo(self: RaceProgressService, player: Player, deltaIndex: number, progressKey: ProgressCompiler.ProgressTypes?): {player: Player, progress: number}?
+function RaceProgressService.GetRelativePlayerInfo(self: RaceProgressService, player: Player, deltaIndex: number, progressKey: ProgressTypes?): {player: Player, progress: number}?
 	local progresses = self:GetProgresses()
 
 	return RaceLeaderboard:GetRelativePlayerInfo(progresses, player, deltaIndex, progressKey)
 end
 
-function RaceProgressService.GetLeaderboard(self: RaceProgressService, progressKey: ProgressCompiler.ProgressTypes?): { [number]: {player: Player, progress: number} }
+function RaceProgressService.GetLeaderboard(self: RaceProgressService, progressKey: ProgressTypes?): { [number]: {player: Player, progress: number} }
 	local progresses = self:GetProgresses()
 
 	return RaceLeaderboard.SortByLeaders(progresses, progressKey)

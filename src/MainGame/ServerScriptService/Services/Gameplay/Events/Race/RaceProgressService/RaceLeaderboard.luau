@@ -1,12 +1,13 @@
-local ProgressCompiler = require("./ProgressCompiler")
+local types = require("../types")
+
+type ProgressTable = types.ProgressTable
+type ProgressTypes = types.ProgressTypes
 
 type Leaderboard = {LeaderboardEntry}
 type LeaderboardEntry = {
 	player: Player,
 	progress: number
 }
-type ProgressTable = ProgressCompiler.ProgressTable
-type ProgressTypes = ProgressCompiler.ProgressTypes
 
 export type RaceLeaderboard = {
 	GetRelativePlayerInfo: (self: RaceLeaderboard, progresses: { [Player]: ProgressTable }, player: Player, deltaIndex: number, progressKey: ProgressTypes?) -> LeaderboardEntry?,
