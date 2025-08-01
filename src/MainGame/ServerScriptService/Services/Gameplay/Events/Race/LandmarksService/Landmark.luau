@@ -7,7 +7,9 @@ local types = require("../types")
 
 local PARALLEL_LINES_DISTANCE = RaceInfo.trackConfig.distanceBetweenParallelLines
 local DIRECTION_MULTIPLIERS = { -1, 1 } -- Left and Right
-local DISTANCE_MULTIPLIERS = { 0.5, 1.5 } -- Closer and further from the origin
+local DISTANCE_MULTIPLIERS = { 0.5, 1.685 } -- Closer and further from the origin
+
+local VISUALIZE = false
 
 type Landmark = types.Landmark
 type LandmarkSlot = types.LandmarkSlot
@@ -19,24 +21,44 @@ function Landmark.new(landmarkPart: Part)
 	local self = setmetatable({}, Landmark)
 
 	self.origin = landmarkPart.CFrame
-	self:_initSpawnSlots()
+	self:_initSpawnSlots(landmarkPart:FindFirstChild("SurfaceGui"))
+
+	if not VISUALIZE then
+		landmarkPart.Transparency = 1
+
+		if landmarkPart:FindFirstChild("SurfaceGui") then
+			(landmarkPart:FindFirstChild("SurfaceGui") :: Instance):Destroy()
+		end
+	end
 
 	return self
 end
 
-function Landmark._initSpawnSlots(self: Landmark)
+function Landmark._initSpawnSlots(self: Landmark, decal: SurfaceGui)
 	self.slots = {}
 
 	for _, directionMultiplier in ipairs(DIRECTION_MULTIPLIERS) do
 		for _, distanceMultiplier in ipairs(DISTANCE_MULTIPLIERS) do
 			local resultMultiplier = directionMultiplier * distanceMultiplier * PARALLEL_LINES_DISTANCE
-			local slotPosition = self.origin.Position + self.origin.RightVector * resultMultiplier
-			local slotRotation = self.origin - self.origin.Position
-			local slotCframe = slotRotation * CFrame.new(slotPosition)
+			local slotCframe = self.origin + self.origin.RightVector * resultMultiplier
 
 			local slot = LandmarkSlot.new(slotCframe)
 
 			table.insert(self.slots, slot)
+
+			if not VISUALIZE then
+				continue
+			end
+
+			local visualizedSlot = Instance.new("Part")
+			visualizedSlot.Size = Vector3.one * 2
+			visualizedSlot.CFrame = slotCframe
+			visualizedSlot.Anchored = true
+			visualizedSlot.Transparency = 0.5
+			visualizedSlot.Parent = workspace
+
+			local newDecal = decal:Clone()
+			newDecal.Parent = visualizedSlot
 		end
 	end
 end

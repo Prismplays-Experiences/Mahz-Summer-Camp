@@ -51,6 +51,8 @@ for _, serviceInfo in pairs(SERVICES_INFO) do
 			local spawnedInstance = serviceInfo.template:Clone()
 			local resultCframe = slotCframe * CFrame.new(serviceInfo.offset)
 
+			spawnedInstance.Parent = RaceInfo.instances.spawnables.spawnedInstancesFolder
+
 			setCframe(spawnedInstance, resultCframe)
 
 			return spawnedInstance

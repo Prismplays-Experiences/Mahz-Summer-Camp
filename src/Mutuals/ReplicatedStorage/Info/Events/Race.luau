@@ -21,6 +21,9 @@ local SMALL_ICE_BLOCK_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("SmallIceBlock"
 local BIG_ICE_BLOCK_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("BigIceBlock")
 local BOOST_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Boost")
 
+local SPAWNED_INSTANCES_FOLDER = Instance.new("Folder")
+SPAWNED_INSTANCES_FOLDER.Parent = workspace
+
 return {
 	instances = {
 		track = {
@@ -37,7 +40,8 @@ return {
 		spawnables = {
 			powerupTemplate = POWERUP_TEMPLATE,
 			spikesTemplate = SPIKES_TEMPLATE,
-			boostTemplate = BOOST_TEMPLATE
+			boostTemplate = BOOST_TEMPLATE,
+			spawnedInstancesFolder = SPAWNED_INSTANCES_FOLDER,
 		},
 		other = {
 			bigIceBlockTemplate = BIG_ICE_BLOCK_TEMPLATE,
@@ -45,7 +49,7 @@ return {
 	},
 
 	trackConfig = {
-		distanceBetweenParallelLines = 3.35,
+		distanceBetweenParallelLines = 3.5, --3.35
 		laps = 2,
 		leadeboardsUpdateInterval = 1,
 	},
@@ -53,7 +57,7 @@ return {
 	slotsOffsets = {
 		powerup = Vector3.new(0, 4, 0),
 		boost = Vector3.new(0, 0.5, 0),
-		spikes = Vector3.new(0, 0.1, 0),
+		spikes = Vector3.new(0, 0.72, 0),
 	},
 
 	spawnCounts = {
