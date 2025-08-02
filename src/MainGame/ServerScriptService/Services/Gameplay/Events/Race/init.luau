@@ -25,8 +25,8 @@ function Race.Start(self: RaceService)
 	self.powerupsService:Spawn()
 	self.boostsService:Spawn()
 	self.spikesService:Spawn()
-	self.raceProgressService:Start()
 	self.raceMembersService:AddAllPlayers()
+	self.raceProgressService:Start()
 end
 
 function Race.Stop(self: RaceService)

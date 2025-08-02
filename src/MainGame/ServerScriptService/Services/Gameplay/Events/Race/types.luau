@@ -77,7 +77,7 @@ export type LapsProgress = {
 
 	GetPlayerProgress: (self: LapsProgress, player: Player) -> number,
 
-	IncrementLap: (self: LapsProgress, player: Player) -> (),
+	IncrementLap: (self: LapsProgress, player: Player, quantity: number?) -> (),
 	GetPlayerLaps: (self: LapsProgress, player: Player) -> number,
 	GetEveryoneLaps: (self: LapsProgress) -> { [Player]: number },
 
@@ -85,7 +85,7 @@ export type LapsProgress = {
 }
 
 export type ProgressCompiler = {
-	IncrementLap: (self: ProgressCompiler, player: Player) -> (),
+	IncrementLap: (self: ProgressCompiler, player: Player, quantity: number?) -> (),
 
 	GetEveryoneLaps: (self: ProgressCompiler) -> { [Player]: number },
 	GetPlayerLaps: (self: ProgressCompiler, player: Player) -> number,
@@ -98,13 +98,23 @@ export type ProgressCompiler = {
 
 export type ProgressTypes = "total" | "circle" | "laps"
 
+export type CheckpointsService = {
+	_checkpoints: { [Player]: number },
+
+	UpdateCheckpoints: (self: CheckpointsService, progresses: {[Player]: number}) -> {Player},
+	GetNextCheckpoints: (self: CheckpointsService) -> { [Player]: number },
+}
+
 export type RaceProgressService = {
 	_progressCompiler: ProgressCompiler?,
+	_observePlayersConnection: RBXScriptConnection?,
+	_checkpointsService: CheckpointsService,
+	_raceMembersService: RaceMembersService,
 
 	Start: (self: RaceProgressService) -> (),
 	Stop: (self: RaceProgressService) -> (),
 
-	IncrementLap: (self: RaceProgressService, player: Player) -> (),
+	IncrementLap: (self: RaceProgressService, player: Player, quantity: number?) -> (),
 
 	GetNearestPlayer: (self: RaceProgressService, player: Player) -> Player?,
 	GetRelativePlayerInfo: (self: RaceProgressService, player: Player, deltaIndex: number, excludeLaps: boolean?) -> {player: Player, progress: number}?,

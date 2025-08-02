@@ -4,13 +4,20 @@ local MAX_ANGLE = 2 * math.pi
 
 -- In polar coordinates
 function Mathematics.CalculateAngleBetweenPlayerAndPart(player: Player, part: BasePart, additionalAngle: number?, areDegrees: boolean?): number
+	local multiplier = if areDegrees == true then 180 / math.pi else 1
 	local playerPosition = Mathematics.GetPlayerPosition(player)
 	local partPosition = part.Position
 	local partOrientation = part.Orientation.Y * math.pi / 180
 
-	additionalAngle = (additionalAngle or 0) + partOrientation
+	additionalAngle = (additionalAngle or 0) * math.pi / 180 + partOrientation
 
-	return Mathematics.CalculateAngleBetweenVectors(partPosition, playerPosition, additionalAngle, areDegrees)
+	local angle = Mathematics.CalculateAngleBetweenVectors(partPosition, playerPosition, additionalAngle, areDegrees)
+
+	if angle < 0 then
+		angle += MAX_ANGLE * multiplier
+	end
+
+	return angle
 end
 
 -- In polar coordinates

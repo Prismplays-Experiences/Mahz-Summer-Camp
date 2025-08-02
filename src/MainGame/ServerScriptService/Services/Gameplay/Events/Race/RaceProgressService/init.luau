@@ -1,3 +1,5 @@
+local RunService = game:GetService("RunService")
+
 local Knit = require("@Packages/Knit")
 
 local ProgressCompiler = require("./RaceProgressService/ProgressCompiler")
@@ -7,6 +9,7 @@ local types = require("./types")
 
 type ProgressTable = types.ProgressTable
 type ProgressTypes = types.ProgressTypes
+type ProgressCompiler = types.ProgressCompiler
 type RaceProgressService = types.RaceProgressService
 
 local RaceProgressService = Knit.CreateService({
@@ -16,16 +19,39 @@ local RaceProgressService = Knit.CreateService({
 
 function RaceProgressService.Start(self: RaceProgressService)
 	self._progressCompiler = ProgressCompiler.new()
+	self._checkpointsService = Knit.GetService("CheckpointsService")
+	self._raceMembersService = Knit.GetService("RaceMembersService")
+
+	for _, player in pairs(self._raceMembersService:GetPlayers()) do
+		self:IncrementLap(player, 0)
+	end
+
+	self._observePlayersConnection = RunService.Heartbeat:Connect(function()
+		local progresses = (self._progressCompiler :: ProgressCompiler):GetProgresses()
+
+		for player, progress in pairs(progresses) do
+			progresses[player] = progress.circle
+		end
+
+		local playersPassedLap = self._checkpointsService:UpdateCheckpoints(progresses)
+
+		for _, player in pairs(playersPassedLap) do
+			print("Player passed a lap: " .. player.Name)
+
+			self:IncrementLap(player)
+		end
+	end)
 end
 
 function RaceProgressService.Stop(self: RaceProgressService)
 	self._progressCompiler = nil
+	(self._observePlayersConnection :: RBXScriptConnection):Disconnect()
 end
 
-function RaceProgressService.IncrementLap(self: RaceProgressService, player: Player)
+function RaceProgressService.IncrementLap(self: RaceProgressService, player: Player, quantity: number?)
 	assert(self._progressCompiler, "ProgressCompiler is not initialized. Run :Start() before using this method")
 
-	self._progressCompiler:IncrementLap(player)
+	self._progressCompiler:IncrementLap(player, quantity)
 end
 
 function RaceProgressService.GetNearestPlayer(self: RaceProgressService, player: Player, progressKey: ProgressTypes?): Player?

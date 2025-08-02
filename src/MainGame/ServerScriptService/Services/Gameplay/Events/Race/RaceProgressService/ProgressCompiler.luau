@@ -17,8 +17,8 @@ function ProgressCompiler.new()
 	return self
 end
 
-function ProgressCompiler.IncrementLap(self: ProgressCompiler, player: Player)
-	self._lapsProgress:IncrementLap(player)
+function ProgressCompiler.IncrementLap(self: ProgressCompiler, player: Player, quantity: number?)
+	self._lapsProgress:IncrementLap(player, quantity)
 end
 
 function ProgressCompiler.GetEveryoneLaps(self: ProgressCompiler): { [Player]: number }

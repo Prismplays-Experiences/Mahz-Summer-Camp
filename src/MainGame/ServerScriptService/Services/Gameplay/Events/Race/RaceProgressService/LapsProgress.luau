@@ -17,14 +17,14 @@ function LapsProgress.new()
 	return self
 end
 
-function LapsProgress.IncrementLap(self: LapsProgress, player: Player)
+function LapsProgress.IncrementLap(self: LapsProgress, player: Player, quantity: number?)
 	local laps = self:GetEveryoneLaps()
 
 	if not laps[player] then
 		laps[player] = 0
 	end
 
-	laps[player] = laps[player] + 1
+	laps[player] = laps[player] + (quantity or 1)
 end
 
 function LapsProgress.GetPlayerProgress(self: LapsProgress, player: Player): number

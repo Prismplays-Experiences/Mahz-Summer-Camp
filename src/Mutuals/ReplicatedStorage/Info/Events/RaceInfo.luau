@@ -51,7 +51,8 @@ return {
 	trackConfig = {
 		distanceBetweenParallelLines = 3.5, --3.35
 		laps = 2,
-		leadeboardsUpdateInterval = 1,
+		leaderboardsUpdateInterval = 1,
+		checkpoints = {{0, 0.48}, {0.48, 0.95}, {0.95, 1}},
 	},
 
 	slotsOffsets = {
@@ -67,11 +68,11 @@ return {
 	},
 
 	playerStats = {
-		defaultSpeed = 12,
+		defaultSpeed = 20,
 
-		boostDuration = 3, 
-		boostedSpeed = 18,
-		boostImpulse = Vector3.new(0, 0, 10), -- x -> right, y -> up, z -> forward. Relative to humanoid root part's look vector
+		boostDuration = 2.5,
+		boostedSpeed = 25,
+		boostImpulse = Vector3.new(0, 1, 12), -- x -> right, y -> up, z -> forward. Relative to humanoid root part's look vector
 	},
 
 	spikes = {

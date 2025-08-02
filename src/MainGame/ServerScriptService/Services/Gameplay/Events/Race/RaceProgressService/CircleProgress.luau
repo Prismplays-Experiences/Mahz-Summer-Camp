@@ -7,8 +7,8 @@ local MAX_ANGLE = 2 * math.pi
 local CircleProgress = {}
 
 function CircleProgress.Get(player: Player): number
-	local angle = Mathematics.CalculateAngleBetweenPlayerAndPart(player, POLAR_PERPENDICULAR_AXIS_INSTANCE)
-	local progress = angle / MAX_ANGLE
+	local angle = Mathematics.CalculateAngleBetweenPlayerAndPart(player, POLAR_PERPENDICULAR_AXIS_INSTANCE, -180)
+	local progress = 1 - angle / MAX_ANGLE
 
 	return progress
 end
