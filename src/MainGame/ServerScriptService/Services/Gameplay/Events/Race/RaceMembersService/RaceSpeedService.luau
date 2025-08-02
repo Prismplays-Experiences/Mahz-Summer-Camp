@@ -44,7 +44,9 @@ function RaceSpeedService.BoostPlayer(self: RaceSpeedService, player: Player)
 end
 
 function RaceSpeedService.StartStateMachines(self: RaceSpeedService)
-	for _, stateMachine in pairs(self:_getAllPlayersStateMachines()) do
+	for player, stateMachine in pairs(self:_getAllPlayersStateMachines()) do
+		self._setPlayerSpeed(player, 16)
+
 		stateMachine:Start()
 	end
 end
