@@ -171,6 +171,16 @@ export type RaceSpeedService = {
 	_setPlayerSpeed: (player: Player, speed: number) -> (),
 }
 
+export type PowerupsService = {
+	_powerups: { [Player]: string },
+
+	Use: (self: PowerupsService, player: Player) -> boolean,
+
+	Give: (self: PowerupsService, player: Player, powerupName: string) -> (),
+
+	GetPowerups: (self: PowerupsService) -> { [Player]: string },
+}
+
 export type RaceService = {
 	bordersService: BordersService,
 	powerupsService: SlotSpawnerService<MeshPart>,

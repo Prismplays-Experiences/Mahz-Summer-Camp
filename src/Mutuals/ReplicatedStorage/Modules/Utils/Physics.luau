@@ -7,7 +7,7 @@ export type Physics = {
 
 local Physics = {}
 
-function Physics.ApplyImpulseToPlayer(self: Physics, impulse: Vector3, player: Player)
+function Physics.ApplyImpulseToPlayer(self: Physics, impulse: Vector3, player: Player, notAVelocity: boolean?)
 	local character = player.Character
 	if not character then
 		return
@@ -25,7 +25,12 @@ function Physics.ApplyImpulseToPlayer(self: Physics, impulse: Vector3, player: P
 
 	humanoid.PlatformStand = true
 
-	self.ApplyImpulse(impulse, player)
+	if notAVelocity then
+		self.ApplyImpulseRelativeToLookVector(impulse, humanoidRootPart)
+	else
+		self.ApplyImpulse(impulse, player)
+	end
+	
 end
 
 function Physics.ApplyImpulseRelativeToLookVector(impulse: Vector3, part: Part)

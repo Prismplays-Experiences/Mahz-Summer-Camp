@@ -25,11 +25,13 @@ local SoundEffects = ReplicatedStorage:WaitForChild("Models"):WaitForChild("Soun
 ----------------------------------------
 local Testing = false
 
+local WAITING_TIME_FOR_STUDIO = 99999
+
 --> Knit Setup
 ----------------------------------------
 local GeneralGameplay = Knit.CreateService({
 	Name = "GeneralGameplay",
-	CountdownValue = RunService:IsStudio() and 20 or 30,
+	CountdownValue = RunService:IsStudio() and WAITING_TIME_FOR_STUDIO or 30,
 	CountdownEnabled = true,
 	Client = {
 		DisableControls = Knit.CreateSignal(),

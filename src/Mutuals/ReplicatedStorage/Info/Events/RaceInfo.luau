@@ -83,13 +83,15 @@ return {
 	powerupGiver = {
 		floatingAmplitude = 0.03,
 		floatingSpeed = 2,
-		rotationSpeed = 1
+		rotationSpeed = 1,
 	},
 
 	powerups = {
 		bomb = {
 			impulse = Vector3.new(0, 1000, 0), -- relative to world space
 			ragdollDuration = 3,
+			dropTweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+			dropStartHeight = 20
 		},
 		iceBlock = {
 			duration = 5, 
