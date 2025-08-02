@@ -17,23 +17,29 @@ local RaceMembersService = Knit.CreateService({
 function RaceMembersService.KnitStart(self: RaceMembersService)
 	self.raceMembersStoreService = Knit.GetService("RaceMembersStoreService")
 	self.teleportationService = Knit.GetService("TeleportationService")
+	self.raceSpeedService = Knit.GetService("RaceSpeedService")
 end
 
 function RaceMembersService.AddAllPlayers(self: RaceMembersService)
 	for _, player in Players:GetPlayers() do
 		self:AddPlayer(player)
 	end
+
+	self.raceSpeedService:StartStateMachines()
 end
 
 function RaceMembersService.RemoveAllPlayers(self: RaceMembersService)
 	for _, player in self:GetPlayers() do
 		self:RemovePlayer(player)
 	end
+
+	self.raceSpeedService:StopStateMachines()
 end
 
 function RaceMembersService.AddPlayer(self: RaceMembersService, player: Player)
 	self.raceMembersStoreService:AddPlayer(player)
 	self.teleportationService:TeleportOnePlayerToPosition(player, RACE_START_POSITION)
+	self.raceSpeedService:CreateStateMachineForPlayer(player)
 end
 
 function RaceMembersService.RemovePlayer(self: RaceMembersService, player: Player)

@@ -121,6 +121,7 @@ export type RaceProgressService = {
 export type RaceMembersService = {
 	raceMembersStoreService: RaceMembersStoreService,
 	teleportationService: Service,
+	raceSpeedService: RaceSpeedService,
 
 	AddAllPlayers: (self: RaceMembersService) -> (),
 	RemoveAllPlayers: (self: RaceMembersService) -> (),
@@ -140,6 +141,21 @@ export type RaceMembersStoreService = {
 
 	IsPlayerInRace: (self: RaceMembersStoreService, player: Player) -> boolean,
 	GetPlayers: (self: RaceMembersStoreService) -> { [Player]: boolean },
+}
+
+export type RaceSpeedService = {
+	CreateStateMachineForPlayer: (self: RaceSpeedService, player: Player) -> (),
+
+	BoostPlayer: (self: RaceSpeedService, player: Player) -> (),
+
+	StartStateMachines: (self: RaceSpeedService) -> (),
+	StopStateMachines: (self: RaceSpeedService) -> (),
+
+	_getPlayerStateMachine: (self: RaceSpeedService, player: Player) -> { [any]: any }?,
+	_getAllPlayersStateMachines: (self: RaceSpeedService) -> { [Player]: { [any]: any } },
+
+	_playersStates: { [Player]: { [any]: any } },
+	_setPlayerSpeed: (player: Player, speed: number) -> (),
 }
 
 export type RaceService = {

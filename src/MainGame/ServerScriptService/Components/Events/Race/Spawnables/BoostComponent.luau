@@ -42,6 +42,7 @@ function BoostComponent._connectEvents(self: BoostComponent)
 		end
 
 		self._applyImpulseToPlayer(player)
+
 		self._speedUpPlayer(player)
 	end)
 end
@@ -49,7 +50,7 @@ end
 function BoostComponent._getPlayerFromPart(part: BasePart): Player?
 	local character = part.Parent
 
-	if character and character:IsA("Model") and character:FindFirstChild("Humanoid") then
+	if character and character:FindFirstChild("Humanoid") then
 		local player = game.Players:GetPlayerFromCharacter(character)
 		return player
 	end

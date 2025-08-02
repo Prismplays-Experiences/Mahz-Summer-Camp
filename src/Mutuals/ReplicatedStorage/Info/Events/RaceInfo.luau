@@ -61,9 +61,9 @@ return {
 	},
 
 	spawnCounts = {
-		powerups = 7,
-		boosts = 7,
-		spikes = 7,
+		powerups = 0,
+		boosts = 30,
+		spikes = 0,
 	},
 
 	playerStats = {

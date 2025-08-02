@@ -1,25 +1,13 @@
 local RaceInfo = require("@Info/Events/RaceInfo")
 local Knit = require("@Packages/Knit")
 local Arch = require("@Packages/Arch")
+local types = require("../types")
 
 local DEFAULT_SPEED = RaceInfo.playerStats.defaultSpeed
 local BOOSTED_SPEED = RaceInfo.playerStats.boostedSpeed
 local BOOST_DURATION = RaceInfo.playerStats.boostDuration
 
-export type RaceSpeedService = {
-	CreateStateMachineForPlayer: (self: RaceSpeedService, player: Player) -> (),
-
-	BoostPlayer: (self: RaceSpeedService, player: Player) -> (),
-
-	StartStateMachines: (self: RaceSpeedService) -> (),
-	StopStateMachines: (self: RaceSpeedService) -> (),
-
-	_getPlayerStateMachine: (self: RaceSpeedService, player: Player) -> { [any]: any }?,
-	_getAllPlayersStateMachines: (self: RaceSpeedService) -> { [Player]: { [any]: any } },
-
-	_playersStates: { [Player]: { [any]: any } },
-	_setPlayerSpeed: (player: Player, speed: number) -> (),
-}
+type RaceSpeedService = types.RaceSpeedService
 
 local RaceSpeedService = Knit.CreateService({
 	Name = "RaceSpeedService",
@@ -39,8 +27,19 @@ function RaceSpeedService.BoostPlayer(self: RaceSpeedService, player: Player)
 	end
 
 	if stateMachine then
+		if not stateMachine._running then
+			stateMachine:Start()
+		end
+
+		if stateMachine.datamodel.current.id == "boosted" then
+			print("Player is already boosted")
+			return
+		end
+
 		stateMachine:Send("startBoost")
-		task.wait()
+
+		task.wait(BOOST_DURATION)
+
 		stateMachine:Send("stopBoost")
 	end
 end
@@ -65,7 +64,7 @@ function RaceSpeedService.CreateStateMachineForPlayer(self: RaceSpeedService, pl
 
 		states = {
 			default = {
-				onEntry = function()
+				OnEntry = function()
 					self._setPlayerSpeed(player, DEFAULT_SPEED)
 				end,
 				events = {
@@ -73,11 +72,11 @@ function RaceSpeedService.CreateStateMachineForPlayer(self: RaceSpeedService, pl
 				},
 			},
 			boosted = {
-				onEntry = function()
+				OnEntry = function()
 					self._setPlayerSpeed(player, BOOSTED_SPEED)
 				end,
 				events = {
-					stopBoost = { target = "default", delay = BOOST_DURATION },
+					stopBoost = { target = "default" },
 				},
 			},
 		},
