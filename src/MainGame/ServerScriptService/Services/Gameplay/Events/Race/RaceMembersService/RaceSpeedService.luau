@@ -32,7 +32,6 @@ function RaceSpeedService.BoostPlayer(self: RaceSpeedService, player: Player)
 		end
 
 		if stateMachine.datamodel.current.id == "boosted" then
-			print("Player is already boosted")
 			return
 		end
 
@@ -65,7 +64,7 @@ function RaceSpeedService.CreateStateMachineForPlayer(self: RaceSpeedService, pl
 		states = {
 			default = {
 				OnEntry = function()
-					self._setPlayerSpeed(player, DEFAULT_SPEED)
+					self:_enterDefaultMode(player)
 				end,
 				events = {
 					startBoost = "boosted",
@@ -73,7 +72,7 @@ function RaceSpeedService.CreateStateMachineForPlayer(self: RaceSpeedService, pl
 			},
 			boosted = {
 				OnEntry = function()
-					self._setPlayerSpeed(player, BOOSTED_SPEED)
+					self:_enterBoostMode(player)
 				end,
 				events = {
 					stopBoost = { target = "default" },
@@ -93,6 +92,14 @@ end
 
 function RaceSpeedService._getAllPlayersStateMachines(self: RaceSpeedService): { [Player]: { [any]: any } }
 	return self._playersStates
+end
+
+function RaceSpeedService._enterBoostMode(self: RaceSpeedService, player: Player)
+	self._setPlayerSpeed(player, BOOSTED_SPEED)
+end
+
+function RaceSpeedService._enterDefaultMode(self: RaceSpeedService, player: Player)
+	self._setPlayerSpeed(player, DEFAULT_SPEED)
 end
 
 function RaceSpeedService._setPlayerSpeed(player: Player, speed: number)

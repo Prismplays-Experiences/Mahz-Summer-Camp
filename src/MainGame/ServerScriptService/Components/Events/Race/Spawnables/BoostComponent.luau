@@ -12,6 +12,8 @@ export type BoostComponent = {
 		Beam: Beam,
 	},
 
+	cooldowns: { [Player]: number },
+
 	_fixBeam: (self: BoostComponent) -> (),
 	_connectEvents: (self: BoostComponent) -> (),
 	_getPlayerFromPart: (part: BasePart) -> Player?,
@@ -26,6 +28,7 @@ local BoostComponent = Component.new({
 function BoostComponent.Construct(self: BoostComponent)
 	self:_fixBeam()
 	self:_connectEvents()
+	self.cooldowns = {}
 end
 
 function BoostComponent._fixBeam(self: BoostComponent)
@@ -37,11 +40,13 @@ function BoostComponent._connectEvents(self: BoostComponent)
 	self.Instance.Touched:Connect(function(otherPart)
 		local player = self._getPlayerFromPart(otherPart)
 
-		if not player then
+		if not player or time() - (self.cooldowns[player] or 0) < 1 then
 			return
 		end
 
-		self._applyImpulseToPlayer(player)
+		self.cooldowns[player] = time()
+
+		Physics.ApplyImpulse(IMPULSE, player, self.Instance.CFrame.LookVector)
 
 		self._speedUpPlayer(player)
 	end)

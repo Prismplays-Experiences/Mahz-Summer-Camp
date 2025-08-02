@@ -154,6 +154,9 @@ export type RaceSpeedService = {
 	_getPlayerStateMachine: (self: RaceSpeedService, player: Player) -> { [any]: any }?,
 	_getAllPlayersStateMachines: (self: RaceSpeedService) -> { [Player]: { [any]: any } },
 
+	_enterBoostMode: (self: RaceSpeedService, player: Player) -> (),
+	_enterDefaultMode: (self: RaceSpeedService, player: Player) -> (),
+
 	_playersStates: { [Player]: { [any]: any } },
 	_setPlayerSpeed: (player: Player, speed: number) -> (),
 }

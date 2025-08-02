@@ -71,7 +71,7 @@ return {
 
 		boostDuration = 3, 
 		boostedSpeed = 18,
-		boostImpulse = Vector3.new(0, 1000, 1000), -- x -> right, y -> up, z -> forward. Relative to humanoid root part's look vector
+		boostImpulse = Vector3.new(0, 0, 10), -- x -> right, y -> up, z -> forward. Relative to humanoid root part's look vector
 	},
 
 	spikes = {
