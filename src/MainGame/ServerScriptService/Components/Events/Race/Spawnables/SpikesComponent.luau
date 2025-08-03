@@ -1,11 +1,14 @@
 local Component = require("@Packages/Component")
 local Knit = require("@Packages/Knit")
 local RaceInfo = require("@Info/Events/RaceInfo")
+local Physics = require("@Modules/Utils/Physics")
 
 local IMPULSE = RaceInfo.spikes.impulse
 local RAGDOLL_DURATION = RaceInfo.spikes.ragdollDuration
 
 export type SpikesComponent = {
+	cooldowns: { [Player]: number },
+
 	Instance: Model & {
 		Spikes: MeshPart,
 		Base: MeshPart,
@@ -24,15 +27,18 @@ local SpikesComponent = Component.new({
 
 function SpikesComponent.Construct(self: SpikesComponent)
 	self:_connectEvents()
+	self.cooldowns = {}
 end
 
 function SpikesComponent._connectEvents(self: SpikesComponent)
 	self.Instance.Spikes.Touched:Connect(function(otherPart)
 		local player = self._getPlayerFromPart(otherPart)
 
-		if not player then
+		if not player or time() - (self.cooldowns[player] or 0) < 4 then
 			return
 		end
+
+		self.cooldowns[player] = time()
 
 		self._applyImpulseToPlayer(player)
 		self._ragdollPlayer(player)
@@ -66,13 +72,8 @@ end
 
 function SpikesComponent._applyImpulseToPlayer(player: Player)
 	local character = player.Character
-	local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
 
-	if not humanoidRootPart then
-		return
-	end
-
-	humanoidRootPart:ApplyImpulse(IMPULSE)
+	Physics:ApplyImpulseToPlayer(IMPULSE(character), player, false)
 end
 
 return SpikesComponent

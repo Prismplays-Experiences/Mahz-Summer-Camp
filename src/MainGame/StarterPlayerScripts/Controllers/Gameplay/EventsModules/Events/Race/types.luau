@@ -1,5 +1,11 @@
+export type RemoteProperty<T...> = {
+	Observe: (self: RemoteProperty<T...>, callback: (T...) -> ()) -> (),
+}
+
 export type RaceUiController = {
 	_powerupsController: PowerupsController,
+	_raceTimeController: RaceTimeController,
+	_raceFrame: Frame,
 	_raceUiService: {[any]: any},
 
 	_setProperties: (self: RaceUiController) -> (),
@@ -10,6 +16,15 @@ export type RaceUiController = {
 
 	_setVisible: (self: RaceUiController, visible: boolean) -> (),
 	_setRaceFrameVisible: (visible: boolean) -> (),
+}
+
+export type RaceTimeController = {
+	_timeService: {Time: RemoteProperty<number>},
+	_timeLabel: TextLabel,
+
+	SetVisible: (self: RaceTimeController, visible: boolean) -> (),
+
+	_getTimeLabel: (self: RaceTimeController) -> TextLabel,
 }
 
 export type PowerupsController = {

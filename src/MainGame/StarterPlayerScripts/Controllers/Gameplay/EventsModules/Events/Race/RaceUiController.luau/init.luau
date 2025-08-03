@@ -25,6 +25,7 @@ end
 
 function RaceUiController._setProperties(self: RaceUiController)
 	self._powerupsController = Knit.GetController("PowerupsController")
+	self._raceTimeController = Knit.GetController("RaceTimeController")
 	self._raceUiService = Knit.GetService("RaceUiService")
 end
 
@@ -41,6 +42,7 @@ end
 function RaceUiController._setVisible(self: RaceUiController, visible: boolean)
 	self._setRaceFrameVisible(visible)
 	self._powerupsController:SetVisible(visible)
+	self._raceTimeController:SetVisible(visible)
 end
 
 function RaceUiController._setRaceFrameVisible(visible: boolean)

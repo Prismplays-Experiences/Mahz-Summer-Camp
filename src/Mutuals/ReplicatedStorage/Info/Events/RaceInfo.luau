@@ -53,6 +53,13 @@ local function GET_BAR(player: Player): CanvasGroup
 	return bar
 end
 
+local function GET_STATUS(player: Player): TextLabel
+	local frame = GET_FRAME(player)
+	local status = frame:WaitForChild("Status")
+
+	return status
+end
+
 local function CALCULATE_BOMB_IMPULSE(character: Model): Vector3
 	local DEFAULT_MASS = 2560
 	local DEFAULT_IMPULSE = Vector3.new(0, 14000, 0)
@@ -60,6 +67,26 @@ local function CALCULATE_BOMB_IMPULSE(character: Model): Vector3
 	local playerMass = Physics.GetMass(character)
 
 	return DEFAULT_IMPULSE * (playerMass / DEFAULT_MASS)
+end
+
+local function CALCULATE_SPIKES_IMPULSE(character: Model): Vector3
+	-- local DEFAULT_MASS = 2560
+	-- local DEFAULT_IMPULSE = Vector3.new(0, 10000000, 1000)
+
+	-- local playerMass = Physics.GetMass(character)
+
+	-- return DEFAULT_IMPULSE * (playerMass / DEFAULT_MASS)
+
+	assert(character)
+
+	local function randomSign()
+		return 2 ^ math.random(1, 2) - 3
+	end
+
+	local impulseX = randomSign() * math.random(3, 5) / 2
+	local impulseZ = randomSign() * math.random(3, 5) / 2
+
+	return Vector3.new(impulseX, 7.5, impulseZ)
 end
 
 return {
@@ -102,7 +129,7 @@ return {
 	spawnCounts = {
 		powerups = 20,
 		boosts = 30,
-		spikes = 0,
+		spikes = 20,
 	},
 
 	playerStats = {
@@ -114,7 +141,7 @@ return {
 	},
 
 	spikes = {
-		impulse = Vector3.new(0, 1000, 0), -- relative to world space
+		impulse = CALCULATE_SPIKES_IMPULSE, -- relative to world space
 		ragdollDuration = 3,
 	},
 
@@ -145,9 +172,21 @@ return {
 		frame = GET_FRAME,
 		powerupButton = GET_POWERUP_BUTTON,
 		bar = GET_BAR,
+		status = GET_STATUS,
+
+		statusText = "Race ends in %s seconds!",
 		
 		powerupButtonCameraPosition = Vector3.new(2, 2, 10),
 		powerupButtonCameraFov = 30,
 		powerupInstanceRotationSpeed = 1,
+	},
+
+	eventProps = {
+		title = "Track Event!",
+		image = "rbxassetid://70526751887027", -- Replace with actual image ID
+		lockWorkoutMachines = true,
+		yieldClock = true,
+		minPlayers = 1,
+		duration = 90,
 	}
 }

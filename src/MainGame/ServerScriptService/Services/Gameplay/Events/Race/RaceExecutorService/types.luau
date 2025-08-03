@@ -7,6 +7,10 @@ export type RemoteComm<T ...> = {
 	Connect: (self: RemoteComm<T ...>, (player: Player, T ...) -> ()) -> ()
 }
 
+export type RemoteProperty<T...> = {
+	Set: (self: RemoteProperty<T ...>, T ...) -> (),
+}
+
 export type Client<T> = {
 	Server: T,
 }
@@ -212,7 +216,21 @@ export type RaceUiService = {
 	Show: (self: RaceUiService) -> (),
 }
 
-export type RaceService = {
+export type RaceTimeService = {
+	_time: number,
+
+	Client: {
+		Time: RemoteProperty<number>,
+	},
+
+	GetTime: (self: RaceTimeService) -> number,
+	Start: (self: RaceTimeService) -> (),
+
+	_setTime: (self: RaceTimeService, time: number) -> (),
+	_decreaseTime: (self: RaceTimeService) -> (),
+}
+
+export type RaceExecutorService = {
 	bordersService: BordersService,
 	powerupsService: SlotSpawnerService<MeshPart>,
 	boostsService: SlotSpawnerService<Part>,
@@ -220,10 +238,24 @@ export type RaceService = {
 	raceProgressService: RaceProgressService,
 	raceMembersService: RaceMembersService,
 	raceUiService: RaceUiService,
+	raceTimeService: RaceTimeService,
 
-	Start: (self: RaceService) -> (),
+	Start: (self: RaceExecutorService) -> (),
+	Clean: (self: RaceExecutorService) -> (),
 
 	_changeBordersCollision: (state: boolean) -> (),
+}
+
+export type RaceService = {
+	_raceExecutorService: RaceExecutorService,
+
+	MinPlayers: number,
+	LockWorkoutMachines: boolean,
+	YieldClock: boolean,
+	Ended: Signal.Signal<>,
+	Details: { Text: string, Image: string },
+
+	Start: (self: RaceService) -> (),
 }
 
 return {}

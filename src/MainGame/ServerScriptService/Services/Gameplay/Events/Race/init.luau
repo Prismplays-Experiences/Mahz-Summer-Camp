@@ -1,44 +1,37 @@
-local Knit = require("@Packages/Knit")
-local types = require("./Race/types")
+local RaceInfo = require("@Info/Events/RaceInfo")
+local types = require("./Race/RaceExecutorService/types")
 
 type RaceService = types.RaceService
 
-local Race = Knit.CreateService({
+local Knit = require("@Packages/Knit")
+local Signal = require("@Packages/Signal")
+
+local Race = Knit.CreateService {
 	Name = "Race",
-	Client = {
-		RaceStarted = Knit.CreateSignal("RaceStarted"),
-		RaceEnded = Knit.CreateSignal("RaceEnded"),
-	},
-})
+	Client = {},
+}
+
+Race.MinPlayers = RaceInfo.eventProps.minPlayers
+Race.LockWorkoutMachines = RaceInfo.eventProps.lockWorkoutMachines
+Race.YieldClock = RaceInfo.eventProps.yieldClock
+Race.Ended = Signal.new()
+Race.Details = {
+	Text = RaceInfo.eventProps.title,
+	Image = RaceInfo.eventProps.image,
+}
 
 function Race.KnitStart(self: RaceService)
-	self.bordersService = Knit.GetService("BordersService")
-	self.powerupsService = Knit.GetService("PowerupsSpawnerService")
-	self.boostsService = Knit.GetService("BoostsSpawnerService")
-	self.spikesService = Knit.GetService("SpikesSpawnerService")
-	self.raceProgressService = Knit.GetService("RaceProgressService")
-	self.raceMembersService = Knit.GetService("RaceMembersService")
-	self.raceUiService = Knit.GetService("RaceUiService")
+	self._raceExecutorService = Knit.GetService("RaceExecutorService")
 end
 
 function Race.Start(self: RaceService)
-	self.raceUiService:Show()
-	self.bordersService.ChangeCollision(true)
-	self.powerupsService:Spawn()
-	self.boostsService:Spawn()
-	self.spikesService:Spawn()
-	self.raceMembersService:AddAllPlayers()
-	self.raceProgressService:Start()
+	self._raceExecutorService:Start()
+	
+	self.Ended:Fire()
 end
 
-function Race.Stop(self: RaceService)
-	self.raceUiService:Hide()
-	self.bordersService.ChangeCollision(false)
-	self.powerupsService:Clean()
-	self.boostsService:Clean()
-	self.spikesService:Clean()
-	self.raceProgressService:Stop()
-	self.raceMembersService:RemoveAllPlayers()
+function Race.Clean(self: RaceService)
+	self._raceExecutorService:Clean()
 end
 
 return Race
