@@ -1,4 +1,9 @@
 local Booker = require("@CustomModules/Booker")
+local Signal = require("@Packages/Signal")
+
+export type Client<T> = {
+	Server: T,
+}
 
 export type Service = {
 	Name: string,
@@ -173,6 +178,10 @@ export type RaceSpeedService = {
 
 export type PowerupsService = {
 	_powerups: { [Player]: string },
+	Client: {
+		Use: (self: Client<PowerupsService>, player: Player) -> boolean,
+		PowerupReceived: Signal.Signal<Player, string>
+	},
 
 	Use: (self: PowerupsService, player: Player) -> boolean,
 

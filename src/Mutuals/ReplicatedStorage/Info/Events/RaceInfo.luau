@@ -24,6 +24,29 @@ local BOOST_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Boost")
 local SPAWNED_INSTANCES_FOLDER = Instance.new("Folder")
 SPAWNED_INSTANCES_FOLDER.Parent = workspace
 
+local function GET_FRAME(player: Player): Frame
+	local playerGui = player:WaitForChild("PlayerGui")
+	local mainUi = playerGui:WaitForChild("Main")
+	local eventsUi = mainUi:WaitForChild("EventsInterfaces")
+	local raceUi = eventsUi:WaitForChild("Track1800M")
+
+	return raceUi
+end
+
+local function GET_POWERUP_BUTTON(player: Player): ImageButton
+	local frame = GET_FRAME(player)
+	local button = frame:WaitForChild("PowerupBox")
+
+	return button
+end
+
+local function GET_BAR(player: Player): CanvasGroup
+	local frame = GET_FRAME(player)
+	local bar = frame:WaitForChild("Bar")
+
+	return bar
+end
+
 return {
 	instances = {
 		track = {
@@ -101,5 +124,12 @@ return {
 	teleportation = {
 		raceStartPosition = Vector3.new(-107.9, 6.438, 124.05),
 		mapCenterPosition = Vector3.new(-103.269, 6.675, 19.281),
+	},
+
+	ui = {
+		frame = GET_FRAME,
+		powerupButton = GET_POWERUP_BUTTON,
+		bar = GET_BAR,
+		powerupButtonCameraPosition = Vector3.new(0, 5, 10),
 	}
 }

@@ -5,11 +5,17 @@ type PowerupsService = types.PowerupsService
 
 local PowerupsService = Knit.CreateService({
 	Name = "PowerupsService",
-	Client = {},
+	Client = {
+		PowerupReceived = Knit.CreateSignal("PowerupReceived"),
+	},
 })
 
 function PowerupsService.KnitInit(self: PowerupsService)
 	self._powerups = {}
+end
+
+function PowerupsService.Client.Use(self: {Server: PowerupsService}, player: Player): boolean
+	return self.Server:Use(player)
 end
 
 function PowerupsService.Give(self: PowerupsService, player: Player, powerupName: string)
@@ -17,6 +23,7 @@ function PowerupsService.Give(self: PowerupsService, player: Player, powerupName
 
 	if not powerups[player] then
 		powerups[player] = powerupName
+		self.Client.PowerupReceived:Fire(player, powerupName)
 	else
 		warn("Player already has a powerup assigned.")
 	end
