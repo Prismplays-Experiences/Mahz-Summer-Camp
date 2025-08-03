@@ -1,6 +1,12 @@
 local Booker = require("@CustomModules/Booker")
 local Signal = require("@Packages/Signal")
 
+export type RemoteComm<T ...> = {
+	FireAll: (self: RemoteComm<T ...>, T ...) -> (),
+	Fire: (self: RemoteComm<T ...>, player: Player, T ...) -> (),
+	Connect: (self: RemoteComm<T ...>, (player: Player, T ...) -> ()) -> ()
+}
+
 export type Client<T> = {
 	Server: T,
 }
@@ -178,6 +184,8 @@ export type RaceSpeedService = {
 
 export type PowerupsService = {
 	_powerups: { [Player]: string },
+	_raceProgressService: RaceProgressService,
+
 	Client: {
 		Use: (self: Client<PowerupsService>, player: Player) -> boolean,
 		PowerupReceived: Signal.Signal<Player, string>
@@ -185,9 +193,23 @@ export type PowerupsService = {
 
 	Use: (self: PowerupsService, player: Player) -> boolean,
 
-	Give: (self: PowerupsService, player: Player, powerupName: string) -> (),
+	Give: (self: PowerupsService, player: Player, powerupName: string) -> boolean,
 
-	GetPowerups: (self: PowerupsService) -> { [Player]: string },
+	_activatePowerup: (self: PowerupsService, player: Player) -> boolean,
+	_setPowerup: (self: PowerupsService, player: Player, powerupName: string?) -> (),
+
+	GetPowerup: (self: PowerupsService, player: Player) -> string?,
+	GetAllPowerups: (self: PowerupsService) -> { [Player]: string },
+}
+
+export type RaceUiService = {
+	Client: {
+		Show: RemoteComm<>,
+		Hide: RemoteComm<>,
+	},
+
+	Hide: (self: RaceUiService) -> (),
+	Show: (self: RaceUiService) -> (),
 }
 
 export type RaceService = {
@@ -197,6 +219,7 @@ export type RaceService = {
 	spikesService: SlotSpawnerService<Model>,
 	raceProgressService: RaceProgressService,
 	raceMembersService: RaceMembersService,
+	raceUiService: RaceUiService,
 
 	Start: (self: RaceService) -> (),
 

@@ -4,15 +4,15 @@ local TableUtil = require("@Packages/TableUtil")
 
 local RandomPowerup = {}
 
-function RandomPowerup.Give(player: Player)
+function RandomPowerup.Give(player: Player): (boolean, string?)
 	local powerupsService = Knit.GetService("PowerupsService")
 
 	local powerups = TableUtil.Keys(RaceInfo.powerups)
 	local randomPowerup = powerups[math.random(#powerups)]
 
-	powerupsService:Give(player, randomPowerup)
-	
-	return randomPowerup
+	local isReceived = powerupsService:Give(player, randomPowerup)
+
+	return isReceived, isReceived and randomPowerup or nil
 end
 
 return RandomPowerup

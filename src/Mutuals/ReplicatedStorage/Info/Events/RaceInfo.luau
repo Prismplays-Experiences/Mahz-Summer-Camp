@@ -28,7 +28,7 @@ local function GET_FRAME(player: Player): Frame
 	local playerGui = player:WaitForChild("PlayerGui")
 	local mainUi = playerGui:WaitForChild("Main")
 	local eventsUi = mainUi:WaitForChild("EventsInterfaces")
-	local raceUi = eventsUi:WaitForChild("Track1800M")
+	local raceUi = eventsUi:WaitForChild("Track1800m")
 
 	return raceUi
 end
@@ -85,7 +85,7 @@ return {
 	},
 
 	spawnCounts = {
-		powerups = 0,
+		powerups = 20,
 		boosts = 30,
 		spikes = 0,
 	},
@@ -130,6 +130,9 @@ return {
 		frame = GET_FRAME,
 		powerupButton = GET_POWERUP_BUTTON,
 		bar = GET_BAR,
-		powerupButtonCameraPosition = Vector3.new(0, 5, 10),
+		
+		powerupButtonCameraPosition = Vector3.new(2, 2, 10),
+		powerupButtonCameraFov = 30,
+		powerupInstanceRotationSpeed = 1,
 	}
 }

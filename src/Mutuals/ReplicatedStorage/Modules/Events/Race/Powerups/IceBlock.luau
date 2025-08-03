@@ -24,18 +24,24 @@ type Powerup = types.Powerup & {
 }
 
 local IceBlock = {}
+IceBlock.__index = IceBlock
 
-function IceBlock.Activate(self: Powerup, player: Player)
+function IceBlock.Activate(player: Player)
+	local self = IceBlock.new(player)
+
 	self:_init(player)
-
 	self:_dropIceTrap()
 end
 
-function IceBlock._init(self: Powerup, player: Player)
+function IceBlock.new(player: Player)
+	local self = setmetatable({}, IceBlock)
+
 	self._instance = ICE_BLOCK_TEMPLATE:Clone()
 	self._player = player
 
 	self._instance:SetAttribute("Owner", player.Name)
+
+	return self
 end
 
 function IceBlock._dropIceTrap(self: Powerup)

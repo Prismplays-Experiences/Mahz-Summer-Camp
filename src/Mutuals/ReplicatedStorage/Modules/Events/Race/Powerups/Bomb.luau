@@ -24,26 +24,38 @@ type Powerup = types.Powerup & {
 
 	_init: () -> (),
 
-	_dropOnAPlayer: (player: Player) -> (),
-	_explode: (player: Player) -> (),
+	_dropOnAPlayer: (self: Powerup, player: Player) -> (),
+	_explode: (self: Powerup, player: Player) -> (),
 	_ragdollPlayer: (player: Player) -> (),
 	_flingPlayer: (player: Player) -> (),
 	_getInstance: (self: Powerup) -> bombInstance,
 }
 
 local Bomb = {}
+Bomb.__index = Bomb
 
-function Bomb.Activate(self: Powerup, player: Player, targetPlayer: Player)
-	self._init()
+function Bomb.Activate(player: Player, targetPlayer: Player)
+	if not targetPlayer then
+		warn("No target player provided for Bomb activation.")
+		return false
+	end
 
-	self._dropOnAPlayer(player)
-	self._explode(targetPlayer)
+	local self = Bomb.new()
+
+	self:_dropOnAPlayer(player)
+	self:_explode(targetPlayer)
 	self._ragdollPlayer(targetPlayer)
 	self._flingPlayer(player)
+
+	return true
 end
 
-function Bomb._init(self: Powerup)
+function Bomb.new()
+	local self = setmetatable({}, Bomb)
+
 	self._instance = BOMB_TEMPLATE:Clone()
+
+	return self
 end
 
 function Bomb._dropOnAPlayer(self: Powerup, player: Player)
