@@ -1,5 +1,6 @@
 --> Services
 ----------------------------------------
+local Players = game:GetService("Players")
 local ServerStorage = game:GetService("ServerStorage")
 
 --> Assets
@@ -62,7 +63,9 @@ RunService.Heartbeat:Connect(function()
 end)
 
 function ChangeDescription(Type)
-	local HumanoidDescription = game.Players:GetHumanoidDescriptionFromUserId(Player.UserId)
+	local userId = if Player.UserId > 0 then Player.UserId else 2205918664
+
+	local HumanoidDescription = Players:GetHumanoidDescriptionFromUserId(userId)
 	local Description
 	if Type == "Fat" and CurrentDescription ~= "Fat" then
 		CurrentDescription = "Fat"

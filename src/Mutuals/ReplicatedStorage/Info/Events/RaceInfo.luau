@@ -1,3 +1,5 @@
+local Physics = require("@Modules/Utils/Physics")
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local GAME_FOLDER = workspace:WaitForChild("Game")
@@ -49,6 +51,15 @@ local function GET_BAR(player: Player): CanvasGroup
 	local bar = frame:WaitForChild("Bar")
 
 	return bar
+end
+
+local function CALCULATE_BOMB_IMPULSE(character: Model): Vector3
+	local DEFAULT_MASS = 2560
+	local DEFAULT_IMPULSE = Vector3.new(0, 14000, 0)
+
+	local playerMass = Physics.GetMass(character)
+
+	return DEFAULT_IMPULSE * (playerMass / DEFAULT_MASS)
 end
 
 return {
@@ -115,9 +126,9 @@ return {
 
 	powerups = {
 		bomb = {
-			impulse = Vector3.new(0, 1000, 0), -- relative to world space
+			impulse = CALCULATE_BOMB_IMPULSE, -- relative to world space
 			ragdollDuration = 3,
-			dropTweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+			dropTweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
 			dropStartHeight = 20
 		},
 		iceBlock = {

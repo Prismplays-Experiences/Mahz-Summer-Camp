@@ -132,7 +132,7 @@ function EventService:KnitStart()
 		end
 	end
 	--testing
-	task.wait(5)
+	task.wait(20)
 	print("Starting Race Event")
 	print(EventsModules)
 	EventsModules['Race']:Start()

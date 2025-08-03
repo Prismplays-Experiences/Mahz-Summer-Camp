@@ -23,14 +23,26 @@ function Physics.ApplyImpulseToPlayer(self: Physics, impulse: Vector3, player: P
 		return
 	end
 
-	humanoid.PlatformStand = true
-
 	if notAVelocity then
+		for _, part in ipairs(character:GetDescendants()) do
+			if part:IsA("BasePart") then
+				part:SetNetworkOwner(nil)
+			end
+		end
+
+		humanoid.PlatformStand = true
 		self.ApplyImpulseRelativeToLookVector(impulse, humanoidRootPart)
+
+		task.delay(2, function()
+			for _, part in ipairs(character:GetDescendants()) do
+				if part:IsA("BasePart") then
+					part:SetNetworkOwner(player)
+				end
+			end
+		end)
 	else
 		self.ApplyImpulse(impulse, player)
 	end
-	
 end
 
 function Physics.ApplyImpulseRelativeToLookVector(impulse: Vector3, part: Part)
@@ -53,19 +65,11 @@ function Physics.ApplyImpulse(impulse: Vector3, player: Player, lookVector: Vect
 
 	lookVector = lookVector or humanoidRootPart.CFrame.LookVector
 
-	local playerMass = 0
+	local playerMass = Physics.GetMass(playerCharacter)
 	local speed = impulse.Z
 	local maxForce = 80000
 
 	local knockback = Instance.new("BodyVelocity")
-
-	for _, part: BasePart in playerCharacter:GetDescendants() do
-		if not part:IsA("BasePart") then
-			continue
-		end
-
-		playerMass += part.AssemblyMass
-	end
 
 	local massMultiplier = playerMass / 600
 
@@ -85,6 +89,20 @@ function Physics.ApplyImpulse(impulse: Vector3, player: Player, lookVector: Vect
 	task.delay(0.3, function()
 		humanoid.PlatformStand = false
 	end)
+end
+
+function Physics.GetMass(instance: Instance)
+	local mass = 0
+
+	for _, part in instance:GetDescendants() do
+		if not part:IsA("BasePart") then
+			continue
+		end
+
+		mass += part.AssemblyMass
+	end
+
+	return mass
 end
 
 return Physics

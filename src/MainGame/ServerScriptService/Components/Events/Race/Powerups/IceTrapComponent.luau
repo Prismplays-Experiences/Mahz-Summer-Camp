@@ -40,7 +40,7 @@ function IceTrapComponent:_connectEvents()
 	instance.Meshessd_Cube.Touched:Connect(function(otherPart)
 		local player = self._getPlayerFromPart(otherPart)
 
-		if not player or player == owner then
+		if not player or player.Name == owner then
 			return
 		end
 

@@ -16,7 +16,7 @@ local DROP_START_HEIGHT = RaceInfo.powerups.bomb.dropStartHeight
 type bombInstance = MeshPart & {
 	["Attachment0"]: Attachment,
 	["Attachment1"]: Attachment,
-	["Trail"]: Trail
+	["Trail"]: Trail,
 }
 
 type Powerup = types.Powerup & {
@@ -34,7 +34,7 @@ type Powerup = types.Powerup & {
 local Bomb = {}
 Bomb.__index = Bomb
 
-function Bomb.Activate(player: Player, targetPlayer: Player)
+function Bomb.Activate(_, targetPlayer: Player)
 	if not targetPlayer then
 		warn("No target player provided for Bomb activation.")
 		return false
@@ -42,10 +42,10 @@ function Bomb.Activate(player: Player, targetPlayer: Player)
 
 	local self = Bomb.new()
 
-	self:_dropOnAPlayer(player)
+	self:_dropOnAPlayer(targetPlayer)
 	self:_explode(targetPlayer)
 	self._ragdollPlayer(targetPlayer)
-	self._flingPlayer(player)
+	self._flingPlayer(targetPlayer)
 
 	return true
 end
@@ -70,7 +70,7 @@ function Bomb._dropOnAPlayer(self: Powerup, player: Player)
 	end
 
 	local instance = self:_getInstance()
-
+	instance.Anchored = true
 	instance.Parent = workspace
 
 	local numberValue = Instance.new("NumberValue")
@@ -78,13 +78,15 @@ function Bomb._dropOnAPlayer(self: Powerup, player: Player)
 	numberValue.Value = 1
 	numberValue.Parent = ReplicatedStorage
 
-	local dropTween = TweenService:Create(numberValue, DROP_TWEEN_INFO, {Value = 0})
+	local dropTween = TweenService:Create(numberValue, DROP_TWEEN_INFO, { Value = 0 })
 	dropTween:Play()
 
-	dropTween.Changed:Connect(function()
+	numberValue.Changed:Connect(function()
 		local alpha = numberValue.Value
 
-		instance.CFrame = humanoidRootPart.CFrame * CFrame.new(0, DROP_START_HEIGHT * alpha, 0)
+		instance.CFrame = humanoidRootPart.CFrame
+			* CFrame.new(0, DROP_START_HEIGHT * alpha, 0)
+			* CFrame.Angles(math.rad(90), 0, 0)
 	end)
 
 	dropTween.Completed:Connect(function()
@@ -100,10 +102,11 @@ function Bomb._explode(self: Powerup)
 	local explosion = Instance.new("Explosion")
 	explosion.Parent = workspace
 	explosion.Position = instance.Position
-	explosion.BlastRadius = 10
+	explosion.BlastRadius = 0
 	explosion.BlastPressure = 0
 	explosion.Parent = workspace
 	explosion.ExplosionType = Enum.ExplosionType.NoCraters
+	explosion.DestroyJointRadiusPercent = 0
 
 	instance:Destroy()
 
@@ -114,12 +117,17 @@ function Bomb._ragdollPlayer(player: Player)
 	local ragdollService = Knit.GetService("RagdollService")
 
 	ragdollService:Ragdoll(player)
-	task.wait(RAGDOLL_DURATION)
-	ragdollService:Deragdoll(player)
+
+	task.spawn(function()
+		task.wait(RAGDOLL_DURATION)
+		ragdollService:Deragdoll(player)
+	end)
 end
 
 function Bomb._flingPlayer(player: Player)
-	Physics:ApplyImpulseToPlayer(IMPULSE, player, true)
+	local impulse = IMPULSE(player.Character)
+
+	Physics:ApplyImpulseToPlayer(impulse, player, true)
 end
 
 function Bomb._getInstance(self: Powerup): bombInstance
