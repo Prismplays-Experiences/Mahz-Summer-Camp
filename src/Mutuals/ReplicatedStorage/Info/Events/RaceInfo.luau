@@ -117,7 +117,7 @@ return {
 		distanceBetweenParallelLines = 3.5, --3.35
 		laps = 2,
 		leaderboardsUpdateInterval = 1,
-		checkpoints = {{0, 0.48}, {0.48, 0.95}, {0.95, 1}},
+		checkpoints = {{0, 0.24}, {0.24, 0.48}, {0.48, 0.72}, {0.72, 0.95}, {0.95, 1}},
 	},
 
 	slotsOffsets = {
@@ -187,6 +187,8 @@ return {
 		lockWorkoutMachines = true,
 		yieldClock = true,
 		minPlayers = 1,
-		duration = 90,
+		duration = 10,
+
+		firstPlaceWeightLoss = 25,
 	}
 }

@@ -20,6 +20,7 @@ function RaceExecutorService.KnitStart(self: RaceExecutorService)
 	self.raceMembersService = Knit.GetService("RaceMembersService")
 	self.raceUiService = Knit.GetService("RaceUiService")
 	self.raceTimeService = Knit.GetService("RaceTimeService")
+	self.raceRewardsService = Knit.GetService("RaceRewardsService")
 end
 
 function RaceExecutorService.Start(self: RaceExecutorService)
@@ -31,6 +32,7 @@ function RaceExecutorService.Start(self: RaceExecutorService)
 	self.raceMembersService:AddAllPlayers()
 	self.raceProgressService:Start()
 	self.raceTimeService:Start()
+	self.raceRewardsService:GiveRewards()
 end
 
 function RaceExecutorService.Clean(self: RaceExecutorService)

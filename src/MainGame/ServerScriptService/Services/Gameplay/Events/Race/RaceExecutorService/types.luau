@@ -230,6 +230,23 @@ export type RaceTimeService = {
 	_decreaseTime: (self: RaceTimeService) -> (),
 }
 
+export type RaceRewardsService = {
+	_raceProgressService: RaceProgressService,
+
+	GiveRewards: (self: RaceRewardsService) -> (),
+
+	_calculateWeightLoss: (playerPlace: number, playersQuantity: number) -> number,
+	_calculateLifesLoss: (playerPlace: number, playersQuantity: number) -> number,
+	
+	_getLeaders: (self: RaceRewardsService) -> { {
+		player: Player,
+		progress: number
+	} },
+
+	_giveWeightLoss: (player: Player, weightLoss: number) -> (),
+	_giveLifesLoss: (player: Player, lifesLoss: number) -> (),
+}
+
 export type RaceExecutorService = {
 	bordersService: BordersService,
 	powerupsService: SlotSpawnerService<MeshPart>,
@@ -239,6 +256,7 @@ export type RaceExecutorService = {
 	raceMembersService: RaceMembersService,
 	raceUiService: RaceUiService,
 	raceTimeService: RaceTimeService,
+	raceRewardsService: RaceRewardsService,
 
 	Start: (self: RaceExecutorService) -> (),
 	Clean: (self: RaceExecutorService) -> (),
