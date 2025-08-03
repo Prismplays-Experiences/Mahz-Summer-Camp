@@ -18,7 +18,11 @@ local BANANA_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Banana")
 local BOMB_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("bomb")
 local SPIKES_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Spikes")
 local SMALL_ICE_BLOCK_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("SmallIceBlock")
-local BIG_ICE_BLOCK_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("BigIceBlock")
+local BIG_ICE_BLOCK_TEMPLATE: Model & {
+	Meshessd_Cube: MeshPart & {
+		WeldConstraint: WeldConstraint,
+	},
+} = RACE_MODELS_FOLDER:WaitForChild("BigIceBlock")
 local BOOST_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Boost")
 
 local SPAWNED_INSTANCES_FOLDER = Instance.new("Folder")

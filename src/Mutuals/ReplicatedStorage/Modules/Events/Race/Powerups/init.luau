@@ -1,4 +1,4 @@
 return {
-	bomb = require(script.Bomb),
+	bomb = require(script.IceBlock),
 	iceBlock = require(script.IceBlock),
 }

@@ -1,25 +1,45 @@
 local RaceInfo = require("@Info/Events/RaceInfo")
+local Knit = require("@Packages/Knit")
 
 local ICE_BLOCK_TEMPLATE = RaceInfo.instances.other.bigIceBlockTemplate
 
-local FreezeService = {}
+local FreezeService = Knit.CreateService({
+	Name = "FreezeService",
+	Client = {},
+})
+
+function Weld(part, base)
+	if part:IsA("BasePart") then
+		local wc = Instance.new("WeldConstraint")
+		wc.Part0 = base
+		wc.Part1 = part
+		wc.Parent = base
+	else
+		for _, child in pairs(part:GetChildren()) do
+			Weld(child, base)
+		end
+	end
+end
 
 function FreezeService:Freeze(player: Player)
-	local humanoid: Humanoid, humanoidRootPart: Part = self:_getHumanoidAndRootPartFromPlayer(player)
+	local humanoid: Humanoid, humanoidRootPart: Part = self._getHumanoidAndRootPartFromPlayer(player)
+
 	if not humanoid then
 		return
 	end
+
+	humanoid.PlatformStand = true
 
 	local iceBlock = ICE_BLOCK_TEMPLATE:Clone()
 	iceBlock.Parent = humanoidRootPart
 	iceBlock.Name = "IceBlock"
 	iceBlock:PivotTo(humanoidRootPart.CFrame)
 
-	humanoid.PlatformStand = true
+	Weld(iceBlock, humanoidRootPart)
 end
 
 function FreezeService:Unfreeze(player: Player)
-	local humanoid: Humanoid, humanoidRootPart: Part = self:_getHumanoidAndRootPartFromPlayer(player)
+	local humanoid: Humanoid, humanoidRootPart: Part = self._getHumanoidAndRootPartFromPlayer(player)
 	if not humanoid then
 		return
 	end

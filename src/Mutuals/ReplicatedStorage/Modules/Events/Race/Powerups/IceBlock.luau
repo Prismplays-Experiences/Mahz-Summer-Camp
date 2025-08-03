@@ -29,14 +29,17 @@ IceBlock.__index = IceBlock
 function IceBlock.Activate(player: Player)
 	local self = IceBlock.new(player)
 
-	self:_init(player)
 	self:_dropIceTrap()
+
+	return true
 end
 
 function IceBlock.new(player: Player)
 	local self = setmetatable({}, IceBlock)
 
 	self._instance = ICE_BLOCK_TEMPLATE:Clone()
+	self._instance.Parent = workspace.Game.Map.RandomParts
+
 	self._player = player
 
 	self._instance:SetAttribute("Owner", player.Name)
@@ -68,7 +71,7 @@ end
 
 function IceBlock._setInstancePosition(self: Powerup, position: Vector3)
 	local instance = self:_getInstance()
-	instance:SetPrimaryPartCFrame(CFrame.new(position))
+	instance:PivotTo(CFrame.new(position))
 end
 
 function IceBlock._getRayResultPosition(self: Powerup)

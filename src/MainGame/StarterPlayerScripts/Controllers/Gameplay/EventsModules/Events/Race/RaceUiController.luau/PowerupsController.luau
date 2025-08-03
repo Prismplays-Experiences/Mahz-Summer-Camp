@@ -95,7 +95,7 @@ end
 function PowerupsController._getPowerupInstance(self: PowerupsController): Part | Model?
 	local powerupName = self:GetPowerup()
 
-	return POWERUPS_TEMPLATES[powerupName]
+	return POWERUPS_TEMPLATES[powerupName]:Clone()
 end
 
 function PowerupsController._addToViewport(self: PowerupsController, instance)
