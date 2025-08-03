@@ -89,6 +89,8 @@ function RagdollService._createSignals(self: RagdollService)
 end
 
 function RagdollService._connectEvents(self: RagdollService)
+	task.wait(4)
+
 	self._playersService:AddCharacterFunction(function(character, player)
 		self._ragdollsProperties[player] = {}
 		self._ragdollsProperties[player].active = false
@@ -139,7 +141,7 @@ function RagdollService._createMotorsArray(self: RagdollService, player: Player)
 	character = workspace:WaitForChild(character.Name)
 
 	for _, motor6D: Motor6D in character:GetDescendants() do
-		if not motor6D:IsA("Motor6D") then
+		if not motor6D:IsA("Motor6D") or (motor6D.Parent :: MeshPart).Name == "Head" then
 			continue
 		end
 
@@ -176,14 +178,21 @@ function RagdollService._createCollisionParts(self: RagdollService, player: Play
 	local character = player.Character or player.CharacterAdded:Wait()
 
 	for _, limb in character:GetChildren() do
-		if not limb:IsA("MeshPart") and not limb:IsA("Part") then
+		if not limb:IsA("MeshPart") and not limb:IsA("Part") or limb.Name == "Head" then
 			continue
 		end
 
 		local collisionPart = Instance.new("Part")
 		collisionPart.Parent = limb
 		collisionPart.Size = Vector3.one / 2
-		collisionPart.Transparency = 1
+		collisionPart.Transparency = 0.5
+		collisionPart.Massless = true
+		collisionPart.CanCollide = false
+
+		local highlight = Instance.new("Highlight")
+		highlight.Parent = collisionPart
+		highlight.FillColor = Color3.new(1, 0, 0)
+		highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 
 		local weld = Instance.new("Weld")
 		weld.Parent = collisionPart
