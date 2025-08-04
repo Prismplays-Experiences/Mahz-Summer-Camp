@@ -1,9 +1,12 @@
 local RaceInfo = require("@Info/Events/RaceInfo")
+local Knit = require("@Packages/Knit")
+local Assets = require("@Assets")
 
 local types = require("../types")
 
 type LapsProgress = types.LapsProgress
 
+local LAP_SOUND = Assets.sounds.Events.Race.LapCompleted
 local REQUIRED_LAPS = RaceInfo.trackConfig.laps
 
 local LapsProgress = {}
@@ -22,6 +25,11 @@ function LapsProgress.IncrementLap(self: LapsProgress, player: Player, quantity:
 
 	if not laps[player] then
 		laps[player] = 0
+	end
+
+	if quantity ~= 0 then
+		local soundPlayerService = Knit.GetService("SoundPlayerService")
+		soundPlayerService:PlaySoundById(LAP_SOUND, player)
 	end
 
 	laps[player] = laps[player] + (quantity or 1)

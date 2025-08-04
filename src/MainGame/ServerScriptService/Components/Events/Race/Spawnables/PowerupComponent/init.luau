@@ -1,7 +1,10 @@
 local Component = require("@Packages/Component")
 local PowerupAnimator = require(script.PowerupAnimator)
 local RandomPowerup = require(script.RandomPowerup)
+local Assets = require("@Assets")
+local Knit = require("@Packages/Knit")
 
+local POWERUP_SOUND = Assets.sounds.Events.Race.Powerup
 type PowerupInstance = MeshPart
 
 export type PowerupComponent = {
@@ -13,6 +16,7 @@ export type PowerupComponent = {
 	_setProperties: (self: PowerupComponent) -> (),
 	_connectEvents: (self: PowerupComponent) -> (),
 	_getPlayerFromPart: (part: BasePart) -> Player?,
+	_playSound: (player: Player) -> (),
 
 	GetInstance: (self: PowerupComponent) -> PowerupInstance,
 }
@@ -56,6 +60,7 @@ function PowerupComponent._connectEvents(self: PowerupComponent)
 		end
 
 		instance:Destroy()
+		self._playSound(player)
 	end)
 end
 
@@ -68,6 +73,11 @@ function PowerupComponent._getPlayerFromPart(part: BasePart): Player?
 	end
 
 	return nil
+end
+
+function PowerupComponent._playSound(player: Player)
+	local soundPlayerService = Knit.GetService("SoundPlayerService")
+	soundPlayerService:PlaySoundById(POWERUP_SOUND, player)
 end
 
 return PowerupComponent

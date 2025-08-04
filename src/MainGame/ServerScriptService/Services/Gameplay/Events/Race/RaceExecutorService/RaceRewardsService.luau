@@ -1,10 +1,12 @@
 local RaceInfo = require("@Info/Events/RaceInfo")
 local Knit = require("@Packages/Knit")
+local Assets = require("@Assets")
 
 local types = require("./types")
 
 type RaceRewardsService = types.RaceRewardsService
 
+local WON_SOUND = Assets.sounds.Events.Race.Won
 local FIRST_PLACE_WEIGHT_LOSS = RaceInfo.eventProps.firstPlaceWeightLoss
 
 local RaceRewardsService = Knit.CreateService {
@@ -28,6 +30,13 @@ function RaceRewardsService.GiveRewards(self: RaceRewardsService): ()
 
 		self._giveWeightLoss(player, weightLoss)
 		self._giveLifesLoss(player, lifesLoss)
+	end
+
+	local winner = leaders[1]
+
+	if winner then
+		local soundPlayerService = Knit.GetService("SoundPlayerService")
+		soundPlayerService:PlaySoundById(WON_SOUND, winner.player)
 	end
 end
 

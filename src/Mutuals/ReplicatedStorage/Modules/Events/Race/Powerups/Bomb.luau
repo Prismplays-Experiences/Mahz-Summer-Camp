@@ -6,7 +6,9 @@ local RaceInfo = require("@Info/Events/RaceInfo")
 local Knit = require("@Packages/Knit")
 local Physics = require("@Modules/Utils/Physics")
 local types = require("./types")
+local Assets = require("@Assets")
 
+local BOMB_SOUND = Assets.sounds.Events.Race.Bobm
 local RAGDOLL_DURATION = RaceInfo.powerups.bomb.ragdollDuration
 local IMPULSE = RaceInfo.powerups.bomb.impulse
 local BOMB_TEMPLATE = RaceInfo.instances.powerups.bombTemplate
@@ -29,6 +31,7 @@ type Powerup = types.Powerup & {
 	_ragdollPlayer: (player: Player) -> (),
 	_flingPlayer: (player: Player) -> (),
 	_getInstance: (self: Powerup) -> bombInstance,
+	_playSound: () -> (),
 }
 
 local Bomb = {}
@@ -44,6 +47,7 @@ function Bomb.Activate(_, targetPlayer: Player)
 
 	self:_dropOnAPlayer(targetPlayer)
 	self:_explode(targetPlayer)
+	self._playSound()
 	self._ragdollPlayer(targetPlayer)
 	self._flingPlayer(targetPlayer)
 
@@ -132,6 +136,11 @@ end
 
 function Bomb._getInstance(self: Powerup): bombInstance
 	return self._instance
+end
+
+function Bomb._playSound()
+	local soundPlayerService = Knit.GetService("SoundPlayerService")
+	soundPlayerService:PlaySoundById(BOMB_SOUND)
 end
 
 return Bomb

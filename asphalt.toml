@@ -18,3 +18,4 @@ path = "assets/**/*"
 "sounds/Events/Race/Powerup" = { id = 2542932452 }
 "sounds/Events/Race/SpeedBoost" = { id = 8208591201 }
 "sounds/Events/Race/Won" = { id = 2542932452 }
+"sounds/Events/Race/Bobm" = { id = 2648563122 }

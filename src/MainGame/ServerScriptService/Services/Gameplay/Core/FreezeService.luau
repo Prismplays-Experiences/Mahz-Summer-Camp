@@ -1,6 +1,8 @@
 local RaceInfo = require("@Info/Events/RaceInfo")
 local Knit = require("@Packages/Knit")
+local Assets = require("@Assets")
 
+local FREEZE_SOUND = Assets.sounds.Events.Race.Freeze
 local ICE_BLOCK_TEMPLATE = RaceInfo.instances.other.bigIceBlockTemplate
 
 local FreezeService = Knit.CreateService({
@@ -29,6 +31,9 @@ function FreezeService:Freeze(player: Player)
 	end
 
 	humanoid.PlatformStand = true
+
+	local soundPlayerService = Knit.GetService("SoundPlayerService")
+	soundPlayerService:PlaySoundById(FREEZE_SOUND, player)
 
 	local iceBlock = ICE_BLOCK_TEMPLATE:Clone()
 	iceBlock.Parent = humanoidRootPart

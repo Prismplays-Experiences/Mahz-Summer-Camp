@@ -2,7 +2,9 @@ local Component = require("@Packages/Component")
 local Knit = require("@Packages/Knit")
 local RaceInfo = require("@Info/Events/RaceInfo")
 local Physics = require("@Modules/Utils/Physics")
+local Assets = require("@Assets")
 
+local SPIKE_HIT_SOUND = Assets.sounds.Events.Race.HitSpike
 local IMPULSE = RaceInfo.spikes.impulse
 local RAGDOLL_DURATION = RaceInfo.spikes.ragdollDuration
 
@@ -19,6 +21,7 @@ export type SpikesComponent = {
 	_getPlayerFromPart: (part: BasePart) -> Player?,
 	_ragdollPlayer: (player: Player) -> (),
 	_applyImpulseToPlayer: (player: Player) -> (),
+	_playSound: (player: Player) -> (),
 }
 
 local SpikesComponent = Component.new({
@@ -40,6 +43,7 @@ function SpikesComponent._connectEvents(self: SpikesComponent)
 
 		self.cooldowns[player] = time()
 
+		self._playSound(player)
 		self._applyImpulseToPlayer(player)
 		self._ragdollPlayer(player)
 	end)
@@ -74,6 +78,11 @@ function SpikesComponent._applyImpulseToPlayer(player: Player)
 	local character = player.Character
 
 	Physics:ApplyImpulseToPlayer(IMPULSE(character), player, false)
+end
+
+function SpikesComponent._playSound(player: Player)
+	local soundPlayerService = Knit.GetService("SoundPlayerService")
+	soundPlayerService:PlaySoundById(SPIKE_HIT_SOUND, player)
 end
 
 return SpikesComponent
