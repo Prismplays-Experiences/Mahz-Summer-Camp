@@ -31,7 +31,7 @@
     "README.md": true,
     ".pesde": true,
     ".github": true,
-    "aftman.toml": true,
+    "aftman.toml": false,
     "sourcemap.json": true,
     "asphalt_locks_files": true,
     "feature-mantle.yml": true,
