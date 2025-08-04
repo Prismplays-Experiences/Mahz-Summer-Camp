@@ -4,17 +4,17 @@
       <string name="Name">0</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <CoordinateFrame name="CFrame">
-        <X>-5.200012</X>
-        <Y>-0.10000014</Y>
-        <Z>0</Z>
-        <R00>1</R00>
-        <R01>0</R01>
-        <R02>-0</R02>
+        <X>-0.0017604828</X>
+        <Y>-0.07428849</Y>
+        <Z>5.851618</Z>
+        <R00>-0.0018635986</R00>
+        <R01>-0.99999833</R01>
+        <R02>0</R02>
         <R10>0</R10>
         <R11>0</R11>
-        <R12>1</R12>
-        <R20>0</R20>
-        <R21>-1</R21>
+        <R12>1.0000001</R12>
+        <R20>-0.99999833</R20>
+        <R21>0.0018635986</R21>
         <R22>0</R22>
       </CoordinateFrame>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>

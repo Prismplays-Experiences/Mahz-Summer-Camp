@@ -3,7 +3,7 @@
     <Properties>
       <string name="Name">Meshessd_Cube.001</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
-      <bool name="Anchored">true</bool>
+      <bool name="Anchored">false</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <bool name="AudioCanCollide">true</bool>
       <float name="BackParamA">-0.5</float>
@@ -28,7 +28,7 @@
         <R21>0</R21>
         <R22>0</R22>
       </CoordinateFrame>
-      <bool name="CanCollide">true</bool>
+      <bool name="CanCollide">false</bool>
       <bool name="CanQuery">true</bool>
       <bool name="CanTouch">true</bool>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>

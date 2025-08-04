@@ -18,7 +18,7 @@
       <Content name="TextureContent">
         <uri>http://www.roblox.com/asset/?id=152057724</uri>
       </Content>
-      <float name="Transparency">0</float>
+      <float name="Transparency">1</float>
       <Vector2 name="UVOffset">
         <X>0</X>
         <Y>0</Y>
