@@ -120,4 +120,40 @@
         ],
         "description": "Knit Service template"
     },
+
+    "Rornor Controller": {
+        "prefix": ["rorcontroller"],
+        "body": [
+            "local Knit = require(\"@Packages/Knit\")",
+            "local types = require(\"../types\")",
+            "",
+            "type ${0:$TM_FILENAME_BASE} = types.${0:$TM_FILENAME_BASE}",
+            "",
+            "local ${0:$TM_FILENAME_BASE} = Knit.CreateController({",
+            "\tName = \"${0:$TM_FILENAME_BASE}\",",
+            "})",
+            "",
+            "function ${0:$TM_FILENAME_BASE}.KnitInit(self: ${0:$TM_FILENAME_BASE})",
+            "\tself:_setProperties()",
+            "\tself:_connectEvents()",
+            "\tself:_createSignals()",
+            "end",
+            "",
+            "function ${0:$TM_FILENAME_BASE}._setProperties(self: ${0:$TM_FILENAME_BASE})",
+            "\t",
+            "end",
+            "",
+            "function ${0:$TM_FILENAME_BASE}._connectEvents(self: ${0:$TM_FILENAME_BASE})",
+            "\t",
+            "end",
+            "",
+            "function ${0:$TM_FILENAME_BASE}._createSignals(self: ${0:$TM_FILENAME_BASE})",
+            "\t",
+            "end",
+            "",
+            "return ${0:$TM_FILENAME_BASE}",
+            ""
+        ],
+        "description": "Knit Controller template"
+    },
 }

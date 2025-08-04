@@ -68,6 +68,13 @@ local function GET_FILLER(player: Player): Frame & {UIGradient: UIGradient}
 	return filler
 end
 
+local function GET_POWERUP_KEYCODE_LABEL(player: Player): TextLabel
+	local powerupButton = GET_POWERUP_BUTTON(player)
+	local keyCodeLabel = powerupButton:WaitForChild("KeyCode")
+
+	return keyCodeLabel
+end
+
 local function CALCULATE_BOMB_IMPULSE(character: Model): Vector3
 	local DEFAULT_MASS = 2560
 	local DEFAULT_IMPULSE = Vector3.new(0, 14000, 0)
@@ -172,12 +179,16 @@ return {
 		powerupFiller = GET_FILLER,
 		bar = GET_BAR,
 		status = GET_STATUS,
+		powerupKeyCodeLabel = GET_POWERUP_KEYCODE_LABEL,
 
 		statusText = "Race ends in %s seconds!",
 
 		powerupButtonCameraPosition = Vector3.new(2, 2, 10),
 		powerupButtonCameraFov = 30,
 		powerupInstanceRotationSpeed = 1,
+
+		cooldownSpringSpeed = 20,
+		cooldownSpringDamping = 1,
 	},
 
 	eventProps = {
@@ -202,6 +213,9 @@ return {
 	},
 
 	powerupsOverallInfo = {
-		cooldown = 8
+		cooldown = 8,
+
+		pcKeyCode = Enum.KeyCode.Q,
+		consoleKeyCode = Enum.KeyCode.ButtonL1,
 	}
 }

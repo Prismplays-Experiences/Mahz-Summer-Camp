@@ -12,7 +12,7 @@ local PowerupsService = Knit.CreateService({
 	Name = "PowerupsService",
 	Client = {
 		PowerupReceived = Knit.CreateSignal("PowerupReceived"),
-		LastTimeUsed = Knit.CreateRemoteProperty(0),
+		LastTimeUsed = Knit.CreateProperty(0),
 	},
 })
 

@@ -1,4 +1,5 @@
 local Fusion = require("@Packages/Fusion")
+local Signal = require("@Packages/Signal")
 local Trove = require("@Packages/Trove")
 
 export type RemoteProperty<T...> = {
@@ -34,33 +35,16 @@ export type RaceTimeController = {
 export type PowerupsController = {
 	_powerupsService: { Use: (_: { [any]: any }) -> {
 		await: (_: { [any]: any }) -> (boolean, boolean),
-	} },
-	_powerupBox: ImageButton,
-	_powerup: string?,
-
-	_setProperties: (self: PowerupsController) -> (),
-	_connectEvents: (self: PowerupsController) -> (),
+	}, PowerupReceived: Signal.Signal<string>, LastTimeUsed: RemoteProperty<number> },
+	_powerupsUiController: PowerupsUiController,
+	_powerupsActivationController: PowerupsActivationController,
 
 	SetVisible: (self: PowerupsController, visible: boolean) -> (),
 	Use: (self: PowerupsController) -> boolean,
-	UpdatePowerupBox: (self: PowerupsController) -> (),
 	SetPowerup: (self: PowerupsController, powerupName: string) -> (),
-	GetPowerup: (self: PowerupsController) -> string?,
-	GetPowerupBox: (self: PowerupsController) -> ImageButton,
-	GetPowerupsService: (
-		self: PowerupsController
-	) -> { Use: () -> {
-		await: (_: { [any]: any }) -> (boolean, boolean),
-	} },
 
-	_getPowerupInstance: (self: PowerupsController) -> Part | Model?,
-	_getViewportInstance: (self: PowerupsController) -> Part | Model?,
-	_cleanViewport: (self: PowerupsController) -> (),
-	_addToViewport: (self: PowerupsController, instance: Instance) -> (),
-	_setPosition: (instance: Instance, position: Vector3) -> (),
-	_setCframe: (instance: Instance, cframe: CFrame) -> (),
-	_getCframe: (instance: Instance) -> CFrame,
-	_rotatePowerup: (self: PowerupsController, angle: number) -> (),
+	_setProperties: (self: PowerupsController) -> (),
+	_connectEvents: (self: PowerupsController) -> (),
 }
 
 export type RaceTapController = {
@@ -118,6 +102,74 @@ export type RaceTapUiController = {
 
 	_getBar: (self: RaceTapUiController) -> Bar,
 	_getScope: (self: RaceTapUiController) -> RaceTapUiScope
+}
+
+export type PowerupsActivationController = {
+	_powerupButton: ImageButton,
+
+	Activated: Signal.Signal<>,
+
+	_getPowerupButton: (self: PowerupsActivationController) -> ImageButton,
+	_setProperties: (self: PowerupsActivationController) -> (),
+	_connectEvents: (self: PowerupsActivationController) -> (),
+	_createSignals: (self: PowerupsActivationController) -> (),
+}
+
+export type PowerupsUiController = {
+	_powerupsViewportController: PowerupsViewportController,
+	_powerupsFillerController: PowerupsFillerController,
+
+	SetVisible: (visible: boolean) -> (),
+	CleanViewportInstance: (self: PowerupsUiController) -> (),
+	AddViewportInstance: (self: PowerupsUiController, powerupName: string) -> (),
+	GetViewportInstance: (self: PowerupsUiController) -> ViewportInstance,
+	SetLastTimeUsed: (self: PowerupsUiController, lastTimeUsed: number) -> (),
+
+	_setProperties: (self: PowerupsUiController) -> (),
+}
+
+type ViewportInstance = BasePart | Model
+
+export type PowerupsViewportController = {
+	_viewportFrame: ViewportFrame,
+	_viewportInstance: ViewportInstance,
+
+	CleanViewportInstance: (self: PowerupsViewportController) -> (),
+	AddViewportInstance: (self: PowerupsViewportController, powerupName: string) -> (),
+	GetViewportInstance: (self: PowerupsViewportController) -> ViewportInstance,
+
+	_setProperties: (self: PowerupsViewportController) -> (),
+	_connectEvents: (self: PowerupsViewportController) -> (),
+	_insertViewportInstance: (self: PowerupsViewportController, instance: ViewportInstance) -> (),
+	_setViewportInstance: (self: PowerupsViewportController, instance: ViewportInstance) -> (),
+	_rotateViewportInstance: (self: PowerupsViewportController, angle: number) -> (),
+	_getPowerupInstance: (powerupName: string) -> ViewportInstance,
+	_getViewportFrame: (self: PowerupsViewportController) -> ViewportFrame,
+}
+
+type PowerupsFillerScope = Fusion.Scope<{
+	Value: (any, number) -> Fusion.Value<number>,
+	Computed: (any, (Fusion.Use, any) -> number) -> Fusion.Computed<number>,
+	Hydrate: (any, any) -> (({Size: Fusion.Computed<UDim2>}) -> any),
+	Spring: (any, Fusion.Value<number>, number, number) -> Fusion.Spring<number>,
+}>
+
+export type PowerupsFillerController = {
+	_filler: Frame & {UIGradient: UIGradient},
+	_lastTimeUsed: Fusion.Value<number>,
+	_scope: PowerupsFillerScope,
+
+	SetLastTimeUsed: (self: PowerupsFillerController, lastTimeUsed: number) -> (),
+
+	_setProperties: (self: PowerupsFillerController) -> (),
+	_hydrateFiller: (self: PowerupsFillerController) -> (),
+	_getFiller: (self: PowerupsFillerController) -> Frame & {UIGradient: UIGradient},
+	_getScope: (self: PowerupsFillerController) -> PowerupsFillerScope,
+	_getLastTimeUsed: (self: PowerupsFillerController) -> Fusion.Value<number>,
+}
+
+export type PowerupsKeyUiController = {
+	
 }
 
 return {}
