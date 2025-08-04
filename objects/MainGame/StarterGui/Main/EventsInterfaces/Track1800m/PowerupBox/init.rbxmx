@@ -56,7 +56,7 @@
       <UDim2 name="Position">
         <XS>0.075</XS>
         <XO>0</XO>
-        <YS>0.6</YS>
+        <YS>0.132</YS>
         <YO>0</YO>
       </UDim2>
       <Ref name="PressHapticEffect">null</Ref>
