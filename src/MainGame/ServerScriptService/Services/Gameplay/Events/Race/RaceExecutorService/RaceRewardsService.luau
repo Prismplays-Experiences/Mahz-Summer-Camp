@@ -26,8 +26,6 @@ function RaceRewardsService.GiveRewards(self: RaceRewardsService): ()
 		local weightLoss = self._calculateWeightLoss(playerPlace, playersQuantity)
 		local lifesLoss = self._calculateLifesLoss(playerPlace, playersQuantity)
 
-		print(weightLoss, lifesLoss)
-
 		self._giveWeightLoss(player, weightLoss)
 		self._giveLifesLoss(player, lifesLoss)
 	end

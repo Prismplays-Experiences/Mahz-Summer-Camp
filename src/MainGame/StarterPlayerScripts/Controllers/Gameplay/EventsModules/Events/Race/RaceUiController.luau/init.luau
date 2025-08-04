@@ -10,7 +10,7 @@ local player = Players.LocalPlayer
 
 local RaceUiController = Knit.CreateController { Name = "RaceUiController" }
 
-function RaceUiController.KnitInit(self: RaceUiController)
+function RaceUiController.KnitStart(self: RaceUiController)
 	self:_setProperties()
 	self:_connectEvents()
 end
@@ -26,6 +26,7 @@ end
 function RaceUiController._setProperties(self: RaceUiController)
 	self._powerupsController = Knit.GetController("PowerupsController")
 	self._raceTimeController = Knit.GetController("RaceTimeController")
+	self._raceTapController = Knit.GetController("RaceTapController")
 	self._raceUiService = Knit.GetService("RaceUiService")
 end
 
@@ -43,6 +44,13 @@ function RaceUiController._setVisible(self: RaceUiController, visible: boolean)
 	self._setRaceFrameVisible(visible)
 	self._powerupsController:SetVisible(visible)
 	self._raceTimeController:SetVisible(visible)
+	self._raceTapController:SetVisible(visible)
+
+	if visible == true then
+		self._raceTapController:Start()
+	else
+		self._raceTapController:Stop()
+	end
 end
 
 function RaceUiController._setRaceFrameVisible(visible: boolean)

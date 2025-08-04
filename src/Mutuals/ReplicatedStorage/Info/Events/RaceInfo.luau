@@ -24,7 +24,8 @@ local BIG_ICE_BLOCK_TEMPLATE: Model & {
 	Meshessd_Cube: MeshPart & {
 		WeldConstraint: WeldConstraint,
 	},
-} = RACE_MODELS_FOLDER:WaitForChild("BigIceBlock")
+} =
+	RACE_MODELS_FOLDER:WaitForChild("BigIceBlock")
 local BOOST_TEMPLATE = RACE_MODELS_FOLDER:WaitForChild("Boost")
 
 local SPAWNED_INSTANCES_FOLDER = Instance.new("Folder")
@@ -46,7 +47,7 @@ local function GET_POWERUP_BUTTON(player: Player): ImageButton
 	return button
 end
 
-local function GET_BAR(player: Player): CanvasGroup
+local function GET_BAR(player: Player): CanvasGroup & { Filler: Frame }
 	local frame = GET_FRAME(player)
 	local bar = frame:WaitForChild("Bar")
 
@@ -95,7 +96,7 @@ return {
 			bordersFolder = BORDERS_FOLDER,
 			finishLine = FINISH_LINE,
 			landmarksFolder = LANDMARKS_FOLDER,
-			polarPerpendicularAxis = POLAR_PERPENDICULAR_AXIS
+			polarPerpendicularAxis = POLAR_PERPENDICULAR_AXIS,
 		},
 		powerups = {
 			bananaTemplate = BANANA_TEMPLATE,
@@ -110,14 +111,14 @@ return {
 		},
 		other = {
 			bigIceBlockTemplate = BIG_ICE_BLOCK_TEMPLATE,
-		}
+		},
 	},
 
 	trackConfig = {
 		distanceBetweenParallelLines = 3.5, --3.35
 		laps = 2,
 		leaderboardsUpdateInterval = 1,
-		checkpoints = {{0, 0.24}, {0.24, 0.48}, {0.48, 0.72}, {0.72, 0.95}, {0.95, 1}},
+		checkpoints = { { 0, 0.24 }, { 0.24, 0.48 }, { 0.48, 0.72 }, { 0.72, 0.95 }, { 0.95, 1 } },
 	},
 
 	slotsOffsets = {
@@ -156,13 +157,13 @@ return {
 			impulse = CALCULATE_BOMB_IMPULSE, -- relative to world space
 			ragdollDuration = 3,
 			dropTweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
-			dropStartHeight = 20
+			dropStartHeight = 20,
 		},
 		iceBlock = {
-			duration = 5, 
-		}
+			duration = 5,
+		},
 	},
-	
+
 	teleportation = {
 		raceStartPosition = Vector3.new(-107.9, 6.438, 124.05),
 		mapCenterPosition = Vector3.new(-103.269, 6.675, 19.281),
@@ -175,7 +176,7 @@ return {
 		status = GET_STATUS,
 
 		statusText = "Race ends in %s seconds!",
-		
+
 		powerupButtonCameraPosition = Vector3.new(2, 2, 10),
 		powerupButtonCameraFov = 30,
 		powerupInstanceRotationSpeed = 1,
@@ -190,5 +191,15 @@ return {
 		duration = 10,
 
 		firstPlaceWeightLoss = 25,
-	}
+	},
+
+	tapSpeed = {
+		speedLosePerSecond = 1,
+		speedPerTap = 0.3,
+		maxSpeed = 5,
+		startSpeed = 2.5,
+
+		speedSpringDamping = 1,
+		speedSpringSpeed = 5,
+	},
 }
