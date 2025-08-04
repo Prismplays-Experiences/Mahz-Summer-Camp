@@ -59,7 +59,7 @@ function PowerupComponent._connectEvents(self: PowerupComponent)
 			return
 		end
 
-		instance:Destroy()
+		instance.Position = Vector3.new(1000, 1000, 1000) -- Move the powerup out of sight
 		self._playSound(player)
 	end)
 end

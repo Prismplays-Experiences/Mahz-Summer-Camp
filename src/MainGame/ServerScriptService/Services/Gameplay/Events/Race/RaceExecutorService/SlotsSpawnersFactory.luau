@@ -74,7 +74,7 @@ for _, serviceInfo in pairs(SERVICES_INFO) do
 		local slots = TableUtil.Sample(allSlots, count)
 
 		for _, slot in pairs(slots) do
-			slot:Clear()
+			slot:Clear(true)
 		end
 
 		local remainingSlots = TableUtil.Filter(allSlots, function(slot: types.LandmarkSlot)

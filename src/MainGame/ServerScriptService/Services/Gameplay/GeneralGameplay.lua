@@ -25,7 +25,7 @@ local SoundEffects = ReplicatedStorage:WaitForChild("Models"):WaitForChild("Soun
 ----------------------------------------
 local Testing = false
 
-local WAITING_TIME_FOR_STUDIO = 99999
+local WAITING_TIME_FOR_STUDIO = 10
 
 --> Knit Setup
 ----------------------------------------
@@ -109,6 +109,12 @@ function GeneralGameplay:KnitStart()
 	if self.CountdownEnabled then
 		self:Countdown(self.CountdownValue)
 	end
+
+	-- task.wait(2)
+
+	-- local event = self.EventsService:RandomEvent()
+	-- self.EventsService:StartEvent(event)
+
 	if not Testing then
 		self.Client.StopWorkout:FireAll()
 		InstructorMessageService:PlayMessage(InstructorMessages.Day1)

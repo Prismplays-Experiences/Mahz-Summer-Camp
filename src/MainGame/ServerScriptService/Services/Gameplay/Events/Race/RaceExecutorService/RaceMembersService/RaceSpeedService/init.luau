@@ -1,3 +1,4 @@
+local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
 local Knit = require("@Packages/Knit")
@@ -36,6 +37,15 @@ end
 function RaceSpeedService.Stop(self: RaceSpeedService): ()
 	self:_cleanTrove()
 	self._raceSpeedStateService:StopStateMachines()
+
+	for _, player in pairs(Players:GetPlayers()) do
+		local character = player.Character :: Model & { Humanoid: Humanoid? }
+		local humanoid = character and character:FindFirstChild("Humanoid")
+
+		if humanoid then
+			humanoid.WalkSpeed = DEFAULT_SPEED
+		end
+	end
 end
 
 function RaceSpeedService.GetPlayerSpeed(self: RaceSpeedService, player: Player): number

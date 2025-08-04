@@ -1,3 +1,5 @@
+local CollectionService = game:GetService("CollectionService")
+
 local RaceInfo = require("@Info/Events/RaceInfo")
 local Knit = require("@Packages/Knit")
 local types = require("./types")
@@ -68,6 +70,16 @@ end
 
 function PowerupsService.GetPowerup(self: PowerupsService, player: Player): string?
 	return self._powerups[player]
+end
+
+function PowerupsService.CleanIceTraps()
+	for _, iceTrap in pairs(CollectionService:GetTagged("IceTrap")) do
+		if iceTrap:FindFirstAncestorOfClass("Workspace") == nil then
+			continue
+		end
+
+		iceTrap:Destroy()
+	end
 end
 
 function PowerupsService._activatePowerup(self: PowerupsService, player: Player): boolean

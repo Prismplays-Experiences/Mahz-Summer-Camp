@@ -127,15 +127,17 @@ function EventService:KnitStart()
 		end
 
 		local EventModule = Knit.GetService(event.Name) or require(event)
+
 		if EventModule then
 			EventsModules[event.Name] = EventModule
 		end
 	end
+
 	--testing
-	task.wait(5)
-	print("Starting Race Event")
-	print(EventsModules)
-	EventsModules['Race']:Start()
+	-- task.wait(5)
+	-- print("Starting Race Event")
+	-- print(EventsModules)
+	-- EventsModules['Race']:Start()
 end
 
 return EventService

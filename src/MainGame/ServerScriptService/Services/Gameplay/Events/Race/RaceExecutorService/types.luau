@@ -245,6 +245,7 @@ export type PowerupsService = {
 
 	Use: (self: PowerupsService, player: Player) -> boolean,
 	Give: (self: PowerupsService, player: Player, powerupName: string) -> boolean,
+	CleanIceTraps: () -> (),
 
 	GetPowerup: (self: PowerupsService, player: Player) -> string?,
 	GetAllPowerups: (self: PowerupsService) -> { [Player]: string },
@@ -301,7 +302,7 @@ export type RaceRewardsService = {
 
 export type RaceExecutorService = {
 	bordersService: BordersService,
-	powerupsService: SlotSpawnerService<MeshPart>,
+	powerupsSpawnerService: SlotSpawnerService<MeshPart>,
 	boostsService: SlotSpawnerService<Part>,
 	spikesService: SlotSpawnerService<Model>,
 	raceProgressService: RaceProgressService,
@@ -309,6 +310,7 @@ export type RaceExecutorService = {
 	raceUiService: RaceUiService,
 	raceTimeService: RaceTimeService,
 	raceRewardsService: RaceRewardsService,
+	powerupsService: PowerupsService,
 
 	Start: (self: RaceExecutorService) -> (),
 	Clean: (self: RaceExecutorService) -> (),

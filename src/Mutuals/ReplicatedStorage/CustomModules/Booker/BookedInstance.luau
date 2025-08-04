@@ -26,7 +26,7 @@ function BookedInstance.new<T>(instance: T & {[any]: any}): BookedInstance<T>
 	proxyMetaTable.__index = function(_, key)
 		local value
 
-		if key == "_active" or key == "_instance" or BookedInstance[key] ~= nil then
+		if key == "_active" or key == "_instance" or key == "Destroy" or BookedInstance[key] ~= nil then
 			value = info[key] or BookedInstance[key]
 		else
 			value = (instance :: {[any]: any})[key]
