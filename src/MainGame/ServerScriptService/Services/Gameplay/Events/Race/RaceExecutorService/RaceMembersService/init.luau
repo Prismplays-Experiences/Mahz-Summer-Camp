@@ -21,11 +21,13 @@ function RaceMembersService.KnitStart(self: RaceMembersService)
 end
 
 function RaceMembersService.AddAllPlayers(self: RaceMembersService)
-	for _, player in Players:GetPlayers() do
+	local players = Players:GetPlayers()
+
+	for _, player in pairs(players) do
 		self:AddPlayer(player)
 	end
 
-	self.raceSpeedService:StartStateMachines()
+	self.raceSpeedService:StartForEveryone(players)
 end
 
 function RaceMembersService.RemoveAllPlayers(self: RaceMembersService)
@@ -33,7 +35,7 @@ function RaceMembersService.RemoveAllPlayers(self: RaceMembersService)
 		self:RemovePlayer(player)
 	end
 
-	self.raceSpeedService:StopStateMachines()
+	self.raceSpeedService:Stop()
 end
 
 function RaceMembersService.AddPlayer(self: RaceMembersService, player: Player)

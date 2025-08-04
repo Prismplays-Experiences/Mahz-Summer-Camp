@@ -64,9 +64,9 @@ function BoostComponent._getPlayerFromPart(part: BasePart): Player?
 end
 
 function BoostComponent._speedUpPlayer(player: Player)
-	local raceSpeedService = Knit.GetService("RaceSpeedService")
+	local raceSpeedStateService = Knit.GetService("RaceSpeedStateService")
 
-	raceSpeedService:BoostPlayer(player)
+	raceSpeedStateService:BoostPlayer(player)
 end
 
 function BoostComponent._applyImpulseToPlayer(player: Player)

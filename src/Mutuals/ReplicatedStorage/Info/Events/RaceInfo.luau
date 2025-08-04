@@ -134,10 +134,9 @@ return {
 	},
 
 	playerStats = {
-		defaultSpeed = 20,
-
+		defaultSpeed = 0,
+		boostedSpeed = 5,
 		boostDuration = 2.5,
-		boostedSpeed = 25,
 		boostImpulse = Vector3.new(0, 1, 12), -- x -> right, y -> up, z -> forward. Relative to humanoid root part's look vector
 	},
 
@@ -196,7 +195,7 @@ return {
 	tapSpeed = {
 		speedLosePerSecond = 1,
 		speedPerTap = 0.3,
-		maxSpeed = 5,
+		maxSpeed = 9,
 		startSpeed = 2.5,
 
 		speedSpringDamping = 1,

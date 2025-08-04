@@ -1,14 +1,15 @@
 local Booker = require("@CustomModules/Booker")
 local Signal = require("@Packages/Signal")
+local Trove = require("@Packages/Trove")
 
-export type RemoteComm<T ...> = {
-	FireAll: (self: RemoteComm<T ...>, T ...) -> (),
-	Fire: (self: RemoteComm<T ...>, player: Player, T ...) -> (),
-	Connect: (self: RemoteComm<T ...>, (player: Player, T ...) -> ()) -> ()
+export type RemoteComm<T...> = {
+	FireAll: (self: RemoteComm<T...>, T...) -> (),
+	Fire: (self: RemoteComm<T...>, player: Player, T...) -> (),
+	Connect: (self: RemoteComm<T...>, (player: Player, T...) -> ()) -> (),
 }
 
 export type RemoteProperty<T...> = {
-	Set: (self: RemoteProperty<T ...>, T ...) -> (),
+	Set: (self: RemoteProperty<T...>, T...) -> (),
 }
 
 export type Client<T> = {
@@ -35,7 +36,7 @@ export type LandmarkSlot = {
 export type Landmark = {
 	origin: CFrame,
 	slots: {
-		[number]: LandmarkSlot
+		[number]: LandmarkSlot,
 	},
 
 	GetFreeSlots: (self: Landmark) -> { LandmarkSlot },
@@ -50,10 +51,14 @@ export type Landmark = {
 
 export type LandmarksService = {
 	landmarks: {
-		[number]: Landmark
+		[number]: Landmark,
 	},
 
-	OccupyFreeSlots: (self: LandmarksService, callback: (slotCframe: CFrame) -> Instance, numberOfSlots: number?) -> { LandmarkSlot },
+	OccupyFreeSlots: (
+		self: LandmarksService,
+		callback: (slotCframe: CFrame) -> Instance,
+		numberOfSlots: number?
+	) -> { LandmarkSlot },
 	GetFreeSlots: (self: LandmarksService) -> { LandmarkSlot },
 
 	AddLandmark: (self: LandmarksService, landmark: Landmark) -> (),
@@ -69,7 +74,7 @@ export type BordersService = {
 
 export type SlotSpawnerService<T> = {
 	slots: {
-		[number]: LandmarkSlot
+		[number]: LandmarkSlot,
 	},
 	landmarksService: LandmarksService,
 	template: Booker.Booker<T>,
@@ -84,7 +89,7 @@ export type SlotSpawnerService<T> = {
 export type ProgressTable = {
 	total: number,
 	circle: number,
-	laps: number
+	laps: number,
 }
 
 export type LapsProgress = {
@@ -116,7 +121,7 @@ export type ProgressTypes = "total" | "circle" | "laps"
 export type CheckpointsService = {
 	_checkpoints: { [Player]: number },
 
-	UpdateCheckpoints: (self: CheckpointsService, progresses: {[Player]: number}) -> {Player},
+	UpdateCheckpoints: (self: CheckpointsService, progresses: { [Player]: number }) -> { Player },
 	GetNextCheckpoints: (self: CheckpointsService) -> { [Player]: number },
 }
 
@@ -132,15 +137,23 @@ export type RaceProgressService = {
 	IncrementLap: (self: RaceProgressService, player: Player, quantity: number?) -> (),
 
 	GetNearestPlayer: (self: RaceProgressService, player: Player) -> Player?,
-	GetRelativePlayerInfo: (self: RaceProgressService, player: Player, deltaIndex: number, excludeLaps: boolean?) -> {player: Player, progress: number}?,
+	GetRelativePlayerInfo: (
+		self: RaceProgressService,
+		player: Player,
+		deltaIndex: number,
+		excludeLaps: boolean?
+	) -> { player: Player, progress: number }?,
 
-	GetLeaderboard: (self: RaceProgressService, excludeLaps: boolean?) -> { [number]: {player: Player, progress: number} },
+	GetLeaderboard: (
+		self: RaceProgressService,
+		excludeLaps: boolean?
+	) -> { [number]: { player: Player, progress: number } },
 
 	GetProgresses: (self: RaceProgressService) -> { [Player]: ProgressTable },
 	GetPlayerProgress: (self: RaceProgressService, player: Player) -> ProgressTable,
 
 	GetEveryoneLaps: (self: RaceProgressService) -> { [Player]: number },
-	GetPlayerLaps: (self: RaceProgressService, player: Player) -> number
+	GetPlayerLaps: (self: RaceProgressService, player: Player) -> number,
 }
 
 export type RaceMembersService = {
@@ -169,21 +182,52 @@ export type RaceMembersStoreService = {
 }
 
 export type RaceSpeedService = {
+	_raceTapService: RaceTapService,
+	_raceSpeedStateService: RaceSpeedStateService,
+	_trove: Trove.Trove,
+
+	StartForEveryone: (self: RaceSpeedService, players: {Player}) -> (),
+	Start: (self: RaceSpeedService, player: Player) -> (),
+	Stop: (self: RaceSpeedService) -> (),
+	GetPlayerSpeed: (self: RaceSpeedService, player: Player) -> number,
 	CreateStateMachineForPlayer: (self: RaceSpeedService, player: Player) -> (),
 
-	BoostPlayer: (self: RaceSpeedService, player: Player) -> (),
+	_setProperties: (self: RaceSpeedService) -> (),
+	_connectEvents: (self: RaceSpeedService, player: Player) -> (),
+	_cleanTrove: (self: RaceSpeedService) -> (),
+	_getTrove: (self: RaceSpeedService) -> Trove.Trove,
+}
 
-	StartStateMachines: (self: RaceSpeedService) -> (),
-	StopStateMachines: (self: RaceSpeedService) -> (),
+export type RaceTapService = {
+	_playersSpeed: { [Player]: number },
 
-	_getPlayerStateMachine: (self: RaceSpeedService, player: Player) -> { [any]: any }?,
-	_getAllPlayersStateMachines: (self: RaceSpeedService) -> { [Player]: { [any]: any } },
+	Client: {
+		SetSpeed: (Client<RaceTapService>, player: Player, speed: number) -> (),
+	},
 
-	_enterBoostMode: (self: RaceSpeedService, player: Player) -> (),
-	_enterDefaultMode: (self: RaceSpeedService, player: Player) -> (),
+	SetSpeed: (self: RaceTapService, player: Player, speed: number) -> (),
+	GetSpeed: (self: RaceTapService, player: Player) -> number,
+	GetAllPlayersSpeed: (self: RaceTapService) -> { [Player]: number },
 
+	_setProperties: (self: RaceTapService) -> (),
+}
+
+export type RaceSpeedStateService = {
+	_playersSpeed: { [Player]: number },
 	_playersStates: { [Player]: { [any]: any } },
-	_setPlayerSpeed: (player: Player, speed: number) -> (),
+
+	CreateStateMachineForPlayer: (self: RaceSpeedStateService, player: Player) -> (),
+	BoostPlayer: (self: RaceSpeedStateService, player: Player) -> (),
+	StartStateMachines: (self: RaceSpeedStateService) -> (),
+	StopStateMachines: (self: RaceSpeedStateService) -> (),
+	GetSpeed: (self: RaceSpeedStateService, player: Player) -> number,
+
+	_getPlayerStateMachine: (self: RaceSpeedStateService, player: Player) -> { [any]: any }?,
+	_getAllPlayersStateMachines: (self: RaceSpeedStateService) -> { [Player]: { [any]: any } },
+	_enterBoostMode: (self: RaceSpeedStateService, player: Player) -> (),
+	_enterDefaultMode: (self: RaceSpeedStateService, player: Player) -> (),
+	_setPlayerSpeed: (self: RaceSpeedStateService, player: Player, speed: number) -> (),
+	_getPlayersSpeed: (self: RaceSpeedStateService) -> number,
 }
 
 export type PowerupsService = {
@@ -192,7 +236,7 @@ export type PowerupsService = {
 
 	Client: {
 		Use: (self: Client<PowerupsService>, player: Player) -> boolean,
-		PowerupReceived: Signal.Signal<Player, string>
+		PowerupReceived: Signal.Signal<Player, string>,
 	},
 
 	Use: (self: PowerupsService, player: Player) -> boolean,
@@ -237,11 +281,13 @@ export type RaceRewardsService = {
 
 	_calculateWeightLoss: (playerPlace: number, playersQuantity: number) -> number,
 	_calculateLifesLoss: (playerPlace: number, playersQuantity: number) -> number,
-	
-	_getLeaders: (self: RaceRewardsService) -> { {
-		player: Player,
-		progress: number
-	} },
+
+	_getLeaders: (self: RaceRewardsService) -> {
+		{
+			player: Player,
+			progress: number,
+		}
+	},
 
 	_giveWeightLoss: (player: Player, weightLoss: number) -> (),
 	_giveLifesLoss: (player: Player, lifesLoss: number) -> (),
