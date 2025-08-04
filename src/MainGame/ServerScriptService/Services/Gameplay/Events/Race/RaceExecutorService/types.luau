@@ -10,6 +10,9 @@ export type RemoteComm<T...> = {
 
 export type RemoteProperty<T...> = {
 	Set: (self: RemoteProperty<T...>, T...) -> (),
+	SetFor: (self: RemoteProperty<T...>, player: Player, T...) -> (),
+	Get: (self: RemoteProperty<T...>) -> T...,
+	GetFor: (self: RemoteProperty<T...>, player: Player) -> T...,
 }
 
 export type Client<T> = {
@@ -237,17 +240,20 @@ export type PowerupsService = {
 	Client: {
 		Use: (self: Client<PowerupsService>, player: Player) -> boolean,
 		PowerupReceived: Signal.Signal<Player, string>,
+		LastTimeUsed: RemoteProperty<number>,
 	},
 
 	Use: (self: PowerupsService, player: Player) -> boolean,
-
 	Give: (self: PowerupsService, player: Player, powerupName: string) -> boolean,
-
-	_activatePowerup: (self: PowerupsService, player: Player) -> boolean,
-	_setPowerup: (self: PowerupsService, player: Player, powerupName: string?) -> (),
 
 	GetPowerup: (self: PowerupsService, player: Player) -> string?,
 	GetAllPowerups: (self: PowerupsService) -> { [Player]: string },
+
+	_activatePowerup: (self: PowerupsService, player: Player) -> boolean,
+	_setPowerup: (self: PowerupsService, player: Player, powerupName: string?) -> (),
+	_canPlayerUsePowerup: (self: PowerupsService, player: Player) -> boolean,
+	_getLastTimeUsed: (self: PowerupsService, player: Player) -> number,
+	_updateLastTimeUsed: (self: PowerupsService, player: Player) -> (),
 }
 
 export type RaceUiService = {

@@ -1,3 +1,4 @@
+local RaceInfo = require("@Info/Events/RaceInfo")
 local Knit = require("@Packages/Knit")
 local types = require("./types")
 
@@ -5,10 +6,13 @@ local PowerupModuleGetter = require("./PowerupsService/PowerupModuleGetter")
 
 type PowerupsService = types.PowerupsService
 
+local POWERUPS_DEBOUNCE_TIME = RaceInfo.powerupsOverallInfo.cooldown
+
 local PowerupsService = Knit.CreateService({
 	Name = "PowerupsService",
 	Client = {
 		PowerupReceived = Knit.CreateSignal("PowerupReceived"),
+		LastTimeUsed = Knit.CreateRemoteProperty(0),
 	},
 })
 
@@ -37,16 +41,25 @@ end
 
 function PowerupsService.Use(self: PowerupsService, player: Player): boolean
 	local powerup = self:GetPowerup(player)
+	local canUse = self:_canPlayerUsePowerup(player)
 
-	if powerup then
-		local success = self:_activatePowerup(player)
-
-		return success
-	else
-		warn("Player does not have a powerup to use.")
-
+	if not canUse then
+		warn("Player cannot use powerup yet. Cooldown in effect.")
 		return false
 	end
+
+	if not powerup then
+		warn("Player does not have a powerup to use.")
+		return false
+	end
+
+	local success = self:_activatePowerup(player)
+
+	if success then
+		self:_updateLastTimeUsed(player)
+	end
+
+	return success
 end
 
 function PowerupsService.GetAllPowerups(self: PowerupsService): { [Player]: string }
@@ -90,6 +103,22 @@ function PowerupsService._setPowerup(self: PowerupsService, player: Player, powe
 	end
 
 	self.Client.PowerupReceived:Fire(player, powerupName)
+end
+
+function PowerupsService._canPlayerUsePowerup(self: PowerupsService, player: Player): boolean
+	local lastTimeUsed = self:_getLastTimeUsed(player)
+	local currentTime = os.time()
+	local canUse = currentTime - lastTimeUsed >= POWERUPS_DEBOUNCE_TIME
+
+	return canUse
+end
+
+function PowerupsService._getLastTimeUsed(self: PowerupsService, player: Player): number
+	return self.Client.LastTimeUsed:GetFor(player)
+end
+
+function PowerupsService._updateLastTimeUsed(self: PowerupsService, player: Player)
+	self.Client.LastTimeUsed:SetFor(player, os.time())
 end
 
 return PowerupsService

@@ -61,6 +61,13 @@ local function GET_STATUS(player: Player): TextLabel
 	return status
 end
 
+local function GET_FILLER(player: Player): Frame & {UIGradient: UIGradient}
+	local powerupButton = GET_POWERUP_BUTTON(player)
+	local filler = powerupButton:WaitForChild("Filler")
+
+	return filler
+end
+
 local function CALCULATE_BOMB_IMPULSE(character: Model): Vector3
 	local DEFAULT_MASS = 2560
 	local DEFAULT_IMPULSE = Vector3.new(0, 14000, 0)
@@ -70,16 +77,7 @@ local function CALCULATE_BOMB_IMPULSE(character: Model): Vector3
 	return DEFAULT_IMPULSE * (playerMass / DEFAULT_MASS)
 end
 
-local function CALCULATE_SPIKES_IMPULSE(character: Model): Vector3
-	-- local DEFAULT_MASS = 2560
-	-- local DEFAULT_IMPULSE = Vector3.new(0, 10000000, 1000)
-
-	-- local playerMass = Physics.GetMass(character)
-
-	-- return DEFAULT_IMPULSE * (playerMass / DEFAULT_MASS)
-
-	assert(character)
-
+local function CALCULATE_SPIKES_IMPULSE(): Vector3
 	local function randomSign()
 		return 2 ^ math.random(1, 2) - 3
 	end
@@ -171,6 +169,7 @@ return {
 	ui = {
 		frame = GET_FRAME,
 		powerupButton = GET_POWERUP_BUTTON,
+		powerupFiller = GET_FILLER,
 		bar = GET_BAR,
 		status = GET_STATUS,
 
@@ -201,4 +200,8 @@ return {
 		speedSpringDamping = 1,
 		speedSpringSpeed = 5,
 	},
+
+	powerupsOverallInfo = {
+		cooldown = 8
+	}
 }
