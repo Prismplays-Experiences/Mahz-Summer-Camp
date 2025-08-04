@@ -1,4 +1,6 @@
 local Debris = game:GetService("Debris")
+
+local Knit = require("@Packages/Knit")
 export type Physics = {
 	ApplyImpulseToPlayer: (self: Physics, impulse: Vector3, player: Player) -> (),
 	ApplyImpulseRelativeToLookVector: (impulse: Vector3, part: Part) -> (),
@@ -30,7 +32,6 @@ function Physics.ApplyImpulseToPlayer(self: Physics, impulse: Vector3, player: P
 			end
 		end
 
-		humanoid.PlatformStand = true
 		self.ApplyImpulseRelativeToLookVector(impulse, humanoidRootPart)
 
 		task.delay(2, function()
@@ -62,6 +63,7 @@ function Physics.ApplyImpulse(impulse: Vector3, player: Player, lookVector: Vect
 	local playerCharacter = player.Character
 	local humanoidRootPart = playerCharacter.HumanoidRootPart
 	local humanoid = playerCharacter:FindFirstChildOfClass("Humanoid")
+	local ragdollService = Knit.GetService("RagdollService")
 
 	lookVector = lookVector or humanoidRootPart.CFrame.LookVector
 
@@ -87,6 +89,10 @@ function Physics.ApplyImpulse(impulse: Vector3, player: Player, lookVector: Vect
 	Debris:AddItem(knockback, 0.22)
 
 	task.delay(0.3, function()
+		if ragdollService:IsRagdoll(player) then
+			return
+		end
+
 		humanoid.PlatformStand = false
 	end)
 end

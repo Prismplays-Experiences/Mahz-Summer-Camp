@@ -230,13 +230,13 @@ function RagdollService._configureHumanoid(player: Player, isRagdoll: boolean)
 	end
 
 	local humanoid: Humanoid = character.Humanoid
-
 	humanoid.AutoRotate = not isRagdoll
-	humanoid.PlatformStand = isRagdoll
 
 	if isRagdoll then
+		humanoid.PlatformStand = true
 		humanoid:ChangeState(Enum.HumanoidStateType.Physics)
 	else
+		humanoid.PlatformStand = false
 		humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
 	end
 end
