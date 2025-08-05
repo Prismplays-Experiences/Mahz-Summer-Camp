@@ -17,7 +17,7 @@ local FoodChaosItems = EventScriptingItems:WaitForChild("FoodChaos")
 local FoodsDropped = FoodChaosItems:WaitForChild("FoodDropped")
 
 local Models = ReplicatedStorage:WaitForChild("Models")
-local KitchenFoods = Models:WaitForChild("KitchenFoods")
+-- local KitchenFoods = Models:WaitForChild("KitchenFoods")
 
 local Player = game.Players.LocalPlayer
 local Assets = ReplicatedStorage:WaitForChild("Assets")
@@ -89,19 +89,19 @@ end
 --> Utility Functions
 ----------------------------------------
 
-function CanCollideControl(Item, CanCollide)
-	if not Item then
-		return
-	end
-	if Item:IsA("BasePart") then
-		Item.Anchored = CanCollide
-	end
-	for _, Part in ipairs(Item:GetDescendants()) do
-		if Part:IsA("BasePart") or Part:IsA("MeshPart") then
-			Part.Anchored = CanCollide
-		end
-	end
-end
+-- function CanCollideControl(Item, CanCollide)
+-- 	if not Item then
+-- 		return
+-- 	end
+-- 	if Item:IsA("BasePart") then
+-- 		Item.Anchored = CanCollide
+-- 	end
+-- 	for _, Part in ipairs(Item:GetDescendants()) do
+-- 		if Part:IsA("BasePart") or Part:IsA("MeshPart") then
+-- 			Part.Anchored = CanCollide
+-- 		end
+-- 	end
+-- end
 
 --> Main Functions
 ----------------------------------------
@@ -157,7 +157,7 @@ function FoodChaosController:FoodGainEffect(Food, Time, SizeFactor)
 	end
 end
 
-function FoodChaosController:CircleSpawn(Food, Position, Weight)
+function FoodChaosController:CircleSpawn(_Food, Position, Weight)
 	local CircularPart = self.Trove:Add(HaloRing:Clone())
 	CircularPart.Position = Position -- - CircleSpawnOffset
 	CircularPart.Size = Vector3.new(0.001, 0.001, 0.001)
@@ -166,10 +166,10 @@ function FoodChaosController:CircleSpawn(Food, Position, Weight)
 	CircularPart.Transparency = 0.6
 	CircularPart.Parent = workspace
 
-	local CircleGood = false
+	local _CircleGood = false
 	if Weight > 0 then
 		CircularPart.Color = Color3.fromRGB(0, 255, 0)
-		CircleGood = true
+		_CircleGood = true
 	else
 		CircularPart.Color = Color3.fromRGB(255, 0, 0)
 	end
