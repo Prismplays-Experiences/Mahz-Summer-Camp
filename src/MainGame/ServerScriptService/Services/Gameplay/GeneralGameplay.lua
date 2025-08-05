@@ -209,7 +209,7 @@ function GeneralGameplay:GetWinners()
 	return winners
 end
 
-function GeneralGameplay:RunInstructorMessage(Day)
+function GeneralGameplay:RunInstructorMessage()
 	-- local InstructorMessageService = Knit.GetService("InstructorMessage")
 	-- if Day == 2 then
 	-- 	InstructorMessageService:PlayMessage(InstructorMessages.Day2)

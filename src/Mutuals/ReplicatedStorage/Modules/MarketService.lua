@@ -3,7 +3,7 @@ local Knit = require("@Packages/Knit")
 local MarketService = {}
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Modules = script.Parent
+-- local Modules = script.Parent
 -- local GeneralService = require(Libs:WaitForChild('GeneralServiceModule'))
 
 local Models = ReplicatedStorage:WaitForChild("Models")

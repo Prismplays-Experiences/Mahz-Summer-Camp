@@ -21,8 +21,6 @@ local Assets = ReplicatedStorage:WaitForChild("Assets")
 local VFX = Assets:WaitForChild("VFX")
 local Highlights = Assets:WaitForChild("Highlights")
 
-local SoundEffects = Models:WaitForChild("SoundEffects")
-
 --> Variables
 ----------------------------------------
 local SpawnTakenTag = "SpawnTaken"

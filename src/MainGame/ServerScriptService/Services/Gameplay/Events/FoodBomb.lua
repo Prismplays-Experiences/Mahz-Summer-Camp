@@ -196,16 +196,16 @@ function SpeedPowerup(Powerup, spot)
 	end)
 end
 
-function SendNotification(player, msg, color, duration, reward, sound)
-	local Notify = Knit.GetService("NotificationService")
-	Notify:SendNotification(player, {
-		message = msg,
-		color = color or Color3.fromRGB(255, 255, 255),
-		duration = duration or 2,
-		reward = reward or false,
-		sound = sound or SoundEffects.Positive,
-	})
-end
+-- function SendNotification(player, msg, color, duration, reward, sound)
+-- 	local Notify = Knit.GetService("NotificationService")
+-- 	Notify:SendNotification(player, {
+-- 		message = msg,
+-- 		color = color or Color3.fromRGB(255, 255, 255),
+-- 		duration = duration or 2,
+-- 		reward = reward or false,
+-- 		sound = sound or SoundEffects.Positive,
+-- 	})
+-- end
 
 --> Main Functions
 -----------------------------------------

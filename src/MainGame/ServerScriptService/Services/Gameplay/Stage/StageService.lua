@@ -345,9 +345,9 @@ function StageService:WeightPlayers(TransitionScreen, EndTransition, func)
 		self.StageEventRunning = false
 		self:Eliminated(true, false)
 	end
-	local End
+	local End2
 	if EndTransition then
-		End = self.TransitionService:SendTransitionAll()
+		End2 = self.TransitionService:SendTransitionAll()
 	end
 	if func then
 		task.spawn(function()
@@ -362,7 +362,7 @@ function StageService:WeightPlayers(TransitionScreen, EndTransition, func)
 	CurrentStageItem:Destroy()
 	if EndTransition then
 		task.wait(1.5)
-		End:FireAll()
+		End2:FireAll()
 	end
 	task.wait(0.5)
 	self.StageEventRunning = false

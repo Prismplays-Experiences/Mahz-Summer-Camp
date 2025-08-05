@@ -374,7 +374,7 @@ function ObjectValuesMinigame:Start(Level)
 	self.BarControl:Start(self.StopEvent)
 	ObjectsGameplay.Visible = true
 	self.Throwing = true
-	local rate = self.ThrowRate or 1
+	-- local rate = self.ThrowRate or 1
 	task.spawn(function()
 		self:TargetItemControl(Level)
 	end)
@@ -385,7 +385,7 @@ function ObjectValuesMinigame:Start(Level)
 	self.Correctrate = 0
 	task.spawn(function()
 		while self.Throwing do
-			for i = 1, math.round(self.ThrowRate) do
+			for _ = 1, math.round(self.ThrowRate) do
 				task.spawn(function()
 					local clone
 					if self.Correctrate >= 2 then
