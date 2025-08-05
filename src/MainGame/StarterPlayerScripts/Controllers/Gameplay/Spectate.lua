@@ -80,8 +80,7 @@ end
 function UpdateList()
 	local Tab = {}
 	for _, v in ipairs(game.Players:GetPlayers()) do
-		local InGame = v:FindFirstChild("InGame")
-		if InGame and InGame.Value then
+		if not v:HasTag("Eliminated") and CheckIfAlive(v) then
 			table.insert(Tab, v)
 		end
 	end

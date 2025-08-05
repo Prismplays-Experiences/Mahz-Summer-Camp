@@ -11,6 +11,10 @@ local EventsFolder = ServerScriptService:WaitForChild("Services"):WaitForChild("
 --> Variables
 ----------------------------------------
 local EventsModules = {}
+local ValidationMaxAttempts = 30
+
+local EventQueue = {}
+local EventMap = {}
 
 --> Knit Setup
 ----------------------------------------
@@ -51,6 +55,30 @@ function GetPlayersInGame()
 	return plrs
 end
 
+local function AddToQueue(eventName)
+	if not eventName or EventMap[eventName] then
+		return
+	end
+	local position = #EventQueue + 1
+	EventQueue[position] = eventName
+	EventMap[eventName] = position
+end
+
+local function GetFromQueue()
+	if #EventQueue == 0 then
+		return nil
+	end
+
+	local eventName = table.remove(EventQueue, 1)
+	EventMap[eventName] = nil
+
+	for i, name in ipairs(EventQueue) do
+		EventMap[name] = i
+	end
+
+	return eventName
+end
+
 --> Main Functions
 ----------------------------------------
 
@@ -63,11 +91,28 @@ function EventService:EventValidationCheck(Event)
 	return true
 end
 
+function EventService:GetEventsQueue()
+	return EventQueue
+end
+
 function EventService:RandomEvent()
+	local QueuedEvent = GetFromQueue()
+	if QueuedEvent and self:EventValidationCheck(EventsModules[QueuedEvent]) then
+		return EventsModules[QueuedEvent], QueuedEvent
+	else
+		AddToQueue(QueuedEvent)
+	end
 	local Event, EventKey
+
+	local Attempts = 0
 	repeat
+		Attempts += 1
+		task.wait(0.1) -- Prevent tight loop
 		Event, EventKey = RandomFromDictionary(EventsModules, self.PreviousEventKey)
-	until self:EventValidationCheck(Event) and Event
+	until self:EventValidationCheck(Event) and Event or Attempts >= ValidationMaxAttempts
+	if Attempts >= ValidationMaxAttempts then
+		return nil, nil
+	end
 
 	-- self.PreviousEventKey = EventKey
 	return Event, EventKey
@@ -87,39 +132,69 @@ function EventService:StartEvent(Event)
 		self:Cleanup()
 	end)
 	task.spawn(function()
+		self.MusicService:NewSong(self.Event.Music or "EventsMusics")
 		Event:Start()
 	end)
 end
 
-function EventService:Cleanup()
-	self.Client.EventStatus:Set("Event Over")
-	if self.Event.LockWorkoutMachines then
-		self.GeneralService.Client.LockWorkoutMachines:FireAll(false)
-	end
-	if self.Event.YieldClock then
-		self.ClockService:ResumeClock()
-	end
+function EventService:Cleanup(msg)
+	self.Client.EventStatus:Set(msg or "Event Over")
+	self.MusicService:NewSong("Normal")
 	task.delay(5, function()
 		self.Client.EventStatus:Set("")
 	end)
-	self.Event:Clean()
+	if self.Event then
+		if self.Event.LockWorkoutMachines then
+			self.GeneralService.Client.LockWorkoutMachines:FireAll(false)
+		end
+		if self.Event.YieldClock then
+			self.ClockService:ResumeClock()
+		end
+		self.Event:Clean()
+	end
 	self.Event = nil
+	self.EventCompleted = true
+	self.EventCountdown = false
+	self.GeneralService.EventInProgress = false
 end
 
 function EventService:EventLoop(ValueDelay)
+	self.GeneralService.EventInProgress = true
+	self.EventCompleted = false
 	for i = 1, ValueDelay do
+		self.EventCountdown = true
 		self.Client.EventStatus:Set(`Next event in {ValueDelay - i}s`)
 		task.wait(1)
 	end
 	local Event = self:RandomEvent()
-
+	if not Event then
+		self:Cleanup("No Event found!")
+		return
+	end
 	self:StartEvent(Event)
 	self.Client.EventStatus:Set(`Event in progress: {Event.Name}`)
+	repeat
+		task.wait(1)
+	until self.EventCompleted
+	return true
+end
+
+function EventService:QueueEvent(EventName)
+	local TimeLeft = self.ClockService:GetSecondsLeft()
+	AddToQueue(EventName)
+	if self.EventCountdown then
+		return
+	end
+	if TimeLeft < 15 then
+		return
+	end
+	self:EventLoop(math.round(TimeLeft / 5))
 end
 
 function EventService:KnitStart()
 	self.GeneralService = Knit.GetService("GeneralGameplay")
 	self.ClockService = Knit.GetService("ClockService")
+	self.MusicService = Knit.GetService("MusicService")
 	for _, evnt in pairs(EventsFolder:GetChildren()) do
 		if evnt:IsA("ModuleScript") then
 			local EventModule = Knit.GetService(evnt.Name) or require(evnt)

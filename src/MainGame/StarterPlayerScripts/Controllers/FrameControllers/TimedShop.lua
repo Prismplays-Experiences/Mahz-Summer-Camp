@@ -10,6 +10,7 @@ local RunService = game:GetService("RunService")
 local Knit = require("@Packages/Knit")
 local Trove = require("@Packages/Trove")
 local IAPDATA = require("@Info/IAPDATA")
+local MarketModule = require("@Modules/MarketService")
 
 --> Assets
 ----------------------------------------
@@ -23,6 +24,8 @@ local Frames = Main:WaitForChild("Frames")
 local MainFrame = Frames:WaitForChild("TimedShop")
 local MainContainer = MainFrame:WaitForChild("Container")
 local UseSupplimentBtn = Main:WaitForChild("Core"):WaitForChild("UseSuppliment")
+local EquipAuraBtn = Main:WaitForChild("Core"):WaitForChild("EquipAura")
+local RefreshShopButton = MainFrame:WaitForChild("RefreshShop")
 
 local ShopTemplate = PlayerGui:WaitForChild("Templates"):WaitForChild("ItemTemplate")
 local TimeLeftText = MainFrame:WaitForChild("Header"):WaitForChild("Time")
@@ -37,7 +40,7 @@ local ShopRefreshTime = 5 * 60
 local GenerationData = {
 	Suppliments = 3,
 	Events = 3,
-	Machines = 3,
+	Auras = 3,
 }
 
 local CloseSizes = {
@@ -160,16 +163,22 @@ function OpenItemFrame(Obj)
 	Obj.Size = OpenSizes.ItemFrame
 	Obj.PurchaseFrame.Position = UDim2.fromScale(0.5, 0.65)
 	Obj.PurchaseFrame.Visible = true
-	TweenService
-		:Create(
+	if Obj:HasTag("LastItem") and Obj.Parent.Name ~= "Auras" then
+		repeat
+			task.wait()
+			MainContainer:WaitForChild("UIListLayout").Padding = UDim.new(0.25, 0)
+		until MainContainer:WaitForChild("UIListLayout").Padding == UDim.new(0.25, 0)
+	end
+
+	if not Obj:HasTag("LastItem") or (Obj:HasTag("LastItem") and Obj.Parent.Name == "Suppliments") then
+		TweenService:Create(
 			MainFrame:WaitForChild("Container"),
 			TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 			{
 				CanvasPosition = Vector2.new(MainContainer.CanvasPosition.X, GetCanvasPosition(MainContainer, Obj).Y),
 			}
-		)
-		:Play()
-	MainContainer:WaitForChild("UIListLayout").Padding = UDim.new(0.25, 0)
+		):Play()
+	end
 end
 
 function CloseItemFrame(Obj)
@@ -202,9 +211,7 @@ function TimedShop:PurchaseItem(Price, ProductId, ItemData, Category)
 	if ProductId then
 		local signal
 		signal = MarketplaceService.PromptProductPurchaseFinished:Connect(function(userid, productId, wasPurchased)
-			print("here")
 			if userid == Player.UserId and productId == ProductId and wasPurchased then
-				print("purchased")
 				self.IAPFunction:GiveItem(ItemData, Category)
 				SendNotification("Item Bought!", Color3.fromRGB(121, 255, 49), 2, true, SoundEffects.Positive)
 			end
@@ -245,12 +252,55 @@ function TimedShop:InitSupplimentUse()
 	end)
 end
 
+function TimedShop:InitAuraUse()
+	Player.Backpack.ChildAdded:Connect(function(tool)
+		if tool:IsA("Tool") and IAPDATA.Auras[tool.Name] then
+			tool.Equipped:Connect(function()
+				self.CurrentAura = tool.Name
+				if self.EquippedAura == self.CurrentAura then
+					EquipAuraBtn:WaitForChild("Amount").Text = "Unequip"
+					EquipAuraBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+				else
+					EquipAuraBtn:WaitForChild("Amount").Text = "Equip"
+					EquipAuraBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+				end
+				EquipAuraBtn.Visible = true
+			end)
+			tool.Unequipped:Connect(function()
+				self.CurrentAura = nil
+				EquipAuraBtn.Visible = false
+			end)
+		end
+	end)
+	local db = false
+	EquipAuraBtn.MouseButton1Click:Connect(function()
+		if db then
+			return
+		end
+		db = true
+		task.delay(0.5, function()
+			db = false
+		end)
+		if self.CurrentAura == self.EquippedAura then
+			self.EquippedAura = nil
+			EquipAuraBtn:WaitForChild("Amount").Text = "Equip"
+			EquipAuraBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+			self.AurasService:EquipAura(nil)
+		else
+			self.EquippedAura = self.CurrentAura
+			EquipAuraBtn:WaitForChild("Amount").Text = "Unequip"
+			EquipAuraBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+			self.AurasService:EquipAura(self.CurrentAura)
+		end
+	end)
+end
+
 function TimedShop:RefreshShop()
 	ObjectsShopTrove:Clean()
 	local NewItems = GenerateRandomItems(GenerationData)
 	for i, Data in NewItems do
 		local CategoryFrame = MainFrame:WaitForChild("Container"):WaitForChild(i)
-		for _, ItemData in ipairs(Data) do
+		for Index, ItemData in ipairs(Data) do
 			local ItemClone = ShopTemplate:Clone()
 			local ItemFrame = ItemClone:WaitForChild("Item")
 			local PurchaseFrame = ItemClone:WaitForChild("PurchaseFrame")
@@ -260,6 +310,13 @@ function TimedShop:RefreshShop()
 			ItemFrame.Rarity.Text = ItemData.Rarity or "N/A"
 			ItemFrame.Description.Text = ItemData.Description or "N/A"
 			ItemFrame.ImageHolder.ImageLabel.Image = ItemData.Image
+			if RarityColors[ItemData.Rarity] == nil then
+				print(RarityColors[ItemData.Rarity], ItemData.Rarity, ItemData)
+			end
+			if Index == GenerationData[i] then
+				ItemClone:AddTag("LastItem")
+			end
+
 			ItemFrame.Rarity.BackgroundColor3 = RarityColors[ItemData.Rarity]
 
 			pcall(function()
@@ -295,7 +352,10 @@ end
 function TimedShop:KnitStart()
 	self.IAPFunction = Knit.GetService("IAPFunction")
 	self.SupplimentsService = Knit.GetService("SupplimentsService")
+	self.AurasService = Knit.GetService("AurasService")
+
 	self:InitSupplimentUse()
+	self:InitAuraUse()
 
 	self:RefreshShop()
 	SetFrameCanvasPositions()
@@ -311,13 +371,33 @@ function TimedShop:KnitStart()
 		end
 	end
 
+	RefreshShopButton.MouseButton1Click:Connect(function()
+		MarketplaceService:PromptProductPurchase(Player, MarketModule.ProductIds.RefreshShop.Id)
+	end)
+
+	MarketplaceService.PromptProductPurchaseFinished:Connect(function(userid, productId, wasPurchased)
+		if userid == Player.UserId and productId == MarketModule.ProductIds.RefreshShop.Id and wasPurchased then
+			self:RefreshShop()
+			self.ShouldRestart = true
+			SendNotification("Shop refreshed!", Color3.fromRGB(121, 255, 49), 2, true, SoundEffects.Positive)
+		end
+	end)
+
 	while task.wait(1) do
-		for i = 1, ShopRefreshTime do
+		local i = 0
+		while i < ShopRefreshTime do
 			local t = ShopRefreshTime - i
 			self.RefreshTimeLeft = t
 			TimeLeftText.Text = "New items in: " .. ToMinutes(t)
 			task.wait(1)
+			if self.ShouldRestart then
+				i = 0
+				self.ShouldRestart = false
+			else
+				i += 1
+			end
 		end
+
 		self:RefreshShop()
 	end
 end

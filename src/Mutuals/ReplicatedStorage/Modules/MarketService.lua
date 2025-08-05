@@ -4,7 +4,6 @@ local MarketService = {}
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Modules = script.Parent
-local ChatNotification = require(Modules.Client.ChatNotification)
 -- local GeneralService = require(Libs:WaitForChild('GeneralServiceModule'))
 
 local Models = ReplicatedStorage:WaitForChild("Models")
@@ -35,7 +34,8 @@ function DefaultPurchaseEvent(Player)
 end
 
 function Announce(txt)
-	ChatNotification.new("Server", txt, Color3.fromRGB(182, 218, 0), "Roboto")
+	local MessageService = Knit.GetService("MessageService")
+	MessageService:SendToAll(`<b> {txt} </b>`, Color3.fromRGB(182, 218, 0), "Gotham", 20)
 end
 
 function GivePlayerMoney(Player, Amount)
@@ -56,6 +56,7 @@ MarketService.ProductIds = {
 
 	["Rejoin"] = { Price = 19, Id = 3319855182 },
 	["RejoinUpgrade"] = { Price = 49, Id = 3324330807 },
+	["RefreshShop"] = { Price = 49, Id = 3357283378 },
 
 	["1Life"] = { Price = 49, Id = 3324330803 },
 	["3Life"] = { Price = 49, Id = 3324330802 },

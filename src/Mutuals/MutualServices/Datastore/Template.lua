@@ -14,7 +14,7 @@ local leaderstats = {
 local PrivateStats = {
 
 	Spins = 0,
-	Currency = RunService:IsStudio() and 1000 or 50,
+	Currency = RunService:IsStudio() and 3500 or 50,
 	TutorialConcluded = false,
 	Donate = 0,
 	RobuxSpent = 0,

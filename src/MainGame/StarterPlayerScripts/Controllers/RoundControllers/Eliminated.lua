@@ -54,6 +54,7 @@ function RoundTo1DP(num)
 end
 
 function Eliminated:Eliminate()
+	-- task.wait()
 	self.OnPrompt = false
 	Main.Enabled = false
 	EliminatedScreenGui.Enabled = true
@@ -91,10 +92,13 @@ function Eliminated:Eliminate()
 	until Result ~= nil
 	EliminatedScreenGui.Enabled = false
 	EliminatedFrame.Visible = false
+	task.wait(1)
 	Player.PlayerGui:WaitForChild("Main").Enabled = true
 	Prompted:Disconnect()
 	if not Result then
 		self.SpectateController:Open()
+		workspace:WaitForChild("Game"):WaitForChild("ScriptingProperties"):WaitForChild("EliminatedWall").CanCollide =
+			true
 		self:MoveOutMap()
 	end
 	return Result

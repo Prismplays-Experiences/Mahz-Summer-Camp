@@ -30,9 +30,24 @@ function IAPFunction.Client:GiveItem(Player, Item, Category)
 			warn(`Item {Item.ToolName} not found in ServerStorage`)
 		end
 	elseif Category == "Events" then
-		print("events")
+		self.Server.MessageService:SendToAll(
+			`<b> {Player.DisplayName} bought {Item.Name} event! </b>`,
+			Color3.fromRGB(0, 255, 0),
+			"Gotham",
+			20
+		)
+		task.spawn(function()
+			task.wait(0.1)
+			self.Server.EventsService:QueueEvent(Item.EventName)
+		end)
 	elseif Category == "Auras" then
-		print("auras")
+		local Tool = ServerStorage.Auras:FindFirstChild(Item.ToolName)
+		if Tool then
+			local Clone = Tool:Clone()
+			Clone.Parent = Player.Backpack
+		else
+			warn(`Item {Item.ToolName} not found in ServerStorage`)
+		end
 	end
 end
 
@@ -53,6 +68,11 @@ function IAPFunction.Client:UseSuppliment(Player, Tool)
 	Tool:Destroy()
 	local Func = IAPDATA.Suppliments[Tool.Name].func
 	Func(Player)
+end
+
+function IAPFunction:KnitStart()
+	self.EventsService = Knit.GetService("EventsService")
+	self.MessageService = Knit.GetService("MessageService")
 end
 
 return IAPFunction

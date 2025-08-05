@@ -38,7 +38,7 @@ local FoodBomb = Knit.CreateService({
 
 --> Variables
 -----------------------------------------
-FoodBomb.ExplodeTime = 60
+FoodBomb.ExplodeTime = 65
 FoodBomb.PlayerWithFood = nil
 FoodBomb.Trove = Trove.new()
 FoodBomb.MaxWeightGained = 250
@@ -111,16 +111,30 @@ function isInteger(num)
 	return type(num) == "number" and num % 1 == 0
 end
 
-function ExplodeFood(Character)
-	local Explosion = Instance.new("Explosion")
-	Explosion.Position = Character.HumanoidRootPart.Position
-	Explosion.BlastRadius = 0
-	Explosion.BlastPressure = 0
-	Explosion.ExplosionType = Enum.ExplosionType.NoCraters
-	Explosion.DestroyJointRadiusPercent = 0
+function ExplodeFood(character)
+	if not character or not character:FindFirstChild("HumanoidRootPart") then
+		return
+	end
 
-	Explosion.Parent = Character
-	SoundEffects.Eliminated:Play()
+	-- Create a harmless explosion
+	local explosion = Instance.new("Explosion")
+	explosion.Position = character.HumanoidRootPart.Position
+	explosion.BlastRadius = 0
+	explosion.BlastPressure = 0
+	explosion.ExplosionType = Enum.ExplosionType.NoCraters
+	explosion.DestroyJointRadiusPercent = 0
+
+	explosion.Hit:Connect(function() end)
+
+	explosion.Parent = workspace
+
+	local sound = SoundEffects.Eliminated:Clone()
+	sound.Parent = character.HumanoidRootPart
+	sound:Play()
+
+	sound.Ended:Connect(function()
+		sound:Destroy()
+	end)
 end
 
 function CreateTrail(Character, Time)
@@ -170,10 +184,15 @@ function SpeedPowerup(Powerup, spot)
 		spot:RemoveTag("SpotTaken")
 		local character = player.Character
 		local humanoid = character:FindFirstChildOfClass("Humanoid")
-		humanoid.WalkSpeed = 30
+		if humanoid.WalkSpeed == 30 then
+			humanoid.WalkSpeed += 10
+		else
+			humanoid.WalkSpeed = 30
+		end
+
 		CreateTrail(character, speedBoostTime)
 		task.wait(speedBoostTime)
-		humanoid.WalkSpeed = 16
+		humanoid.WalkSpeed = 18
 	end)
 end
 
@@ -260,13 +279,19 @@ function FoodBomb:DropBomb(food: Tool)
 		if not Hit.Parent:FindFirstChild("Humanoid") then
 			return
 		end
+		local plr = game.Players:GetPlayerFromCharacter(Hit.Parent)
+		if not plr then
+			return
+		end
 		if TouchedDebounce then
 			return
 		end
+
 		TouchedDebounce = true
 		task.delay(2, function()
 			TouchedDebounce = false
 		end)
+
 		if food.Parent == workspace then
 			food.Parent = Hit.Parent
 			return
@@ -282,11 +307,12 @@ function FoodBomb:DropBomb(food: Tool)
 		if handle.Anchored then
 			handle.Anchored = false
 		end
+
 		food.Parent = Hit.Parent
-		local plr = game.Players:GetPlayerFromCharacter(Hit.Parent)
+
 		pcall(function()
 			Hit.Parent.Humanoid.WalkSpeed = 20
-			FoodBomb.PlayerWithFood.Character.Humanoid.WalkSpeed = 16
+			FoodBomb.PlayerWithFood.Character.Humanoid.WalkSpeed = 18
 		end)
 		FoodBomb.PlayerWithFood = plr
 		self.Client.EventSubStatus:Set(`{plr.DisplayName} has the food!`)
@@ -342,8 +368,9 @@ function FoodBomb:Start()
 	local LastPlayer = FoodBomb:BombCountdown(Food)
 	Food:Destroy()
 	task.spawn(function()
-		local WeightGained = self.MaxWeightGained * self.ClockService.Days / GeneralInfo.MaxDays
-		local Status = self.WeightControl:DecreaseWeight(LastPlayer, WeightGained)
+		local progress = math.sqrt(self.ClockService.Days / GeneralInfo.MaxDays)
+		local WeightGained = self.MaxWeightGained * progress
+		local Status = self.WeightControl:DecreaseWeight(LastPlayer, -WeightGained, true)
 		if Status then
 			self.Client.WeightGained:Fire(LastPlayer, WeightGained)
 		end

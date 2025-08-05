@@ -13,7 +13,7 @@ return {
 		ActionText = "",
 		Minigame = "ObjectValues",
 		Level = 1,
-		Resolution = 0.1,
+		Resolution = 0.7,
 	},
 	Treadmill = {
 		MinWeightLoss = 1,

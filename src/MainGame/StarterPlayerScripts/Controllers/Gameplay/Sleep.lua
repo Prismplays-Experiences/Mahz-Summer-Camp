@@ -18,6 +18,7 @@ local HardNotification = require("@Modules/HardNotification")
 local Player = game.Players.LocalPlayer
 local SleepAnimationID = "rbxassetid://" .. "76420047878908"
 local RiseAnimationId = "rbxassetid://" .. "97187272193981"
+local Camera = workspace.CurrentCamera
 
 --> Utility Functions
 ----------------------------------------
@@ -47,13 +48,13 @@ function SleepController:PlayAnim()
 end
 
 function SleepController:EndAnim()
-	print("Ending Sleep Animation")
+	Camera.CameraType = Enum.CameraType.Custom
+	Camera.CameraSubject = Player.Character.Humanoid
 	self.GeneralController:TransitionToDay()
 	self.RiseTrack:Play()
 	self.RiseTrack:AdjustSpeed(2)
 	self.RiseTrack.Priority = Enum.AnimationPriority.Action2
 	self.SleepTrack:Stop()
-
 	task.wait(1)
 
 	HardNotification.Send(Player, "Good Morning", "rbxassetid://84049656723836", SoundEffects.Positive)

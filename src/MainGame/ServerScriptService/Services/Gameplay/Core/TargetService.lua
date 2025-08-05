@@ -75,8 +75,8 @@ function CreateTarget(Day, IdealWeight, MaxDays)
 end
 
 -- for day = 1, 24 do
---     local loss = CreateTarget(day, 2600, 24)
---     print(string.format("Day %02d: Lose %.2f lbs", day, loss))
+-- 	local loss = CreateTarget(day, GeneralInfo.Weight, 24)
+-- 	print(string.format("Day %02d: Lose %.2f lbs", day, loss))
 -- end
 
 --> Main Functions
@@ -93,17 +93,6 @@ end
 
 function TargetService:GetTarget()
 	return GeneralInfo.Weight - self.TotalWeightLost
-end
-
-function TargetService:TargetChecks()
-	-- put player on stands measure weight
-	-- for i,v in pairs(Players:GetPlayers()) do
-	--     local Weight = v.leaderstats.Weight
-	--     if Weight.Value>self.TargetWeight then
-	--         -- send event to player that they missed out on the target.
-	--         -- remove player life
-	--     end
-	-- end
 end
 
 return TargetService

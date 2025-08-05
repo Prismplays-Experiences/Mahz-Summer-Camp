@@ -1,5 +1,3 @@
---- there are bugs so dont use this event
-
 --> Services
 -----------------------------------------
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -48,13 +46,16 @@ local FoodChaos = Knit.CreateService({
 
 --> Variables
 -----------------------------------------
-FoodChaos.EventTime = 60
+local FallDuration = 3
+FoodChaos.EventTime = 90
 FoodChaos.Trove = Trove.new()
 FoodChaos.MaxWeightGained = 250
-FoodChaos.MinPlayers = 10 --- there are bugs so dont use this event
+FoodChaos.MinPlayers = 1 --- there are bugs so dont use this event
 FoodChaos.LockWorkoutMachines = true
+FoodChaos.Music = "FoodChaos"
 FoodChaos.YieldClock = true
 FoodChaos.Ended = Signal.new()
+FoodChaos.DroppedPositions = {}
 FoodChaos.Details = {
 	Text = "Food chaos!",
 	Image = "rbxassetid://74060213881216",
@@ -90,6 +91,19 @@ function AnchorItem(Item, Anchor)
 	for _, Part in ipairs(Item:GetDescendants()) do
 		if Part:IsA("BasePart") or Part:IsA("MeshPart") then
 			Part.Anchored = Anchor
+		end
+	end
+end
+function CanCollideControl(Item)
+	if not Item then
+		return
+	end
+	if Item:IsA("BasePart") then
+		Item.CollisionGroup = "NPCCollision"
+	end
+	for _, Part in ipairs(Item:GetDescendants()) do
+		if Part:IsA("BasePart") or Part:IsA("MeshPart") then
+			Part.CollisionGroup = "NPCCollision"
 		end
 	end
 end
@@ -158,10 +172,14 @@ function SpeedPowerup(Powerup, spot)
 		spot:RemoveTag("SpotTaken")
 		local character = player.Character
 		local humanoid = character:FindFirstChildOfClass("Humanoid")
-		humanoid.WalkSpeed = 30
+		if humanoid.WalkSpeed == 30 then
+			humanoid.WalkSpeed += 10
+		else
+			humanoid.WalkSpeed = 30
+		end
 		CreateTrail(character, speedBoostTime)
 		task.wait(speedBoostTime)
-		humanoid.WalkSpeed = 16
+		humanoid.WalkSpeed = 18
 	end)
 end
 
@@ -220,61 +238,104 @@ function FoodChaos:DropPowerups(Count, Powerup, func)
 end
 
 function FoodChaos:DropFood(Count)
+	-- Cache spawn parts once
+	local CircleSpawn = SpawnPoints:WaitForChild("Circle")
+
 	for _ = 1, Count do
+		if self.StopSpawning then
+			return
+		end
 		local RandomFood = self:RandomFood()
 
 		AnchorItem(RandomFood, true)
+		CanCollideControl(RandomFood)
 		RandomFood.Parent = FoodsDropped
-		local SpawnPoint = SpawnPoints:GetChildren()[math.random(1, #SpawnPoints:GetChildren())]
 
+		local SpawnPoint = CircleSpawn
 		local size = SpawnPoint.Size
 		local basePos = SpawnPoint.Position
-
-		-- Generate a random point within the spawn part's X/Z bounds
-		local randomX = math.random() * size.X - size.X / 2
-		local randomZ = math.random() * size.Z - size.Z / 2
-
-		local rayOrigin = Vector3.new(basePos.X + randomX, basePos.Y + DropHeight, basePos.Z + randomZ)
-		MoveItem(RandomFood, rayOrigin)
-
-		local rayDirection = Vector3.new(0, -(DropHeight + 1000), 0)
 
 		local raycastParams = RaycastParams.new()
 		raycastParams.FilterType = Enum.RaycastFilterType.Exclude
 		raycastParams.FilterDescendantsInstances = { RandomFood }
 
 		local result = nil
+		local attempts = 0
+		local rayOrigin
 		repeat
-			result = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
-			task.wait()
-		until result and result.Instance == SpawnPoint
-		-- RandomFood.Parent = FoodsDropped
-		self.Client.DropFood:FireAll(RandomFood, rayOrigin, result.Position)
-		task.delay(15, function()
+			attempts += 1
+			-- Randomize spawn point
+			local randomY = math.random() * size.Y - size.Y / 2
+			local randomZ = math.random() * size.Z - size.Z / 2
+			rayOrigin = Vector3.new(basePos.X + randomY, basePos.Y + DropHeight, basePos.Z + randomZ)
+
+			MoveItem(RandomFood, rayOrigin)
+
+			-- Cast downward
+			result = workspace:Raycast(rayOrigin, Vector3.new(0, -(DropHeight + 1000), 0), raycastParams)
+
+			-- Validate raycast hit
+			if result and result.Instance == SpawnPoint then
+				-- Check spacing
+				local tooClose = false
+				for _, v in pairs(self.DroppedPositions) do
+					if (v - result.Position).Magnitude < 20 then
+						tooClose = true
+						break
+					end
+				end
+				if tooClose then
+					result = nil
+				end
+			else
+				result = nil
+			end
+
+			-- Avoid infinite loop
+			if not result then
+				if attempts > 20 then
+					break
+				end
+				task.wait() -- only wait if retry needed
+			end
+		until result
+
+		if result then
+			self.DroppedPositions[RandomFood] = result.Position
+			self.Client.DropFood:FireAll(RandomFood, rayOrigin, result.Position, FallDuration)
+
+			task.delay(15, function()
+				RandomFood:Destroy()
+				self.DroppedPositions[RandomFood] = nil
+			end)
+		else
 			RandomFood:Destroy()
-		end)
+		end
 	end
 end
 
 function FoodChaos:Start()
+	self.StopSpawning = false
 	self.EventsService.Client.EnableEventsInterfaces:FireAll(true, "FoodChaos")
 	local totalTime = self.EventTime
-	self:DropPowerups(2, SpeedBoostModel, SpeedPowerup)
+	self:DropPowerups(4, SpeedBoostModel, SpeedPowerup)
 	for i = totalTime, 0, -1 do
 		self.Client.EventStatus:Set(`{i}s`)
 		local progress = (totalTime - i) / totalTime
 		local wave = math.sin(progress * math.pi)
-		local dropAmount = math.floor(3 + wave * 10)
+		FallDuration = 1 + wave * 2
+		local dropAmount = math.floor(25 + wave * 550)
 		if isInteger(i / 15) and i < self.EventTime - 10 then
-			self:DropPowerups(3, SpeedBoostModel, SpeedPowerup)
+			self:DropPowerups(8, SpeedBoostModel, SpeedPowerup)
 		end
-
-		self:DropFood(50) -- dropAmount
-		print("done 2")
+		task.spawn(function()
+			self:DropFood(dropAmount)
+		end)
 		task.wait(1)
 	end
 	self.Client.EventStatus:Set("Food Chaos ended!")
-	task.wait(3)
+	self.StopSpawning = true
+	task.wait(5)
 	self.Ended:Fire()
 end
 
@@ -291,6 +352,7 @@ function FoodChaos:KnitStart()
 	self.ClockService = Knit.GetService("ClockService")
 	self.EventsService = Knit.GetService("EventsService")
 	self.WeightControl = Knit.GetService("WeightControl")
+	Assets:WaitForChild("FoodChaosObjects"):WaitForChild("Circle").Parent = SpawnPoints
 end
 
 return FoodChaos

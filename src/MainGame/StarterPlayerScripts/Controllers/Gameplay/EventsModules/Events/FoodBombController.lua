@@ -46,21 +46,20 @@ function ShortNotification(Text, TextColor, Random)
 	NotificationTemplete.TextColor3 = TextColor or Color3.fromRGB(255, 255, 255)
 	NotificationTemplete.Visible = false
 	NotificationTemplete.Parent = Player.PlayerGui:WaitForChild("Main"):WaitForChild("EventsInterfaces")
-	local tweeninstroke = TweenService:Create(UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { Transparency = 0 })
+	local tweeninstroke = TweenService:Create(UIStroke, TweenInfo.new(1, Enum.EasingStyle.Quad), { Transparency = 0 })
 	local tweenintext =
-		TweenService:Create(NotificationTemplete, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { TextTransparency = 0 })
+		TweenService:Create(NotificationTemplete, TweenInfo.new(1, Enum.EasingStyle.Quad), { TextTransparency = 0 })
 	local tweentextpos = TweenService:Create(NotificationTemplete, TweenInfo.new(1.6, Enum.EasingStyle.Quad), {
 		Position = UDim2.fromScale(NotificationTemplete.Position.X.Scale, NotificationTemplete.Position.Y.Scale - 0.35),
 	})
-	local tweenoutstroke =
-		TweenService:Create(UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { Transparency = 1 })
+	local tweenoutstroke = TweenService:Create(UIStroke, TweenInfo.new(15, Enum.EasingStyle.Quad), { Transparency = 1 })
 	local tweenouttext =
-		TweenService:Create(NotificationTemplete, TweenInfo.new(0.5, Enum.EasingStyle.Quad), { TextTransparency = 1 })
+		TweenService:Create(NotificationTemplete, TweenInfo.new(1, Enum.EasingStyle.Quad), { TextTransparency = 1 })
 	tweeninstroke:Play()
 	tweentextpos:Play()
 	tweenintext:Play()
 	NotificationTemplete.Visible = true
-	task.wait(0.5)
+	task.wait(1)
 	tweenoutstroke:Play()
 	tweenouttext:Play()
 	tweenouttext.Completed:Connect(function()
