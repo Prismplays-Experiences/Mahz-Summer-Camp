@@ -7,7 +7,8 @@
         <X>0.5</X>
         <Y>0.5</Y>
       </Vector2>
-      <BinaryString name="AttributesSerialize"></BinaryString>
+      <BinaryString name="AttributesSerialize">
+      </BinaryString>
       <bool name="AutoLocalize">true</bool>
       <token name="AutomaticSize">0</token>
       <Color3 name="BackgroundColor3">

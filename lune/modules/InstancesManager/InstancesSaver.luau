@@ -183,6 +183,21 @@ function InstancesSaver._saveAsFile(
 
 		local file = roblox.serializeModel({ instance }, true)
 		fs.writeFile(stringifiedFilePath, file)
+
+		if
+			instance:IsA("Decal")
+			or instance:IsA("ImageLabel")
+			or instance:IsA("Texture")
+			or instance:IsA("ImageButton")
+		then
+			local command = "$xml = [xml](Get-Content \""
+				.. stringifiedFilePath
+				.. "\"); $xml.SelectNodes('//Content[null]') | ForEach-Object { $_.ParentNode.RemoveChild($_) } | Out-Null; $xml.Save('"
+				.. stringifiedFilePath
+				.. "')"
+
+			Terminal.execute(command)
+		end
 	else
 		local initPath: pathfs.Path = self:_saveAsFolder(instance, path, fileIndex)
 

@@ -4,7 +4,7 @@
       <string name="Name">Onion</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
-      <BinaryString name="AttributesSerialize">BwAAAAYAAABDRnJhbWUGAAAAAAAAAAAIAAAARHVyYXRpb24GAAAAAAAAAAAJAAAARW1pdERlbGF5BgAAAAAAAAAABwAAAFJvYXRpb24GAAAAAAAAAAAEAAAAU2l6ZQYAAAAAAAAAAA8AAABUaW1lQmVmb3JlUmVzZXQGAAAAAAAAAAAMAAAAVHJhbnNwYXJlbmN5BgAAAAAAAAAA</BinaryString>
+      <BinaryString name="AttributesSerialize">AQAAAAYAAABXZWlnaHQGAAAAAAAAAEA=</BinaryString>
       <bool name="AudioCanCollide">true</bool>
       <float name="BackParamA">-0.5</float>
       <float name="BackParamB">0.5</float>

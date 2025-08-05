@@ -3,7 +3,7 @@
     <Properties>
       <string name="Name">FiberSupplement</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
-      <bool name="CanBeDropped">true</bool>
+      <bool name="CanBeDropped">false</bool>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <bool name="Enabled">true</bool>
       <CoordinateFrame name="Grip">
