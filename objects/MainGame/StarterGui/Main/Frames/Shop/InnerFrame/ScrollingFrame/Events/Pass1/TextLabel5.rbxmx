@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="TextLabel" referent="0">
     <Properties>
-      <string name="Name">TextLabel</string>
+      <string name="Name">TextLabel5</string>
       <bool name="Active">false</bool>
       <Vector2 name="AnchorPoint">
         <X>0.5</X>

@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="ParticleEmitter" referent="0">
     <Properties>
-      <string name="Name">ParticleEmitter</string>
+      <string name="Name">ParticleEmitter1</string>
       <Vector3 name="Acceleration">
         <X>0</X>
         <Y>0</Y>

@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="UIStroke" referent="0">
     <Properties>
-      <string name="Name">UIStroke</string>
+      <string name="Name">UIStroke2</string>
       <token name="ApplyStrokeMode">0</token>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <UDim name="BorderOffset">
