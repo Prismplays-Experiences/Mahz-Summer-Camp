@@ -10,8 +10,8 @@ ReplicatedStorage:WaitForChild("Assets")
 local Models = ReplicatedStorage:WaitForChild("Models")
 Models:WaitForChild("SoundEffects")
 local PlayerGui = Player.PlayerGui
-local Frames = PlayerGui:WaitForChild("Main"):WaitForChild("Frames")
-local SpectateFrame = Frames:WaitForChild("Spectate")
+local Main = PlayerGui:WaitForChild("Main")
+local SpectateFrame = Main:WaitForChild("Spectate")
 
 --> Modules
 ----------------------------------------
@@ -80,8 +80,7 @@ end
 function UpdateList()
 	local Tab = {}
 	for _, v in ipairs(game.Players:GetPlayers()) do
-		local InGame = v:FindFirstChild("InGame")
-		if InGame and InGame.Value then
+		if not v:HasTag("Eliminated") and CheckIfAlive(v) then
 			table.insert(Tab, v)
 		end
 	end

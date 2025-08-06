@@ -54,11 +54,13 @@ local Frames = Main:WaitForChild("Frames")
 -- local DailyFrame = Frames:WaitForChild("Daily")
 local WheelFrame = Frames:WaitForChild("Wheel")
 local ShopFrame = Frames:WaitForChild("Shop")
+local TimedShop = Frames:WaitForChild("TimedShop")
 
 local FramesTable = {
 	-- DailyFrame,
 	WheelFrame,
 	ShopFrame,
+	TimedShop,
 }
 
 --> Utility Functions
@@ -225,13 +227,7 @@ end
 --     animPlugin.target(blur, 1, 2, {Size = 24})
 --     animPlugin.target(camera, 1, 2, {FieldOfView = 60})
 -- end)
-Player.Idled:Connect(function(time)
-	if time > 1150 then
-		pcall(function()
-			TeleportService:Teleport(placeId, Player)
-		end)
-	end
-end)
+
 local ExperienceInfo = require("@Info/ExperienceInfo")
 local Cash = Player:WaitForChild("PrivateStats"):WaitForChild("Currency")
 local CashLabel = placeId == ExperienceInfo.Places.Lobby.Id and HUD:WaitForChild("CashCounter"):WaitForChild("Amount")
@@ -240,6 +236,14 @@ local CashLabel = placeId == ExperienceInfo.Places.Lobby.Id and HUD:WaitForChild
 local TweenCash = Instance.new("IntValue")
 TweenCash.Value = Cash.Value
 TweenCash.Parent = script
+
+Player.Idled:Connect(function(time)
+	if time > 1150 then
+		pcall(function()
+			TeleportService:Teleport(ExperienceInfo.Places.Lobby.Id, Player)
+		end)
+	end
+end)
 
 local function Comma(n)
 	return tostring(n):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
@@ -318,6 +322,28 @@ if placeId == ExperienceInfo.Places.Lobby.Id then
 	end
 end
 
+if placeId == ExperienceInfo.Places.MainGame.Id then
+	local TimedShopZone = ZonePoints:WaitForChild("TimedShop")
+	ZoneConnect:new(TimedShopZone, function()
+		for _, v in FramesTable do
+			if v == TimedShop then
+				continue
+			end
+			task.spawn(function()
+				UIMovement(false, v)
+			end)
+		end
+		animPlugin.target(camera, 0.5, 3, { FieldOfView = 85 })
+		animPlugin.target(blur, 0.5, 3, { Size = 15 })
+		UIMovement(true, TimedShop)
+	end, function()
+		animPlugin.target(camera, 0.5, 3, { FieldOfView = 70 })
+		animPlugin.target(blur, 0.5, 3, { Size = 0 })
+		UIMovement(false, TimedShop)
+	end, Player)
+	ToggleControl(TimedShop.Close, TimedShop)
+end
+
 local ShopZone = ZonePoints:WaitForChild("Shop")
 ZoneConnect:new(ShopZone, function()
 	for _, v in FramesTable do
@@ -350,11 +376,17 @@ ZoneConnect:new(WheelZone, function()
 	animPlugin.target(blur, 0.5, 3, { Size = 15 })
 	UIMovement(true, WheelFrame)
 	HUD.Visible = false
+	if game.PlaceId == ExperienceInfo.Places.MainGame.Id then
+		Main:WaitForChild("Core").Visible = false
+	end
 end, function()
 	animPlugin.target(camera, 0.5, 3, { FieldOfView = 70 })
 	animPlugin.target(blur, 0.5, 3, { Size = 0 })
 	UIMovement(false, WheelFrame)
 	HUD.Visible = true
+	if game.PlaceId == ExperienceInfo.Places.MainGame.Id then
+		Main:WaitForChild("Core").Visible = true
+	end
 end, Player)
 
 -- local DailyRewardController = Knit.GetController('DailyRewardController')

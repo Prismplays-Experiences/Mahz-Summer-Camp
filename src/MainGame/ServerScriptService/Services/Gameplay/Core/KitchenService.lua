@@ -139,23 +139,24 @@ function KitchenService:SpawnFoods(FoodCount)
 
 		local ProximityPrompt, WeightLoss, IsHighFood = self:ApplyFoodDetails(Food)
 		self.FoodSpawnTrove:Connect(ProximityPrompt.Triggered, function(player)
-			local PlayerWeight = player:WaitForChild("leaderstats"):WaitForChild("Weight")
-			PlayerWeight.Value -= WeightLoss
+			local Status = self.WeightControl:DecreaseWeight(player, WeightLoss, true)
+			if Status then
+				self.Client.FoodEaten:Fire(player, Food.Name, WeightLoss, IsHighFood)
+			end
 			Food:Destroy()
-			self.Client.FoodEaten:Fire(player, Food.Name, WeightLoss, IsHighFood)
 		end)
-		-- local Highlight = Instance.new("Highlight")
-		-- Highlight.Enabled = false
-		-- Highlight.FillColor = Color3.fromRGB(255, 255, 255)
-		-- Highlight.FillTransparency = 0.9
-		-- Highlight.OutlineColor = Color3.fromRGB(255,255,255)
-		-- Highlight.Parent = Food
-		-- self.FoodSpawnTrove:Connect(ProximityPrompt.PromptShown, function()
-		--     Highlight.Enabled = true
-		-- end)
-		-- self.FoodSpawnTrove:Connect(ProximityPrompt.PromptHidden, function()
-		--     Highlight.Enabled = false
-		-- end)
+		local Highlight = Instance.new("Highlight")
+		Highlight.Enabled = false
+		Highlight.FillColor = Color3.fromRGB(255, 255, 255)
+		Highlight.FillTransparency = 0.9
+		Highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+		Highlight.Parent = Food
+		self.FoodSpawnTrove:Connect(ProximityPrompt.PromptShown, function()
+			Highlight.Enabled = true
+		end)
+		self.FoodSpawnTrove:Connect(ProximityPrompt.PromptHidden, function()
+			Highlight.Enabled = false
+		end)
 		Food.Parent = SpawnPoint
 
 		table.insert(self.ListOfFood, Food)
@@ -183,6 +184,7 @@ function KitchenService:KnitStart()
 	self.ListOfFood = {}
 	self.FoodSpawnTrove = Trove.new()
 	self.ClockService = Knit.GetService("ClockService")
+	self.WeightControl = Knit.GetService("WeightControl")
 end
 
 function KitchenService:_clearListOfFood()

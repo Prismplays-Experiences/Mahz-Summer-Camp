@@ -35,7 +35,7 @@ function PickRandomPoint(Folder)
 end
 
 function PivotToSpot(Character, target)
-	Character:PivotTo(target.CFrame * CFrame.new(0, 3, 0))
+	Character.HumanoidRootPart:PivotTo(target.CFrame * CFrame.new(0, 3, 0))
 end
 
 function WalktoSpot(Character, target, PivotAfter)
@@ -53,21 +53,24 @@ function WalktoSpot(Character, target, PivotAfter)
 		end
 	end
 	if PivotAfter then
+		print(target[#target])
 		PivotToSpot(Character, target[#target])
 	end
 end
 --> Main Functions
 ----------------------------------------
 
-function InstructorMessage:PlayMessage(Message)
+function InstructorMessage:PlayMessage(Message, EndTransition)
 	self.NewInstructor = Instructor:Clone()
+	self.NewInstructor:WaitForChild("CoachName").Adornee = self.NewInstructor.Head
+	self.NewInstructor:WaitForChild("Message").Adornee = self.NewInstructor.Head
 	self.NewInstructor.Parent = InstructorHolder
 	local randomPoint = PickRandomPoint(InstructorHolder.TargetPoints)
 	if randomPoint then
 		self.NewInstructor:PivotTo(randomPoint.CFrame * CFrame.new(0, 4, 0))
 	end
 	task.wait(2)
-	self.Client.CameraControl:FireAll(true, self.NewInstructor, CenterPoint, randomPoint, Message)
+	self.Client.CameraControl:FireAll(true, self.NewInstructor, CenterPoint, randomPoint, Message, EndTransition)
 	WalktoSpot(self.NewInstructor, { randomPoint["1"], randomPoint["2"], CenterPoint }, true)
 	task.spawn(function()
 		task.wait(35)

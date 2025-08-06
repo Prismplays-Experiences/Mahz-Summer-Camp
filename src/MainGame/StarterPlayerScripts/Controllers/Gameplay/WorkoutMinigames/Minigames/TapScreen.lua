@@ -158,6 +158,8 @@ function TapGameplayMinigame:KnitInit()
 			self.TapCount += 1
 			if self.TapCount >= 3 then
 				TapGameplay:WaitForChild("ActionText").Visible = false
+				self.Speed += 0.05
+				self.BarControl:AdjustSpeed(math.clamp(self.Speed, 1.5, 5))
 			end
 		end
 	end)

@@ -34,8 +34,8 @@ end
 function LifeService:EliminatePlayer(plr)
 	plr.leaderstats.Loses.Value += 1
 	plr:AddTag("Eliminated")
-	self.StageService:Eliminated(true)
-	self.Client.EliminatePlayer:Fire(plr)
+	-- self.StageService:Eliminated(true)
+	-- self.Client.EliminatePlayer:Fire(plr)
 end
 
 function LifeService.Client:LifeRefillEvent(Player)
@@ -71,6 +71,23 @@ function LifeService:KnitStart()
 	self.StageService = Knit.GetService("StageService")
 	self.ClockService = Knit.GetService("ClockService")
 	self.TargetService = Knit.GetService("TargetService")
+
+	local function PlayerAdded(Player)
+		local Lifes = Player:WaitForChild("leaderstats"):WaitForChild("Lifes")
+		Lifes:GetPropertyChangedSignal("Value"):Connect(function()
+			if Lifes.Value <= 0 and not Player:HasTag("Eliminated") then
+				self:EliminatePlayer(Player)
+				self.ClockService:YieldClock()
+				self.StageService:Eliminated(true, true)
+				self.ClockService:ResumeClock()
+			end
+		end)
+	end
+
+	game.Players.PlayerAdded:Connect(PlayerAdded)
+	for _, Player in pairs(game.Players:GetPlayers()) do
+		PlayerAdded(Player)
+	end
 end
 
 return LifeService

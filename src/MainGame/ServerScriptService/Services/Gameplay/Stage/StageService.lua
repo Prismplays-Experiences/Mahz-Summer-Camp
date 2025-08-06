@@ -8,6 +8,7 @@ local TweenService = game:GetService("TweenService")
 ----------------------------------------
 local Knit = require("@Packages/Knit")
 local GeneralInfo = require("@Info/GeneralInfo")
+local InstructorMessages = require("@Info/InstructorMessages")
 
 --> Constants
 ----------------------------------------
@@ -97,7 +98,6 @@ function StageService:WalkToStage(Players, Camera, AmountPerSegment, WalkPoints,
 				table.remove(NewWalkPoints, 1)
 
 				PivotToSpot(Character, SpawnPoint)
-				print(Character)
 				local walkFn = function()
 					WalktoSpot(Character, { WalkPoint }, true)
 				end
@@ -109,7 +109,6 @@ function StageService:WalkToStage(Players, Camera, AmountPerSegment, WalkPoints,
 				-- end
 
 				if Camera and #queue < 2 then
-					print("fired")
 					self.Client.PlayerCameraTrack:FireAll(true, Character, WalkPoint, SpawnPoint)
 					task.wait(4)
 				end
@@ -172,7 +171,7 @@ function TweenNumberOnLabel(label: TextLabel, targetValue: number, duration: num
 end
 
 function PivotToSpot(Character, target)
-	Character:PivotTo(target.CFrame * CFrame.new(0, 3, 0))
+	Character.HumanoidRootPart:PivotTo(target.CFrame * CFrame.new(0, 3, 0))
 end
 
 function WalktoSpot(Character, target, PivotAfter)
@@ -202,6 +201,7 @@ function StageService:KnitStart()
 	self.LifeService = Knit.GetService("LifeService")
 	self.TransitionService = Knit.GetService("TransitionService")
 	self.MusicService = Knit.GetService("MusicService")
+	self.InstructorMessage = Knit.GetService("InstructorMessage")
 end
 
 function StageService:EnableControls()
@@ -225,6 +225,7 @@ function StageService:Winners(TransitionScreen)
 		End = self.TransitionService:SendTransitionAll("Winners!!")
 		task.wait(2)
 	end
+
 	local WalkPoints = SetStage("Winners"):GetChildren()
 	local Winners = self.GeneralGameplay:GetWinners()
 	for _, p in Winners do
@@ -239,6 +240,21 @@ function StageService:Winners(TransitionScreen)
 	-- task.wait(2)
 	self.Client.WinnersStageEffect:FireAll(Winners)
 	task.wait(6)
+
+	task.spawn(function()
+		CurrentStageItem:Destroy()
+		for _, p in Winners do
+			task.spawn(function()
+				local SpawnLocations = workspace.Game.SpawnLocations:GetChildren()
+				local randomSpawn = SpawnLocations[math.random(1, #SpawnLocations)]
+				p.Character:MoveTo(randomSpawn.Position + Vector3.new(0, 5, 0))
+			end)
+		end
+	end)
+	self.InstructorMessage:PlayMessage(InstructorMessages.Winners, true)
+
+	task.wait(36)
+
 	local EndTransition = self.TransitionService:SendTransitionAll()
 	task.wait(2)
 	self.Client.PlayerCameraTrack:FireAll(false)
@@ -269,9 +285,12 @@ function StageService:Eliminated(TransitionScreen, EndTransition, func)
 	self.Client.SetCamStatus:FireAll("Default", CenterCam)
 	task.wait(2)
 	End:FireAll()
+	task.spawn(function()
+		task.wait(2)
+		self.Client.EliminatedStageEffect:FireAll(Losers)
+	end)
 	self:WalkToStage(Losers, true, 2, WalkPoints, true)
 	-- task.wait(2)
-	self.Client.EliminatedStageEffect:FireAll(Losers)
 	task.wait(6)
 	local AnotherEnd
 	if EndTransition then
@@ -315,6 +334,7 @@ end
 -- end
 
 function StageService:WeightPlayers(TransitionScreen, EndTransition, func)
+	self.MusicService:NewSong("StageEvents")
 	self:WaitTillReady()
 	local End
 	if TransitionScreen then
@@ -328,20 +348,12 @@ function StageService:WeightPlayers(TransitionScreen, EndTransition, func)
 	End:FireAll()
 	self:WalkToStage(Players, true, 1, WalkPoints, false, self.WeightingScale, SpawnPoints["2"])
 	if #self.LifeService:GetEliminated() > 0 then
+		self.StageEventRunning = false
 		self:Eliminated(true, false)
 	end
-	local AnotherEnd
+	local End2
 	if EndTransition then
-		AnotherEnd = self.TransitionService:SendTransitionAll()
-	end
-	if func then
-		task.spawn(function()
-			func()
-		end)
-	end
-
-	if EndTransition then
-		AnotherEnd = self.TransitionService:SendTransitionAll()
+		End2 = self.TransitionService:SendTransitionAll()
 	end
 	if func then
 		task.spawn(function()
@@ -356,7 +368,7 @@ function StageService:WeightPlayers(TransitionScreen, EndTransition, func)
 	CurrentStageItem:Destroy()
 	if EndTransition then
 		task.wait(1.5)
-		AnotherEnd:FireAll()
+		End2:FireAll()
 	end
 	task.wait(0.5)
 	self.StageEventRunning = false
@@ -407,7 +419,6 @@ function Effects.Failed(character)
 	newscalestatus.ImageLabel.Image = "rbxassetid://131083473913572"
 	TweenService:Create(uiscale, TweenInfo.new(1, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), { Scale = 1 })
 		:Play()
-
 	local info = TweenInfo.new(2, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out)
 	Light.Color = Color3.fromRGB(255, 0, 0)
 	local Tween = TweenService:Create(Light, info, { Brightness = 9 })
@@ -433,6 +444,8 @@ function StageService.WeightingScale(self, Player)
 	local SurfaceUIS = ScriptItems:FindFirstChild("Screens")
 	local BeforeScreen = SurfaceUIS:FindFirstChild("Before")
 	local AfterScreen = SurfaceUIS:FindFirstChild("After")
+	BeforeScreen.Adornee = BeforeScreen:WaitForChild("Display")
+	AfterScreen.Adornee = AfterScreen:WaitForChild("Display")
 
 	local Character = Player.Character
 	pcall(function()
@@ -473,7 +486,7 @@ function StageService.WeightingScale(self, Player)
 		if Player.leaderstats.Lifes.Value > 1 then
 			Player.leaderstats.Lifes.Value -= 1
 		else
-			Player:AddTag("Eliminated")
+			self.LifeService:EliminatePlayer(Player)
 		end
 	end
 

@@ -17,13 +17,14 @@ local FoodChaosItems = EventScriptingItems:WaitForChild("FoodChaos")
 local FoodsDropped = FoodChaosItems:WaitForChild("FoodDropped")
 
 local Models = ReplicatedStorage:WaitForChild("Models")
-local KitchenFoods = Models:WaitForChild("KitchenFoods")
+-- local KitchenFoods = Models:WaitForChild("KitchenFoods")
 
 local Player = game.Players.LocalPlayer
 local Assets = ReplicatedStorage:WaitForChild("Assets")
+local HaloRing = Assets:WaitForChild("HaloRing")
 local Confetti = Assets:WaitForChild("Confetti")
 
-local Vfx = Assets:WaitForChild("Vfx")
+local Vfx = Assets:WaitForChild("VFX")
 local Puff = Vfx:WaitForChild("Puff")
 
 local PlayerGui = Player.PlayerGui
@@ -37,8 +38,8 @@ local SoundEffects = Models:WaitForChild("SoundEffects")
 
 --> Variables
 ----------------------------------------
-local CircleSpawnOffset = Vector3.new(0, 10, 0)
-local CircleTargetSize = Vector3.new(25, 1, 25)
+-- local CircleSpawnOffset = Vector3.new(0, 6, 0)
+local CircleTargetSize = Vector3.new(1, 18, 18)
 
 --> Knit Setup
 ----------------------------------------
@@ -88,30 +89,19 @@ end
 --> Utility Functions
 ----------------------------------------
 
-function MoveItem(Item, Position)
-	if not Item then
-		return
-	end
-	if Item and Item:IsA("BasePart") or Item:IsA("MeshPart") then
-		Item.Position = Position
-	elseif Item and Item:IsA("Model") then
-		Item:MoveTo(Position)
-	end
-end
-
-function AnchorItem(Item, Anchor)
-	if not Item then
-		return
-	end
-	if Item:IsA("BasePart") then
-		Item.Anchored = Anchor
-	end
-	for _, Part in ipairs(Item:GetDescendants()) do
-		if Part:IsA("BasePart") or Part:IsA("MeshPart") then
-			Part.Anchored = Anchor
-		end
-	end
-end
+-- function CanCollideControl(Item, CanCollide)
+-- 	if not Item then
+-- 		return
+-- 	end
+-- 	if Item:IsA("BasePart") then
+-- 		Item.Anchored = CanCollide
+-- 	end
+-- 	for _, Part in ipairs(Item:GetDescendants()) do
+-- 		if Part:IsA("BasePart") or Part:IsA("MeshPart") then
+-- 			Part.Anchored = CanCollide
+-- 		end
+-- 	end
+-- end
 
 --> Main Functions
 ----------------------------------------
@@ -123,17 +113,13 @@ function FoodChaosController:FoodGainEffect(Food, Time, SizeFactor)
 
 	local parts = {}
 
-	-- Handle BasePart or Model
-	if Food:IsA("Model") then
-		for _, descendant in ipairs(Food:GetDescendants()) do
-			if descendant:IsA("BasePart") then
-				table.insert(parts, descendant)
-			end
-		end
-	elseif Food:IsA("BasePart") then
+	if Food:IsA("BasePart") then
 		table.insert(parts, Food)
-	else
-		return
+	end
+	for _, descendant in ipairs(Food:GetDescendants()) do
+		if descendant:IsA("BasePart") then
+			table.insert(parts, descendant)
+		end
 	end
 
 	-- Store original sizes and transparency
@@ -169,27 +155,21 @@ function FoodChaosController:FoodGainEffect(Food, Time, SizeFactor)
 	if connection then
 		self.Trove:Add(connection)
 	end
-	local Weight = Food:GetAttribute("Weight")
-	local AbsWeight = math.abs(Weight)
-	if Weight < 0 then
-		SoundEffects.SuperFood:Play()
-		ShortNotification(`-{AbsWeight} lbs`, Color3.fromRGB(0, 255, 0), false)
-	else
-		SoundEffects.BadFood:Play()
-		ShortNotification(`+{AbsWeight} lbs`, Color3.fromRGB(255, 0, 0), false)
-	end
 end
 
-function FoodChaosController:CircleSpawn(Food, Position, Weight)
-	local CircularPart = self.Trove:Add(Instance.new("Part"))
+function FoodChaosController:CircleSpawn(_Food, Position, Weight)
+	local CircularPart = self.Trove:Add(HaloRing:Clone())
+	CircularPart.Position = Position -- - CircleSpawnOffset
 	CircularPart.Size = Vector3.new(0.001, 0.001, 0.001)
-	CircularPart.Position = Position - CircleSpawnOffset
 	CircularPart.Anchored = true
 	CircularPart.CanCollide = false
-	local CircleGood = false
+	CircularPart.Transparency = 0.6
+	CircularPart.Parent = workspace
+
+	local _CircleGood = false
 	if Weight > 0 then
 		CircularPart.Color = Color3.fromRGB(0, 255, 0)
-		CircleGood = true
+		_CircleGood = true
 	else
 		CircularPart.Color = Color3.fromRGB(255, 0, 0)
 	end
@@ -202,50 +182,105 @@ function FoodChaosController:CircleSpawn(Food, Position, Weight)
 	})
 
 	CircleTween:Play()
+	local HumanoidDebounce = false
 	self.Trove:Connect(CircularPart.Touched, function(hit)
 		local Humanoid = hit.Parent:FindFirstChild("Humanoid")
 		local Obj
 		if Humanoid then
 			Obj = Humanoid.Parent
-		else
-			if KitchenFoods:FindFirstChild(hit.Name) then
-				Obj = hit
-			end
-			if KitchenFoods:FindFirstChild(hit.Parent.Name) then
-				Obj = hit.Parent
-			end
+		end
+		if Obj == nil then
+			return
 		end
 		if Obj:FindFirstChild("Humanoid") then
-			if not CircleGood then
-				ShortNotification("Bad Food Zone!", Color3.fromRGB(255, 0, 0), false)
-				SoundEffects.Alarm:Play()
-			end
-		else
-			local PlrCharacter = Player.Character
-			local Mag = (PlrCharacter.HumanoidRootPart.Position - CircularPart.Position).Magnitude
-			local NewPuff = Puff:Clone()
-			NewPuff.Parent = CircularPart
-			NewPuff:Emit(45)
-			if Mag > CircularPart.Size.X / 2 then
+			if HumanoidDebounce then
 				return
 			end
-			self:FoodGainEffect(Food)
+			HumanoidDebounce = true
+
+			if Weight < 0 then
+				SoundEffects.BadFood:Play()
+				self.WeightControlService:DecreaseWeight(Weight, true):andThen(function(status, weight)
+					local AbsWeight = math.abs(weight)
+					if status then
+						ShortNotification(`gained {AbsWeight} fat`, Color3.fromRGB(255, 0, 0), false)
+					end
+				end)
+			else
+				SoundEffects.SuperFood:Play()
+				self.WeightControlService:DecreaseWeight(Weight, true):andThen(function(status, weight)
+					if status then
+						local AbsWeight = math.abs(weight)
+						ShortNotification(`lost {AbsWeight} fat`, Color3.fromRGB(0, 255, 0), false)
+					end
+				end)
+			end
+			task.delay(2, function()
+				HumanoidDebounce = false
+			end)
 		end
-		ShrinkTween:Play()
+		-- ShrinkTween:Play()
 	end)
+	return CircularPart, ShrinkTween
 end
 
 function FoodChaosController:KnitStart()
 	self.Trove = Trove.new()
-	local FoodChaosService = Knit.GetService("FoodChaosEvent")
-	FoodChaosService.DropFood:Connect(function(Food, Origin, TargetPosition)
+	local FoodChaosService = Knit.GetService("FoodChaos")
+	self.WeightControlService = Knit.GetService("WeightControl")
+	FoodChaosService.DropFood:Connect(function(Food, Origin, TargetPosition, duration)
 		Food.Parent = FoodsDropped
-		MoveItem(Food, Origin)
-		AnchorItem(Food, false)
-		self:CircleSpawn(Food, TargetPosition, Food:GetAttribute("Weight"))
+		local CircularPart, ShrinkTween = self:CircleSpawn(Food, TargetPosition, Food:GetAttribute("Weight"))
+		TargetPosition = CircularPart.Position
+		local elapsedTime = 0
+		local connection
+		connection = RunService.RenderStepped:Connect(function(dt)
+			elapsedTime += dt
+			local alpha = math.clamp(elapsedTime / duration, 0, 1)
+
+			local pos = Origin:Lerp(TargetPosition, alpha)
+			local currentPivot = Food:GetPivot()
+			local rotation = currentPivot - currentPivot.Position
+			local newCFrame = CFrame.new(pos) * rotation
+			Food:PivotTo(newCFrame)
+
+			if alpha >= 1 then
+				connection:Disconnect()
+				connection = nil
+			end
+		end)
+		repeat
+			task.wait()
+		until not connection or not Food:IsDescendantOf(workspace)
+		-- local PlrCharacter = Player.Character
+		local NewPuff = Puff:Clone()
+		NewPuff.Parent = CircularPart
+		NewPuff:Emit(75)
+		self:FoodGainEffect(Food, 2, 6)
+		task.delay(3, function()
+			ShrinkTween:Play()
+		end)
+
+		-- local startTime = tick()
+
+		-- local function IsWithinRange()
+		-- 	if not Food or not Food:IsDescendantOf(workspace) then
+		-- 		return false
+		-- 	end
+		-- 	local mag = (PlrCharacter.HumanoidRootPart.Position - TargetPosition).Magnitude
+		-- 	return mag <= CircularPart.Size.Z / 1.5
+		-- end
+
+		-- repeat
+		-- 	task.wait() -- check 10x per second
+		-- until IsWithinRange() or tick() - startTime > 2
+
+		-- if not IsWithinRange() then
+		-- 	return
+		-- end
 	end)
 
-	FoodChaosService.Ended:Connect(function()
+	FoodChaosService.ModeEnded:Connect(function()
 		self.Trove:Clean()
 	end)
 
@@ -253,3 +288,5 @@ function FoodChaosController:KnitStart()
 		StatusTxt.Text = txt
 	end)
 end
+
+return FoodChaosController

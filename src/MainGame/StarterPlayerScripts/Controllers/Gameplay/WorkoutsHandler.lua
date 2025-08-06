@@ -25,20 +25,23 @@ local WeightLossBtn = GameplayFrames:WaitForChild("WeightLoss")
 local ModuleAssets = Main:WaitForChild("ModuleAssets")
 local BillboardStorage = ModuleAssets:WaitForChild("Billboards")
 local WorkoutBillboards = BillboardStorage:WaitForChild("WorkoutBillboards")
+local WorkspaceWorkoutBillboards = ScriptingProperties:WaitForChild("WorkoutBillboards")
 
 local Confetti = Assets:WaitForChild("Confetti")
 
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild("Packages")
-local Knit = require(Packages:WaitForChild("Knit"))
-local Trove = require(Packages:WaitForChild("Trove"))
+
+local Knit = require("@Packages/Knit")
+local Trove = require("@Packages/Trove")
 
 local HardNotification = require("@Modules/HardNotification")
 
 local WorkoutMetaData = require("@Info/WorkoutMetaData")
 local MarketModule = require("@Modules/MarketService")
 local GeneralInfo = require("@Info/GeneralInfo")
+
+local IAPDATA = require("@Info/IAPDATA")
 
 --> Variables
 ----------------------------------------
@@ -236,9 +239,14 @@ function WorkoutsHandler:RunInjuryLogic()
 			:GetDays()
 			:andThen(function(Days)
 				local maxBase = 35
+				local minBase = 8
+				local maxDays = 24
+				local t = math.clamp((Days - 1) / (maxDays - 1), 0, 1)
+
+				local baseTime = maxBase + (minBase - maxBase) * t
+
 				local randomFactor = math.random(80, 120) / 100
-				local InjuryTime = math.clamp(math.floor((maxBase / Days) * randomFactor), 1, maxBase)
-				print("Injury Time:", InjuryTime)
+				local InjuryTime = math.floor(baseTime * randomFactor)
 				self.Injured = false
 				for i = 1, InjuryTime do
 					task.wait(1)
@@ -309,6 +317,7 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 	if slot:GetAttribute("Owner") then
 		return
 	end
+	self.GeneralService:SetWorkoutStatus(true)
 	self.MusicController:PlayNewSong("Workout")
 	self.GeneralService:TagSlot(slot, true)
 	self.TaggedSlot = slot
@@ -345,11 +354,45 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 	self.CurrentTrack = Data.AnimTrack
 	self.MinigameData = self:PlayMinigame(self.Minigames[Data.Minigame], Data.Level)
 	Data.AnimTrack:AdjustSpeed(0)
+	local GivenAura = false
+	local elapsed = tick()
+	task.spawn(function()
+		while self.InWorkout and task.wait(1) do
+			local baseScore = math.clamp(self.MinigameData.Value.Value, 0, 1)
+			local auraBonus = Player:GetAttribute("AuraRate") or 0.1
+			local timeElapsed = tick() - elapsed
+
+			-- Calculate time contribution to reach total 2.0 at 60s
+			local timeWeight = 2.0 - baseScore - auraBonus
+			local timeBonus = (timeElapsed / 120) * timeWeight
+
+			-- Final rate
+			local rate = baseScore + timeBonus + auraBonus
+
+			self.AurasService:AdjustAuraRate(rate)
+		end
+	end)
 	self.WorkoutValueEvent = self.MinigameData.Value:GetPropertyChangedSignal("Value"):Connect(function()
+		if self.MinigameData == nil then
+			self:StopWorkout()
+			if self.WorkoutValueEvent then
+				self.WorkoutValueEvent:Disconnect()
+			end
+			return
+		end
 		if self.MinigameData.Value == nil then
 			return
 		end
-		Data.AnimTrack:AdjustSpeed(self.MinigameData.Value.Value)
+		local SpeedMultiplier = 1
+		SpeedMultiplier *= Player:HasTag("HyperShredMax") and IAPDATA.Suppliments.HyperShredMax.Multiplier or 1
+		SpeedMultiplier *= Player:HasTag("CaffeinePill") and IAPDATA.Suppliments.CaffeinePill.Multiplier or 1
+		Data.AnimTrack:AdjustSpeed(self.MinigameData.Value.Value * SpeedMultiplier)
+		if not GivenAura then
+			GivenAura = true
+			if Player:GetAttribute("EquippedAura") ~= nil then
+				self.AurasService:GiveAura()
+			end
+		end
 	end)
 	self.StoppedEvent = self.MinigameData.Stopped:Connect(function()
 		self:StopWorkout()
@@ -361,22 +404,20 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 		self.InjuryLogic.Value = boolean
 	end)
 	self.AnimTrackSignal = Data.AnimTrack:GetMarkerReachedSignal("RepCount"):Connect(function()
-		self:LoseWeight(math.random(Data.MinWeightLoss, Data.MaxWeightLoss))
+		self:LoseWeight(math.random(Data.MinWeightLoss, Data.MaxWeightLoss) * (Data.Resolution or 1))
 	end)
 end
 
 function WorkoutsHandler:LoseWeight(Value)
-	if Player:HasTag("DoubleWeightLoss") then
-		Value = Value * 2
-	end
-	local WeightLossMultiplier = Player:GetAttribute("WeightLossMultiplier") or 1
-	local suffix = ""
-	if WeightLossMultiplier > 1 then
-		Value = Value * WeightLossMultiplier
-		suffix = ` ({WeightLossMultiplier}x)`
-	end
-	ShortNotification(`-{Value}{suffix} lbs`, Color3.fromRGB(255, 209, 57), true)
-	self.GeneralService:LoseWeight(Value)
+	self.WeightControl:DecreaseWeight(Value, true):andThen(function(status, value)
+		if status then
+			local suffix = ` ({value / Value}x)`
+			if value / value <= 1 then
+				suffix = ""
+			end
+			ShortNotification(`-{value}{suffix} lbs`, Color3.fromRGB(255, 209, 57), true)
+		end
+	end)
 end
 
 function WorkoutsHandler:StopWorkout()
@@ -387,6 +428,7 @@ function WorkoutsHandler:StopWorkout()
 	self.InWorkout = false
 	self.InjuryLogic.Value = false
 	GameplayFrames.Visible = false
+	self.AurasService:RemoveAura()
 	HUD:WaitForChild("TargetWeight").Visible = false
 	HUD:WaitForChild("LifesFrame").Visible = true
 	pcall(function()
@@ -398,12 +440,16 @@ function WorkoutsHandler:StopWorkout()
 		local ItemToHide = ItemsToHide[WorkoutName]
 		SetModelTransparency(ItemToHide, 0)
 	end
-	self.CurrentTrack:Stop()
-	self.StoppedEvent:Disconnect()
-	self.MinigameData.Stop:Fire()
-	self.WorkoutValueEvent:Disconnect()
-	self.FailedEvent:Disconnect()
-	self.AnimTrackSignal:Disconnect()
+	self.GeneralService:SetWorkoutStatus(false)
+	pcall(function()
+		self.CurrentTrack:Stop()
+		self.StoppedEvent:Disconnect()
+		self.MinigameData.Stop:Fire()
+		self.WorkoutValueEvent:Disconnect()
+		self.FailedEvent:Disconnect()
+		self.AnimTrackSignal:Disconnect()
+	end)
+
 	self.GeneralService:TagSlot(self.TaggedSlot, false)
 	local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid")
 	Humanoid.WalkSpeed = 16
@@ -431,7 +477,6 @@ function WorkoutsHandler:InitialiseWorkouts()
 			ProximityPrompt.Parent = slot
 			ProximityPrompt.Triggered:Connect(function()
 				if self.MachineLocked then
-					SoundEffects.UIDeny:Play()
 					SendNotification(
 						"Workout Machines are locked!",
 						Color3.fromRGB(255, 0, 0),
@@ -439,6 +484,10 @@ function WorkoutsHandler:InitialiseWorkouts()
 						false,
 						SoundEffects.UIDeny
 					)
+					return
+				end
+				if Player:HasTag("Eliminated") then
+					SendNotification("You are eliminated!", Color3.fromRGB(255, 0, 0), 2, false, SoundEffects.UIDeny)
 					return
 				end
 				if self.Injured then
@@ -484,6 +533,8 @@ function WorkoutsHandler:KnitStart()
 	self.GeneralController = Knit.GetController("GeneralControllers")
 	self.GeneralService = Knit.GetService("GeneralGameplay")
 	self.MusicController = Knit.GetController("MusicController")
+	self.WeightControl = Knit.GetService("WeightControl")
+	self.AurasService = Knit.GetService("AurasService")
 
 	--load minigames
 	local Gameplay = script.Parent
@@ -607,7 +658,11 @@ function WorkoutsHandler:KnitStart()
 
 	Player:GetAttributeChangedSignal("WeightLossMultiplier"):Connect(WeightLossMultiplierChanged)
 	WeightLossMultiplierChanged()
-	self:ControlProximityPrompts(false)
+	-- self:ControlProximityPrompts(false)
+
+	for _, billboard in WorkoutBillboards:GetChildren() do
+		billboard.Adornee = WorkspaceWorkoutBillboards[billboard.Name]
+	end
 end
 
 return WorkoutsHandler

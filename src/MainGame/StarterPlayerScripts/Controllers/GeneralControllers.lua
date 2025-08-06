@@ -8,6 +8,7 @@ local Lightning = game:GetService("Lighting")
 --> Modules
 ----------------------------------------
 local Knit = require("@Packages/Knit")
+local GeneralInfo = require("@Info/GeneralInfo")
 --> Assets
 ----------------------------------------
 local Player = game.Players.LocalPlayer
@@ -105,6 +106,7 @@ function GeneralControllers:KnitStart()
 	local END_HOUR = 22 -- 10 PM
 	local HOUR_RANGE = END_HOUR - START_HOUR
 	local TargetReached = false
+	self.Day = 1
 	print(MinutesPerDay)
 	ClockService.Time:Observe(function(Value)
 		local totalSecondsInDay = MinutesPerDay * 60
@@ -138,12 +140,17 @@ function GeneralControllers:KnitStart()
 	end)
 	TargetService.DisplayTarget:Connect(function(Target, WeightRequired, Day)
 		TargetReached = false
+		if WeightValue.Value < WeightRequired then
+			WeightRequired = math.clamp(WeightRequired - Target / 2, GeneralInfo.Weight, math.huge)
+		end
 		self.Target = WeightRequired
 		HUD:WaitForChild("TargetWeight").Text = `Your Target: {WeightRequired}lbs`
 		HUD:WaitForChild("TargetWeight").TextColor3 = Color3.fromRGB(253, 255, 133)
 		Core:WaitForChild("Day").Text = `Day {Day}`
-		TargetFrame:WaitForChild("Target").Text = `Lose {Target}lbs`
+		TargetFrame:WaitForChild("Target").Text =
+			`Lose {math.clamp(WeightValue.Value - WeightRequired, Target, math.huge)}lbs`
 		TargetFrame:WaitForChild("Header").Text = `Day {Day} target`
+		self.Day = Day
 		local Close = OpenFrame(TargetFrame)
 		SoundEffects.Positive:Play()
 		local Signal
@@ -174,6 +181,7 @@ function GeneralControllers:KnitStart()
 		if WeightValue.Value <= self.Target and not TargetReached then
 			TargetReached = true
 			HUD:WaitForChild("TargetWeight").TextColor3 = Color3.fromRGB(0, 255, 0)
+			GeneralGameplay:TargetReached()
 			SendNotification(`Target accomplished!`, Color3.fromRGB(0, 255, 0), 3, true, SoundEffects.Won)
 		end
 		WeightTxt.Text = `Weight: {WeightValue.Value}lbs`
@@ -192,6 +200,7 @@ function GeneralControllers:KnitStart()
 			self.WorkoutsHandler:ControlProximityPrompts(true)
 		end
 	end)
+	game:GetService("StarterGui"):SetCore("ResetButtonCallback", false)
 end
 
 return GeneralControllers

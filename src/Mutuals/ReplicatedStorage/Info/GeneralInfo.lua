@@ -1,11 +1,11 @@
 return {
-	Weight = 10000,
+	Weight = 9750,
 	EndWeight = 50,
 	MaxDays = 24,
 	MaxLifes = 2,
 	MinutesPerDay = 6,
-	RewardPerDay = 5,
-	WinnerReward = 125,
+	RewardPerDay = 25,
+	WinnerReward = 1000,
 
 	MainPlaceId = 113098760946756,
 	LobbyPlaceId = 76881617650041,

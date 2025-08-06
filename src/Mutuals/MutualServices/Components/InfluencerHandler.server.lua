@@ -21,7 +21,6 @@ end
 function AddLogos(Player: Player)
 	local dloaded = Player:WaitForChild("DataLoaded", 5)
 	if dloaded == nil then
-		print("returned")
 		return
 	end
 	if not CheckIfAlive(Player) then

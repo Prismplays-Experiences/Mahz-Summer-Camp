@@ -188,8 +188,8 @@ function ProgressBarController:Update()
 	local bar = self.Bar:WaitForChild("Bar")
 	local tweenInfo = TweenInfo.new(
 		0.1, -- Time
-		Enum.EasingStyle.Quad, -- EasingStyle (can be changed to mimic springy feel if desired)
-		Enum.EasingDirection.Out -- EasingDirection
+		Enum.EasingStyle.Quad,
+		Enum.EasingDirection.Out
 	)
 
 	local tween = TweenService:Create(bar, tweenInfo, {
@@ -230,7 +230,8 @@ function ProgressBarController:Start(Stop)
 			wait()
 		until self.Incremented
 		while self.Incremented do
-			local rate = math.clamp(self.DecreaseDefault * self.DecreaseMultiplier, 0, 1)
+			local rate = math.clamp(self.DecreaseDefault * self.DecreaseMultiplier, 0, 1) - self.IncrementedAmount or 0
+			self.IncrementedAmount = 0
 			self.ProgressValue.Value -= rate
 			self:Update()
 			task.wait() -- adjust this interval for responsiveness (e.g. 0.05 or 0.2)
@@ -245,10 +246,11 @@ function ProgressBarController:Start(Stop)
 end
 
 function ProgressBarController:Stop()
+	self.Incremented = false
 	if not self._isUpdating then
 		return
 	end
-	self.Incremented = false
+
 	self._progressThread = nil
 	self._isUpdating = false
 	self.ProgressValue.Value = 0.5
@@ -267,8 +269,8 @@ function ProgressBarController:Increment(Amount)
 		self:Start()
 	end
 	local val = math.clamp(Amount + self.ProgressValue.Value, 0, 1)
-	self.ProgressValue.Value = val
-	self:Update()
+	-- self.ProgressValue.Value = val
+	self.IncrementedAmount = val
 end
 
 return ProgressBarController

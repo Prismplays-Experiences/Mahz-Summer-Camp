@@ -33,6 +33,9 @@ local SoundEffects = game.ReplicatedStorage.Models.SoundEffects
 
 function TeleportPlayersToBed(playersForTeleportation: {})
 	for _, plr in pairs(playersForTeleportation) do
+		if plr:HasTag("Eliminated") then
+			continue
+		end
 		task.spawn(function() -- avoid loop break when theres an error
 			local SleepPart = Beds:FindFirstChild(plr:GetAttribute("BedNumber"))
 			-- local SleepPart = PlayerBed:FindFirstChild('SleepPart')

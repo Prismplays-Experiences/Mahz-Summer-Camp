@@ -46,6 +46,7 @@ function DisableCollissions(Character)
 	for _, part in pairs(Character:GetChildren()) do
 		if part:IsA("MeshPart") and part.Name ~= "HumanoidRootPart" then
 			part.CanCollide = false
+			part.CollisionGroup = "PlayerCollission"
 		end
 	end
 end

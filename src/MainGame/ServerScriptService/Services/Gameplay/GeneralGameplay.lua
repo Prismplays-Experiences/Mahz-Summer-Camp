@@ -13,7 +13,6 @@ local Knit = require("@Packages/Knit")
 local InstructorMessages = require("@Info/InstructorMessages")
 local ExperienceInfo = require("@Info/ExperienceInfo")
 local GeneralInfo = require("@Info/GeneralInfo")
-local ChatNotification = require("@Modules/Client/ChatNotification")
 
 --> Assets
 ----------------------------------------
@@ -29,8 +28,11 @@ local Testing = false
 ----------------------------------------
 local GeneralGameplay = Knit.CreateService({
 	Name = "GeneralGameplay",
-	CountdownValue = RunService:IsStudio() and 20 or 30,
+	CountdownValue = RunService:IsStudio() and 15 or 30,
 	CountdownEnabled = true,
+	TargetReachedPlayers = {},
+	EventDisplayFrequency = 3,
+	EventCompleted = false,
 	Client = {
 		DisableControls = Knit.CreateSignal(),
 		EnableControls = Knit.CreateSignal(),
@@ -46,11 +48,18 @@ local GeneralGameplay = Knit.CreateService({
 --> Utility Functions
 ----------------------------------------
 function TeleportToLobby()
-	local players = game.Players:GetPlayers()
-	local teleportData = {
-		PlaceId = ExperienceInfo.Places.Lobby.Id,
-	}
-	TeleportService:TeleportPartyAsync(ExperienceInfo.Places.Lobby.Id, players, teleportData)
+	for _, Player in Players:GetPlayers() do
+		local success, errorMessage = pcall(function()
+			TeleportService:Teleport(ExperienceInfo.Places.Lobby.Id, Player)
+		end)
+
+		if not success then
+			warn("Failed to teleport player to the lobby: " .. errorMessage)
+			task.delay(5, function()
+				TeleportToLobby()
+			end)
+		end
+	end
 end
 
 function TeleportPlayersToDay1Spawn()
@@ -88,8 +97,8 @@ function GeneralGameplay:Countdown(seconds)
 end
 
 function GeneralGameplay:KnitStart()
-	-- 20
 	local InstructorMessageService = Knit.GetService("InstructorMessage")
+	self.MessageService = Knit.GetService("MessageService")
 	self.ClockService = Knit.GetService("ClockService")
 	self.BedService = Knit.GetService("BedService")
 	self.TargetService = Knit.GetService("TargetService")
@@ -98,7 +107,7 @@ function GeneralGameplay:KnitStart()
 	self.KitchenService = Knit.GetService("KitchenService")
 	self.EventsService = Knit.GetService("EventsService")
 
-	local EventCount = 1
+	self.EventCount = self.EventDisplayFrequency - 1
 
 	for _, player in pairs(Players:GetPlayers()) do
 		LogOnboardingEvent(player, 1, "Joined server")
@@ -107,18 +116,17 @@ function GeneralGameplay:KnitStart()
 	if self.CountdownEnabled then
 		self:Countdown(self.CountdownValue)
 	end
+
+	-- self.EventsService:EventLoop(5) -- event testing
 	if not Testing then
-		self.Client.StopWorkout:FireAll()
+		self.Client.LockWorkoutMachines:FireAll(true)
 		InstructorMessageService:PlayMessage(InstructorMessages.Day1)
 		task.wait(31)
 		self.BedService:AssignBedNumbers(game.Players:GetPlayers())
-		-- task.wait(2)
-		-- InstructorMessageService:PlayMessage(InstructorMessages.Day1)
-		-- task.wait(8)
 		TeleportPlayersToDay1Spawn()
-		-- task.wait(14)
 		self.TargetService:SetTarget()
 		self.ClockService:ResumeClock()
+		self.Client.LockWorkoutMachines:FireAll(false)
 	end
 	local function sendtobed()
 		self.BedService:SleepPlayers(false, false)
@@ -129,22 +137,13 @@ function GeneralGameplay:KnitStart()
 	end
 	self.ClockService.DayEnded:Connect(function()
 		self.ClockService:YieldClock()
-		self.Client.StopWorkout:FireAll()
+		self.Client.LockWorkoutMachines:FireAll(true)
+		-- self.Client.StopWorkout:FireAll()
 		task.wait(3)
+		self.TargetReachedPlayers = {}
 
-		self.StageService:WeightPlayers(true, false, sendtobed)
-		-- if #EliminatedPlayers<=0 then
-		--     self.StageService:WeightPlayers(true,false,sendtobed)
-		-- else
-		--     self.StageService:WeightPlayers(true,false)
-		-- self.StageService:Eliminated(true,false,sendtobed)
-		-- task.wait(5)
-		-- local EliminatedPlayers = self.LifeService:GetEliminated()
-		-- for i, player in pairs(EliminatedPlayers) do
-		--     self.LifeService.Client.EliminatePlayer:Fire(player)
-		-- end
-		-- end
-		if self.ClockService.Days == GeneralInfo.MaxDays then
+		if self.ClockService.Days == GeneralInfo.MaxDays + 1 then
+			self.StageService:WeightPlayers(true, false)
 			self.StageService:Winners(true)
 			task.wait(5)
 			local winners = self:GetWinners()
@@ -153,6 +152,8 @@ function GeneralGameplay:KnitStart()
 			end
 			TeleportToLobby()
 			return
+		else
+			self.StageService:WeightPlayers(true, false, sendtobed)
 		end
 
 		task.wait(2)
@@ -163,7 +164,7 @@ function GeneralGameplay:KnitStart()
 		--
 		task.wait(2)
 		self.TargetService:SetTarget()
-
+		self.Client.LockWorkoutMachines:FireAll(false)
 		for _, player in pairs(Players:GetPlayers()) do
 			if not player:HasTag("Eliminated") then
 				LogOnboardingEvent(player, self.ClockService.Days + 1, "Day " .. self.ClockService.Days)
@@ -179,16 +180,22 @@ function GeneralGameplay:KnitStart()
 			end
 		end
 		self.ClockService:ResumeClock()
-		EventCount += 1
-		if EventCount == 3 then
-			EventCount = 0
-			self.EventsService:EventLoop((self.ClockService.MinutesPerDay / 2) * 60)
+		self.EventCount += 1
+		if self.EventCount == self.EventDisplayFrequency then
+			self.EventCount = 0
+			self.EventCompleted = self.EventsService:EventLoop((self.ClockService.MinutesPerDay / 2) * 60) --
+		else
+			if #self.EventsService:GetEventsQueue() > 0 then
+				self.EventsService:StartEvent((self.ClockService.MinutesPerDay / 2) * 60)
+			else
+				-- self.EventInProgress = true
+				self.EventCompleted = self.EventsService.Client.EventStatus:Set(
+					`Next event: Day{self.ClockService.Days + self.EventDisplayFrequency - self.EventCount}`
+				)
+				-- self.EventInProgress = false
+			end
 		end
 	end)
-	-- self.EventsService:EventLoop((self.ClockService.MinutesPerDay/2)*60s) --
-	-- self.StageService:WeightPlayers(true)
-	-- task.wait(10)
-	-- self.StageService:WeightPlayers(true)
 end
 
 function GeneralGameplay:GetWinners()
@@ -202,32 +209,16 @@ function GeneralGameplay:GetWinners()
 	return winners
 end
 
-function GeneralGameplay:RunInstructorMessage(Day)
-	local InstructorMessageService = Knit.GetService("InstructorMessage")
-	if Day == 2 then
-		InstructorMessageService:PlayMessage(InstructorMessages.Day2)
-		task.wait(32.5)
-	end
-	if Day == 3 then
-		InstructorMessageService:PlayMessage(InstructorMessages.Day3)
-		task.wait(36)
-	end
-end
-
-function GeneralGameplay.Client:LoseWeight(Player, Weight)
-	local leaderstats = Player:FindFirstChild("leaderstats")
-	if not leaderstats then
-		return
-	end
-	local WeightStat = leaderstats:FindFirstChild("Weight")
-	if not WeightStat then
-		return
-	end
-	Weight = math.clamp(WeightStat.Value - Weight, GeneralInfo.EndWeight, GeneralInfo.Weight)
-	WeightStat.Value = Weight
-	if WeightStat.Value < 0 then
-		WeightStat.Value = 0
-	end
+function GeneralGameplay:RunInstructorMessage()
+	-- local InstructorMessageService = Knit.GetService("InstructorMessage")
+	-- if Day == 2 then
+	-- 	InstructorMessageService:PlayMessage(InstructorMessages.Day2)
+	-- 	task.wait(32.5)
+	-- end
+	-- if Day == 3 then
+	-- 	InstructorMessageService:PlayMessage(InstructorMessages.Day3)
+	-- 	task.wait(36)
+	-- end
 end
 
 function GeneralGameplay.Client:TagSlot(Player, Slot, Tag)
@@ -278,14 +269,18 @@ function GeneralGameplay.Client:SetInjured(Player, Injured)
 		Player.Character:FindFirstChild("RecoveryBar"):Destroy()
 		return
 	end
-	self.InjuredCount:SetFor(Player, 35)
+	local CountVal = 35
+	if Player:HasTag("HyperShredMax") then
+		CountVal /= 2
+	end
+	self.InjuredCount:SetFor(Player, CountVal)
 	local RecoveryBar = ServerStorage:WaitForChild("Assets"):WaitForChild("RecoveryBar"):Clone()
 	local Filler = RecoveryBar:WaitForChild("Bar"):WaitForChild("Fill")
 	RecoveryBar.Parent = Player.Character
 	while Player:GetAttribute("Injured") and task.wait(1) do
 		local Count = self.InjuredCount:GetFor(Player)
 		self.InjuredCount:SetFor(Player, Count - 1)
-		Filler.Size = UDim2.fromScale(1, 1 - ((Count - 1) / 35))
+		Filler.Size = UDim2.fromScale(1, 1 - ((Count - 1) / CountVal))
 		if Count - 1 <= 0 then
 			Player:SetAttribute("Injured", false)
 			self.InjuredNotify:Fire(Player, false)
@@ -304,9 +299,25 @@ function GeneralGameplay.Client:PivotCharacter(_, Character, CFrame)
 	Character:PivotTo(CFrame)
 end
 
-function GeneralGameplay.Client.TargetReached(Player)
-	Player.PrivateStats.Currency.Value += 5
-	ChatNotification.new("Server", `{Player.DisplayName} reached their target!`, Color3.fromRGB(0, 255, 0))
+function GeneralGameplay.Client:TargetReached(Player)
+	Player.PrivateStats.Currency.Value += 15
+	self.Server.MessageService:SendToAll(
+		`🎯 <b>{Player.DisplayName} Has Reached Their Target!</b>`,
+		Color3.fromRGB(85, 255, 85),
+		"Gotham",
+		20
+	)
+	if (self.Server.EventCount == 0 and not self.Server.EventCompleted) or self.Server.EventInProgress then
+		return
+	end
+	table.insert(self.Server.TargetReachedPlayers, Player)
+	if #self.Server.TargetReachedPlayers == #game.Players:GetPlayers() then
+		self.Server.ClockService:EndDay()
+	end
+end
+
+function GeneralGameplay.Client:SetWorkoutStatus(Player, status)
+	Player:SetAttribute("WorkoutStatus", status)
 end
 
 return GeneralGameplay

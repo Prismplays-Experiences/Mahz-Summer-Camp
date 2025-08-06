@@ -89,4 +89,19 @@ return {
 		"From Devs: (We aim to have a new event everyday, we are working on it!)",
 		"Goodluck!!",
 	},
+
+	Winners = {
+		" YOU DID IT!",
+		"You're officially a Prism Gym legend!",
+		"That grind? Unreal.",
+		"You're built different.",
+		"But don't stop here...",
+		"Fitness is a journey, not a destination!",
+		"Thanks for playing 💖",
+		"From Devs: (You're cracked. New content coming soon!)",
+	},
+
+	Eliminated = {
+		"A player has been eliminated!",
+	},
 }

@@ -21,7 +21,7 @@ local Main = PlayerGui:WaitForChild("Main")
 local BaseAnim = Instance.new("Animation")
 BaseAnim.AnimationId = "rbxassetid://127679387441945"
 local KeyPhrases = {
-	Wave = { Text = { "Welcome", "Bye" }, AnimId = "rbxassetid://507770239", AnimSpeed = 0.7 },
+	Wave = { Text = { "Welcome", "Bye", "playing" }, AnimId = "rbxassetid://507770239", AnimSpeed = 0.7 },
 	Go = {
 		Text = { "GO!", "Now!", "GOO!!", "Goodluck", "See", "careful" },
 		AnimId = "rbxassetid://507770453",
@@ -217,7 +217,7 @@ function InstructorMessageController:KnitStart()
 	self.MusicController = Knit.GetController("MusicController")
 	self.GeneralController = Knit.GetController("GeneralControllers")
 
-	InstructorService.CameraControl:Connect(function(status, character, target, randomPoint, Message)
+	InstructorService.CameraControl:Connect(function(status, character, target, randomPoint, Message, EndTransition)
 		if status then
 			pcall(function()
 				self.GeneralController.PlayerModule:Disable()
@@ -232,21 +232,22 @@ function InstructorMessageController:KnitStart()
 			task.wait(1)
 			PlayMessage(character, Message)
 			task.wait(2)
-			local FOV = Camera.FieldOfView
-			ZoomCameraFOV(0.3, 0.05, 0.3, FOV - 30, FOV + 25)
-			Camera.CameraType = Enum.CameraType.Custom
-			local t = TweenService:Create(Camera, TweenInfo.new(0.5), { FieldOfView = FOV })
-			t:Play()
-			t.Completed:Wait()
-			Camera.FieldOfView = FOV
-			Camera.CameraType = Enum.CameraType.Custom
+			if not EndTransition then
+				local FOV = Camera.FieldOfView
+				ZoomCameraFOV(0.3, 0.05, 0.3, FOV - 30, FOV + 25)
+				Camera.CameraType = Enum.CameraType.Custom
+				local t = TweenService:Create(Camera, TweenInfo.new(0.5), { FieldOfView = FOV })
+				t:Play()
+				t.Completed:Wait()
+				Camera.FieldOfView = FOV
+				Camera.CameraType = Enum.CameraType.Custom
+				self.MusicController:PlayNewSong("Normal")
+				Main.Enabled = true
+			end
 			character:Destroy()
-			self.MusicController:PlayNewSong("Normal")
 			pcall(function()
 				self.GeneralController.PlayerModule:Enable()
 			end)
-
-			Main.Enabled = true
 		else
 			pcall(function()
 				self.GeneralController.PlayerModule:Enable()

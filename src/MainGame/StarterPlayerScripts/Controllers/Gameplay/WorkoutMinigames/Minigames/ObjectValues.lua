@@ -12,7 +12,9 @@ local CollectionService = game:GetService("CollectionService")
 local Signal = require("@Packages/Signal")
 local Knit = require("@Packages/Knit")
 local ProgressBarController = require(script.Parent.Parent:WaitForChild("Progressbar"))
+-- local Trove = require("@Packages/Trove").new()
 local ObjectValuesInfo = require("@Info/Minigames/ObjectValuesInfo")
+local GeneralInfo = require("@Info/GeneralInfo")
 
 --> Assets
 ----------------------------------------
@@ -44,7 +46,9 @@ local ObjectValuesMinigame = Knit.CreateController({
 	TargetObject = "",
 	Speed = 2.5,
 	ThrowRate = 1,
+	ThrowDelay = 1,
 	StopEvent = Signal.new(),
+	CorrectCount = 0,
 })
 
 --> Utility Functions
@@ -212,8 +216,9 @@ function ObjectValuesMinigame:ThrowObject(targetFrame)
 	end
 	local isActive = true
 	local clicked = false
-	local speedIncrement = 0.05
-	local throwRateIncrement = 0.05
+	local speedIncrement = 0.08
+	local throwdelayIncrement = 0.02
+	local throwrateincrement = 0.1
 
 	if targetFrame:IsA("ImageButton") or targetFrame:IsA("TextButton") then
 		targetFrame.MouseButton1Down:Connect(function()
@@ -222,16 +227,39 @@ function ObjectValuesMinigame:ThrowObject(targetFrame)
 				clicked = true
 
 				if CollectionService:HasTag(targetFrame, "Correct") then
-					speedIncrement = -0.02
-					throwRateIncrement = -0.02
-					self.BarControl:Increment(math.random(3, 8) / 10)
+					self.CorrectCount += 1
+					if self.CorrectCount >= 3 then
+						speedIncrement = -0.06 * 1 * (self.CorrectCount / 10)
+						throwdelayIncrement = -0.03 * (self.CorrectCount / 10)
+						throwrateincrement = -0.15 * (self.CorrectCount / 10)
+
+						task.spawn(function()
+							ShortNotification(
+								`{self.CorrectCount} streak!🔥`,
+								Color3.fromRGB(255, 0, 0),
+								SoundEffects.Positive
+							)
+						end)
+					else
+						speedIncrement = -0.01
+						throwdelayIncrement = -0.01
+						throwrateincrement = -0.1
+					end
+					-- print("incremented")
+					-- local ticktime = tick()
+					self.BarControl:Increment(
+						math.random(3, 8) / 10 + (5 * self.GeneralControllers.Day / GeneralInfo.MaxDays)
+					)
+					-- print(tick() - ticktime)
 					self:ApplyScreenColorFlash(true)
 				else
+					self.CorrectCount = 0
 					self:ApplyScreenColorFlash(false)
 				end
-				self.Speed += speedIncrement
-				self.ThrowRate = math.clamp(self.ThrowRate + throwRateIncrement, 0.8, 2)
-				if self.ThrowRate > 1.5 or self.Speed < 1 then
+				local speedval = math.clamp(self.Speed + speedIncrement, 1.5, 5)
+				self.Speed = speedval
+				self.ThrowDelay = math.clamp(self.ThrowDelay + throwdelayIncrement, 0.5, 2)
+				if self.ThrowDelay > 1.65 or self.Speed < 1 then
 					ShortNotification("FASTER!!", Color3.fromRGB(255, 38, 0))
 				end
 				isActive = false
@@ -256,7 +284,8 @@ function ObjectValuesMinigame:ThrowObject(targetFrame)
 		while isActive do
 			local elapsed = tick() - startTime
 			local t = elapsed / duration
-			if t > 1 then
+			if t >= 1 then
+				isActive = false
 				break
 			end
 
@@ -268,18 +297,17 @@ function ObjectValuesMinigame:ThrowObject(targetFrame)
 			targetFrame.Position = UDim2.new(currentX, 0, arcY, 0)
 
 			RunService.RenderStepped:Wait()
-			-- if endyaxis+0.1 > targetFrame.Position.Y.Scale then
-			--     isActive = false
-			-- end
 		end
 		UIScaleTweenOut:Play()
 		UIScaleTweenOut.Completed:Wait()
 		targetFrame:Destroy()
 		if not clicked and CollectionService:HasTag(targetFrame, "Correct") then
-			self.Speed += speedIncrement
-			self.ThrowRate = math.clamp(self.ThrowRate + throwRateIncrement, 0.8, 2)
+			local speedval = math.clamp(self.Speed + speedIncrement, 2.5, 5)
+			self.Speed = speedval
+			self.CorrectCount = 0
+			self.ThrowDelay = math.clamp(self.ThrowDelay + throwdelayIncrement, 0.8, 2)
+			self.ThrowRate -= math.round(throwrateincrement)
 		end
-
 		-- if isActive then
 		--     targetFrame.Position = endPos
 		-- end
@@ -337,7 +365,6 @@ function ObjectValuesMinigame:TargetItemControl(Level)
 			end
 		end
 	end
-	print(self.Throwing)
 end
 
 function ObjectValuesMinigame:Start(Level)
@@ -347,7 +374,7 @@ function ObjectValuesMinigame:Start(Level)
 	self.BarControl:Start(self.StopEvent)
 	ObjectsGameplay.Visible = true
 	self.Throwing = true
-	local rate = self.ThrowRate or 1
+	-- local rate = self.ThrowRate or 1
 	task.spawn(function()
 		self:TargetItemControl(Level)
 	end)
@@ -358,21 +385,25 @@ function ObjectValuesMinigame:Start(Level)
 	self.Correctrate = 0
 	task.spawn(function()
 		while self.Throwing do
-			local clone
-			if self.Correctrate >= 2 then
-				task.delay(math.random(1, 3), function()
-					self.Correctrate = 0
+			for _ = 1, math.round(self.ThrowRate) do
+				task.spawn(function()
+					local clone
+					if self.Correctrate >= 2 then
+						task.delay(math.random(1, 3), function()
+							self.Correctrate = 0
+						end)
+						clone = RandomItem(ObjectValuesItems):Clone()
+					else
+						self.Correctrate += 1
+						local objstringname = ObjectValuesItems:FindFirstChild(RandomItem(self.TargetObject))
+						clone = objstringname:Clone()
+					end
+					clone.AnchorPoint = Vector2.new(0.5, 0.5)
+					clone.Parent = ObjectsHolder
+					self:ThrowObject(clone)
 				end)
-				clone = RandomItem(ObjectValuesItems):Clone()
-			else
-				self.Correctrate += 1
-				local objstringname = ObjectValuesItems:FindFirstChild(RandomItem(self.TargetObject))
-				clone = objstringname:Clone()
 			end
-			clone.AnchorPoint = Vector2.new(0.5, 0.5)
-			clone.Parent = ObjectsHolder
-			self:ThrowObject(clone)
-			task.wait(rate)
+			task.wait(self.ThrowDelay or 1)
 		end
 	end)
 	local Data = {
@@ -391,7 +422,9 @@ function ObjectValuesMinigame:Stop()
 	self.BarControl:Stop()
 	self.TargetObject = ""
 	self.ThrowRate = 1
+	self.ThrowDelay = 1
 	self.Speed = 2.5
+	self.CorrectCount = 0
 end
 
 function ObjectValuesMinigame:KnitInit()
@@ -403,6 +436,10 @@ function ObjectValuesMinigame:KnitInit()
 	self.StopEvent:Connect(function()
 		self:Stop()
 	end)
+end
+
+function ObjectValuesMinigame:KnitStart()
+	self.GeneralControllers = Knit.GetController("GeneralControllers")
 end
 
 return ObjectValuesMinigame

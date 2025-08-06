@@ -5,10 +5,10 @@ local Models = ReplicatedStorage:WaitForChild("Models")
 local SoundEffects = Models:WaitForChild("SoundEffects")
 
 local Knit = require("@Packages/Knit")
-local ChatNotification = require("@Modules/Client/ChatNotification")
 
 function Announce(txt)
-	ChatNotification.new("Server", txt, Color3.fromRGB(182, 218, 0), "Roboto")
+	local MessageService = Knit.GetService("MessageService")
+	MessageService:SendToAll(`<b> {txt} </b>`, Color3.fromRGB(182, 218, 0), "Gotham", 20)
 end
 
 function DefaultWinEvent(Player, Msg, Msg2)
