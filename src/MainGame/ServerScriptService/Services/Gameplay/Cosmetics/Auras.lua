@@ -52,6 +52,7 @@ function AurasService.Client:EquipAura(Player, AuraName)
 		ClearAuras(Player)
 		return
 	end
+	print("Equipping Aura: " .. AuraName)
 	local AuraTool = Player.Backpack:FindFirstChild(AuraName) or Player.Character:FindFirstChild(AuraName)
 	if not AuraTool then
 		return

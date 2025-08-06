@@ -329,6 +329,13 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 	pcall(function()
 		self.GeneralController.PlayerModule:Disable()
 	end)
+	local CurrentDay
+	self.GeneralService
+		:GetDays()
+		:andThen(function(val)
+			CurrentDay = val
+		end)
+		:await()
 
 	local Character = Player.Character
 	local Humanoid = Character:FindFirstChildOfClass("Humanoid")
@@ -369,7 +376,7 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 			-- Final rate
 			local rate = baseScore + timeBonus + auraBonus
 
-			self.AurasService:AdjustAuraRate(rate)
+			self.AurasService:AdjustAuraRate(rate + (CurrentDay / GeneralInfo.MaxDays))
 		end
 	end)
 	self.WorkoutValueEvent = self.MinigameData.Value:GetPropertyChangedSignal("Value"):Connect(function()
@@ -600,7 +607,7 @@ function WorkoutsHandler:KnitStart()
 	end
 	self:RunInjuryLogic()
 
-	self:ControlProximityPrompts(false)
+	-- self:ControlProximityPrompts(false)
 	-- task.wait(5)
 	-- self:PlayMinigame(Minigames.ObjectValues,2)
 

@@ -163,7 +163,7 @@ function OpenItemFrame(Obj)
 	Obj.Size = OpenSizes.ItemFrame
 	Obj.PurchaseFrame.Position = UDim2.fromScale(0.5, 0.65)
 	Obj.PurchaseFrame.Visible = true
-	if Obj:HasTag("LastItem") and Obj.Parent.Name ~= "Auras" then
+	if Obj:HasTag("LastItem") and Obj.Parent.Name == "Suppliments" then
 		repeat
 			task.wait()
 			MainContainer:WaitForChild("UIListLayout").Padding = UDim.new(0.25, 0)

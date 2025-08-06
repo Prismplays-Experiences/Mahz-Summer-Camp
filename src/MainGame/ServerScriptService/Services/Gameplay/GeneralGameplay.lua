@@ -24,7 +24,7 @@ local SoundEffects = ReplicatedStorage:WaitForChild("Models"):WaitForChild("Soun
 ----------------------------------------
 local Testing = false
 
-local WAITING_TIME_FOR_STUDIO = 10
+local WAITING_TIME_FOR_STUDIO = 15
 
 --> Knit Setup
 ----------------------------------------
@@ -124,8 +124,8 @@ function GeneralGameplay:KnitStart()
 	-- self.EventsService:StartEvent(event)
 	if not Testing then
 		self.Client.LockWorkoutMachines:FireAll(true)
-		InstructorMessageService:PlayMessage(InstructorMessages.Day1)
-		task.wait(31)
+		-- InstructorMessageService:PlayMessage(InstructorMessages.Day1)
+		-- task.wait(31)
 		self.BedService:AssignBedNumbers(game.Players:GetPlayers())
 		TeleportPlayersToDay1Spawn()
 		self.TargetService:SetTarget()

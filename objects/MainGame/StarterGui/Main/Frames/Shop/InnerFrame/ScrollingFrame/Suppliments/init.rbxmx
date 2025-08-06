@@ -59,7 +59,7 @@
       <int64 name="SourceAssetId">-1</int64>
       <token name="Style">0</token>
       <BinaryString name="Tags"></BinaryString>
-      <bool name="Visible">true</bool>
+      <bool name="Visible">false</bool>
       <int name="ZIndex">1</int>
     </Properties>
   </Item>

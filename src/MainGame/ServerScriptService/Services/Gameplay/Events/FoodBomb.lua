@@ -23,7 +23,9 @@ local ScriptingProperties = workspace:WaitForChild("Game"):WaitForChild("Scripti
 local EventScriptingItems = ScriptingProperties:WaitForChild("Events")
 local FoodBombItems = EventScriptingItems:WaitForChild("FoodBomb")
 local ItemSpawnPoints = FoodBombItems:WaitForChild("ItemSpawnPoints")
-local PowerupHolder = FoodBombItems:WaitForChild("PowerupHolder")
+local PowerupHolder = Instance.new("Folder")
+PowerupHolder.Parent = FoodBombItems
+PowerupHolder.Name = "PowerupHolder"
 
 --> Setups
 -----------------------------------------

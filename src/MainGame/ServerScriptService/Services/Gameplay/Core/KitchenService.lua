@@ -18,7 +18,7 @@ local KitchenFoodSpawnPoints = ScriptingProperties:WaitForChild("KitchenFoodSpaw
 local KitchenFoods = Models:WaitForChild("KitchenFoods")
 
 local Assets = ReplicatedStorage:WaitForChild("Assets")
-local VFX = Assets:WaitForChild("VFX")
+local VFX = Assets:WaitForChild("Vfx")
 local Highlights = Assets:WaitForChild("Highlights")
 
 --> Variables

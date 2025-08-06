@@ -193,7 +193,7 @@ return {
 
 	eventProps = {
 		title = "Track Event!",
-		image = "rbxassetid://70526751887027", -- Replace with actual image ID
+		image = "rbxassetid://94937288830539", -- Replace with actual image ID
 		lockWorkoutMachines = true,
 		yieldClock = true,
 		minPlayers = 1,

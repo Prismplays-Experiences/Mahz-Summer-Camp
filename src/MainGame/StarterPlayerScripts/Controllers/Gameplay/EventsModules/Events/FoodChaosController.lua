@@ -24,7 +24,7 @@ local Assets = ReplicatedStorage:WaitForChild("Assets")
 local HaloRing = Assets:WaitForChild("HaloRing")
 local Confetti = Assets:WaitForChild("Confetti")
 
-local Vfx = Assets:WaitForChild("VFX")
+local Vfx = Assets:WaitForChild("Vfx")
 local Puff = Vfx:WaitForChild("Puff")
 
 local PlayerGui = Player.PlayerGui

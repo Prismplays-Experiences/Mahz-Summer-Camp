@@ -25,9 +25,18 @@ local KitchenFoods = ReplicatedStorage:WaitForChild("Models"):WaitForChild("Kitc
 
 local ScriptingProperties = workspace:WaitForChild("Game"):WaitForChild("ScriptingProperties")
 local EventScriptingItems = ScriptingProperties:WaitForChild("Events")
-local FoodChaosItems = EventScriptingItems:WaitForChild("FoodChaos")
-local FoodsDropped = FoodChaosItems:WaitForChild("FoodDropped")
-local SpawnPoints = FoodChaosItems:WaitForChild("SpawnPoints")
+
+local FoodChaosItems = Instance.new("Folder")
+FoodChaosItems.Parent = EventScriptingItems
+FoodChaosItems.Name = "FoodChaos"
+
+local FoodsDropped = Instance.new("Folder")
+FoodsDropped.Parent = FoodChaosItems
+FoodsDropped.Name = "FoodDropped"
+
+local SpawnPoints = Instance.new("Folder")
+SpawnPoints.Parent = FoodChaosItems
+SpawnPoints.Name = "SpawnPoints"
 
 local FoodBombItems = EventScriptingItems:WaitForChild("FoodBomb")
 local ItemSpawnPoints = FoodBombItems:WaitForChild("ItemSpawnPoints")
