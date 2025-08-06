@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Part" referent="0">
     <Properties>
-      <string name="Name">Part68</string>
+      <string name="Name">Part</string>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <bool name="AudioCanCollide">true</bool>

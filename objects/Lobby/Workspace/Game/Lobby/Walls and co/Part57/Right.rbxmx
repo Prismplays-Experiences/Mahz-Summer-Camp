@@ -2,7 +2,8 @@
   <Item class="Texture" referent="0">
     <Properties>
       <string name="Name">Right</string>
-      <BinaryString name="AttributesSerialize"></BinaryString>
+      <BinaryString name="AttributesSerialize">
+      </BinaryString>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <Color3 name="Color3">
         <R>1</R>
@@ -10,25 +11,20 @@
         <B>1</B>
       </Color3>
       <token name="Face">0</token>
-      <Content name="MetalnessMap">
-        <null>
-        </null>
-      </Content>
-      <Content name="NormalMap">
-        <null>
-        </null>
-      </Content>
+      <BinaryString name="MetalnessMap">
+      </BinaryString>
+      <BinaryString name="NormalMap">
+      </BinaryString>
       <float name="OffsetStudsU">0</float>
       <float name="OffsetStudsV">0</float>
-      <Content name="RoughnessMap">
-        <null>
-        </null>
-      </Content>
+      <BinaryString name="RoughnessMap">
+      </BinaryString>
       <bool name="DefinesCapabilities">false</bool>
       <int64 name="SourceAssetId">-1</int64>
       <float name="StudsPerTileU">9</float>
       <float name="StudsPerTileV">9</float>
-      <BinaryString name="Tags"></BinaryString>
+      <BinaryString name="Tags">
+      </BinaryString>
       <Content name="TextureContent">
         <uri>rbxassetid://10025462059</uri>
       </Content>

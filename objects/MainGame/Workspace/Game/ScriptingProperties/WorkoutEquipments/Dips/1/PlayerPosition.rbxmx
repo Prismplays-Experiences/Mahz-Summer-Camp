@@ -14,9 +14,9 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-36.826813</X>
+        <X>-27.826813</X>
         <Y>6.657459</Y>
-        <Z>35.692947</Z>
+        <Z>38.633194</Z>
         <R00>0.00000012665987</R00>
         <R01>0</R01>
         <R02>1</R02>

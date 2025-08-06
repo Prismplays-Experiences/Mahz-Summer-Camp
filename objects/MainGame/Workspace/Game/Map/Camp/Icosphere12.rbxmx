@@ -4,7 +4,7 @@
       <string name="Name">Icosphere</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
-      <BinaryString name="AttributesSerialize"></BinaryString>
+      <BinaryString name="AttributesSerialize">BwAAAAYAAABDRnJhbWUGAAAAAAAAAAAIAAAARHVyYXRpb24GAAAAAAAAAAAJAAAARW1pdERlbGF5BgAAAAAAAAAABwAAAFJvYXRpb24GAAAAAAAAAAAEAAAAU2l6ZQYAAAAAAAAAAA8AAABUaW1lQmVmb3JlUmVzZXQGAAAAAAAAAAAMAAAAVHJhbnNwYXJlbmN5BgAAAAAAAAAA</BinaryString>
       <bool name="AudioCanCollide">true</bool>
       <float name="BackParamA">-0.5</float>
       <float name="BackParamB">0.5</float>
@@ -15,9 +15,9 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-149.19688</X>
-        <Y>-0.5616325</Y>
-        <Z>28.7951</Z>
+        <X>-280.87436</X>
+        <Y>-0.5616464</Y>
+        <Z>67.63595</Z>
         <R00>0</R00>
         <R01>0</R01>
         <R02>-1</R02>
@@ -35,7 +35,7 @@
       <bool name="CastShadow">true</bool>
       <string name="CollisionGroup">Default</string>
       <int name="CollisionGroupId">0</int>
-      <Color3uint8 name="Color3uint8">8359524</Color3uint8>
+      <Color3uint8 name="Color3uint8">3444288</Color3uint8>
       <PhysicalProperties name="CustomPhysicalProperties">
         <CustomPhysics>false</CustomPhysics>
       </PhysicalProperties>
@@ -48,7 +48,7 @@
       <token name="FrontSurfaceInput">0</token>
       <bool name="HasJointOffset">false</bool>
       <bool name="HasSkinnedMesh">false</bool>
-      <bool name="InertiaMigrated">false</bool>
+      <bool name="InertiaMigrated">true</bool>
       <Vector3 name="InitialSize">
         <X>2048</X>
         <Y>247.26826</Y>
@@ -65,7 +65,7 @@
       <token name="LeftSurfaceInput">0</token>
       <bool name="Locked">false</bool>
       <bool name="Massless">false</bool>
-      <token name="Material">1376</token>
+      <token name="Material">1280</token>
       <string name="MaterialVariantSerialized"></string>
       <Content name="MeshContent">
         <uri>rbxassetid://109765205890819</uri>
@@ -76,7 +76,7 @@
       <CoordinateFrame name="PivotOffset">
         <X>3.80936</X>
         <Y>0</Y>
-        <Z>-1.1993133</Z>
+        <Z>-2.790657</Z>
         <R00>0.99999994</R00>
         <R01>-0.000000000000000000000019952028</R01>
         <R02>-0.00000000000000014279082</R02>
@@ -103,7 +103,7 @@
       <Vector3 name="size">
         <X>22.790283</X>
         <Y>2.4767072</Y>
-        <Z>11.60618</Z>
+        <Z>27.00618</Z>
       </Vector3>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
@@ -117,21 +117,21 @@
       <token name="TopSurfaceInput">0</token>
       <float name="Transparency">0</float>
       <Vector3 name="UnscaledCofm">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>41.873486</X>
+        <Y>-0.7634435</Y>
+        <Z>-24.004116</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>92687370000000</X>
+        <Y>210670500000000</Y>
+        <Z>121111240000000</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaOffDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>-245635280000</X>
+        <Y>-7182633000000</Y>
+        <Z>-50793247000</Z>
       </Vector3>
-      <float name="UnscaledVolume">NAN</float>
+      <float name="UnscaledVolume">514692100</float>
       <Vector3 name="Velocity">
         <X>0</X>
         <Y>0</Y>

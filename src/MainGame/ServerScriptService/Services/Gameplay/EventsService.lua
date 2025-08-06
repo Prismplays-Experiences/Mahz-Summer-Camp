@@ -195,19 +195,24 @@ function EventService:KnitStart()
 	self.GeneralService = Knit.GetService("GeneralGameplay")
 	self.ClockService = Knit.GetService("ClockService")
 	self.MusicService = Knit.GetService("MusicService")
-	for _, evnt in pairs(EventsFolder:GetChildren()) do
-		if evnt:IsA("ModuleScript") then
-			local EventModule = Knit.GetService(evnt.Name) or require(evnt)
-			if EventModule then
-				EventsModules[evnt.Name] = EventModule
-			end
+
+	for _, event in pairs(EventsFolder:GetChildren()) do
+		if not event:IsA("ModuleScript") then
+			continue
+		end
+
+		local EventModule = Knit.GetService(event.Name) or require(event)
+
+		if EventModule then
+			EventsModules[event.Name] = EventModule
 		end
 	end
+
 	--testing
-	-- task.wait(15)
-	-- print("Starting FoodBomb Event")
+	-- task.wait(5)
+	-- print("Starting Race Event")
 	-- print(EventsModules)
-	-- EventsModules['FoodBomb']:Start()
+	-- EventsModules['Race']:Start()
 end
 
 return EventService

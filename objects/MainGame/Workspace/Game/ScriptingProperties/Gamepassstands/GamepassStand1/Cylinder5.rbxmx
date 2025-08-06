@@ -15,18 +15,18 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-179.16374</X>
-        <Y>0.99631596</Y>
+        <X>-186.18823</X>
+        <Y>0.99631476</Y>
         <Z>-11.285715</Z>
-        <R00>-0.7053819</R00>
-        <R01>0.06975648</R01>
-        <R02>0.7053868</R02>
+        <R00>-0.7053818</R00>
+        <R01>0.069756486</R01>
+        <R02>0.7053869</R02>
         <R10>0.04932517</R10>
-        <R11>0.9975641</R11>
+        <R11>0.9975642</R11>
         <R12>-0.049325384</R12>
-        <R20>-0.7071093</R20>
-        <R21>0.000000094830746</R21>
-        <R22>-0.7071043</R22>
+        <R20>-0.70710933</R20>
+        <R21>0.00000010092905</R21>
+        <R22>-0.70710427</R22>
       </CoordinateFrame>
       <bool name="CanCollide">true</bool>
       <bool name="CanQuery">true</bool>
@@ -48,7 +48,7 @@
       <token name="FrontSurfaceInput">0</token>
       <bool name="HasJointOffset">false</bool>
       <bool name="HasSkinnedMesh">false</bool>
-      <bool name="InertiaMigrated">false</bool>
+      <bool name="InertiaMigrated">true</bool>
       <Vector3 name="InitialSize">
         <X>200</X>
         <Y>200.00003</Y>
@@ -117,21 +117,21 @@
       <token name="TopSurfaceInput">0</token>
       <float name="Transparency">0</float>
       <Vector3 name="UnscaledCofm">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>-0.11876436</X>
+        <Y>0.2717151</Y>
+        <Z>1.3084577</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>26823174000</X>
+        <Y>22092376000</Y>
+        <Z>27837020000</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaOffDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>-39774590</X>
+        <Y>153891460</Y>
+        <Z>503320700</Z>
       </Vector3>
-      <float name="UnscaledVolume">NAN</float>
+      <float name="UnscaledVolume">3463892.8</float>
       <Vector3 name="Velocity">
         <X>0</X>
         <Y>0</Y>

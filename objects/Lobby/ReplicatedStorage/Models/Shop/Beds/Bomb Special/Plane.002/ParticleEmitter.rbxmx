@@ -32,9 +32,9 @@
       <token name="ShapeInOut">0</token>
       <float name="ShapePartial">1</float>
       <token name="ShapeStyle">0</token>
-      <NumberSequence name="Size">0 2.573 0 0.232426 3.21624 0 0.506803 4.52284 0 0.793651 6.533 0 1 8.24163 0 </NumberSequence>
+      <NumberSequence name="Size">0 2.572996 0 0.232426 3.216245 0 0.506803 4.5228443 0 0.793651 6.5329976 0 1 8.241628 0 </NumberSequence>
       <int64 name="SourceAssetId">-1</int64>
-      <NumberRange name="Speed">8.04061 8.04061 </NumberRange>
+      <NumberRange name="Speed">8.040612 8.040612 </NumberRange>
       <Vector2 name="SpreadAngle">
         <X>10</X>
         <Y>10</Y>

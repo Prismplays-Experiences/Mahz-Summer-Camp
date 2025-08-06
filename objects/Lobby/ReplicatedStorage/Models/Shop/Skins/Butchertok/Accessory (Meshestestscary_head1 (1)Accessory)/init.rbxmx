@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Accessory" referent="0">
     <Properties>
-      <string name="Name">Accessory (Meshestestscary_head1 (1)Accessory)</string>
+      <string name="Name">Accessory (Meshes/testscary_head1 (1)Accessory)</string>
       <token name="AccessoryType">1</token>
       <CoordinateFrame name="AttachmentPoint">
         <X>-0.000015735626</X>

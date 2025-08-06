@@ -15,9 +15,9 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-57.275753</X>
+        <X>-56.497574</X>
         <Y>0.19013152</Y>
-        <Z>24.748783</Z>
+        <Z>34.05301</Z>
         <R00>0.70710903</R00>
         <R01>0</R01>
         <R02>-0.7071101</R02>
@@ -48,7 +48,7 @@
       <token name="FrontSurfaceInput">0</token>
       <bool name="HasJointOffset">false</bool>
       <bool name="HasSkinnedMesh">false</bool>
-      <bool name="InertiaMigrated">false</bool>
+      <bool name="InertiaMigrated">true</bool>
       <Vector3 name="InitialSize">
         <X>58.419365</X>
         <Y>2</Y>
@@ -101,9 +101,9 @@
       </Vector3>
       <bool name="DefinesCapabilities">false</bool>
       <Vector3 name="size">
-        <X>10</X>
+        <X>13</X>
         <Y>0.569</Y>
-        <Z>10</Z>
+        <Z>13</Z>
       </Vector3>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
@@ -117,21 +117,21 @@
       <token name="TopSurfaceInput">0</token>
       <float name="Transparency">0</float>
       <Vector3 name="UnscaledCofm">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>0.00027032642</X>
+        <Y>-0.000000091594096</Y>
+        <Z>0.00014277852</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>184490.98</X>
+        <Y>372329.8</Y>
+        <Z>188142.03</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaOffDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>-0.007872503</X>
+        <Y>-356.5625</Y>
+        <Z>0.0053974814</Z>
       </Vector3>
-      <float name="UnscaledVolume">NAN</float>
+      <float name="UnscaledVolume">454.84018</float>
       <Vector3 name="Velocity">
         <X>0</X>
         <Y>0</Y>

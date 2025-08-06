@@ -34,7 +34,7 @@
       <BinaryString name="Tags"></BinaryString>
       <OptionalCoordinateFrame name="WorldPivotData">
         <CFrame>
-          <X>74.80501</X>
+          <X>71.605</X>
           <Y>9.599999</Y>
           <Z>-142.25996</Z>
           <R00>1</R00>
@@ -860,26 +860,6 @@
           </Vector3>
         </Properties>
       </Item>
-    </Item>
-    <Item class="Folder" referent="11">
-      <Properties>
-        <string name="Name">Folder1</string>
-        <BinaryString name="AttributesSerialize"></BinaryString>
-        <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-        <bool name="DefinesCapabilities">false</bool>
-        <int64 name="SourceAssetId">-1</int64>
-        <BinaryString name="Tags"></BinaryString>
-      </Properties>
-    </Item>
-    <Item class="Folder" referent="12">
-      <Properties>
-        <string name="Name">Folder2</string>
-        <BinaryString name="AttributesSerialize"></BinaryString>
-        <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-        <bool name="DefinesCapabilities">false</bool>
-        <int64 name="SourceAssetId">-1</int64>
-        <BinaryString name="Tags"></BinaryString>
-      </Properties>
     </Item>
   </Item>
   <SharedStrings>

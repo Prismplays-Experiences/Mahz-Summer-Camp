@@ -33,7 +33,7 @@
       <bool name="CanTouch">true</bool>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <bool name="CastShadow">true</bool>
-      <string name="CollisionGroup">Default</string>
+      <string name="CollisionGroup">NPCCollision</string>
       <int name="CollisionGroupId">0</int>
       <Color3uint8 name="Color3uint8">16750812</Color3uint8>
       <PhysicalProperties name="CustomPhysicalProperties">
@@ -48,7 +48,7 @@
       <token name="FrontSurfaceInput">0</token>
       <bool name="HasJointOffset">false</bool>
       <bool name="HasSkinnedMesh">false</bool>
-      <bool name="InertiaMigrated">false</bool>
+      <bool name="InertiaMigrated">true</bool>
       <Vector3 name="InitialSize">
         <X>30.619852</X>
         <Y>30.807114</Y>
@@ -117,21 +117,21 @@
       <token name="TopSurfaceInput">0</token>
       <float name="Transparency">0</float>
       <Vector3 name="UnscaledCofm">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>-0.48209393</X>
+        <Y>0.38067913</Y>
+        <Z>-1.7632062</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>458793.75</X>
+        <Y>481315.5</Y>
+        <Z>519181.7</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaOffDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>9757.326</X>
+        <Y>8449.078</Y>
+        <Z>-6440.076</Z>
       </Vector3>
-      <float name="UnscaledVolume">NAN</float>
+      <float name="UnscaledVolume">4360.9614</float>
       <Vector3 name="Velocity">
         <X>0</X>
         <Y>0</Y>

@@ -24,11 +24,13 @@ local SoundEffects = ReplicatedStorage:WaitForChild("Models"):WaitForChild("Soun
 ----------------------------------------
 local Testing = false
 
+local WAITING_TIME_FOR_STUDIO = 10
+
 --> Knit Setup
 ----------------------------------------
 local GeneralGameplay = Knit.CreateService({
 	Name = "GeneralGameplay",
-	CountdownValue = RunService:IsStudio() and 15 or 30,
+	CountdownValue = RunService:IsStudio() and WAITING_TIME_FOR_STUDIO or 30,
 	CountdownEnabled = true,
 	TargetReachedPlayers = {},
 	EventDisplayFrequency = 3,
@@ -116,8 +118,10 @@ function GeneralGameplay:KnitStart()
 	if self.CountdownEnabled then
 		self:Countdown(self.CountdownValue)
 	end
+	-- task.wait(2)
 
-	-- self.EventsService:EventLoop(5) -- event testing
+	-- local event = self.EventsService:RandomEvent()
+	-- self.EventsService:StartEvent(event)
 	if not Testing then
 		self.Client.LockWorkoutMachines:FireAll(true)
 		InstructorMessageService:PlayMessage(InstructorMessages.Day1)

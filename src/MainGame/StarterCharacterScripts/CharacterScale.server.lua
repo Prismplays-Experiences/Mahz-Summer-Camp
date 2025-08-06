@@ -1,10 +1,11 @@
 --> Services
 ----------------------------------------
+local Players = game:GetService("Players")
 local ServerStorage = game:GetService("ServerStorage")
 
 --> Assets
 ----------------------------------------
-local Player = game.Players:GetPlayerFromCharacter(script.Parent)
+local Player = game.Players:GetPlayerFromCharacter(script.Parent) :: Player
 local Assets = ServerStorage:WaitForChild("Assets")
 local PlayerDetails = Assets:WaitForChild("PlayerDetails"):Clone(0)
 
@@ -40,7 +41,7 @@ local CurrentDescription: "Fat" | "Fit" | nil = nil
 
 --> Utility Functions
 ----------------------------------------
-local humanoid = script.Parent:WaitForChild("Humanoid")
+local humanoid = script.Parent:WaitForChild("Humanoid") :: Humanoid
 
 function DisableCollissions(Character)
 	for _, part in pairs(Character:GetChildren()) do
@@ -62,8 +63,10 @@ RunService.Heartbeat:Connect(function()
 	end
 end)
 
-function ChangeDescription(Type)
-	local HumanoidDescription = game.Players:GetHumanoidDescriptionFromUserId(Player.UserId)
+function ChangeDescription(Type: "Fat" | "Fit")
+	local userId = if Player.UserId > 0 then Player.UserId else 2205918664
+
+	local HumanoidDescription = Players:GetHumanoidDescriptionFromUserId(userId)
 	local Description
 	if Type == "Fat" and CurrentDescription ~= "Fat" then
 		CurrentDescription = "Fat"

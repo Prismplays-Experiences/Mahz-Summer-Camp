@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Part" referent="0">
     <Properties>
-      <string name="Name">Region6</string>
+      <string name="Name">Region</string>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize">AQAAAAoAAABNYXhQbGF5ZXJzBgAAAAAAABBA</BinaryString>
       <bool name="AudioCanCollide">true</bool>

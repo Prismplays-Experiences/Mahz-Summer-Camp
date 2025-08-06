@@ -21,7 +21,7 @@
         <R22>-0.25882</R22>
       </CoordinateFrame>
       <token name="LevelOfDetail">0</token>
-      <bool name="ManualActivationOnly">false</bool>
+      <bool name="ManualActivationOnly">true</bool>
       <CoordinateFrame name="ModelMeshCFrame">
         <X>0</X>
         <Y>0</Y>

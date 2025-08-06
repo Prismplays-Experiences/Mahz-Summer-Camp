@@ -1,6 +1,16 @@
 {
   "luau-lsp.sourcemap.rojoProjectFile": "MainGame.project.json",
   "luau-lsp.sourcemap.enabled": true,
+  "luau-lsp.completion.imports.enabled": true,
+  "luau-lsp.completion.imports.suggestServices": true,
+  "luau-lsp.completion.imports.stringRequires.enabled": true,
+  "luau-lsp.completion.imports.ignoreGlobs": ["**/.pesde/**", "**/out/**"],
+  "luau-lsp.completion.autocompleteEnd": true,
+  "luau-lsp.completion.addParentheses": true,
+  "luau-lsp.completion.fillCallArguments": true,
+  "luau-lsp.completion.imports.separateGroupsWithLine": true,
+  "luau-lsp.inlayHints.parameterTypes": true,
+  "luau-lsp.completion.addTabstopAfterParentheses": true,
   "chat.promptFiles": true,
   "workbench.editorAssociations": {
     "*.md": "vscode.markdown.preview.editor"
@@ -25,6 +35,7 @@
     "sourcemap.json": true,
     "asphalt_locks_files": true,
     "feature-mantle.yml": true,
+    "prod-mantle.yml": true,
     "asphalt.lock.toml": true,
     "roblox.yml": true
   },
@@ -37,5 +48,6 @@
   "[lua]": {
     "editor.defaultFormatter": "JohnnyMorganz.stylua",
     "editor.formatOnSave": true
-  }
+  },
+  "stylua.targetReleaseVersion": "latest"
 }

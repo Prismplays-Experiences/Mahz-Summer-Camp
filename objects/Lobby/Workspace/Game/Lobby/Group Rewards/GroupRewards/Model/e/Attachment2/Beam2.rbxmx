@@ -1,13 +1,13 @@
 <roblox version="4">
   <Item class="Beam" referent="0">
     <Properties>
-      <string name="Name">Beam2</string>
+      <string name="Name">Beam</string>
       <Ref name="Attachment0">null</Ref>
       <Ref name="Attachment1">null</Ref>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <float name="Brightness">0.16</float>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-      <ColorSequence name="Color">0 0.92549 0.364706 1 0 1 0.92549 0.364706 1 0 </ColorSequence>
+      <ColorSequence name="Color">0 0.9254902 0.3647059 1 0 1 0.9254902 0.3647059 1 0 </ColorSequence>
       <float name="CurveSize0">0</float>
       <float name="CurveSize1">0</float>
       <bool name="Enabled">true</bool>

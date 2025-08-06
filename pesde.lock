@@ -98,10 +98,33 @@ index_url = "https://github.com/daimond113/pesde-index"
 option = [{ name = "lukadev_0/option", version = "^1.2.0", index = "https://github.com/daimond113/pesde-index" }, "standard"]
 result = [{ name = "lukadev_0/result", version = "^1.2.0", index = "https://github.com/daimond113/pesde-index" }, "standard"]
 
+[graph."wally#bohraz/arch@0.3.8 roblox"]
+direct = ["arch", { wally = "wally#bohraz/arch", version = "^0.3.8", index = "default" }, "standard"]
+
+[graph."wally#bohraz/arch@0.3.8 roblox".dependencies]
+janitor = ["wally#howmanysmall/janitor@1.18.3 roblox", "standard"]
+sift = ["wally#csqrl/sift@0.0.8 roblox", "standard"]
+signal = ["wally#sleitnick/signal@2.0.3 roblox", "standard"]
+testez = ["wally#roblox/testez@0.4.1 roblox", "standard"]
+
+[graph."wally#bohraz/arch@0.3.8 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#bohraz/arch@0.3.8 roblox".pkg_ref.dependencies]
+janitor = [{ wally = "wally#howmanysmall/janitor", version = ">=1.15.6, <2.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+sift = [{ wally = "wally#csqrl/sift", version = ">=0.0.8, <0.0.9", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+signal = [{ wally = "wally#sleitnick/signal", version = ">=2.0.1, <3.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+testez = [{ wally = "wally#roblox/testez", version = ">=0.4.1, <0.5.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+
 [graph."wally#brittonfischer/camerashaker@0.1.0 roblox"]
 direct = ["CameraShaker", { wally = "wally#brittonfischer/camerashaker", version = "^0.1.0", index = "default" }, "standard"]
 
 [graph."wally#brittonfischer/camerashaker@0.1.0 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#csqrl/sift@0.0.8 roblox".pkg_ref]
 ref_ty = "wally"
 index_url = "https://github.com/UpliftGames/wally-index"
 
@@ -116,6 +139,28 @@ index_url = "https://github.com/UpliftGames/wally-index"
 ref_ty = "wally"
 index_url = "https://github.com/UpliftGames/wally-index"
 
+[graph."wally#howmanysmall/janitor@1.18.3 roblox".dependencies]
+Promise = ["wally#howmanysmall/typed-promise@4.0.6 roblox", "standard"]
+
+[graph."wally#howmanysmall/janitor@1.18.3 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#howmanysmall/janitor@1.18.3 roblox".pkg_ref.dependencies]
+Jest = [{ wally = "wally#jsdotlua/jest", version = ">=3.6.1-rc.2, <4.0.0", index = "https://github.com/UpliftGames/wally-index" }, "dev"]
+JestGlobals = [{ wally = "wally#jsdotlua/jest-globals", version = ">=3.6.1-rc.2, <4.0.0", index = "https://github.com/UpliftGames/wally-index" }, "dev"]
+Promise = [{ wally = "wally#howmanysmall/typed-promise", version = ">=4.0.3, <5.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+
+[graph."wally#howmanysmall/typed-promise@4.0.6 roblox".dependencies]
+Promise = ["wally#evaera/promise@4.0.0 roblox", "standard"]
+
+[graph."wally#howmanysmall/typed-promise@4.0.6 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#howmanysmall/typed-promise@4.0.6 roblox".pkg_ref.dependencies]
+Promise = [{ wally = "wally#evaera/promise", version = ">=4.0.0, <5.0.0", index = "https://github.com/UpliftGames/wally-index" }, "standard"]
+
 [graph."wally#jessekroeske/simplepath@2.2.2 roblox"]
 direct = ["SimplePath", { wally = "wally#jessekroeske/simplepath", version = "^2.2.2", index = "default" }, "standard"]
 
@@ -127,6 +172,10 @@ index_url = "https://github.com/UpliftGames/wally-index"
 direct = ["ZonePlus", { wally = "wally#mattschrubb/zoneplus", version = "^3.2.0", index = "default" }, "standard"]
 
 [graph."wally#mattschrubb/zoneplus@3.2.0 roblox".pkg_ref]
+ref_ty = "wally"
+index_url = "https://github.com/UpliftGames/wally-index"
+
+[graph."wally#roblox/testez@0.4.1 roblox".pkg_ref]
 ref_ty = "wally"
 index_url = "https://github.com/UpliftGames/wally-index"
 

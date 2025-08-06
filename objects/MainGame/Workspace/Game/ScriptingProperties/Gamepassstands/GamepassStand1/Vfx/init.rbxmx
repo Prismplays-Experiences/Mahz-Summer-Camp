@@ -15,18 +15,18 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-179.06548</X>
-        <Y>3.3568525</Y>
-        <Z>-11.301176</Z>
-        <R00>0.9040986</R00>
-        <R01>0.06975653</R01>
-        <R02>-0.42159203</R02>
-        <R10>-0.063220814</R10>
-        <R11>0.9975641</R11>
-        <R12>0.029480547</R12>
-        <R20>0.42262155</R20>
-        <R21>0.00000006927307</R21>
-        <R22>0.90630627</R22>
+        <X>-186.09001</X>
+        <Y>3.3568347</Y>
+        <Z>-11.301197</Z>
+        <R00>0.9040985</R00>
+        <R01>0.06975654</R01>
+        <R02>-0.42159215</R02>
+        <R10>-0.06322081</R10>
+        <R11>0.9975642</R11>
+        <R12>0.029480549</R12>
+        <R20>0.42262164</R20>
+        <R21>0.00000007537138</R21>
+        <R22>0.9063062</R22>
       </CoordinateFrame>
       <bool name="CanCollide">true</bool>
       <bool name="CanQuery">true</bool>
@@ -48,7 +48,7 @@
       <token name="FrontSurfaceInput">0</token>
       <bool name="HasJointOffset">false</bool>
       <bool name="HasSkinnedMesh">false</bool>
-      <bool name="InertiaMigrated">false</bool>
+      <bool name="InertiaMigrated">true</bool>
       <Vector3 name="InitialSize">
         <X>338.11246</X>
         <Y>28.377838</Y>
@@ -117,21 +117,21 @@
       <token name="TopSurfaceInput">0</token>
       <float name="Transparency">0.9</float>
       <Vector3 name="UnscaledCofm">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>0.000011280595</X>
+        <Y>-0.17887843</Y>
+        <Z>0.0000043118475</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>17588711000</X>
+        <Y>34848276000</Y>
+        <Z>17588711000</Z>
       </Vector3>
       <Vector3 name="UnscaledVolInertiaOffDiags">
-        <X>NAN</X>
-        <Y>NAN</Y>
-        <Z>NAN</Z>
+        <X>-17.273932</X>
+        <Y>-586.30206</Y>
+        <Z>2847.4443</Z>
       </Vector3>
-      <float name="UnscaledVolume">NAN</float>
+      <float name="UnscaledVolume">2491589.5</float>
       <Vector3 name="Velocity">
         <X>0</X>
         <Y>0</Y>

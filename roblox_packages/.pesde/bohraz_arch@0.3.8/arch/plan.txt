@@ -1,0 +1,25 @@
+traversal-processing-optimization:
+Switch recursive to iterative traversal to prevent stack overflow
+Add batch processing to minimize context switching
+
+api-refactor-expansion:
+Add Arch.Machine.new
+Add Arch.Action.new
+Add Arch.Guard.new
+Add Arch.State.new
+Add Machine:addGuards
+Add Machine:addGuard
+Add Machine:addActions
+Add Machine:addAction
+Add Machine:addStates
+Add Machine:addState
+Add Machine:addTransition
+
+machine-debug-visualizer:
+Add gui machine visualizer or export machine to json to do it online (is there a website to visualize a json scxml state machine?)
+
+ts-support
+add roblox-ts support
+
+upgrade-static-typing
+upgrade the static typing somehow to allow it for luau, despite the lack of generics

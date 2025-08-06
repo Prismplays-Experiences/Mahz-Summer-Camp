@@ -35,7 +35,7 @@
         <B>1</B>
       </Color3>
       <Content name="ImageContent">
-        <uri>rbxassetid://136166488300740</uri>
+        <uri>rbxassetid://87772553896163</uri>
       </Content>
       <Vector2 name="ImageRectOffset">
         <X>0</X>
@@ -54,9 +54,9 @@
       <Ref name="NextSelectionRight">null</Ref>
       <Ref name="NextSelectionUp">null</Ref>
       <UDim2 name="Position">
-        <XS>0.17883727</XS>
+        <XS>-0.04104462</XS>
         <XO>0</XO>
-        <YS>1.009107</YS>
+        <YS>0.58632594</YS>
         <YO>0</YO>
       </UDim2>
       <Ref name="PressHapticEffect">null</Ref>

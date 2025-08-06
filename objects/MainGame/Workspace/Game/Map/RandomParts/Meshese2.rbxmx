@@ -101,9 +101,9 @@
       </Vector3>
       <bool name="DefinesCapabilities">false</bool>
       <Vector3 name="size">
-        <X>223.83887</X>
-        <Y>0.2099394</Y>
-        <Z>223.83887</Z>
+        <X>270</X>
+        <Y>0.21</Y>
+        <Z>270</Z>
       </Vector3>
       <int64 name="SourceAssetId">108374495030521</int64>
       <BinaryString name="Tags"></BinaryString>

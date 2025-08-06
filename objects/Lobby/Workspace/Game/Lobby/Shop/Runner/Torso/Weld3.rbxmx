@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Weld" referent="0">
     <Properties>
-      <string name="Name">Weld3</string>
+      <string name="Name">Weld</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <CoordinateFrame name="C0">
         <X>1.4227103</X>

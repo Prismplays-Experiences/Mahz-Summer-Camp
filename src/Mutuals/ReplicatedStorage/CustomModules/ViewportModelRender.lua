@@ -1,18 +1,21 @@
 local RunService = game:GetService("RunService")
+local Trove = require("@Packages/Trove")
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Packages = ReplicatedStorage:WaitForChild("Packages")
-local Trove = require(Packages.Trove)
+local DEFAULT_CAMERA_FOV = 5
+local ROTATION_SPEED = 45
 
-function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model)
+function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model, fov: number?, rotationSpeed: number?)
 	if not viewportFrame or not model then
 		return
 	end
 
+	fov = fov or DEFAULT_CAMERA_FOV
+	rotationSpeed = rotationSpeed or ROTATION_SPEED
+
 	viewportFrame:ClearAllChildren()
 
 	local camera = Instance.new("Camera")
-	camera.FieldOfView = 5
+	camera.FieldOfView = fov
 	camera.Parent = viewportFrame
 	viewportFrame.CurrentCamera = camera
 
@@ -57,7 +60,7 @@ function RenderModelInViewport(viewportFrame: ViewportFrame, model: Model)
 
 	local angle = 0
 	trove:Connect(RunService.RenderStepped, function(dt)
-		angle += dt * math.rad(45) -- 45 degrees/sec
+		angle += dt * math.rad(rotationSpeed :: number) -- 45 degrees/sec
 		container:PivotTo(CFrame.new(0, 0, 0) * CFrame.Angles(0, angle, 0))
 	end)
 	return trove
