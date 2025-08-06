@@ -49,7 +49,7 @@ end
 
 function GameManager.SetGame(game, place: string?)
 	local gamePath = Config:GetGamePath(place)
-	local newPlaceFile = roblox.serializePlace(game)
+	local newPlaceFile = roblox.serializePlace(game, true)
 
 	fs.writeFile(gamePath, newPlaceFile)
 end
