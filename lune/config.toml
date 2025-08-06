@@ -27,7 +27,7 @@ experience_info_out_path = "ReplicatedStorage/Info/ExperienceInfo.luau"
 marketing_out_path = "ReplicatedStorage/Info/Marketing.luau"
 
 [multiplace]
-current_place = "Lobby"
+current_place = "MainGame"
 places = [
     "MainGame",
     "Lobby",
