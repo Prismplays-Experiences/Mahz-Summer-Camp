@@ -61,7 +61,7 @@ local function GET_STATUS(player: Player): TextLabel
 	return status
 end
 
-local function GET_FILLER(player: Player): Frame & {UIGradient: UIGradient}
+local function GET_FILLER(player: Player): Frame & { UIGradient: UIGradient }
 	local powerupButton = GET_POWERUP_BUTTON(player)
 	local filler = powerupButton:WaitForChild("Filler")
 
@@ -217,5 +217,5 @@ return {
 
 		pcKeyCode = Enum.KeyCode.Q,
 		consoleKeyCode = Enum.KeyCode.ButtonL1,
-	}
+	},
 }

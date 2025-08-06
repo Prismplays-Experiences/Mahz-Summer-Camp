@@ -14,7 +14,7 @@ type RaceTapUiController = types.RaceTapUiController
 type Bar = types.Bar
 type RaceTapUiScope = types.RaceTapUiScope
 
-local RaceTapUiController = Knit.CreateController { Name = "RaceTapUiController" }
+local RaceTapUiController = Knit.CreateController({ Name = "RaceTapUiController" })
 
 function RaceTapUiController.KnitInit(self: RaceTapUiController)
 	self._bar = BAR
@@ -33,7 +33,7 @@ function RaceTapUiController.ConnectToSpeed(self: RaceTapUiController, speedSpri
 	local bar = self:_getBar()
 	local scope = self:_getScope()
 
-	local speedComputed = scope:Computed(function(use)		
+	local speedComputed = scope:Computed(function(use)
 		local currentSpeed = use(speedSpring)
 		local alpha = currentSpeed / MAX_SPEED
 

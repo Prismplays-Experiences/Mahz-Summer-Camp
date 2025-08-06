@@ -38,7 +38,7 @@ end
 function PowerupsController.Use(self: PowerupsController): boolean
 	local service = self._powerupsService
 	local _, success = service:Use():await()
-	
+
 	if success == true then
 		self._powerupsUiController:CleanViewportInstance()
 	end

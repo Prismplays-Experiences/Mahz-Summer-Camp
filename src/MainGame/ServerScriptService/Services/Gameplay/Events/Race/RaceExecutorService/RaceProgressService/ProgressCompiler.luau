@@ -49,7 +49,7 @@ function ProgressCompiler.GetProgressForPlayer(self: ProgressCompiler, player: P
 	return {
 		total = progress,
 		circle = circleProgress,
-		laps = lapsProgress
+		laps = lapsProgress,
 	}
 end
 

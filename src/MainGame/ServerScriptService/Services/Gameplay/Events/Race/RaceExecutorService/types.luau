@@ -189,7 +189,7 @@ export type RaceSpeedService = {
 	_raceSpeedStateService: RaceSpeedStateService,
 	_trove: Trove.Trove,
 
-	StartForEveryone: (self: RaceSpeedService, players: {Player}) -> (),
+	StartForEveryone: (self: RaceSpeedService, players: { Player }) -> (),
 	Start: (self: RaceSpeedService, player: Player) -> (),
 	Stop: (self: RaceSpeedService) -> (),
 	GetPlayerSpeed: (self: RaceSpeedService, player: Player) -> number,

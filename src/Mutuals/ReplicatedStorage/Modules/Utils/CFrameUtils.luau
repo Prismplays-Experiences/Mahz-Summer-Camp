@@ -30,5 +30,4 @@ function CFrameUtils.GetCframe(instance: Instance): CFrame
 	end
 end
 
-
 return CFrameUtils

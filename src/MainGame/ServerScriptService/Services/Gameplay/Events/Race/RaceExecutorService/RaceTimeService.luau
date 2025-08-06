@@ -1,17 +1,15 @@
-
-
 local RaceInfo = require("@Info/Events/RaceInfo")
 local Knit = require("@Packages/Knit")
 local types = require("./types")
 
 type RaceTimeService = types.RaceTimeService
 
-local RaceTimeService = Knit.CreateService {
+local RaceTimeService = Knit.CreateService({
 	Name = "RaceTimeService",
 	Client = {
 		Time = Knit.CreateProperty(0),
 	},
-}
+})
 
 function RaceTimeService.Start(self: RaceTimeService)
 	self:_setTime(RaceInfo.eventProps.duration)

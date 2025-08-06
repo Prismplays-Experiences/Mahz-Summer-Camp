@@ -91,7 +91,6 @@ function RaceSpeedStateService.GetSpeed(self: RaceSpeedStateService, player: Pla
 	return self._playersSpeed[player]
 end
 
-
 function RaceSpeedStateService._getPlayerStateMachine(self: RaceSpeedStateService, player: Player): { [any]: any }?
 	local states = self:_getAllPlayersStateMachines()
 

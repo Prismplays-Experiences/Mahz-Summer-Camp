@@ -12,7 +12,7 @@ export type RagdollProperties = {
 
 export type RagdollService = {
 	_ragdollsProperties: { [Player]: RagdollProperties } | {},
-	_playersService: {[any]: any},
+	_playersService: { [any]: any },
 
 	Ragdolled: Signal.Signal<Player>,
 	Deragdolled: Signal.Signal<Player>,
@@ -35,11 +35,10 @@ export type RagdollService = {
 	_changeCollideStateOfParts: (self: RagdollService, player: Player, state: boolean) -> (),
 	_configureHumanoid: (player: Player, isRagdoll: boolean) -> (),
 	_changeJointsEnabledState: (joints: { Motor6D | BallSocketConstraint }, state: boolean) -> (),
-	_getBallSockets: (self: RagdollService, player: Player) -> ({ BallSocketConstraint }),
-	_getMotors: (self: RagdollService, player: Player) -> ({ Motor6D }),
-	_getCollisionParts: (self: RagdollService, player: Player) -> ({ Part }),
+	_getBallSockets: (self: RagdollService, player: Player) -> { BallSocketConstraint },
+	_getMotors: (self: RagdollService, player: Player) -> { Motor6D },
+	_getCollisionParts: (self: RagdollService, player: Player) -> { Part },
 	_setRagdollState: (self: RagdollService, player: Player, state: boolean) -> (),
-
 }
 
 local RagdollService = Knit.CreateService({

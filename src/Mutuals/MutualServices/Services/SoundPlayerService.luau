@@ -1,7 +1,7 @@
 local SoundPlayer = require("@CustomModules/SoundPlayer")
 local Knit = require("@Packages/Knit")
 
-type SoundPlayerService = {[any]: any}
+type SoundPlayerService = { [any]: any }
 
 local SoundPlayerService = Knit.CreateService({
 	Name = "SoundPlayerService",

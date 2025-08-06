@@ -23,7 +23,7 @@ function PowerupsService.KnitStart(self: PowerupsService)
 	self._raceProgressService = Knit.GetService("RaceProgressService")
 end
 
-function PowerupsService.Client.Use(self: {Server: PowerupsService}, player: Player): boolean
+function PowerupsService.Client.Use(self: { Server: PowerupsService }, player: Player): boolean
 	local success = self.Server:Use(player)
 
 	return success

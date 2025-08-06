@@ -11,7 +11,7 @@ type RaceMembersService = types.RaceMembersService
 
 local RaceMembersService = Knit.CreateService({
 	Name = "RaceMembersService",
-	Client = {}
+	Client = {},
 })
 
 function RaceMembersService.KnitStart(self: RaceMembersService)

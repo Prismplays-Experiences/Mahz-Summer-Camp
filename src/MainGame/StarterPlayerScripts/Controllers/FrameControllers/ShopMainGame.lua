@@ -1,25 +1,19 @@
 --> Services
 ----------------------------------------
 local MarketplaceService = game:GetService("MarketplaceService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 
 --> Modules
 ----------------------------------------
 local Knit = require("@Packages/Knit")
-local IAPDATA = require("@Info/IAPDATA")
 
 --> Assets
 ----------------------------------------
-local Models = ReplicatedStorage:WaitForChild("Models")
-local SoundEffects = Models:WaitForChild("SoundEffects")
-
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 local Main = PlayerGui:WaitForChild("Main")
 local Frames = Main:WaitForChild("Frames")
 local MainFrame = Frames:WaitForChild("Shop")
-local UseSupplimentBtn = Main:WaitForChild("Core"):WaitForChild("UseSuppliment")
 
 --> Knit Setup
 ----------------------------------------

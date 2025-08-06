@@ -9,10 +9,10 @@ type RaceRewardsService = types.RaceRewardsService
 local WON_SOUND = Assets.sounds.Events.Race.Won
 local FIRST_PLACE_WEIGHT_LOSS = RaceInfo.eventProps.firstPlaceWeightLoss
 
-local RaceRewardsService = Knit.CreateService {
+local RaceRewardsService = Knit.CreateService({
 	Name = "RaceRewardsService",
 	Client = {},
-}
+})
 
 function RaceRewardsService.KnitStart(self: RaceRewardsService): ()
 	self._raceProgressService = Knit.GetService("RaceProgressService")
@@ -24,7 +24,7 @@ function RaceRewardsService.GiveRewards(self: RaceRewardsService): ()
 
 	for playerPlace, info in pairs(leaders) do
 		local player = info.player
-		
+
 		local weightLoss = self._calculateWeightLoss(playerPlace, playersQuantity)
 		local lifesLoss = self._calculateLifesLoss(playerPlace, playersQuantity)
 
@@ -48,7 +48,7 @@ end
 
 function RaceRewardsService._calculateWeightLoss(playerPlace: number, playersQuantity: number): number
 	playerPlace = if playerPlace == 1 then 0 else playerPlace
-	
+
 	local weightMultiplier = (playersQuantity - playerPlace) / playersQuantity
 	local weightLoss = FIRST_PLACE_WEIGHT_LOSS * weightMultiplier
 

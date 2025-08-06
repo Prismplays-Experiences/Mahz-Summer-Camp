@@ -37,7 +37,8 @@
     "feature-mantle.yml": true,
     "prod-mantle.yml": true,
     "asphalt.lock.toml": true,
-    "roblox.yml": true
+    "roblox.yml": true,
+    "stylua.toml": true,
   },
 
   "[luau]": {

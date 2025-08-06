@@ -6,10 +6,10 @@ type RaceService = types.RaceService
 local Knit = require("@Packages/Knit")
 local Signal = require("@Packages/Signal")
 
-local Race = Knit.CreateService {
+local Race = Knit.CreateService({
 	Name = "Race",
 	Client = {},
-}
+})
 
 Race.MinPlayers = RaceInfo.eventProps.minPlayers
 Race.LockWorkoutMachines = RaceInfo.eventProps.lockWorkoutMachines
@@ -26,7 +26,7 @@ end
 
 function Race.Start(self: RaceService)
 	self._raceExecutorService:Start()
-	
+
 	self.Ended:Fire()
 end
 

@@ -3,7 +3,7 @@ local types = require("../types")
 
 type RaceTapController = types.RaceTapController
 
-local RaceTapController = Knit.CreateController { Name = "RaceTapController" }
+local RaceTapController = Knit.CreateController({ Name = "RaceTapController" })
 
 function RaceTapController.KnitStart(self: RaceTapController)
 	self._raceTapSpeedController = Knit.GetController("RaceTapSpeedController")

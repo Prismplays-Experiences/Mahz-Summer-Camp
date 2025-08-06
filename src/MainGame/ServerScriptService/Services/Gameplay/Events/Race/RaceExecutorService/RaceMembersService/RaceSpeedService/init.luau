@@ -22,7 +22,7 @@ function RaceSpeedService.CreateStateMachineForPlayer(self: RaceSpeedService, pl
 	self._raceSpeedStateService:CreateStateMachineForPlayer(player)
 end
 
-function RaceSpeedService.StartForEveryone(self: RaceSpeedService, players: {Player})
+function RaceSpeedService.StartForEveryone(self: RaceSpeedService, players: { Player })
 	for _, player in pairs(players) do
 		self:_connectEvents(player)
 	end

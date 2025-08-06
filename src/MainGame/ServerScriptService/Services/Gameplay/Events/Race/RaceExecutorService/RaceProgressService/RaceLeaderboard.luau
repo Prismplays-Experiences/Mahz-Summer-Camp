@@ -3,21 +3,32 @@ local types = require("../types")
 type ProgressTable = types.ProgressTable
 type ProgressTypes = types.ProgressTypes
 
-type Leaderboard = {LeaderboardEntry}
+type Leaderboard = { LeaderboardEntry }
 type LeaderboardEntry = {
 	player: Player,
-	progress: number
+	progress: number,
 }
 
 export type RaceLeaderboard = {
-	GetRelativePlayerInfo: (self: RaceLeaderboard, progresses: { [Player]: ProgressTable }, player: Player, deltaIndex: number, progressKey: ProgressTypes?) -> LeaderboardEntry?,
+	GetRelativePlayerInfo: (
+		self: RaceLeaderboard,
+		progresses: { [Player]: ProgressTable },
+		player: Player,
+		deltaIndex: number,
+		progressKey: ProgressTypes?
+	) -> LeaderboardEntry?,
 
-	SortByLeaders: (progresses: { [Player]: ProgressTable }, progressKey: ProgressTypes?) -> Leaderboard
+	SortByLeaders: (progresses: { [Player]: ProgressTable }, progressKey: ProgressTypes?) -> Leaderboard,
 }
 
 local RaceLeaderboard = {}
 
-function RaceLeaderboard.GetNearestPlayer(self: RaceLeaderboard, progresses: { [Player]: ProgressTable }, player: Player, progressKey: ProgressTypes?): Player?
+function RaceLeaderboard.GetNearestPlayer(
+	self: RaceLeaderboard,
+	progresses: { [Player]: ProgressTable },
+	player: Player,
+	progressKey: ProgressTypes?
+): Player?
 	local nearestPlayer = nil
 
 	local previousPlayerInfo = self:GetRelativePlayerInfo(progresses, player, -1, progressKey)
@@ -30,14 +41,22 @@ function RaceLeaderboard.GetNearestPlayer(self: RaceLeaderboard, progresses: { [
 			nearestPlayer = nextPlayerInfo.player
 		end
 	else
-		nearestPlayer = if nextPlayerInfo then nextPlayerInfo.player elseif previousPlayerInfo then previousPlayerInfo.player else nil
+		nearestPlayer = if nextPlayerInfo
+			then nextPlayerInfo.player
+			elseif previousPlayerInfo then previousPlayerInfo.player
+			else nil
 	end
 
 	return nearestPlayer
 end
 
-
-function RaceLeaderboard.GetRelativePlayerInfo(self: RaceLeaderboard, progresses: { [Player]: ProgressTable }, player: Player, deltaIndex: number, progressKey: ProgressTypes?): LeaderboardEntry?
+function RaceLeaderboard.GetRelativePlayerInfo(
+	self: RaceLeaderboard,
+	progresses: { [Player]: ProgressTable },
+	player: Player,
+	deltaIndex: number,
+	progressKey: ProgressTypes?
+): LeaderboardEntry?
 	local leaderboard = self.SortByLeaders(progresses, progressKey)
 	local playerInfo, playerIndex = nil, nil
 
@@ -66,8 +85,10 @@ function RaceLeaderboard.GetRelativePlayerInfo(self: RaceLeaderboard, progresses
 	return relativePlayerInfo
 end
 
-
-function RaceLeaderboard.SortByLeaders(progresses: { [Player]: ProgressTable }, progressKey: ProgressTypes?): Leaderboard
+function RaceLeaderboard.SortByLeaders(
+	progresses: { [Player]: ProgressTable },
+	progressKey: ProgressTypes?
+): Leaderboard
 	local leaderboard = {}
 
 	progressKey = progressKey or "total"
@@ -75,7 +96,7 @@ function RaceLeaderboard.SortByLeaders(progresses: { [Player]: ProgressTable }, 
 	for player, progress in pairs(progresses) do
 		table.insert(leaderboard, {
 			player = player,
-			progress = progress[progressKey]
+			progress = progress[progressKey],
 		})
 	end
 

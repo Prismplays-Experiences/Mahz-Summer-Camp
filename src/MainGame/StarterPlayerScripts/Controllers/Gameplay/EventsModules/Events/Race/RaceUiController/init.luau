@@ -8,7 +8,7 @@ type RaceUiController = types.RaceUiController
 
 local player = Players.LocalPlayer
 
-local RaceUiController = Knit.CreateController { Name = "RaceUiController" }
+local RaceUiController = Knit.CreateController({ Name = "RaceUiController" })
 
 function RaceUiController.KnitStart(self: RaceUiController)
 	self:_setProperties()

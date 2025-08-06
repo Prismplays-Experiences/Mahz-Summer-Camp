@@ -33,9 +33,13 @@ export type RaceTimeController = {
 }
 
 export type PowerupsController = {
-	_powerupsService: { Use: (_: { [any]: any }) -> {
-		await: (_: { [any]: any }) -> (boolean, boolean),
-	}, PowerupReceived: Signal.Signal<string>, LastTimeUsed: RemoteProperty<number> },
+	_powerupsService: {
+		Use: (_: { [any]: any }) -> {
+			await: (_: { [any]: any }) -> (boolean, boolean),
+		},
+		PowerupReceived: Signal.Signal<string>,
+		LastTimeUsed: RemoteProperty<number>,
+	},
 	_powerupsUiController: PowerupsUiController,
 	_powerupsActivationController: PowerupsActivationController,
 
@@ -90,7 +94,7 @@ export type Bar = CanvasGroup & {
 
 export type RaceTapUiScope = Fusion.Scope<{
 	Computed: (any, (Fusion.Use, any) -> number) -> Fusion.Computed<number>,
-	Hydrate: (any, any) -> (({Size: Fusion.Computed<UDim2>}) -> any),
+	Hydrate: (any, any) -> ({ Size: Fusion.Computed<UDim2> }) -> any,
 }>
 
 export type RaceTapUiController = {
@@ -101,7 +105,7 @@ export type RaceTapUiController = {
 	ConnectToSpeed: (self: RaceTapUiController, speed: Fusion.Spring<number>) -> (),
 
 	_getBar: (self: RaceTapUiController) -> Bar,
-	_getScope: (self: RaceTapUiController) -> RaceTapUiScope
+	_getScope: (self: RaceTapUiController) -> RaceTapUiScope,
 }
 
 export type PowerupsActivationController = {
@@ -150,12 +154,12 @@ export type PowerupsViewportController = {
 type PowerupsFillerScope = Fusion.Scope<{
 	Value: (any, number) -> Fusion.Value<number>,
 	Computed: (any, (Fusion.Use, any) -> number) -> Fusion.Computed<number>,
-	Hydrate: (any, any) -> (({Size: Fusion.Computed<UDim2>}) -> any),
+	Hydrate: (any, any) -> ({ Size: Fusion.Computed<UDim2> }) -> any,
 	Spring: (any, Fusion.Value<number>, number, number) -> Fusion.Spring<number>,
 }>
 
 export type PowerupsFillerController = {
-	_filler: Frame & {UIGradient: UIGradient},
+	_filler: Frame & { UIGradient: UIGradient },
 	_lastTimeUsed: Fusion.Value<number>,
 	_scope: PowerupsFillerScope,
 
@@ -163,13 +167,11 @@ export type PowerupsFillerController = {
 
 	_setProperties: (self: PowerupsFillerController) -> (),
 	_hydrateFiller: (self: PowerupsFillerController) -> (),
-	_getFiller: (self: PowerupsFillerController) -> Frame & {UIGradient: UIGradient},
+	_getFiller: (self: PowerupsFillerController) -> Frame & { UIGradient: UIGradient },
 	_getScope: (self: PowerupsFillerController) -> PowerupsFillerScope,
 	_getLastTimeUsed: (self: PowerupsFillerController) -> Fusion.Value<number>,
 }
 
-export type PowerupsKeyUiController = {
-	
-}
+export type PowerupsKeyUiController = {}
 
 return {}

@@ -17,7 +17,7 @@ BOOKED_INSTANCES_FOLDER.Parent = workspace
 
 local BookedInstance = {}
 
-function BookedInstance.new<T>(instance: T & {[any]: any}): BookedInstance<T>
+function BookedInstance.new<T>(instance: T & { [any]: any }): BookedInstance<T>
 	local info = {}
 
 	local self = newproxy(true)
@@ -29,7 +29,7 @@ function BookedInstance.new<T>(instance: T & {[any]: any}): BookedInstance<T>
 		if key == "_active" or key == "_instance" or key == "Destroy" or BookedInstance[key] ~= nil then
 			value = info[key] or BookedInstance[key]
 		else
-			value = (instance :: {[any]: any})[key]
+			value = (instance :: { [any]: any })[key]
 
 			if typeof(value) == "function" then
 				return function(_, ...)
@@ -45,7 +45,7 @@ function BookedInstance.new<T>(instance: T & {[any]: any}): BookedInstance<T>
 		if key == "_active" or key == "_instance" then
 			rawset(info, key, value)
 		else
-			(instance :: {[any]: any})[key] = value
+			(instance :: { [any]: any })[key] = value
 		end
 	end
 
@@ -71,7 +71,7 @@ function BookedInstance.Destroy<T>(self: BookedInstance<T>)
 	self:_setPosition(DESTROY_POSITION)
 	self._active = false
 
-	(self :: {[any]: any}).Parent = BOOKED_INSTANCES_FOLDER
+	(self :: { [any]: any }).Parent = BOOKED_INSTANCES_FOLDER
 end
 
 function BookedInstance.IsActive<T>(self: BookedInstance<T>): boolean

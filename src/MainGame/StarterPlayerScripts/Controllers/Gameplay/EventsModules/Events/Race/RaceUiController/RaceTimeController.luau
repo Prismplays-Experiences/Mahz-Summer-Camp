@@ -8,12 +8,12 @@ type RaceTimeController = types.RaceTimeController
 
 local player = Players.LocalPlayer
 
-local RaceTimeController = Knit.CreateController { Name = "RaceTimeController" }
+local RaceTimeController = Knit.CreateController({ Name = "RaceTimeController" })
 
 function RaceTimeController.KnitInit(self: RaceTimeController)
 	self._timeService = Knit.GetService("RaceTimeService")
 	self._timeLabel = RaceInfo.ui.status(player)
-	
+
 	self._timeService.Time:Observe(function(time: number)
 		local timeLabel = self:_getTimeLabel()
 

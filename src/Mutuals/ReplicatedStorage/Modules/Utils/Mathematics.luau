@@ -3,7 +3,12 @@ local Mathematics = {}
 local MAX_ANGLE = 2 * math.pi
 
 -- In polar coordinates
-function Mathematics.CalculateAngleBetweenPlayerAndPart(player: Player, part: BasePart, additionalAngle: number?, areDegrees: boolean?): number
+function Mathematics.CalculateAngleBetweenPlayerAndPart(
+	player: Player,
+	part: BasePart,
+	additionalAngle: number?,
+	areDegrees: boolean?
+): number
 	local multiplier = if areDegrees == true then 180 / math.pi else 1
 	local playerPosition = Mathematics.GetPlayerPosition(player)
 	local partPosition = part.Position
@@ -21,7 +26,12 @@ function Mathematics.CalculateAngleBetweenPlayerAndPart(player: Player, part: Ba
 end
 
 -- In polar coordinates
-function Mathematics.CalculateAngleBetweenVectors(centerPosition: Vector3, pointPosition: Vector3, additionalAngle: number?, areDegrees: boolean?): number
+function Mathematics.CalculateAngleBetweenVectors(
+	centerPosition: Vector3,
+	pointPosition: Vector3,
+	additionalAngle: number?,
+	areDegrees: boolean?
+): number
 	local differenceVector = Mathematics.GetDifferenceVector2(centerPosition, pointPosition)
 	local angle = Mathematics.CalculateAngleOfVector2(differenceVector, additionalAngle, areDegrees)
 
@@ -29,7 +39,11 @@ function Mathematics.CalculateAngleBetweenVectors(centerPosition: Vector3, point
 end
 
 -- In polar coordinates
-function Mathematics.CalculateAngleOfVector2(diffVector: Vector2, additionalAngle: number?, areDegrees: boolean?): number
+function Mathematics.CalculateAngleOfVector2(
+	diffVector: Vector2,
+	additionalAngle: number?,
+	areDegrees: boolean?
+): number
 	local multiplier = if areDegrees == true then 180 / math.pi else 1
 	additionalAngle = additionalAngle or 0
 

@@ -18,7 +18,7 @@ local MAX_SPEED = RaceInfo.tapSpeed.maxSpeed
 local SPEED_SPRING_DAMPING = RaceInfo.tapSpeed.speedSpringDamping
 local SPEED_SPRING_SPEED = RaceInfo.tapSpeed.speedSpringSpeed
 
-local RaceTapSpeedController = Knit.CreateController { Name = "RaceTapSpeedController" }
+local RaceTapSpeedController = Knit.CreateController({ Name = "RaceTapSpeedController" })
 
 function RaceTapSpeedController.KnitInit(self: RaceTapSpeedController)
 	self:_setProperties()
@@ -55,7 +55,7 @@ function RaceTapSpeedController.GetSpeedSpring(self: RaceTapSpeedController): Fu
 end
 
 function RaceTapSpeedController._setProperties(self: RaceTapSpeedController)
-	self._scope = Fusion.scoped({Value = Fusion.Value, Spring = Fusion.Spring, Observer = Fusion.Observer})
+	self._scope = Fusion.scoped({ Value = Fusion.Value, Spring = Fusion.Spring, Observer = Fusion.Observer })
 	self._trove = Trove.new()
 
 	self._speed = self._scope:Value(START_SPEED)
@@ -72,7 +72,11 @@ function RaceTapSpeedController._connectEvents(self: RaceTapSpeedController)
 			return
 		end
 
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.Gamepad1 then
+		if
+			input.UserInputType == Enum.UserInputType.MouseButton1
+			or input.UserInputType == Enum.UserInputType.Touch
+			or input.UserInputType == Enum.UserInputType.Gamepad1
+		then
 			self:_addSpeed(SPEED_PER_TAP)
 		end
 	end)
@@ -92,7 +96,7 @@ end
 
 function RaceTapSpeedController._addSpeed(self: RaceTapSpeedController, additionalSpeed: number)
 	local speed = self:GetSpeed()
-	
+
 	local oldSpeed = peek(speed)
 	local newSpeed = math.clamp(oldSpeed + additionalSpeed, 0, MAX_SPEED)
 

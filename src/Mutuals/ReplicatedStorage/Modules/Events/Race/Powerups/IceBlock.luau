@@ -5,7 +5,7 @@ local ICE_BLOCK_TEMPLATE = RaceInfo.instances.powerups.smallIceBlockTemplate
 
 local RAYCAST_PARAMS = RaycastParams.new()
 RAYCAST_PARAMS.FilterType = Enum.RaycastFilterType.Include
-RAYCAST_PARAMS.FilterDescendantsInstances = {workspace.Game.Map.RandomParts}
+RAYCAST_PARAMS.FilterDescendantsInstances = { workspace.Game.Map.RandomParts }
 
 type iceBlock = Model
 
@@ -107,6 +107,5 @@ end
 function IceBlock._getPlayer(self: Powerup): Player
 	return self._player
 end
-
 
 return IceBlock

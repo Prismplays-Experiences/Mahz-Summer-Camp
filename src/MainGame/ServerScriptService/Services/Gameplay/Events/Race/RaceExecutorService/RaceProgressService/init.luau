@@ -54,19 +54,31 @@ function RaceProgressService.IncrementLap(self: RaceProgressService, player: Pla
 	self._progressCompiler:IncrementLap(player, quantity)
 end
 
-function RaceProgressService.GetNearestPlayer(self: RaceProgressService, player: Player, progressKey: ProgressTypes?): Player?
+function RaceProgressService.GetNearestPlayer(
+	self: RaceProgressService,
+	player: Player,
+	progressKey: ProgressTypes?
+): Player?
 	local progresses = self:GetProgresses()
 
 	return RaceLeaderboard:GetNearestPlayer(progresses, player, progressKey)
 end
 
-function RaceProgressService.GetRelativePlayerInfo(self: RaceProgressService, player: Player, deltaIndex: number, progressKey: ProgressTypes?): {player: Player, progress: number}?
+function RaceProgressService.GetRelativePlayerInfo(
+	self: RaceProgressService,
+	player: Player,
+	deltaIndex: number,
+	progressKey: ProgressTypes?
+): { player: Player, progress: number }?
 	local progresses = self:GetProgresses()
 
 	return RaceLeaderboard:GetRelativePlayerInfo(progresses, player, deltaIndex, progressKey)
 end
 
-function RaceProgressService.GetLeaderboard(self: RaceProgressService, progressKey: ProgressTypes?): { [number]: {player: Player, progress: number} }
+function RaceProgressService.GetLeaderboard(
+	self: RaceProgressService,
+	progressKey: ProgressTypes?
+): { [number]: { player: Player, progress: number } }
 	local progresses = self:GetProgresses()
 
 	return RaceLeaderboard.SortByLeaders(progresses, progressKey)
