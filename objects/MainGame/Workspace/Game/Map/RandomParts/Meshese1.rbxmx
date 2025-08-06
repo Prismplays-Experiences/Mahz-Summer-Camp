@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="MeshPart" referent="0">
     <Properties>
-      <string name="Name">Meshese1</string>
+      <string name="Name">Meshes/e</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
@@ -101,9 +101,9 @@
       </Vector3>
       <bool name="DefinesCapabilities">false</bool>
       <Vector3 name="size">
-        <X>226.43887</X>
-        <Y>0.21237795</Y>
-        <Z>226.43887</Z>
+        <X>315</X>
+        <Y>0.212</Y>
+        <Z>315</Z>
       </Vector3>
       <int64 name="SourceAssetId">108374495030521</int64>
       <BinaryString name="Tags"></BinaryString>

@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="MeshPart" referent="0">
     <Properties>
-      <string name="Name">Meshesbencbh_Cylinder.001 (1)</string>
+      <string name="Name">Meshes/bencbh_Cylinder.001 (1)</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
@@ -15,9 +15,9 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-33.375984</X>
+        <X>-24.28363</X>
         <Y>3.3939633</Y>
-        <Z>-9.59116</Z>
+        <Z>-24.183252</Z>
         <R00>0</R00>
         <R01>0</R01>
         <R02>1</R02>

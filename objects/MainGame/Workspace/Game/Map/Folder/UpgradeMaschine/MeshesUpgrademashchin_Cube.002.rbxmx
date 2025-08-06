@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="MeshPart" referent="0">
     <Properties>
-      <string name="Name">MeshesUpgrademashchin_Cube.002</string>
+      <string name="Name">Meshes/Upgrademashchin_Cube.002</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
@@ -15,9 +15,9 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-165.54428</X>
+        <X>-185.46564</X>
         <Y>6.486345</Y>
-        <Z>-33.621384</Z>
+        <Z>-43.32299</Z>
         <R00>0.08715577</R00>
         <R01>0</R01>
         <R02>-0.9961947</R02>

@@ -120,7 +120,7 @@ return {
 	},
 
 	trackConfig = {
-		distanceBetweenParallelLines = 3.5, --3.35
+		distanceBetweenParallelLines = 5,
 		laps = 2,
 		leaderboardsUpdateInterval = 1,
 		checkpoints = { { 0, 0.24 }, { 0.24, 0.48 }, { 0.48, 0.72 }, { 0.72, 0.95 }, { 0.95, 1 } },
@@ -169,8 +169,8 @@ return {
 	},
 
 	teleportation = {
-		raceStartPosition = Vector3.new(-107.9, 6.438, 124.05),
-		mapCenterPosition = Vector3.new(-103.269, 6.675, 19.281),
+		raceStartPosition = Vector3.new(-116.288, 6.777, 154.166),
+		mapCenterPosition = Vector3.new(-103.269, 6.777, 19.281),
 	},
 
 	ui = {

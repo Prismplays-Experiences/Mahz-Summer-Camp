@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="MeshPart" referent="0">
     <Properties>
-      <string name="Name">MeshesDipsandPullups_Cube</string>
+      <string name="Name">Meshes/DipsandPullups_Cube</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
@@ -15,9 +15,9 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-35.743668</X>
+        <X>-26.743668</X>
         <Y>6.5173097</Y>
-        <Z>61.044037</Z>
+        <Z>78.98428</Z>
         <R00>0</R00>
         <R01>0</R01>
         <R02>1</R02>

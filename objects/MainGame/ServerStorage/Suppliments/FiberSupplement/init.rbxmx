@@ -21,7 +21,7 @@
         <R22>-0.25882</R22>
       </CoordinateFrame>
       <token name="LevelOfDetail">0</token>
-      <bool name="ManualActivationOnly">false</bool>
+      <bool name="ManualActivationOnly">true</bool>
       <CoordinateFrame name="ModelMeshCFrame">
         <X>0</X>
         <Y>0</Y>
@@ -57,9 +57,9 @@
       <string name="ToolTip"></string>
       <OptionalCoordinateFrame name="WorldPivotData">
         <CFrame>
-          <X>0</X>
-          <Y>0</Y>
-          <Z>0</Z>
+          <X>-133.86024</X>
+          <Y>0.69115967</Y>
+          <Z>-171.16971</Z>
           <R00>1</R00>
           <R01>0</R01>
           <R02>0</R02>

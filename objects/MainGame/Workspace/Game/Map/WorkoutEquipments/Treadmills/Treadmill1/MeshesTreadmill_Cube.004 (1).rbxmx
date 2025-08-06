@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="MeshPart" referent="0">
     <Properties>
-      <string name="Name">MeshesTreadmill_Cube.004 (1)</string>
+      <string name="Name">Meshes/Treadmill_Cube.004 (1)</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
@@ -15,9 +15,9 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-51.212093</X>
+        <X>-52.885933</X>
         <Y>2.7889977</Y>
-        <Z>-16.290014</Z>
+        <Z>-40.956326</Z>
         <R00>1</R00>
         <R01>0</R01>
         <R02>0</R02>

@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="MeshPart" referent="0">
     <Properties>
-      <string name="Name">Meshespotato</string>
+      <string name="Name">Meshes/potato</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize">BwAAAAYAAABDRnJhbWUGAAAAAAAAAAAIAAAARHVyYXRpb24GAAAAAAAAAAAJAAAARW1pdERlbGF5BgAAAAAAAAAABwAAAFJvYXRpb24GAAAAAAAAAAAEAAAAU2l6ZQYAAAAAAAAAAA8AAABUaW1lQmVmb3JlUmVzZXQGAAAAAAAAAAAMAAAAVHJhbnNwYXJlbmN5BgAAAAAAAAAA</BinaryString>
@@ -18,7 +18,7 @@
         <X>3.1358643</X>
         <Y>0.92969555</Y>
         <Z>12.7878475</Z>
-        <R00>1</R00>
+        <R00>0.99999905</R00>
         <R01>0</R01>
         <R02>0</R02>
         <R10>0</R10>
@@ -33,7 +33,7 @@
       <bool name="CanTouch">true</bool>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <bool name="CastShadow">true</bool>
-      <string name="CollisionGroup">Default</string>
+      <string name="CollisionGroup">NPCCollision</string>
       <int name="CollisionGroupId">0</int>
       <Color3uint8 name="Color3uint8">14850880</Color3uint8>
       <PhysicalProperties name="CustomPhysicalProperties">

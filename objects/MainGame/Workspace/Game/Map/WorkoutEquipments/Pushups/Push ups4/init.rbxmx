@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Model" referent="0">
     <Properties>
-      <string name="Name">Push ups4</string>
+      <string name="Name">Push ups</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <token name="LevelOfDetail">0</token>
@@ -34,9 +34,9 @@
       <BinaryString name="Tags"></BinaryString>
       <OptionalCoordinateFrame name="WorldPivotData">
         <CFrame>
-          <X>-82.349976</X>
+          <X>-89.306786</X>
           <Y>0.2999999</Y>
-          <Z>-1.9499755</Z>
+          <Z>-0.15163714</Z>
           <R00>1</R00>
           <R01>0</R01>
           <R02>0</R02>

@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="MeshPart" referent="0">
     <Properties>
-      <string name="Name">MeshesKitchen_Cube.004 (1)</string>
+      <string name="Name">Meshes/Kitchen_Cube.004 (1)</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
@@ -15,18 +15,18 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-122.37923</X>
-        <Y>5.2443132</Y>
-        <Z>-57.621033</Z>
-        <R00>-1</R00>
+        <X>-144.12953</X>
+        <Y>5.244312</Y>
+        <Z>-70.38634</Z>
+        <R00>-0.9960685</R00>
         <R01>0</R01>
-        <R02>0</R02>
+        <R02>-0.088586316</R02>
         <R10>0</R10>
         <R11>1</R11>
         <R12>0</R12>
-        <R20>0</R20>
+        <R20>0.088586316</R20>
         <R21>0</R21>
-        <R22>-1</R22>
+        <R22>-0.9960685</R22>
       </CoordinateFrame>
       <bool name="CanCollide">true</bool>
       <bool name="CanQuery">true</bool>

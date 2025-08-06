@@ -7,7 +7,7 @@ local types = require("../types")
 
 local PARALLEL_LINES_DISTANCE = RaceInfo.trackConfig.distanceBetweenParallelLines
 local DIRECTION_MULTIPLIERS = { -1, 1 } -- Left and Right
-local DISTANCE_MULTIPLIERS = { 0.5, 1.685 } -- Closer and further from the origin
+local DISTANCE_MULTIPLIERS = { 0.5, 0.5 + 1, 0.5 + 1 * 2, 0.5 + 1 * 3 } -- Closer and further from the origin
 
 local VISUALIZE = false
 

@@ -16,7 +16,7 @@
         <B>0</B>
       </Color3>
       <bool name="Enabled">true</bool>
-      <token name="LineJoinMode">0</token>
+      <token name="LineJoinMode">2</token>
       <bool name="DefinesCapabilities">false</bool>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>

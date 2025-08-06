@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Model" referent="0">
     <Properties>
-      <string name="Name">GamepassStand1</string>
+      <string name="Name">GamepassStand</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <token name="LevelOfDetail">0</token>
@@ -34,18 +34,18 @@
       <BinaryString name="Tags"></BinaryString>
       <OptionalCoordinateFrame name="WorldPivotData">
         <CFrame>
-          <X>-179.13612</X>
-          <Y>1.3913232</Y>
-          <Z>-11.285715</Z>
-          <R00>-0.7053819</R00>
-          <R01>0.06975648</R01>
-          <R02>0.7053868</R02>
-          <R10>0.04932517</R10>
+          <X>-186.0895</X>
+          <Y>3.356999</Y>
+          <Z>-11.301</Z>
+          <R00>-0.9975641</R00>
+          <R01>0.06975627</R01>
+          <R02>0</R02>
+          <R10>0.06975627</R10>
           <R11>0.9975641</R11>
-          <R12>-0.049325384</R12>
-          <R20>-0.7071093</R20>
-          <R21>0.000000094830746</R21>
-          <R22>-0.7071043</R22>
+          <R12>0</R12>
+          <R20>0</R20>
+          <R21>0</R21>
+          <R22>-1</R22>
         </CFrame>
       </OptionalCoordinateFrame>
     </Properties>

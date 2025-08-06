@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Part" referent="0">
     <Properties>
-      <string name="Name">Part12</string>
+      <string name="Name">Part</string>
       <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <bool name="AudioCanCollide">true</bool>
@@ -14,18 +14,18 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>-221.31064</X>
-        <Y>32.16401</Y>
-        <Z>-33.006176</Z>
-        <R00>-0.33942214</R00>
-        <R01>-0.9249588</R01>
-        <R02>0.17101003</R02>
+        <X>-51.10647</X>
+        <Y>32.633118</Y>
+        <Z>104.32663</Z>
+        <R00>0.26121008</R00>
+        <R01>-0.9523665</R01>
+        <R02>0.15737867</R02>
         <R10>-0.03015366</R10>
         <R11>-0.17100993</R11>
         <R12>-0.9848081</R12>
-        <R20>0.940151</R20>
-        <R21>-0.33942217</R21>
-        <R22>0.030153695</R22>
+        <R20>0.96481115</R20>
+        <R21>0.25249618</R21>
+        <R22>-0.073386855</R22>
       </CoordinateFrame>
       <bool name="CanCollide">true</bool>
       <bool name="CanQuery">true</bool>

@@ -14,18 +14,18 @@
       <token name="BottomSurface">0</token>
       <token name="BottomSurfaceInput">0</token>
       <CoordinateFrame name="CFrame">
-        <X>0.23489475</X>
-        <Y>0.23118636</Y>
-        <Z>29.477917</Z>
-        <R00>0.995184</R00>
+        <X>-39.097748</X>
+        <Y>0.23098499</Y>
+        <Z>138.6857</Z>
+        <R00>0.47278142</R00>
         <R01>0</R01>
-        <R02>-0.09802526</R02>
+        <R02>-0.88117975</R02>
         <R10>0</R10>
         <R11>1</R11>
         <R12>0</R12>
-        <R20>0.09802527</R20>
+        <R20>0.88117975</R20>
         <R21>0</R21>
-        <R22>0.99518394</R22>
+        <R22>0.47278142</R22>
       </CoordinateFrame>
       <bool name="CanCollide">false</bool>
       <bool name="CanQuery">false</bool>

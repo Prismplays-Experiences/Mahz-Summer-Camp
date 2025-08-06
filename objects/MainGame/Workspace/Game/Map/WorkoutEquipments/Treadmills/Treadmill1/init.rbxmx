@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Model" referent="0">
     <Properties>
-      <string name="Name">Treadmill1</string>
+      <string name="Name">Treadmill</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <token name="LevelOfDetail">0</token>
@@ -34,9 +34,9 @@
       <BinaryString name="Tags"></BinaryString>
       <OptionalCoordinateFrame name="WorldPivotData">
         <CFrame>
-          <X>-51.212093</X>
-          <Y>2.9556613</Y>
-          <Z>-14.850823</Z>
+          <X>-52.885933</X>
+          <Y>2.9556608</Y>
+          <Z>-39.517136</Z>
           <R00>1</R00>
           <R01>0</R01>
           <R02>0</R02>

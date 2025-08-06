@@ -31,10 +31,11 @@
     "README.md": true,
     ".pesde": true,
     ".github": true,
-    "aftman.toml": false,
+    "aftman.toml": true,
     "sourcemap.json": true,
     "asphalt_locks_files": true,
     "feature-mantle.yml": true,
+    "prod-mantle.yml": true,
     "asphalt.lock.toml": true,
     "roblox.yml": true
   },
