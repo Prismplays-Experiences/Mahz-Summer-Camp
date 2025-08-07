@@ -230,8 +230,12 @@ end
 
 local ExperienceInfo = require("@Info/ExperienceInfo")
 local Cash = Player:WaitForChild("PrivateStats"):WaitForChild("Currency")
-local CashLabel = placeId == ExperienceInfo.Places.Lobby.Id and HUD:WaitForChild("CashCounter"):WaitForChild("Amount")
-	or HUD:WaitForChild("Coins")
+local CashLabel
+if placeId == ExperienceInfo.Places.Lobby.Id then
+	CashLabel = HUD:WaitForChild("CashCounter"):WaitForChild("Amount")
+else
+	CashLabel = HUD:WaitForChild("Coins")
+end
 
 local TweenCash = Instance.new("IntValue")
 TweenCash.Value = Cash.Value

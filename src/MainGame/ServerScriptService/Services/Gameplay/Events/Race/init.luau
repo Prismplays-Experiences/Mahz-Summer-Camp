@@ -15,6 +15,7 @@ Race.MinPlayers = RaceInfo.eventProps.minPlayers
 Race.LockWorkoutMachines = RaceInfo.eventProps.lockWorkoutMachines
 Race.YieldClock = RaceInfo.eventProps.yieldClock
 Race.Ended = Signal.new()
+Race.Locked = true -- whether it can be used in events or not. I did this to prevent race from events until saturday.
 Race.Details = {
 	Text = RaceInfo.eventProps.title,
 	Image = RaceInfo.eventProps.image,

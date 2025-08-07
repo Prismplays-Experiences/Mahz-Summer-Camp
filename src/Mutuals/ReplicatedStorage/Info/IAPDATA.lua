@@ -149,14 +149,14 @@ return {
 			EventName = "FoodBomb",
 			Rarity = "Uncommon",
 		},
-		["1800mSprint"] = {
-			Cost = 250,
-			ProductId = 3360952251,
-			Name = "1800mSprint",
-			Description = "Race 1800 meters against others",
-			Image = "rbxassetid://94937288830539",
-			EventName = "Race",
-			Rarity = "Rare",
-		},
+		-- ["1800mSprint"] = {
+		-- 	Cost = 250,
+		-- 	ProductId = 3360952251,
+		-- 	Name = "1800mSprint",
+		-- 	Description = "Race 1800 meters against others",
+		-- 	Image = "rbxassetid://94937288830539",
+		-- 	EventName = "Race",
+		-- 	Rarity = "Rare",
+		-- },
 	},
 }

@@ -83,6 +83,9 @@ end
 ----------------------------------------
 
 function EventService:EventValidationCheck(Event)
+	if Event.Locked then
+		return false
+	end
 	local MinPlayers = Event.MinPlayers
 	local Players = GetPlayersInGame()
 	if #Players < MinPlayers then

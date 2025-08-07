@@ -3,7 +3,7 @@
     <Properties>
       <string name="Name">Cone</string>
       <SharedString name="AeroMeshData">rxNJufX5oaagQE3qNtzJSQ==</SharedString>
-      <bool name="Anchored">false</bool>
+      <bool name="Anchored">true</bool>
       <BinaryString name="AttributesSerialize">BwAAAAYAAABDRnJhbWUGAAAAAAAAAAAIAAAARHVyYXRpb24GAAAAAAAAAAAJAAAARW1pdERlbGF5BgAAAAAAAAAABwAAAFJvYXRpb24GAAAAAAAAAAAEAAAAU2l6ZQYAAAAAAAAAAA8AAABUaW1lQmVmb3JlUmVzZXQGAAAAAAAAAAAMAAAAVHJhbnNwYXJlbmN5BgAAAAAAAAAA</BinaryString>
       <bool name="AudioCanCollide">true</bool>
       <float name="BackParamA">-0.5</float>

@@ -50,7 +50,7 @@ function ClockService:KnitInit()
 	local START_HOUR = 8 -- 8 AM
 	local END_HOUR = 22 -- 10 PM
 	local HOUR_RANGE = END_HOUR - START_HOUR
-	local KitchenTime = 12 -- PM
+	local KitchenTime = 9 -- 12PM
 	self.KitchenRun = false
 	local previousHour = 0
 
