@@ -10,7 +10,7 @@
       <BinaryString name="AttributesSerialize">AgAAAAkAAABFbWl0Q291bnQGAAAAAAAAAAAJAAAARW1pdERlbGF5BgAAAAAAAAAA</BinaryString>
       <float name="Brightness">1</float>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-      <ColorSequence name="Color">0 0.26666668 1 0 0 1 0.26666668 1 0 0 </ColorSequence>
+      <ColorSequence name="Color">0 0.266667 1 0 0 1 0.266667 1 0 0 </ColorSequence>
       <float name="Drag">5</float>
       <token name="EmissionDirection">1</token>
       <bool name="Enabled">true</bool>

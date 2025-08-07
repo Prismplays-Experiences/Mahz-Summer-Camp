@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="Model" referent="0">
     <Properties>
-      <string name="Name">ThreeDTextObject</string>
+      <string name="Name">ThreeDTextObject2</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
       <token name="LevelOfDetail">0</token>
@@ -34,8 +34,8 @@
       <BinaryString name="Tags"></BinaryString>
       <OptionalCoordinateFrame name="WorldPivotData">
         <CFrame>
-          <X>61.286842</X>
-          <Y>13.894146</Y>
+          <X>61.29608</X>
+          <Y>14.454574</Y>
           <Z>-142.22375</Z>
           <R00>1</R00>
           <R01>0</R01>

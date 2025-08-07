@@ -1,7 +1,7 @@
 <roblox version="4">
   <Item class="ImageButton" referent="0">
     <Properties>
-      <string name="Name">Pear</string>
+      <string name="Name">Pear2</string>
       <bool name="Active">true</bool>
       <Vector2 name="AnchorPoint">
         <X>0</X>

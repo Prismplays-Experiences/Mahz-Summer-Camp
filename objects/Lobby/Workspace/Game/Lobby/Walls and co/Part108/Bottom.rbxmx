@@ -11,14 +11,8 @@
         <B>1</B>
       </Color3>
       <token name="Face">4</token>
-      <BinaryString name="MetalnessMap">
-      </BinaryString>
-      <BinaryString name="NormalMap">
-      </BinaryString>
       <float name="OffsetStudsU">0</float>
       <float name="OffsetStudsV">0</float>
-      <BinaryString name="RoughnessMap">
-      </BinaryString>
       <bool name="DefinesCapabilities">false</bool>
       <int64 name="SourceAssetId">-1</int64>
       <float name="StudsPerTileU">9</float>

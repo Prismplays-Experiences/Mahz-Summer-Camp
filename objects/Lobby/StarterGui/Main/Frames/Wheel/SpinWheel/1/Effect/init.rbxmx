@@ -96,7 +96,7 @@
         <YO>0</YO>
       </UDim2>
       <bool name="Visible">true</bool>
-      <int name="ZIndex">1</int>
+      <int name="ZIndex">2</int>
     </Properties>
   </Item>
 </roblox>

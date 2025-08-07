@@ -43,7 +43,7 @@
       </Item>
       <Item class="Folder" referent="3">
         <Properties>
-          <string name="Name">Transitions</string>
+          <string name="Name">SurfaceInterfaces</string>
           <BinaryString name="AttributesSerialize"></BinaryString>
           <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
           <bool name="DefinesCapabilities">false</bool>
@@ -53,7 +53,7 @@
       </Item>
       <Item class="Folder" referent="4">
         <Properties>
-          <string name="Name">SurfaceInterfaces</string>
+          <string name="Name">Transitions</string>
           <BinaryString name="AttributesSerialize"></BinaryString>
           <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
           <bool name="DefinesCapabilities">false</bool>

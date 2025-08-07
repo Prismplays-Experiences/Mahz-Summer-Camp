@@ -11,12 +11,6 @@
         <B>1</B>
       </Color3>
       <token name="Face">5</token>
-      <BinaryString name="MetalnessMap">
-      </BinaryString>
-      <BinaryString name="NormalMap">
-      </BinaryString>
-      <BinaryString name="RoughnessMap">
-      </BinaryString>
       <bool name="DefinesCapabilities">false</bool>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags">

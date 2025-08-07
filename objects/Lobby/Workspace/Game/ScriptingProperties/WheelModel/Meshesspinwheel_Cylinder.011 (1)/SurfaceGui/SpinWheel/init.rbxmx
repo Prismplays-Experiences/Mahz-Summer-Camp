@@ -101,7 +101,7 @@
     </Properties>
     <Item class="Folder" referent="1">
       <Properties>
-        <string name="Name">6</string>
+        <string name="Name">1</string>
         <BinaryString name="AttributesSerialize">
         </BinaryString>
         <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -113,7 +113,7 @@
     </Item>
     <Item class="Folder" referent="2">
       <Properties>
-        <string name="Name">5</string>
+        <string name="Name">2</string>
         <BinaryString name="AttributesSerialize">
         </BinaryString>
         <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -125,7 +125,7 @@
     </Item>
     <Item class="Folder" referent="3">
       <Properties>
-        <string name="Name">4</string>
+        <string name="Name">3</string>
         <BinaryString name="AttributesSerialize">
         </BinaryString>
         <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -137,7 +137,7 @@
     </Item>
     <Item class="Folder" referent="4">
       <Properties>
-        <string name="Name">3</string>
+        <string name="Name">4</string>
         <BinaryString name="AttributesSerialize">
         </BinaryString>
         <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -149,7 +149,7 @@
     </Item>
     <Item class="Folder" referent="5">
       <Properties>
-        <string name="Name">2</string>
+        <string name="Name">5</string>
         <BinaryString name="AttributesSerialize">
         </BinaryString>
         <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -161,7 +161,7 @@
     </Item>
     <Item class="Folder" referent="6">
       <Properties>
-        <string name="Name">1</string>
+        <string name="Name">6</string>
         <BinaryString name="AttributesSerialize">
         </BinaryString>
         <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>

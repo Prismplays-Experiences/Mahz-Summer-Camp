@@ -10,7 +10,7 @@
       <BinaryString name="AttributesSerialize">AQAAAAkAAABFbWl0Q291bnQGAAAAAAAAJkA=</BinaryString>
       <float name="Brightness">3.055</float>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-      <ColorSequence name="Color">0 1 0 0.015686035 0 1 1 0 0.015686035 0 </ColorSequence>
+      <ColorSequence name="Color">0 1 0 0.015686 0 1 1 0 0.015686 0 </ColorSequence>
       <float name="Drag">5</float>
       <token name="EmissionDirection">1</token>
       <bool name="Enabled">false</bool>
@@ -34,7 +34,7 @@
       <token name="ShapeStyle">0</token>
       <NumberSequence name="Size">0 0.4 0 1 0.4 0 </NumberSequence>
       <int64 name="SourceAssetId">-1</int64>
-      <NumberRange name="Speed">14.953044 14.953044 </NumberRange>
+      <NumberRange name="Speed">14.953 14.953 </NumberRange>
       <Vector2 name="SpreadAngle">
         <X>360</X>
         <Y>360</Y>
@@ -45,7 +45,7 @@
         <url>rbxassetid://83146942466399</url>
       </ContentId>
       <float name="TimeScale">1</float>
-      <NumberSequence name="Transparency">0 0 0 0.1 0.035170294 0 0.2 0.076651014 0 0.3 0.12535381 0 0.4 0.1824722 0 0.5 0.24963264 0 0.6 0.32917655 0 0.7 0.42475334 0 0.8 0.5428233 0 0.9 0.6979946 0 1 0.99990153 0 1 1 0 </NumberSequence>
+      <NumberSequence name="Transparency">0 0 0 0.1 0.0351703 0 0.2 0.076651 0 0.3 0.125354 0 0.4 0.182472 0 0.5 0.249633 0 0.6 0.329177 0 0.7 0.424753 0 0.8 0.542823 0 0.9 0.697995 0 1 0.999902 0 1 1 0 </NumberSequence>
       <float name="VelocityInheritance">0</float>
       <bool name="WindAffectsDrag">false</bool>
       <float name="ZOffset">0</float>

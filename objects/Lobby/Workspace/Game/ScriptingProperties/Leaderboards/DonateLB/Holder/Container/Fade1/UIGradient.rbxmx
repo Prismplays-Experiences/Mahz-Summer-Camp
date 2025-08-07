@@ -4,7 +4,7 @@
       <string name="Name">UIGradient</string>
       <BinaryString name="AttributesSerialize"></BinaryString>
       <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-      <ColorSequence name="Color">0 0.9607843 0.9607843 0.9607843 0 1 0.9607843 0.9607843 0.9607843 0 </ColorSequence>
+      <ColorSequence name="Color">0 0.960784 0.960784 0.960784 0 1 0.960784 0.960784 0.960784 0 </ColorSequence>
       <bool name="Enabled">true</bool>
       <Vector2 name="Offset">
         <X>0</X>
@@ -14,7 +14,7 @@
       <bool name="DefinesCapabilities">false</bool>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <NumberSequence name="Transparency">0 0.7125 0 0.03611457 1 0 0.5008741 1 0 0.9427148 0.9875 0 1 0.70624995 0 </NumberSequence>
+      <NumberSequence name="Transparency">0 0.7125 0 0.0361146 1 0 0.500874 1 0 0.942715 0.9875 0 1 0.70625 0 </NumberSequence>
     </Properties>
   </Item>
 </roblox>

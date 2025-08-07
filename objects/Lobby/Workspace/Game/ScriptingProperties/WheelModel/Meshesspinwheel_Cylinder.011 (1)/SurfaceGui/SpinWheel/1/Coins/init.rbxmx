@@ -92,7 +92,7 @@
       <token name="TextXAlignment">2</token>
       <token name="TextYAlignment">1</token>
       <bool name="Visible">true</bool>
-      <int name="ZIndex">2</int>
+      <int name="ZIndex">3</int>
     </Properties>
   </Item>
 </roblox>
