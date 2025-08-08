@@ -24,7 +24,7 @@ local SoundEffects = ReplicatedStorage:WaitForChild("Models"):WaitForChild("Soun
 ----------------------------------------
 local Testing = false
 
-local WAITING_TIME_FOR_STUDIO = 15
+local WAITING_TIME_FOR_STUDIO = 25
 
 --> Knit Setup
 ----------------------------------------
@@ -33,7 +33,7 @@ local GeneralGameplay = Knit.CreateService({
 	CountdownValue = RunService:IsStudio() and WAITING_TIME_FOR_STUDIO or 30,
 	CountdownEnabled = true,
 	TargetReachedPlayers = {},
-	EventDisplayFrequency = 3,
+	EventDisplayFrequency = 2,
 	EventCompleted = false,
 	Client = {
 		DisableControls = Knit.CreateSignal(),
@@ -109,7 +109,7 @@ function GeneralGameplay:KnitStart()
 	self.KitchenService = Knit.GetService("KitchenService")
 	self.EventsService = Knit.GetService("EventsService")
 
-	self.EventCount = self.EventDisplayFrequency - 1
+	self.EventCount = 0 --self.EventDisplayFrequency - 1
 
 	for _, player in pairs(Players:GetPlayers()) do
 		LogOnboardingEvent(player, 1, "Joined server")
@@ -213,16 +213,16 @@ function GeneralGameplay:GetWinners()
 	return winners
 end
 
-function GeneralGameplay:RunInstructorMessage()
-	-- local InstructorMessageService = Knit.GetService("InstructorMessage")
-	-- if Day == 2 then
-	-- 	InstructorMessageService:PlayMessage(InstructorMessages.Day2)
-	-- 	task.wait(32.5)
-	-- end
-	-- if Day == 3 then
-	-- 	InstructorMessageService:PlayMessage(InstructorMessages.Day3)
-	-- 	task.wait(36)
-	-- end
+function GeneralGameplay:RunInstructorMessage(Day)
+	local InstructorMessageService = Knit.GetService("InstructorMessage")
+	if Day == 2 then
+		InstructorMessageService:PlayMessage(InstructorMessages.Day2)
+		task.wait(32.5)
+	end
+	if Day == 3 then
+		InstructorMessageService:PlayMessage(InstructorMessages.Day3)
+		task.wait(36)
+	end
 end
 
 function GeneralGameplay.Client:TagSlot(Player, Slot, Tag)
@@ -315,9 +315,9 @@ function GeneralGameplay.Client:TargetReached(Player)
 		return
 	end
 	table.insert(self.Server.TargetReachedPlayers, Player)
-	if #self.Server.TargetReachedPlayers == #game.Players:GetPlayers() then
-		self.Server.ClockService:EndDay()
-	end
+	-- if #self.Server.TargetReachedPlayers == #game.Players:GetPlayers() then
+	-- self.Server.ClockService:EndDay()
+	-- end
 end
 
 function GeneralGameplay.Client:SetWorkoutStatus(Player, status)

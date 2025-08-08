@@ -320,6 +320,13 @@ function ObjectValuesMinigame:Level_1_Gameplay()
 	-- PreviousObject = NewTarget
 	self.TargetObject = NewTarget
 	local Item = ObjectValuesItems:FindFirstChild(NewTarget)
+	if Item == nil then
+		task.spawn(function()
+			task.wait()
+			self:Level_1_Gameplay()
+		end)
+		return
+	end
 	ApplyTargetProperties(`Tap the {NewTarget}`, Item.Image)
 end
 
@@ -386,6 +393,9 @@ function ObjectValuesMinigame:Start(Level)
 	task.spawn(function()
 		while self.Throwing do
 			for _ = 1, math.round(self.ThrowRate) do
+				if not self.Throwing then
+					return
+				end
 				task.spawn(function()
 					local clone
 					if self.Correctrate >= 2 then
@@ -396,6 +406,9 @@ function ObjectValuesMinigame:Start(Level)
 					else
 						self.Correctrate += 1
 						local objstringname = ObjectValuesItems:FindFirstChild(RandomItem(self.TargetObject))
+						if not objstringname then
+							return
+						end
 						clone = objstringname:Clone()
 					end
 					clone.AnchorPoint = Vector2.new(0.5, 0.5)

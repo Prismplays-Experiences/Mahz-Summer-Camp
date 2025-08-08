@@ -85,7 +85,7 @@ return {
 		"Random events are now live!",
 		"They might chunk you up...",
 		"or slim you down!",
-		"A new event hits every 3 days",
+		"A new event hits every 2 days",
 		"From Devs: (We aim to have a new event everyday, we are working on it!)",
 		"Goodluck!!",
 	},

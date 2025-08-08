@@ -117,7 +117,7 @@ function EventService:RandomEvent()
 		return nil, nil
 	end
 
-	-- self.PreviousEventKey = EventKey
+	self.PreviousEventKey = EventKey
 	return Event, EventKey
 end
 

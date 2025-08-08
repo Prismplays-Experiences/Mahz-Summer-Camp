@@ -50,7 +50,7 @@ function ClockService:KnitInit()
 	local START_HOUR = 8 -- 8 AM
 	local END_HOUR = 22 -- 10 PM
 	local HOUR_RANGE = END_HOUR - START_HOUR
-	local KitchenTime = 9 -- 12PM
+	local KitchenTime = 12 -- 12PM
 	self.KitchenRun = false
 	local previousHour = 0
 
@@ -64,7 +64,7 @@ function ClockService:KnitInit()
 			local currentHour = START_HOUR + (progress * HOUR_RANGE)
 			local _wholeMinutes = math.floor((currentHour - math.floor(currentHour)) * 60)
 
-			if previousHour < KitchenTime and currentHour >= KitchenTime and not self.KitchenRun and self.Days > 0 then
+			if previousHour < KitchenTime and currentHour >= KitchenTime and not self.KitchenRun and self.Days > 1 then
 				self.KitchenRun = true
 				self.KitchenService:SpawnFoods(5 * #Players:GetPlayers())
 			end

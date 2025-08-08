@@ -32,7 +32,7 @@ local HealthPopupUI = LifesFrame:WaitForChild("HealthLost")
 
 --> Variables
 ----------------------------------------
-local MaxLifes = 2
+local MaxLifes = 3
 local lasthealth = MaxLifes
 local FullHeart = "rbxassetid://81386705914770"
 local EmptyHeart = "rbxassetid://85000506565870"
@@ -141,11 +141,12 @@ function LifesController:UpdateLifes(healthleft)
 	local downinfo = TweenInfo.new(1)
 	local upinfo = TweenInfo.new(1.5)
 
-	for i = 1, healthleft do
+	for i = 1, MaxLifes do
 		local healthIcon = LifesFrame:WaitForChild("Container"):FindFirstChild(tostring(i))
-		--if healthIcon and i > healthleft then
+		if healthIcon and i - 1 < healthleft then
+			continue
+		end
 		if not healthIcon then
-			warn("healthicon not found")
 			return
 		end
 		local UIScaleHealth = healthIcon:WaitForChild("UIScale")

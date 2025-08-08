@@ -4,6 +4,7 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
 --> Modules
 ----------------------------------------
@@ -88,6 +89,16 @@ function SpinEffect(Model, RotationSpeed)
 			Connection = nil
 		end
 	end
+end
+
+function getPlatform()
+	if UserInputService.TouchEnabled then
+		return "Mobile"
+	end
+	if UserInputService.KeyboardEnabled then
+		return "Pc"
+	end
+	return "Console"
 end
 
 function SetFrameCanvasPositions()
@@ -198,6 +209,7 @@ end
 
 --> Main Functions
 ----------------------------------------
+
 function TimedShop:PurchaseItem(Price, ProductId, ItemData, Category)
 	if Price then
 		self.IAPFunction:Purchase(Price, ItemData, Category):andThen(function(result, err)
@@ -336,6 +348,7 @@ function TimedShop:RefreshShop()
 
 			CloseItemFrame(ItemClone)
 			ItemClone.Parent = CategoryFrame
+
 			ItemTrove:Connect(ItemClone.MouseButton1Click, function()
 				if ItemClone.PurchaseFrame.Visible then
 					CloseItemFrame(ItemClone)
@@ -382,6 +395,11 @@ function TimedShop:KnitStart()
 			SendNotification("Shop refreshed!", Color3.fromRGB(121, 255, 49), 2, true, SoundEffects.Positive)
 		end
 	end)
+
+	-- local platform = getPlatform()
+	-- if platform == "Mobile" then
+	-- 	MainContainer.ScrollingEnabled = false
+	-- end
 
 	while task.wait(1) do
 		local i = 0

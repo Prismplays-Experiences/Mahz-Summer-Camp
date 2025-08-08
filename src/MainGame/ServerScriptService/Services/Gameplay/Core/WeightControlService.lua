@@ -22,6 +22,13 @@ local WeightControl = Knit.CreateService({
 --> Utility Functions
 -----------------------------------------
 
+function RoundIfAbove1DP(num)
+	if tostring(num):match("%.%d%d+") then
+		return tonumber(string.format("%.2f", num))
+	end
+	return num
+end
+
 function SendNotification(player, msg, color, duration, reward, sound)
 	local Notify = Knit.GetService("NotificationService")
 	Notify:SendNotification(player, {
@@ -72,7 +79,10 @@ function WeightControl:DecreaseWeight(Player, Value, FoodLoss)
 			SoundEffects.Positive
 		)
 	end
-
+	local val = RoundIfAbove1DP(Value)
+	if val then
+		Value = val
+	end
 	return CanAdd, Value
 end
 

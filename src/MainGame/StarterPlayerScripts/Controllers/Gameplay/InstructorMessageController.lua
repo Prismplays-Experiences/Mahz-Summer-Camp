@@ -219,6 +219,9 @@ function InstructorMessageController:KnitStart()
 
 	InstructorService.CameraControl:Connect(function(status, character, target, randomPoint, Message, EndTransition)
 		if status then
+			if game.Lighting:FindFirstChild("UIBlur") then
+				game.Lighting.UIBlur.Size = 0
+			end
 			pcall(function()
 				self.GeneralController.PlayerModule:Disable()
 			end)

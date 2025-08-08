@@ -13,3 +13,4 @@ local Knit = require("@Packages/Knit")
 Knit.AddControllersDeep(script.Parent.Parent:WaitForChild("Controllers"))
 Knit.AddControllersDeep(script.Parent)
 Knit.Start():catch(warn):await()
+shared.KnitStarted = true

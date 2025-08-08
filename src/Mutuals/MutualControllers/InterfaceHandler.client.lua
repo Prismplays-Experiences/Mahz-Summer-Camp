@@ -15,6 +15,9 @@ local Players = game:GetService("Players")
 --> Modules
 ----------------------------------------
 local Knit = require("@Packages/Knit")
+-- repeat
+-- 	task.wait()
+-- until Knit.OnStart()
 local MouseMovement = require("@Modules/GuiPresets").MouseMovement
 local animPlugin = require("@Modules/Utils/Spr")
 
@@ -303,6 +306,9 @@ local WheelZone = ZonePoints:WaitForChild("Wheel")
 
 if placeId == ExperienceInfo.Places.Lobby.Id then
 	local GroupZone = ZonePoints:WaitForChild("GroupChest")
+	repeat
+		task.wait()
+	until shared.KnitStarted
 	local GroupRewardService = Knit.GetService("GroupRewardService")
 	ZoneConnect:new(GroupZone, function()
 		GroupRewardService:ClaimReward():andThen(function(Result, Msg)

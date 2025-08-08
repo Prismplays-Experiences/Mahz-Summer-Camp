@@ -364,7 +364,7 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 	local GivenAura = false
 	local elapsed = tick()
 	task.spawn(function()
-		while self.InWorkout and task.wait(1) do
+		while self.InWorkout and self.MinigameData and self.MinigameData.Value and task.wait(1) do
 			local baseScore = math.clamp(self.MinigameData.Value.Value, 0, 1)
 			local auraBonus = Player:GetAttribute("AuraRate") or 0.1
 			local timeElapsed = tick() - elapsed
