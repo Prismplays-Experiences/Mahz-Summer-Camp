@@ -29,7 +29,7 @@ local SoundEffects = ReplicatedStorage:WaitForChild('Models'):WaitForChild('Soun
 
 --> Variables
 ----------------------------------------
-local Testing = false
+local Testing = true
 
 --> Knit Setup
 ----------------------------------------
