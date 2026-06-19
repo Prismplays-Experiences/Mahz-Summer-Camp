@@ -1,0 +1,49 @@
+owner:
+  group: 35834292
+
+state:
+  remote:
+    region: eu-north-1
+    bucket: r0rnor-mantle-states
+    key: days-to-lose-weight
+
+environments:
+  - label: dev
+    branches:
+      - staging
+    targetNamePrefix: environmentLabel
+    targetAccess: public
+
+target:
+  experience:
+    icon: marketing/DefaultIcon.png
+    thumbnails:
+      - marketing/MainThumbnail.png
+      - marketing/SecondThumbnail.png
+    configuration:
+      genre: adventure
+      playableDevices: [computer, console, phone, tablet]
+      privateServers:
+        price: 0
+      enableStudioAccessToApis: true
+      avatarType: r15
+      avatarAnimationType: playerChoice
+    spatialVoice:
+      enabled: true
+    places:
+      start:
+        file: Lobby.rbxlx
+        configuration:
+          name: 24 Days to lose weight
+          description: Dev deployment for 25-days-to-lose weight.
+          maxPlayerCount: 50
+          allowCopying: false
+      mainGame:
+        file: MainGame.rbxlx
+        configuration:
+          name: 24 Days to lose weight - Main Game
+          description: Dev deployment for 25-days-to-lose weight.
+          maxPlayerCount: 4
+          allowCopying: false
+    products:
+    passes:

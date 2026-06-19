@@ -1,0 +1,21 @@
+[codegen]
+strip_extensions = true
+style = "nested"
+typescript = false
+
+[creator]
+id = 35243747
+type = "group"
+
+[inputs.assets]
+output_path = "src/Mutuals/ReplicatedStorage"
+path = "assets/**/*"
+
+[inputs.assets.web]
+"sounds/Events/Race/Freeze" = { id = 15749927835 }
+"sounds/Events/Race/HitSpike" = { id = 117959026306402 }
+"sounds/Events/Race/LapCompleted" = { id = 2578840860 }
+"sounds/Events/Race/Powerup" = { id = 2542932452 }
+"sounds/Events/Race/SpeedBoost" = { id = 8208591201 }
+"sounds/Events/Race/Won" = { id = 2542932452 }
+"sounds/Events/Race/Bobm" = { id = 2648563122 }

@@ -1,0 +1,38 @@
+<roblox version="4">
+  <Item class="SurfaceGui" referent="0">
+    <Properties>
+      <string name="Name">SurfaceGui</string>
+      <bool name="Active">true</bool>
+      <Ref name="Adornee">null</Ref>
+      <bool name="AlwaysOnTop">false</bool>
+      <BinaryString name="AttributesSerialize"></BinaryString>
+      <bool name="AutoLocalize">true</bool>
+      <float name="Brightness">1.1</float>
+      <Vector2 name="CanvasSize">
+        <X>800</X>
+        <Y>600</Y>
+      </Vector2>
+      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+      <bool name="ClipsDescendants">true</bool>
+      <bool name="Enabled">true</bool>
+      <token name="Face">3</token>
+      <float name="LightInfluence">0</float>
+      <float name="MaxDistance">1000</float>
+      <float name="PixelsPerStud">55.785126</float>
+      <bool name="ResetOnSpawn">true</bool>
+      <Ref name="RootLocalizationTable">null</Ref>
+      <bool name="DefinesCapabilities">false</bool>
+      <token name="SelectionBehaviorDown">0</token>
+      <token name="SelectionBehaviorLeft">0</token>
+      <token name="SelectionBehaviorRight">0</token>
+      <token name="SelectionBehaviorUp">0</token>
+      <bool name="SelectionGroup">false</bool>
+      <token name="SizingMode">1</token>
+      <int64 name="SourceAssetId">-1</int64>
+      <BinaryString name="Tags"></BinaryString>
+      <float name="ToolPunchThroughDistance">0</float>
+      <token name="ZIndexBehavior">1</token>
+      <float name="ZOffset">0</float>
+    </Properties>
+  </Item>
+</roblox>

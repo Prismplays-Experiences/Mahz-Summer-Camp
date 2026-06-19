@@ -7,7 +7,7 @@
       "$path": "src/Mutuals/ReplicatedStorage",
      
       "Packages": {
-        "$path": "Packages"
+        "$path": "roblox_packages"
       },
       "$ignoreUnknownInstances": true
     },
@@ -31,6 +31,32 @@
       "StarterCharacterScripts": {
         "$path": "src/MainGame/StarterCharacterScripts",
         "$ignoreUnknownInstances": true
+      },
+      "$ignoreUnknownInstances": true
+    },
+
+    "Lighting": {
+      "$className": "Lighting",
+      "$properties": {
+        "Ambient": [0.784,0.627,0.882],
+        "Brightness": 4,
+        "ColorShift_Top": [0.843,0.745,0.529],
+        "EnvironmentDiffuseScale": 0.3,
+        "EnvironmentSpecularScale": 0.2,
+        "GlobalShadows": true,
+        "OutdoorAmbient": [0.490,0.392,0.588],
+        "ClockTime": 14.5,
+        "GeographicLatitude": 0,
+        "PrioritizeLightingQuality": true,
+        "ExposureCompensation": 0.2,
+        "FogColor": [0.710,0.545,0.753]
+      }
+    },
+
+    "TextChatService": {
+      "$className": "TextChatService",
+      "$properties": {
+        "ChatVersion": "TextChatService"
       },
       "$ignoreUnknownInstances": true
     }

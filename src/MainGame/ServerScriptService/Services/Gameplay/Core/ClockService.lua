@@ -2,7 +2,7 @@
 ----------------------------------------
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerStorage = game:GetService('ServerStorage')
+-- local ServerStorage = game:GetService("ServerStorage")
 -- local RunService = game:GetService("RunService")
 
 --> Modules
@@ -16,18 +16,17 @@ local GeneralInfo = require(ReplicatedStorage:WaitForChild("Info"):WaitForChild(
 --> Variables
 ----------------------------------------
 
-
 --> Knit Setup
 ----------------------------------------
-local ClockService = Knit.CreateService {
-    Name = "ClockService",
-    DayEnded = Signal.new(),
-    Days = 1,
-    Client = {
-        DayEnded = Knit.CreateSignal(),
-        Time = Knit.CreateProperty(0),
-    }
-}
+local ClockService = Knit.CreateService({
+	Name = "ClockService",
+	DayEnded = Signal.new(),
+	Days = 1,
+	Client = {
+		DayEnded = Knit.CreateSignal(),
+		Time = Knit.CreateProperty(0),
+	},
+})
 
 --> Utility Functions
 ----------------------------------------
@@ -42,71 +41,86 @@ local ClockService = Knit.CreateService {
 --     return currentHour
 -- end
 
-
 --> Main Functions
 ----------------------------------------
 function ClockService:KnitInit()
-    local CurrentTime = 0
-    self.Days = 1
-    self.MinutesPerDay = 1.5 -- 1.5
-    local START_HOUR = 8     -- 8 AM
-	local END_HOUR = 22      -- 10 PM
+	self.CurrentTime = 0
+	self.Days = 1
+	self.MinutesPerDay = 2
+	local START_HOUR = 8 -- 8 AM
+	local END_HOUR = 22 -- 10 PM
 	local HOUR_RANGE = END_HOUR - START_HOUR
-    local KitchenTime = 12 -- PM
-    local KitchenRun = false
-    local previousHour = 0
+	local KitchenTime = 12 -- 12PM
+	self.KitchenRun = false
+	local previousHour = 0
 
-    self.ClockCycle = coroutine.create(function()
-        while task.wait(1) do
-            local totalSecondsInDay = self.MinutesPerDay * 60
-            local progress = math.clamp(CurrentTime / totalSecondsInDay, 0, 1)
-            local currentHour = START_HOUR + (progress * HOUR_RANGE)
-            local wholeMinutes = math.floor((currentHour - math.floor(currentHour)) * 60)
+	self.ClockCycle = coroutine.create(function()
+		while task.wait(1) do
+			if self.ShouldYield then
+				continue
+			end
+			local totalSecondsInDay = self.MinutesPerDay * 60
+			local progress = math.clamp(self.CurrentTime / totalSecondsInDay, 0, 1)
+			local currentHour = START_HOUR + (progress * HOUR_RANGE)
+			local _wholeMinutes = math.floor((currentHour - math.floor(currentHour)) * 60)
 
-            -- Run once when crossing 12 PM
-            if previousHour < KitchenTime and currentHour >= KitchenTime and not KitchenRun and self.Days > 1 then
-                KitchenRun = true
-                self.KitchenService:SpawnFoods(5 * #Players:GetPlayers())
-            end
+			if previousHour < KitchenTime and currentHour >= KitchenTime and not self.KitchenRun and self.Days > 1 then
+				self.KitchenRun = true
+				self.KitchenService:SpawnFoods(5 * #Players:GetPlayers())
+			end
 
-            previousHour = currentHour -- update for next tick
+			previousHour = currentHour
 
-            CurrentTime += 1
-            self.Client.Time:Set(CurrentTime)
+			self.CurrentTime += 1
+			self.Client.Time:Set(self.CurrentTime)
 
-            if CurrentTime >= (self.MinutesPerDay * 60) - 2 then
-                CurrentTime = 0
-                self.MinutesPerDay = math.clamp(self.MinutesPerDay + 0.5, 1, GeneralInfo.MinutesPerDay)
-                self.DayEnded:Fire()
-                self.Days += 1
-                self.Client.DayEnded:FireAll()
-                KitchenRun = false
-                self.Client.Time:Set(CurrentTime + 1)
-                self:YieldClock()
-                previousHour = 0 -- reset hour tracking
-            end
-        end
-    end)
+			if self.CurrentTime >= (self.MinutesPerDay * 60) - 2 then
+				self.CurrentTime = 0
+				self.MinutesPerDay = math.clamp(self.MinutesPerDay + 0.5, 1, GeneralInfo.MinutesPerDay)
+				self.Days += 1
+				self.DayEnded:Fire()
+				self.Client.DayEnded:FireAll()
+				self.KitchenRun = false
+				self.Client.Time:Set(self.CurrentTime + 1)
+				self:YieldClock()
+				previousHour = 0
+			end
+		end
+	end)
+	coroutine.resume(self.ClockCycle)
 end
 
 function ClockService.Client:GetMinutesPerDay()
-    return self.Server.MinutesPerDay
+	return self.Server.MinutesPerDay
 end
 
 function ClockService:ResumeClock()
-    if coroutine.status(self.ClockCycle) == 'suspended' then
-        coroutine.resume(self.ClockCycle)
-    end
+	self.ShouldYield = false
 end
 
 function ClockService:YieldClock()
-    if coroutine.status(self.ClockCycle) == 'running' then
-        coroutine.yield()
-    end
+	self.ShouldYield = true
+end
+
+function ClockService:GetSecondsLeft()
+	local TimeToEnd = self.MinutesPerDay * 60 - self.CurrentTime
+	return TimeToEnd
+end
+
+function ClockService:EndDay()
+	local TimeToEnd = self.MinutesPerDay * 60 - self.CurrentTime
+	if TimeToEnd < 5 then
+		return
+	end
+	self:YieldClock()
+	self.KitchenRun = true
+	self.CurrentTime += TimeToEnd - 5
+	task.wait(2)
+	self:ResumeClock()
 end
 
 function ClockService:KnitStart()
-    self.KitchenService = Knit.GetService("KitchenService")
+	self.KitchenService = Knit.GetService("KitchenService")
 end
 
 return ClockService

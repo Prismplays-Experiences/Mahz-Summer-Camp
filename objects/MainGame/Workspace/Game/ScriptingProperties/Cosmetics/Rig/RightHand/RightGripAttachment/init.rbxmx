@@ -1,0 +1,27 @@
+<roblox version="4">
+  <Item class="Attachment" referent="0">
+    <Properties>
+      <string name="Name">RightGripAttachment</string>
+      <BinaryString name="AttributesSerialize"></BinaryString>
+      <CoordinateFrame name="CFrame">
+        <X>0.017242908</X>
+        <Y>-0.10826203</Y>
+        <Z>0.3052815</Z>
+        <R00>1</R00>
+        <R01>0.00000000000000000000032497104</R01>
+        <R02>-0.00000000000000000000000000043117797</R02>
+        <R10>-0.0000000000000000000000000004311618</R10>
+        <R11>0.0000026535897</R11>
+        <R12>1</R12>
+        <R20>0.00000000000000000000032497104</R20>
+        <R21>-1</R21>
+        <R22>0.0000026535897</R22>
+      </CoordinateFrame>
+      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+      <bool name="DefinesCapabilities">false</bool>
+      <int64 name="SourceAssetId">-1</int64>
+      <BinaryString name="Tags"></BinaryString>
+      <bool name="Visible">false</bool>
+    </Properties>
+  </Item>
+</roblox>

@@ -1,0 +1,27 @@
+<roblox version="4">
+  <Item class="Accessory" referent="0">
+    <Properties>
+      <string name="Name">Accessory (Killer Sans)</string>
+      <token name="AccessoryType">1</token>
+      <CoordinateFrame name="AttachmentPoint">
+        <X>-0.00021362305</X>
+        <Y>0.33204126</Y>
+        <Z>-0.017296791</Z>
+        <R00>1</R00>
+        <R01>0.000000024499911</R01>
+        <R02>-0.00000000046565826</R02>
+        <R10>0.000000008757161</R10>
+        <R11>1</R11>
+        <R12>-0.00000000000000041831416</R12>
+        <R20>-0.00000000046566434</R20>
+        <R21>0.00000000000000040690552</R21>
+        <R22>1</R22>
+      </CoordinateFrame>
+      <BinaryString name="AttributesSerialize"></BinaryString>
+      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+      <bool name="DefinesCapabilities">false</bool>
+      <int64 name="SourceAssetId">-1</int64>
+      <BinaryString name="Tags"></BinaryString>
+    </Properties>
+  </Item>
+</roblox>

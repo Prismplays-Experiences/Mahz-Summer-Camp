@@ -1,23 +1,20 @@
 --> Services
 ----------------------------------------
-local ReplicatedStorage = game:GetService('ReplicatedStorage')
-local MarketplaceService = game:GetService('MarketplaceService')
+local MarketplaceService = game:GetService("MarketplaceService")
 
 --> Modules
 ----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild('Packages')
-local Knit = require(Packages:WaitForChild('Knit'))
-local Modules = ReplicatedStorage:WaitForChild('Modules')
-local MarketModule = require(Modules:WaitForChild('MarketService'))
+local Knit = require("@Packages/Knit")
+local MarketModule = require("@Modules/MarketService")
 
 --> Assets
 ----------------------------------------
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player.PlayerGui
-local EliminatedScreenGui = PlayerGui:WaitForChild('Eliminated')
-local EliminatedFrame = EliminatedScreenGui:WaitForChild('Eliminated')
-local Main = PlayerGui:WaitForChild('Main')
-local ReviveBtn = EliminatedFrame:WaitForChild('Revive')
+local EliminatedScreenGui = PlayerGui:WaitForChild("Eliminated")
+local EliminatedFrame = EliminatedScreenGui:WaitForChild("Eliminated")
+local Main = PlayerGui:WaitForChild("Main")
+local ReviveBtn = EliminatedFrame:WaitForChild("Revive")
 
 --> Variables
 ----------------------------------------
@@ -26,22 +23,21 @@ local currenttime = max
 local Result = nil
 local Purchased = false
 
-
 --> Main Functions
 ----------------------------------------
-Eliminated = Knit.CreateController {
-    Name = "EliminateController",
-}
+local Eliminated = Knit.CreateController({
+	Name = "EliminateController",
+})
 
 function Eliminated:KnitStart()
-    local RoundLoop = Knit.GetService('RoundLoop')
-    ReviveBtn.MouseButton1Click:Connect(function()
+	local RoundLoop = Knit.GetService("RoundLoop")
+	ReviveBtn.MouseButton1Click:Connect(function()
 		self.OnPrompt = true
-		MarketplaceService:PromptProductPurchase(Player,MarketModule.ProductIds.Revive.Id)
+		MarketplaceService:PromptProductPurchase(Player, MarketModule.ProductIds.Revive.Id)
 	end)
-    RoundLoop.EliminatePlayer:Connect(function()
-        self:Eliminate()
-    end)
+	RoundLoop.EliminatePlayer:Connect(function()
+		self:Eliminate()
+	end)
 end
 
 function Eliminated:Eliminate()
@@ -50,8 +46,7 @@ function Eliminated:Eliminate()
 	EliminatedScreenGui.Enabled = true
 	EliminatedFrame.Visible = true
 
-	
-	local Prompted = MarketplaceService.PromptProductPurchaseFinished:Connect(function(userid,productid,waspurchased)
+	local Prompted = MarketplaceService.PromptProductPurchaseFinished:Connect(function(userid, productid, waspurchased)
 		self.OnPrompt = false
 		currenttime = max
 		local idcheck = false
@@ -71,17 +66,19 @@ function Eliminated:Eliminate()
 			currenttime -= Resolution
 		end
 		ReviveBtn.TextLabel.Text = `Revive [{currenttime}]`
-		
-		if currenttime<=0 and not Purchased then
+
+		if currenttime <= 0 and not Purchased then
 			Result = false
 			break
-		end	
+		end
 	end
 
-	repeat task.wait() until Result~= nil
+	repeat
+		task.wait()
+	until Result ~= nil
 	EliminatedScreenGui.Enabled = false
 	EliminatedFrame.Visible = false
-	Player.PlayerGui:WaitForChild('Main').Enabled = true
+	Player.PlayerGui:WaitForChild("Main").Enabled = true
 	Prompted:Disconnect()
 	return Result
 end

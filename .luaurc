@@ -1,0 +1,21 @@
+{
+  "lint": {
+    "*": true,
+    "LocalShadow": false
+  },
+  "aliases": {
+    "lune": "~/.lune/.typedefs/0.9.4/",
+    "LuneModules": "lune/modules",
+    "LunePackages": "lune_packages",
+    "LuauPackages": "luau_packages",
+    "Packages": "roblox_packages",
+    "Controllers": "src/MainGame/StarterPlayerScripts/Controllers",
+    "Services": "src/MainGame/ServerScriptService/Services",
+    "ClientComponents": "src/MainGame/StarterPlayerScripts/Components",
+    "ServerComponents": "src/MainGame/ServerScriptService/Components",
+    "CustomModules": "src/Mutuals/ReplicatedStorage/CustomModules",
+    "Modules": "src/Mutuals/ReplicatedStorage/Modules",
+    "Info": "src/Mutuals/ReplicatedStorage/Info",
+    "Assets": "src/Mutuals/ReplicatedStorage/assets"
+  }
+}

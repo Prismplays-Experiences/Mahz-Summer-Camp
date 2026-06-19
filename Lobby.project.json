@@ -7,35 +7,27 @@
       "$path": "src/Mutuals/ReplicatedStorage",
      
       "Packages": {
-        "$path": "Packages"
-      },
-      "$ignoreUnknownInstances": true
+        "$path": "roblox_packages"
+      }
     },
 
     "ServerScriptService": {
       "$path": "src/Lobby/ServerScriptService",
-     
       "MutualServices": {
         "$path": "src/Mutuals/MutualServices"
-      },
-      "$ignoreUnknownInstances": true
+      }
     },
 
     "StarterPlayer": {
       "StarterPlayerScripts": {
         "$path": "src/Lobby/StarterPlayerScripts",
-
         "MutualControllers": {
           "$path": "src/Mutuals/MutualControllers"
-        },
-
-        "$ignoreUnknownInstances": true
+        }
       },
       "StarterCharacterScripts": {
-        "$path": "src/Lobby/StarterCharacterScripts",
-        "$ignoreUnknownInstances": true
-      },
-      "$ignoreUnknownInstances": true
+        "$path": "src/Lobby/StarterCharacterScripts"
+      }
     }
   }
 }

@@ -1,0 +1,32 @@
+<roblox version="4">
+  <Item class="HumanoidDescription" referent="0">
+    <Properties>
+      <string name="Name">HumanoidDescription</string>
+      <BinaryString name="AttributesSerialize"></BinaryString>
+      <float name="BodyTypeScale">0</float>
+      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+      <int64 name="ClimbAnimation">0</int64>
+      <float name="DepthScale">1</float>
+      <string name="EmotesDataInternal">Bodybuilder^3994130516^\Bored^5230661597^\Curtsy^4646306583^\Fast Hands^4272351660^\Haha^4102315500^\Happy^4849499887^\Monkey^3716636630^\Ud'zal's Summoning^3307604888^\</string>
+      <string name="EquippedEmotesDataInternal">1^Curtsy\2^Ud'zal's Summoning\3^Monkey\4^Fast Hands\5^Haha\6^Happy\7^Bodybuilder\8^Bored\</string>
+      <int64 name="Face">0</int64>
+      <int64 name="FallAnimation">0</int64>
+      <int64 name="GraphicTShirt">0</int64>
+      <float name="HeadScale">1</float>
+      <float name="HeightScale">1</float>
+      <int64 name="IdleAnimation">0</int64>
+      <int64 name="JumpAnimation">0</int64>
+      <int64 name="MoodAnimation">0</int64>
+      <int64 name="Pants">8417894164</int64>
+      <float name="ProportionScale">0</float>
+      <int64 name="RunAnimation">0</int64>
+      <bool name="DefinesCapabilities">false</bool>
+      <int64 name="Shirt">13233498490</int64>
+      <int64 name="SourceAssetId">-1</int64>
+      <int64 name="SwimAnimation">0</int64>
+      <BinaryString name="Tags"></BinaryString>
+      <int64 name="WalkAnimation">0</int64>
+      <float name="WidthScale">1</float>
+    </Properties>
+  </Item>
+</roblox>

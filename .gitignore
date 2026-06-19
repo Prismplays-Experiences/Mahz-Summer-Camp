@@ -1,6 +1,20 @@
 # Project place file
-/MyCity.rbxlx
+/*.rbxlx
 
 # Roblox Studio lock files
 /*.rbxlx.lock
 /*.rbxl.lock
+
+/out/**/*
+!/out/.placeholder
+
+/logs/**/*
+!/logs/.placeholder
+
+/feature-mantle.yml
+/marketing-mantle.yml
+/.env
+/lune/modules/Tag/TagStore.txt
+/asphalt.lock.toml
+/sourcemap.json
+/changelogs.md

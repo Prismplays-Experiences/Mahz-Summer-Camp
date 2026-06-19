@@ -1,0 +1,31 @@
+{
+  "process": [
+    "compute_expression",
+    "remove_comments",
+    "remove_types",
+    {
+      "current": {
+        "name": "path",
+        "sources": {
+          "@Packages": "roblox_packages",
+          "@Controllers": "src/MainGame/StarterPlayerScripts/Controllers",
+          "@Services": "src/MainGame/ServerScriptService/Services",
+          "@ClientComponents": "src/MainGame/StarterPlayerScripts/Components",
+          "@ServerComponents": "src/MainGame/ServerScriptService/Components",
+          "@CustomModules": "src/Mutuals/ReplicatedStorage/CustomModules",
+          "@Modules": "src/Mutuals/ReplicatedStorage/Modules",
+          "@Info": "src/Mutuals/ReplicatedStorage/Info",
+          "@Assets": "src/Mutuals/ReplicatedStorage/assets"
+        },
+        "module_folder_name": "init.luau",
+        "use_luau_configuration": true
+      },
+      "rule": "convert_require",
+      "target": {
+        "name": "roblox",
+        "rojo_sourcemap": "sourcemap.json",
+        "indexing_style": "wait_for_child"
+      }
+    }
+  ]
+}

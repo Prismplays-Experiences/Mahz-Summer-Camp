@@ -1,45 +1,70 @@
---> Services
------------------------------------------
-local ReplicatedStorage = game:GetService('ReplicatedStorage')
-local MarketplaceService = game:GetService('MarketplaceService')
-local ServerStorage = game:GetService('ServerStorage')
-
 --> Modules
 -----------------------------------------
-local Packages = ReplicatedStorage:WaitForChild('Packages')
-local Knit = require(Packages:WaitForChild('Knit'))
-
+local Knit = require("@Packages/Knit")
+local IAPDATA = require("@Info/IAPDATA")
 
 --> Assets
 -----------------------------------------
 local Player = game.Players.LocalPlayer
 local PlayerGui = Player.PlayerGui
-local Main = PlayerGui:WaitForChild('Main')
-local CoreFrames = Main:WaitForChild('Core')
-local EventsDisplay  =CoreFrames:WaitForChild('EventsDisplay')
+local Main = PlayerGui:WaitForChild("Main")
+local CoreFrames = Main:WaitForChild("Core")
+local EventsDisplay = CoreFrames:WaitForChild("EventsDisplay")
+
+local SupplimentsDisplayTemplate = PlayerGui:WaitForChild("Templates"):WaitForChild("SupplimentsDisplayTemplate")
 
 --> Knit Setup
 -----------------------------------------
-local SupplimentsController= Knit.CreateController {
-    Name = 'SupplimentsController',
-}
+local SupplimentsController = Knit.CreateController({
+	Name = "SupplimentsController",
+})
 
 function TimeToString(Time)
-    local minutes = math.floor(Time / 60)
-    local seconds = Time % 60
-    return string.format("%02d:%02d", minutes, seconds)
+	local minutes = math.floor(Time / 60)
+	local seconds = Time % 60
+	return string.format("%02d:%02d", minutes, seconds)
+end
+
+function CreatSupplimentsDisplay(ItemName)
+	local Suppliment = IAPDATA.Suppliments[ItemName]
+	if Suppliment then
+		local NewTemp = SupplimentsDisplayTemplate:Clone()
+		NewTemp.Name = ItemName
+		NewTemp.Parent = EventsDisplay
+		NewTemp.Visible = true
+		NewTemp.Image = Suppliment.Image
+		return NewTemp
+	end
+	return nil
+end
+
+function CreateDailyBoostDisplay()
+	local NewTemp = SupplimentsDisplayTemplate:Clone()
+	NewTemp.Name = "DailyBoost"
+	NewTemp.Image = "rbxassetid://92724857425028"
+	NewTemp.Parent = EventsDisplay
+	NewTemp.Visible = true
+	return NewTemp
 end
 
 function SupplimentsController:KnitStart()
-    self.SuplimentsService = Knit.GetService('SupplimentsService')
-    self.SuplimentsService.UseSuppliment:Connect(function(ItemName, Time)
-        EventsDisplay[ItemName].Visible = true
-        for i = 1, Time do
-            EventsDisplay[ItemName].Time.Text = TimeToString(Time - i)
-            task.wait(1)
-        end
-        EventsDisplay[ItemName].Visible = false
-    end)
+	self.SuplimentsService = Knit.GetService("SupplimentsService")
+	self.SuplimentsService.UseSuppliment:Connect(function(ItemName, Time)
+		local NewTemp = CreatSupplimentsDisplay(ItemName)
+		for i = 1, Time do
+			NewTemp.Time.Text = TimeToString(Time - i)
+			task.wait(1)
+		end
+		NewTemp.Visible = false
+	end)
+	self.SuplimentsService.UseDailyBoost:Connect(function(Time)
+		local NewTemp = CreateDailyBoostDisplay()
+		for i = 1, Time do
+			NewTemp.Time.Text = TimeToString(Time - i)
+			task.wait(1)
+		end
+		NewTemp.Visible = false
+	end)
 end
 
 return SupplimentsController

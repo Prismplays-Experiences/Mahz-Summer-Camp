@@ -1,3 +1,3 @@
 return {
-    GroupId = 36072498
+	GroupId = 36072498,
 }
