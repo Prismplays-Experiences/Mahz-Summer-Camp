@@ -313,6 +313,12 @@ function WorkoutsHandler:ControlProximityPrompts(Enabled)
 end
 
 function WorkoutsHandler:StartWorkout(slot, Data)
+	if self.InWorkout then
+		return
+	end
+	if Player:GetAttribute("Injured") then
+		return
+	end
 	self.InWorkout = true
 	if slot:GetAttribute("Owner") then
 		return
@@ -449,12 +455,12 @@ function WorkoutsHandler:StopWorkout()
 	end
 	self.GeneralService:SetWorkoutStatus(false)
 	pcall(function()
-		self.CurrentTrack:Stop()
 		self.StoppedEvent:Disconnect()
 		self.MinigameData.Stop:Fire()
 		self.WorkoutValueEvent:Disconnect()
 		self.FailedEvent:Disconnect()
 		self.AnimTrackSignal:Disconnect()
+		self.CurrentTrack:Stop()
 	end)
 
 	self.GeneralService:TagSlot(self.TaggedSlot, false)
@@ -497,7 +503,7 @@ function WorkoutsHandler:InitialiseWorkouts()
 					SendNotification("You are eliminated!", Color3.fromRGB(255, 0, 0), 2, false, SoundEffects.UIDeny)
 					return
 				end
-				if self.Injured then
+				if Player:GetAttribute("Injured") then
 					SendNotification(
 						"You are injured! Recover first!",
 						Color3.fromRGB(255, 0, 0),
@@ -630,6 +636,7 @@ function WorkoutsHandler:KnitStart()
 			self:ControlProximityPrompts(false)
 		else
 			self.MachineLocked = status
+			self:ControlProximityPrompts(true)
 		end
 	end)
 

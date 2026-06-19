@@ -213,30 +213,34 @@ end
 -----------------------------------------
 
 function FoodBomb:BombCountdown(food)
-	for i = self.ExplodeTime, 0, -1 do
-		self.Client.EventStatus:Set(`Bomb explodes in {i}`)
-		food.Handle.TimeBoard.Count.TextColor3 = getColorFromValue(i, self.ExplodeTime)
-		food.Handle.TimeBoard.Count.Text = i
-		if isInteger(i / 15) and i < self.ExplodeTime - 10 then
-			self:DropPowerups(2, SpeedBoostModel, SpeedPowerup)
+	pcall(function()
+		for i = self.ExplodeTime, 0, -1 do
+			self.Client.EventStatus:Set(`Bomb explodes in {i}`)
+			food.Handle.TimeBoard.Count.TextColor3 = getColorFromValue(i, self.ExplodeTime)
+			food.Handle.TimeBoard.Count.Text = i
+			if isInteger(i / 15) and i < self.ExplodeTime - 10 then
+				self:DropPowerups(2, SpeedBoostModel, SpeedPowerup)
+			end
+			if i == 7 then
+				task.spawn(function()
+					playBombTick(food.Handle.BombTick, 5, 1, 1)
+				end)
+			end
+			task.wait(1)
 		end
-		if i == 7 then
-			task.spawn(function()
-				playBombTick(food.Handle.BombTick, 5, 1, 1)
-			end)
+
+		local s, e = pcall(function()
+			ExplodeFood(food.Parent)
+		end)
+		if not s then
+			warn(e)
 		end
-		task.wait(1)
-	end
-	local Owner = self.PlayerWithFood
-	local s, e = pcall(function()
-		ExplodeFood(food.Parent)
+		local Owner = self.PlayerWithFood
+		self.Client.EventStatus:Set(`Food Bomb exploded on: {Owner.DisplayName}`)
+		task.wait(0.5)
 	end)
-	if not s then
-		warn(e)
-	end
-	self.Client.EventStatus:Set(`Food Bomb exploded on: {Owner.DisplayName}`)
-	task.wait(0.5)
-	return Owner
+
+	return self.PlayerWithFood
 end
 
 function FoodBomb:GetPlayer()
@@ -362,22 +366,25 @@ function FoodBomb:DropPowerups(Count, Powerup, func)
 end
 
 function FoodBomb:Start()
-	self.EventsService.Client.EnableEventsInterfaces:FireAll(true, "FoodBomb")
-	self.ClockService:YieldClock()
-	local Food = self.Trove:Add(BombModel:Clone())
-	FoodBomb:DropBomb(Food)
-	FoodBomb:DropPowerups(2, SpeedBoostModel, SpeedPowerup)
-	local LastPlayer = FoodBomb:BombCountdown(Food)
-	Food:Destroy()
-	task.spawn(function()
-		local progress = math.sqrt(self.ClockService.Days / GeneralInfo.MaxDays)
-		local WeightGained = self.MaxWeightGained * progress
-		local Status = self.WeightControl:DecreaseWeight(LastPlayer, -WeightGained, true)
-		if Status then
-			self.Client.WeightGained:Fire(LastPlayer, WeightGained)
-		end
+	pcall(function()
+		self.EventsService.Client.EnableEventsInterfaces:FireAll(true, "FoodBomb")
+		self.ClockService:YieldClock()
+		local Food = self.Trove:Add(BombModel:Clone())
+		FoodBomb:DropBomb(Food)
+		FoodBomb:DropPowerups(2, SpeedBoostModel, SpeedPowerup)
+		local LastPlayer = FoodBomb:BombCountdown(Food)
+		Food:Destroy()
+		task.spawn(function()
+			local progress = math.sqrt(self.ClockService.Days / GeneralInfo.MaxDays)
+			local WeightGained = self.MaxWeightGained * progress
+			local Status = self.WeightControl:DecreaseWeight(LastPlayer, -WeightGained, true)
+			if Status then
+				self.Client.WeightGained:Fire(LastPlayer, WeightGained)
+			end
+		end)
+		task.wait(3)
 	end)
-	task.wait(3)
+
 	self.Ended:Fire()
 end
 

@@ -46,6 +46,8 @@ function WeightControl:DecreaseWeight(Player, Value, FoodLoss)
 	local Weight = Player:WaitForChild("leaderstats"):WaitForChild("Weight")
 	local CanAdd = true
 	local WeightLossMultiplier = Player:GetAttribute("WeightLossMultiplier") or 1
+	local DailyEnergyBoost = Player:GetAttribute("DailyEnergyBoost") or 1
+	local StarterPackBoost = Player:GetAttribute("StarterPackBoost") or 1
 
 	if Value > 0 then
 		if Player:HasTag("FiberSupplement") and FoodLoss then
@@ -58,6 +60,8 @@ function WeightControl:DecreaseWeight(Player, Value, FoodLoss)
 			Value *= IAPDATA.Suppliments.FatBurner.Multiplier
 		end
 		Value *= WeightLossMultiplier
+		Value *= DailyEnergyBoost
+		Value *= StarterPackBoost
 	end
 	if Player:HasTag("WeightGainShield") and Value < 0 then
 		CanAdd = false

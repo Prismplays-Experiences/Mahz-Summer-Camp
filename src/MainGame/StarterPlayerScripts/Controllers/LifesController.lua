@@ -28,11 +28,11 @@ Frames:WaitForChild("TargetFrame")
 local Models = ReplicatedStorage:WaitForChild("Models")
 local SoundEffects = Models:WaitForChild("SoundEffects")
 
-local HealthPopupUI = LifesFrame:WaitForChild("HealthLost")
+local HealthPopupUI = HUD:WaitForChild("HealthLost")
 
 --> Variables
 ----------------------------------------
-local MaxLifes = 3
+local MaxLifes = 2
 local lasthealth = MaxLifes
 local FullHeart = "rbxassetid://81386705914770"
 local EmptyHeart = "rbxassetid://85000506565870"

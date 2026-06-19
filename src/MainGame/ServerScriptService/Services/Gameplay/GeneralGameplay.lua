@@ -24,7 +24,7 @@ local SoundEffects = ReplicatedStorage:WaitForChild("Models"):WaitForChild("Soun
 ----------------------------------------
 local Testing = false
 
-local WAITING_TIME_FOR_STUDIO = 25
+local WAITING_TIME_FOR_STUDIO = 15
 
 --> Knit Setup
 ----------------------------------------
@@ -33,7 +33,7 @@ local GeneralGameplay = Knit.CreateService({
 	CountdownValue = RunService:IsStudio() and WAITING_TIME_FOR_STUDIO or 30,
 	CountdownEnabled = true,
 	TargetReachedPlayers = {},
-	EventDisplayFrequency = 2,
+	EventDisplayFrequency = 3,
 	EventCompleted = false,
 	Client = {
 		DisableControls = Knit.CreateSignal(),
@@ -119,7 +119,7 @@ function GeneralGameplay:KnitStart()
 		self:Countdown(self.CountdownValue)
 	end
 	-- task.wait(2)
-
+	self.Client.LockWorkoutMachines:FireAll(false)
 	-- local event = self.EventsService:RandomEvent()
 	-- self.EventsService:StartEvent(event)
 	if not Testing then
@@ -157,7 +157,12 @@ function GeneralGameplay:KnitStart()
 			TeleportToLobby()
 			return
 		else
-			self.StageService:WeightPlayers(true, false, sendtobed)
+			if shared.SkipDay then
+				shared.SkipDay = false
+				sendtobed()
+			else
+				self.StageService:WeightPlayers(true, false, sendtobed)
+			end
 		end
 
 		task.wait(2)
@@ -190,12 +195,13 @@ function GeneralGameplay:KnitStart()
 			self.EventCompleted = self.EventsService:EventLoop((self.ClockService.MinutesPerDay / 2) * 60) --
 		else
 			if #self.EventsService:GetEventsQueue() > 0 then
-				self.EventsService:StartEvent((self.ClockService.MinutesPerDay / 2) * 60)
+				self.EventsService:EventLoop((self.ClockService.MinutesPerDay / 2) * 60)
 			else
 				-- self.EventInProgress = true
 				self.EventCompleted = self.EventsService.Client.EventStatus:Set(
 					`Next event: Day{self.ClockService.Days + self.EventDisplayFrequency - self.EventCount}`
 				)
+				-- self.GeneralService.Client.LockWorkoutMachines:FireAll(false)
 				-- self.EventInProgress = false
 			end
 		end
@@ -258,6 +264,9 @@ function GeneralGameplay.Client:RemoveTool(Player, Tool)
 	if Player.Character and Player.Character:FindFirstChild(Tool.Name) then
 		Tool:Destroy()
 	end
+end
+function GeneralGameplay.Client:SetStarterPack(Player, Value)
+	Player.GamepassFolder.StarterPack.Value = true
 end
 
 function GeneralGameplay.Client:SetInjured(Player, Injured)

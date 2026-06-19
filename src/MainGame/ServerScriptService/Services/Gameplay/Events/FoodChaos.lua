@@ -122,6 +122,9 @@ function isInteger(num)
 end
 
 function CheckIfAlive(Plr)
+	if not Plr then
+		return
+	end
 	if not Plr.Character then
 		return false
 	end

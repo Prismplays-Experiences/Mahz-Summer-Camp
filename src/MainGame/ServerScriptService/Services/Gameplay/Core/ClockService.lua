@@ -46,7 +46,7 @@ local ClockService = Knit.CreateService({
 function ClockService:KnitInit()
 	self.CurrentTime = 0
 	self.Days = 1
-	self.MinutesPerDay = 2.5
+	self.MinutesPerDay = 2
 	local START_HOUR = 8 -- 8 AM
 	local END_HOUR = 22 -- 10 PM
 	local HOUR_RANGE = END_HOUR - START_HOUR
@@ -57,7 +57,7 @@ function ClockService:KnitInit()
 	self.ClockCycle = coroutine.create(function()
 		while task.wait(1) do
 			if self.ShouldYield then
-				coroutine.yield()
+				continue
 			end
 			local totalSecondsInDay = self.MinutesPerDay * 60
 			local progress = math.clamp(self.CurrentTime / totalSecondsInDay, 0, 1)
@@ -87,6 +87,7 @@ function ClockService:KnitInit()
 			end
 		end
 	end)
+	coroutine.resume(self.ClockCycle)
 end
 
 function ClockService.Client:GetMinutesPerDay()
@@ -95,9 +96,6 @@ end
 
 function ClockService:ResumeClock()
 	self.ShouldYield = false
-	if coroutine.status(self.ClockCycle) == "suspended" then
-		coroutine.resume(self.ClockCycle)
-	end
 end
 
 function ClockService:YieldClock()

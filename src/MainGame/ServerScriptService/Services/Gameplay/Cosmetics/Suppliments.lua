@@ -7,6 +7,7 @@ local SupplimentsService = Knit.CreateService({
 	Name = "SupplimentsService",
 	Client = {
 		UseSuppliment = Knit.CreateSignal(),
+		UseDailyBoost = Knit.CreateSignal(),
 	},
 })
 

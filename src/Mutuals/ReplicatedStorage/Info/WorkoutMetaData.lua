@@ -5,7 +5,7 @@ return {
 
 	Pushups = {
 		MinWeightLoss = 1,
-		MaxWeightLoss = 2,
+		MaxWeightLoss = 5,
 		AnimationId = "rbxassetid://90718551251909",
 		ConstantSound = nil,
 		RepCountSound = nil,
@@ -17,7 +17,7 @@ return {
 	},
 	Treadmill = {
 		MinWeightLoss = 1,
-		MaxWeightLoss = 3,
+		MaxWeightLoss = 7,
 		AnimationId = "rbxassetid://90258052759623",
 		ConstantSound = nil,
 		RepCountSound = nil,
@@ -28,7 +28,7 @@ return {
 	},
 	DumbellCurl = {
 		MinWeightLoss = 2,
-		MaxWeightLoss = 4,
+		MaxWeightLoss = 14,
 		AnimationId = "rbxassetid://86790780787475",
 		ConstantSound = nil,
 		RepCountSound = nil,
@@ -40,7 +40,7 @@ return {
 	},
 	BenchPress = {
 		MinWeightLoss = 3,
-		MaxWeightLoss = 6,
+		MaxWeightLoss = 18,
 		AnimationId = "rbxassetid://136624430039075",
 		ConstantSound = nil,
 		RepCountSound = nil,
@@ -53,7 +53,7 @@ return {
 
 	Dips = {
 		MinWeightLoss = 4,
-		MaxWeightLoss = 8,
+		MaxWeightLoss = 25,
 		AnimationId = "rbxassetid://90142283745294",
 		ConstantSound = nil,
 		RepCountSound = nil,

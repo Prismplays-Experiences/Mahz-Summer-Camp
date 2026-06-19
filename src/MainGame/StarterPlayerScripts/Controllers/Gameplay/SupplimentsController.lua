@@ -38,10 +38,27 @@ function CreatSupplimentsDisplay(ItemName)
 	return nil
 end
 
+function CreateDailyBoostDisplay()
+	local NewTemp = SupplimentsDisplayTemplate:Clone()
+	NewTemp.Name = "DailyBoost"
+	NewTemp.Image = "rbxassetid://92724857425028"
+	NewTemp.Parent = EventsDisplay
+	NewTemp.Visible = true
+	return NewTemp
+end
+
 function SupplimentsController:KnitStart()
 	self.SuplimentsService = Knit.GetService("SupplimentsService")
 	self.SuplimentsService.UseSuppliment:Connect(function(ItemName, Time)
 		local NewTemp = CreatSupplimentsDisplay(ItemName)
+		for i = 1, Time do
+			NewTemp.Time.Text = TimeToString(Time - i)
+			task.wait(1)
+		end
+		NewTemp.Visible = false
+	end)
+	self.SuplimentsService.UseDailyBoost:Connect(function(Time)
+		local NewTemp = CreateDailyBoostDisplay()
 		for i = 1, Time do
 			NewTemp.Time.Text = TimeToString(Time - i)
 			task.wait(1)

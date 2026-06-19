@@ -338,7 +338,7 @@ function StageService:WeightPlayers(TransitionScreen, EndTransition, func)
 	self:WaitTillReady()
 	local End
 	if TransitionScreen then
-		End = self.TransitionService:SendTransitionAll("Weighting Time!", "Day over.")
+		End = self.TransitionService:SendTransitionAll("Weighing Time!", "Day over.")
 		task.wait(3)
 	end
 	local WalkPoints = SetStage("ScalingStage"):GetChildren()

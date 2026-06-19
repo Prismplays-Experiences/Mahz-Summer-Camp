@@ -99,6 +99,9 @@ function EventService:GetEventsQueue()
 end
 
 function EventService:RandomEvent()
+	if #GetPlayersInGame() < 2 then
+		self.PreviousEventKey = nil
+	end
 	local QueuedEvent = GetFromQueue()
 	if QueuedEvent and self:EventValidationCheck(EventsModules[QueuedEvent]) then
 		return EventsModules[QueuedEvent], QueuedEvent
@@ -122,7 +125,11 @@ function EventService:RandomEvent()
 end
 
 function EventService:StartEvent(Event)
+	if not Event then
+		return
+	end
 	self.Event = Event
+	task.wait(0.5)
 	if self.Event.LockWorkoutMachines then
 		self.GeneralService.Client.LockWorkoutMachines:FireAll(true)
 	end
@@ -146,15 +153,21 @@ function EventService:Cleanup(msg)
 	task.delay(5, function()
 		self.Client.EventStatus:Set("")
 	end)
-	if self.Event then
-		if self.Event.LockWorkoutMachines then
-			self.GeneralService.Client.LockWorkoutMachines:FireAll(false)
+	pcall(function()
+		if self.Event then
+			-- print("Cleaning up event:", self.Event.Name)
+			if self.Event.LockWorkoutMachines then
+				-- print("Unlocking workout machines")
+				self.GeneralService.Client.LockWorkoutMachines:FireAll(false)
+			end
+			if self.Event.YieldClock then
+				self.ClockService:ResumeClock()
+			end
+			self.Event:Clean()
 		end
-		if self.Event.YieldClock then
-			self.ClockService:ResumeClock()
-		end
-		self.Event:Clean()
-	end
+	end)
+
+	self.ClockService:ResumeClock()
 	self.Event = nil
 	self.EventCompleted = true
 	self.EventCountdown = false

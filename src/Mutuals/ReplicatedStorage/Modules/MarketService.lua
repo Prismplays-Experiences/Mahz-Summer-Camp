@@ -46,6 +46,7 @@ end
 MarketService.GamepassIds = {
 	["VIP"] = { Price = 149, Id = 1309476388 },
 	["DoubleCoins"] = { Price = 149, Id = 1305715966 },
+	["StarterPack"] = { Price = 149, Id = 1451180930 },
 }
 
 MarketService.ProductIds = {
@@ -69,6 +70,8 @@ MarketService.ProductIds = {
 	["10000Coins"] = { Price = 399, Id = 3329031263 },
 	["50000Coins"] = { Price = 399, Id = 3329031272 },
 
+	["DailyEnergyBoost"] = { Price = 399, Id = 3397090534 },
+
 	["OPPack"] = { Price = 79, Id = 3329031271 },
 
 	["InjuryRecovery"] = { Price = 19, Id = 3328138304 },
@@ -77,6 +80,11 @@ MarketService.ProductIds = {
 	["BenchPressUnlock"] = { Price = 19, Id = 3329031262 },
 	["DipsUnlock"] = { Price = 19, Id = 3329031261 },
 	["DumbellCurlUnlock"] = { Price = 19, Id = 3329031260 },
+
+	["Lose100"] = { Price = 19, Id = 3429895880 },
+	["Lose500"] = { Price = 49, Id = 3429896278 },
+	["Lose1000"] = { Price = 199, Id = 3429897049 },
+	["SkipDay"] = { Price = 399, Id = 3429898357 },
 
 	["1.2xWeightLoss"] = { Price = 19, Id = 3340140921 },
 	["1.4xWeightLoss"] = { Price = 49, Id = 3340140919 },
@@ -268,6 +276,46 @@ MarketService.ProductFunctions = {
 		DefaultPurchaseEvent(Player)
 		Player:SetAttribute("WeightLossMultiplier", 4)
 	end,
+
+	["Lose100"] = function(Player)
+		DefaultPurchaseEvent(Player)
+		SendNotification(Player, "-100 Weight", Color3.fromRGB(36, 217, 0), 5)
+		Player.leaderstats:WaitForChild("Weight").Value -= 100
+	end,
+	["Lose500"] = function(Player)
+		DefaultPurchaseEvent(Player)
+		SendNotification(Player, "-500 Weight", Color3.fromRGB(36, 217, 0), 5)
+		Player.leaderstats:WaitForChild("Weight").Value -= 500
+	end,
+	["Lose1000"] = function(Player)
+		DefaultPurchaseEvent(Player)
+		SendNotification(Player, "-1000 Weight", Color3.fromRGB(36, 217, 0), 5)
+		Player.leaderstats:WaitForChild("Weight").Value -= 1000
+	end,
+	["SkipDay"] = function(Player)
+		DefaultPurchaseEvent(Player)
+		local target = Knit.GetService("TargetService"):GetTarget()
+		for _, v in pairs(game.Players:GetPlayers()) do
+			task.spawn(function()
+				SendNotification(v, `{Player.Name} bought skip day!`, Color3.fromRGB(255, 0, 217), 5)
+				if Player.leaderstats.Weight.Value > target then
+					Player.leaderstats:WaitForChild("Weight").Value = target
+				end
+			end)
+		end
+		shared.SkipDay = true
+		local ClockService = Knit.GetService("ClockService")
+		ClockService:EndDay()
+		Announce(`{Player.Name} skipped the day!`)
+	end,
+
+	["DailyEnergyBoost"] = function(Player)
+		DefaultPurchaseEvent(Player)
+		Player:SetAttribute("DailyEnergyBoost", 1.5)
+		local SupplimentsService = Knit.GetService("SupplimentsService")
+		local ClockService = Knit.GetService("ClockService")
+		SupplimentsService.Client.UseDailyBoost:Fire(Player, (ClockService.MinutesPerDay * 60) - 30)
+	end,
 }
 
 MarketService.GamepassFunctions = {
@@ -280,9 +328,10 @@ MarketService.GamepassFunctions = {
 	["StarterPack"] = function(Player)
 		Announce(`{Player.Name} bought STARTER PACK!`)
 		DefaultPurchaseEvent(Player)
-		local Powerups = Player:WaitForChild("Powerups")
-		Powerups:WaitForChild("Freeze")
-		Powerups:WaitForChild("Speed")
+		local GamepassFolder = Player:WaitForChild("GamepassFolder")
+		GamepassFolder.StarterPack.Value = true
+		Player:SetAttribute("StarterPackBoost", 1.5)
+		Player.PrivateStats.Currency.Value += 500
 	end,
 	["DoubleCoins"] = function(Player)
 		DefaultPurchaseEvent(Player)

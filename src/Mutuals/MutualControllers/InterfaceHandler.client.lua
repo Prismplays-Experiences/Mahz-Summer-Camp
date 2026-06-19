@@ -352,6 +352,12 @@ if placeId == ExperienceInfo.Places.MainGame.Id then
 		UIMovement(false, TimedShop)
 	end, Player)
 	ToggleControl(TimedShop.Close, TimedShop)
+	ToggleControl(HUD:WaitForChild("Potions"), TimedShop)
+
+	local StarterPackFrame = Frames:WaitForChild("StarterPack")
+	local StarterPackButton = Frames:WaitForChild("StarterPackBtn")
+	ToggleControl(StarterPackFrame.Close, StarterPackFrame)
+	ToggleControl(StarterPackButton, StarterPackFrame)
 end
 
 local ShopZone = ZonePoints:WaitForChild("Shop")

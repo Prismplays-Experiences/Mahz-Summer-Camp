@@ -5,6 +5,7 @@ local TweenService = game:GetService("TweenService")
 
 --> Modules
 ----------------------------------------
+local MarketService = require("@Modules/MarketService")
 local Knit = require("@Packages/Knit")
 
 --> Assets
@@ -14,6 +15,7 @@ local PlayerGui = Player:WaitForChild("PlayerGui")
 local Main = PlayerGui:WaitForChild("Main")
 local Frames = Main:WaitForChild("Frames")
 local MainFrame = Frames:WaitForChild("Shop")
+local Core = Main:WaitForChild("Core")
 
 --> Knit Setup
 ----------------------------------------
@@ -68,6 +70,12 @@ function TopButtons(btn)
 	end)
 end
 
+function ProductBtn(Btn, ProductId)
+	Btn.MouseButton1Click:Connect(function()
+		MarketplaceService:PromptProductPurchase(Player, ProductId)
+	end)
+end
+
 -- Main Functions
 -----------------------------------------
 
@@ -94,6 +102,11 @@ function Shop:KnitStart()
 			end
 		end)
 	end
+	print("heere")
+	ProductBtn(Core:WaitForChild("Lose100"), MarketService.ProductIds.Lose100.Id)
+	ProductBtn(Core:WaitForChild("Lose500"), MarketService.ProductIds.Lose500.Id)
+	ProductBtn(Core:WaitForChild("Lose1000"), MarketService.ProductIds.Lose1000.Id)
+	ProductBtn(Core:WaitForChild("SkipDay"), MarketService.ProductIds.SkipDay.Id)
 end
 
 return Shop

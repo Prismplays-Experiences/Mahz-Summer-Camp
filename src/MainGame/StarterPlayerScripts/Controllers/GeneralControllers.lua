@@ -3,12 +3,14 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 local Lightning = game:GetService("Lighting")
+local MarketplaceService = game:GetService("MarketplaceService")
 -- local RunService = game:GetService("RunService")
 
 --> Modules
 ----------------------------------------
 local Knit = require("@Packages/Knit")
 local GeneralInfo = require("@Info/GeneralInfo")
+local MarketService = require("@Modules/MarketService")
 --> Assets
 ----------------------------------------
 local Player = game.Players.LocalPlayer
@@ -21,6 +23,8 @@ local Core = Main:WaitForChild("Core")
 local Timer = Core:WaitForChild("Timer")
 local TargetWeightTxt = Core:WaitForChild("TargetWeight")
 local WeightTxt = Core:WaitForChild("Weight")
+local EnergyBoost = Core:WaitForChild("BoostPopup")
+local EnergyBoostUIScale = EnergyBoost:WaitForChild("UIScale")
 
 local Frames = Main:WaitForChild("Frames")
 local TargetFrame = Frames:WaitForChild("TargetFrame")
@@ -83,6 +87,10 @@ function OpenFrame(Frame, Pos)
 		end)
 	end
 	return Close
+end
+
+function TweenUiScale(UIScale, Value)
+	TweenService:Create(UIScale, TweenInfo.new(1, Enum.EasingStyle.Back), { Scale = Value }):Play()
 end
 
 --> Main Functions
@@ -157,10 +165,19 @@ function GeneralControllers:KnitStart()
 		Signal = TargetFrame:WaitForChild("GO").MouseButton1Click:Connect(function()
 			Close()
 			Signal:Disconnect()
+			task.wait(2)
+			TweenUiScale(EnergyBoostUIScale, 1)
 		end)
 		TargetWeightTxt.Text = `Your Target: {WeightRequired}lbs`
 		self.WorkoutsHandler:ControlProximityPrompts(true)
 	end)
+	EnergyBoost:WaitForChild("No").MouseButton1Click:Connect(function()
+		TweenUiScale(EnergyBoostUIScale, 0)
+	end)
+	EnergyBoost:WaitForChild("Yes").MouseButton1Click:Connect(function()
+		MarketplaceService:PromptProductPurchase(Player, MarketService.ProductIds.DailyEnergyBoost.Id)
+	end)
+
 	ClockService.DayEnded:Connect(function()
 		ClockService:GetMinutesPerDay()
 			:andThen(function(value)

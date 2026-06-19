@@ -83,14 +83,14 @@ function FoodController:KnitStart()
 		if weightLoss < 0 then
 			weightLoss = math.abs(weightLoss)
 			SoundEffects.BadFood:Play()
-			ShortNotification("+" .. weightLoss .. " lbs", Color3.fromRGB(255, 0, 0), true)
+			ShortNotification("-" .. weightLoss .. " energy", Color3.fromRGB(255, 0, 0), true)
 		elseif weightLoss > 0 and not isHighFood then
 			SoundEffects.EatSound:Play()
-			ShortNotification("-" .. weightLoss .. "lbs", Color3.fromRGB(0, 255, 0), true)
+			ShortNotification("+" .. weightLoss .. " energy", Color3.fromRGB(0, 255, 0), true)
 		else
 			SoundEffects.SuperFood:Play()
 			ShortNotification("SUPER FOOD!", Color3.fromRGB(255, 235, 51), true)
-			ShortNotification("-" .. weightLoss .. "lbs", Color3.fromRGB(0, 255, 0), true)
+			ShortNotification("+" .. weightLoss .. " energy", Color3.fromRGB(0, 255, 0), true)
 		end
 	end)
 
@@ -98,7 +98,7 @@ function FoodController:KnitStart()
 		HardNotification.Send(
 			Player,
 			"Head to the kitchen! Food is ready!",
-			"rbxassetid://96017356444520",
+			"rbxassetid://112737726512337",
 			SoundEffects.FoodReady,
 			2.5
 		)

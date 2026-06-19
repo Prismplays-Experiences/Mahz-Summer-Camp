@@ -1,8 +1,8 @@
 return {
-	Weight = 10500,
+	Weight = 8500,
 	EndWeight = 50,
 	MaxDays = 24,
-	MaxLifes = 3,
+	MaxLifes = 2,
 	MinutesPerDay = 6,
 	RewardPerDay = 25,
 	WinnerReward = 1000,
