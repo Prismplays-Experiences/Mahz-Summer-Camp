@@ -1,2 +1,2 @@
-local module = require(script.Parent[".pesde"]["sleitnick_knit@1.7.0"]["knit"])
+local module = require(script.Parent:FindFirstChild(".pesde"):FindFirstChild("sleitnick_knit@1.7.0"):FindFirstChild("knit"))
 return module

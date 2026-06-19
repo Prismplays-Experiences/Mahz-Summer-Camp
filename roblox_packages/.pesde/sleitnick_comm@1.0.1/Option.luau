@@ -1,4 +1,4 @@
-local module = require(script.Parent.Parent["sleitnick_option@1.0.5"]["option"])
+local module = require(script.Parent.Parent:FindFirstChild("sleitnick_option@1.0.5"):FindFirstChild("option"))
 export type MatchTable<T> = module.MatchTable<T>
 export type MatchFn<T> = module.MatchFn<T>
 export type DefaultFn<T> = module.DefaultFn<T>

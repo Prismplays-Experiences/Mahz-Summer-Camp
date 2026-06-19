@@ -1,0 +1,18 @@
+{
+  "tree": {
+    "$className": "Folder",
+    "roblox_packages": {
+      "$path": {
+        "optional": "roblox_packages"
+      }
+    },
+    "roblox_server_packages": {
+      "$path": {
+        "optional": "roblox_server_packages"
+      }
+    },
+    "src": {
+      "$path": "src"
+    }
+  }
+}

@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-    "luau-lsp.sourcemap.rojoProjectFile": "MainGame.project.json"
-}
-=======
   "luau-lsp.sourcemap.rojoProjectFile": "MainGame.project.json",
   "luau-lsp.sourcemap.enabled": true,
   "luau-lsp.completion.imports.enabled": true,
@@ -56,4 +52,3 @@
   },
   "stylua.targetReleaseVersion": "latest"
 }
->>>>>>> 3d6250c406e438ab559991b0018e3608539eadbf

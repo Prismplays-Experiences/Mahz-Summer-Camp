@@ -1,4 +1,4 @@
-local module = require(script.Parent[".pesde"]["elttob_fusion@0.3.0"]["fusion"])
+local module = require(script.Parent:FindFirstChild(".pesde"):FindFirstChild("elttob_fusion@0.3.0"):FindFirstChild("fusion"))
 export type Animatable  = module.Animatable 
 export type UsedAs<T> = module.UsedAs<T>
 export type Child  = module.Child 

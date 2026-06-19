@@ -1,0 +1,15 @@
+name = "dancodesrbx/spring"
+version = "1.0.0"
+description = "Fork of NevermoreEngine's spring module with added typechecking."
+license = "MIT"
+authors = ["DanCodesRBX"]
+private = false
+includes = ["pesde.toml", "src"]
+
+[target]
+environment = "roblox"
+lib = "src/init.luau"
+build_files = ["src"]
+
+[indices]
+default = "https://github.com/daimond113/pesde-index"
