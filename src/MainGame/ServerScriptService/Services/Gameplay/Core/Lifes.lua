@@ -51,24 +51,27 @@ function LifeService.Client:LifeRefillEvent(Player)
 	end
 end
 
-function LifeService:RevivePlayer(Player, Weight)
+function LifeService:RevivePlayer(Player, Strength)
 	Player.leaderstats.Loses.Value -= 1
 	Player.leaderstats.Lifes.Value = GeneralInfo.MaxLifes
 	Player:RemoveTag("Eliminated")
 	-- local Day = self.ClockService:GetDay()
-	Player.leaderstats.Weight.Value = GeneralInfo.Weight - (self.TargetService.TotalWeightLost or 1)
-	if Weight and tonumber(Weight) then
-		Player.leaderstats.Weight.Value =
-			math.clamp(Player.leaderstats.Weight.Value - tonumber(Weight), GeneralInfo.EndWeight, GeneralInfo.Weight)
+	Player.leaderstats.Strength.Value = GeneralInfo.Strength - (self.TargetService.TotalStrengthLost or 1)
+	if Strength and tonumber(Strength) then
+		Player.leaderstats.Strength.Value = math.clamp(
+			Player.leaderstats.Strength.Value - tonumber(Strength),
+			GeneralInfo.EndStrength,
+			GeneralInfo.Strength
+		)
 	end
-	print("Weight after revive: " .. Player.leaderstats.Weight.Value)
+	print("Strength after revive: " .. Player.leaderstats.Strength.Value)
 	-- pcall(function()
 	Player.Character:MoveTo(workspace.Game.SpawnLocations.SpawnLocation.Position + Vector3.new(0, 5, 0))
 	-- end)
 end
 
 function LifeService:KnitStart()
-	self.StageService = Knit.GetService("StageService")
+	-- self.StageService = Knit.GetService("StageService")
 	self.ClockService = Knit.GetService("ClockService")
 	self.TargetService = Knit.GetService("TargetService")
 
@@ -78,7 +81,7 @@ function LifeService:KnitStart()
 			if Lifes.Value <= 0 and not Player:HasTag("Eliminated") then
 				self:EliminatePlayer(Player)
 				self.ClockService:YieldClock()
-				self.StageService:Eliminated(true, true)
+				-- self.StageService:Eliminated(true, true)
 				self.ClockService:ResumeClock()
 			end
 		end)

@@ -81,21 +81,21 @@ MarketService.ProductIds = {
 	["DipsUnlock"] = { Price = 19, Id = 3329031261 },
 	["DumbellCurlUnlock"] = { Price = 19, Id = 3329031260 },
 
-	["Lose100"] = { Price = 19, Id = 3429895880 },
-	["Lose500"] = { Price = 49, Id = 3429896278 },
-	["Lose1000"] = { Price = 199, Id = 3429897049 },
+	["Plus100"] = { Price = 19, Id = 3429895880 },
+	["Plus500"] = { Price = 49, Id = 3429896278 },
+	["Plus1000"] = { Price = 199, Id = 3429897049 },
 	["SkipDay"] = { Price = 399, Id = 3429898357 },
 
-	["1.2xWeightLoss"] = { Price = 19, Id = 3340140921 },
-	["1.4xWeightLoss"] = { Price = 49, Id = 3340140919 },
-	["1.6xWeightLoss"] = { Price = 49, Id = 3340140922 },
-	["1.8xWeightLoss"] = { Price = 49, Id = 3340140923 },
-	["2xWeightLoss"] = { Price = 49, Id = 3339707427 },
-	["2.4xWeightLoss"] = { Price = 199, Id = 3340140917 },
-	["2.8xWeightLoss"] = { Price = 199, Id = 3340140918 },
-	["3xWeightLoss"] = { Price = 199, Id = 3339707424 },
-	["3.2xWeightLoss"] = { Price = 399, Id = 3340140915 },
-	["4xWeightLoss"] = { Price = 399, Id = 3339707425 },
+	["1.2xStrengthGain"] = { Price = 19, Id = 3340140921 },
+	["1.4xStrengthGain"] = { Price = 49, Id = 3340140919 },
+	["1.6xStrengthGain"] = { Price = 49, Id = 3340140922 },
+	["1.8xStrengthGain"] = { Price = 49, Id = 3340140923 },
+	["2xStrengthGain"] = { Price = 49, Id = 3339707427 },
+	["2.4xStrengthGain"] = { Price = 199, Id = 3340140917 },
+	["2.8xStrengthGain"] = { Price = 199, Id = 3340140918 },
+	["3xStrengthGain"] = { Price = 199, Id = 3339707424 },
+	["3.2xStrengthGain"] = { Price = 399, Id = 3340140915 },
+	["4xStrengthGain"] = { Price = 399, Id = 3339707425 },
 }
 
 local MPS = game:GetService("MarketplaceService")
@@ -236,61 +236,61 @@ MarketService.ProductFunctions = {
 		LockedCap.Value = GeneralInfo.WorkoutStartDays.DumbellCurl.Day
 	end,
 
-	["1.2xWeightLoss"] = function(Player)
+	["1.2xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 1.2)
+		Player:SetAttribute("StrengthGainMultiplier", 1.2)
 	end,
-	["1.4xWeightLoss"] = function(Player)
+	["1.4xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 1.4)
+		Player:SetAttribute("StrengthGainMultiplier", 1.4)
 	end,
-	["1.6xWeightLoss"] = function(Player)
+	["1.6xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 1.6)
+		Player:SetAttribute("StrengthGainMultiplier", 1.6)
 	end,
-	["1.8xWeightLoss"] = function(Player)
+	["1.8xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 1.8)
+		Player:SetAttribute("StrengthGainMultiplier", 1.8)
 	end,
-	["2xWeightLoss"] = function(Player)
+	["2xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 2)
+		Player:SetAttribute("StrengthGainMultiplier", 2)
 	end,
-	["2.4xWeightLoss"] = function(Player)
+	["2.4xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 2.4)
+		Player:SetAttribute("StrengthGainMultiplier", 2.4)
 	end,
-	["2.8xWeightLoss"] = function(Player)
+	["2.8xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 2.8)
+		Player:SetAttribute("StrengthGainMultiplier", 2.8)
 	end,
-	["3xWeightLoss"] = function(Player)
+	["3xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 3)
+		Player:SetAttribute("StrengthGainMultiplier", 3)
 	end,
-	["3.2xWeightLoss"] = function(Player)
+	["3.2xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 3.2)
+		Player:SetAttribute("StrengthGainMultiplier", 3.2)
 	end,
-	["4xWeightLoss"] = function(Player)
+	["4xStrengthGain"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		Player:SetAttribute("WeightLossMultiplier", 4)
+		Player:SetAttribute("StrengthGainMultiplier", 4)
 	end,
 
-	["Lose100"] = function(Player)
+	["Plus100"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		SendNotification(Player, "-100 Weight", Color3.fromRGB(36, 217, 0), 5)
-		Player.leaderstats:WaitForChild("Weight").Value -= 100
+		SendNotification(Player, "+100 Strength", Color3.fromRGB(36, 217, 0), 5)
+		Player.leaderstats:WaitForChild("Strength").Value -= 100
 	end,
-	["Lose500"] = function(Player)
+	["Plus500"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		SendNotification(Player, "-500 Weight", Color3.fromRGB(36, 217, 0), 5)
-		Player.leaderstats:WaitForChild("Weight").Value -= 500
+		SendNotification(Player, "+500 Strength", Color3.fromRGB(36, 217, 0), 5)
+		Player.leaderstats:WaitForChild("Strength").Value -= 500
 	end,
-	["Lose1000"] = function(Player)
+	["Plus1000"] = function(Player)
 		DefaultPurchaseEvent(Player)
-		SendNotification(Player, "-1000 Weight", Color3.fromRGB(36, 217, 0), 5)
-		Player.leaderstats:WaitForChild("Weight").Value -= 1000
+		SendNotification(Player, "+1000 Strength", Color3.fromRGB(36, 217, 0), 5)
+		Player.leaderstats:WaitForChild("Strength").Value -= 1000
 	end,
 	["SkipDay"] = function(Player)
 		DefaultPurchaseEvent(Player)
@@ -298,8 +298,8 @@ MarketService.ProductFunctions = {
 		for _, v in pairs(game.Players:GetPlayers()) do
 			task.spawn(function()
 				SendNotification(v, `{Player.Name} bought skip day!`, Color3.fromRGB(255, 0, 217), 5)
-				if Player.leaderstats.Weight.Value > target then
-					Player.leaderstats:WaitForChild("Weight").Value = target
+				if Player.leaderstats.Strength.Value > target then
+					Player.leaderstats:WaitForChild("Strength").Value = target
 				end
 			end)
 		end

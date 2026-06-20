@@ -37,16 +37,16 @@ local SpinsController = Knit.CreateController({ Name = "SpinsController" })
 ----------------------------------------
 
 local function generateRandomIndex()
-	local totalWeight = 0
-	for _, weight in ipairs(Chances) do
-		totalWeight = totalWeight + weight
+	local totalStrength = 0
+	for _, Strength in ipairs(Chances) do
+		totalStrength = totalStrength + Strength
 	end
-	local randomValue = math.random(1, totalWeight)
+	local randomValue = math.random(1, totalStrength)
 	local currentIndex = 1
-	local cumulativeWeight = Chances[1]
-	while randomValue > cumulativeWeight and currentIndex < #Chances do
+	local cumulativeStrength = Chances[1]
+	while randomValue > cumulativeStrength and currentIndex < #Chances do
 		currentIndex = currentIndex + 1
-		cumulativeWeight = cumulativeWeight + Chances[currentIndex]
+		cumulativeStrength = cumulativeStrength + Chances[currentIndex]
 	end
 	return currentIndex
 end

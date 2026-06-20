@@ -4,8 +4,8 @@ local WorkoutTools = Assets:WaitForChild("WorkoutTools")
 return {
 
 	Pushups = {
-		MinWeightLoss = 1,
-		MaxWeightLoss = 5,
+		MinStrengthGain = 1,
+		MaxStrengthGain = 5,
 		AnimationId = "rbxassetid://90718551251909",
 		ConstantSound = nil,
 		RepCountSound = nil,
@@ -16,8 +16,8 @@ return {
 		Resolution = 0.7,
 	},
 	Treadmill = {
-		MinWeightLoss = 1,
-		MaxWeightLoss = 7,
+		MinStrengthGain = 1,
+		MaxStrengthGain = 7,
 		AnimationId = "rbxassetid://90258052759623",
 		ConstantSound = nil,
 		RepCountSound = nil,
@@ -27,8 +27,8 @@ return {
 		Level = nil,
 	},
 	DumbellCurl = {
-		MinWeightLoss = 2,
-		MaxWeightLoss = 14,
+		MinStrengthGain = 2,
+		MaxStrengthGain = 14,
 		AnimationId = "rbxassetid://86790780787475",
 		ConstantSound = nil,
 		RepCountSound = nil,
@@ -39,8 +39,8 @@ return {
 		Tool = WorkoutTools:WaitForChild("Dumbells"),
 	},
 	BenchPress = {
-		MinWeightLoss = 3,
-		MaxWeightLoss = 18,
+		MinStrengthGain = 3,
+		MaxStrengthGain = 18,
 		AnimationId = "rbxassetid://136624430039075",
 		ConstantSound = nil,
 		RepCountSound = nil,
@@ -52,8 +52,8 @@ return {
 	},
 
 	Dips = {
-		MinWeightLoss = 4,
-		MaxWeightLoss = 25,
+		MinStrengthGain = 4,
+		MaxStrengthGain = 25,
 		AnimationId = "rbxassetid://90142283745294",
 		ConstantSound = nil,
 		RepCountSound = nil,

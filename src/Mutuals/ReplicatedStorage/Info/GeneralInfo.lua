@@ -1,6 +1,6 @@
 return {
-	Weight = 8500,
-	EndWeight = 50,
+	Strength = 8500,
+	EndStrength = 50,
 	MaxDays = 24,
 	MaxLifes = 2,
 	MinutesPerDay = 6,

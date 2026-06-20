@@ -103,9 +103,9 @@ function Shop:KnitStart()
 		end)
 	end
 	print("heere")
-	ProductBtn(Core:WaitForChild("Lose100"), MarketService.ProductIds.Lose100.Id)
-	ProductBtn(Core:WaitForChild("Lose500"), MarketService.ProductIds.Lose500.Id)
-	ProductBtn(Core:WaitForChild("Lose1000"), MarketService.ProductIds.Lose1000.Id)
+	ProductBtn(Core:WaitForChild("Plus100"), MarketService.ProductIds.Plus100.Id)
+	ProductBtn(Core:WaitForChild("Plus500"), MarketService.ProductIds.Plus500.Id)
+	ProductBtn(Core:WaitForChild("Plus1000"), MarketService.ProductIds.Plus1000.Id)
 	ProductBtn(Core:WaitForChild("SkipDay"), MarketService.ProductIds.SkipDay.Id)
 end
 

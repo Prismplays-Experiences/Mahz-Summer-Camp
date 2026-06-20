@@ -58,7 +58,7 @@ local FoodChaos = Knit.CreateService({
 local FallDuration = 3
 FoodChaos.EventTime = 90
 FoodChaos.Trove = Trove.new()
-FoodChaos.MaxWeightGained = 250
+FoodChaos.MaxStrengthGained = 250
 FoodChaos.MinPlayers = 1
 FoodChaos.LockWorkoutMachines = true
 FoodChaos.Music = "FoodChaos"
@@ -210,7 +210,7 @@ end
 function FoodChaos:RandomFood()
 	local Food = KitchenFoods:GetChildren()[math.random(1, #KitchenFoods:GetChildren())]:Clone()
 	ScaleObject(Food, 2)
-	Food:SetAttribute("Weight", Food:GetAttribute("Weight") * self.ClockService.Days)
+	Food:SetAttribute("Strength", Food:GetAttribute("Strength") * self.ClockService.Days)
 	self.Trove:Add(Food)
 	return Food
 end
@@ -363,7 +363,7 @@ end
 function FoodChaos:KnitStart()
 	self.ClockService = Knit.GetService("ClockService")
 	self.EventsService = Knit.GetService("EventsService")
-	self.WeightControl = Knit.GetService("WeightControl")
+	self.StrengthControl = Knit.GetService("StrengthControl")
 	Assets:WaitForChild("FoodChaosObjects"):WaitForChild("Circle").Parent = SpawnPoints
 end
 

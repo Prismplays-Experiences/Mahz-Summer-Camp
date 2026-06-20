@@ -29,14 +29,14 @@ local FitDescription = {
 	Torso = 32336059,
 }
 
-local MaxWeight = GeneralInfo.Weight
+local MaxStrength = GeneralInfo.Strength
 local FitThreshold = 100
 
 local leaderstats = Player:WaitForChild("leaderstats")
-local Weight = leaderstats:FindFirstChild("Weight") or Instance.new("IntValue")
-Weight.Parent = leaderstats
-Weight.Value = MaxWeight
-Weight.Name = "Weight"
+local Strength = leaderstats:FindFirstChild("Strength") or Instance.new("IntValue")
+Strength.Parent = leaderstats
+Strength.Value = MaxStrength
+Strength.Name = "Strength"
 local CurrentDescription: "Fat" | "Fit" | nil = nil
 
 --> Utility Functions
@@ -87,10 +87,10 @@ function ChangeDescription(Type: "Fat" | "Fit")
 	DisableCollissions(Player.Character)
 end
 
-function AdjustWeight(weight, maxWeight, playerHumanoid)
-	local scale = math.clamp(weight / maxWeight, 0.01, 1)
+function AdjustStrength(Strength, maxStrength, playerHumanoid)
+	local scale = math.clamp(Strength / maxStrength, 0.01, 1)
 
-	-- Interpolate scales based on weight
+	-- Interpolate scales based on Strength
 	local minWidth = 1
 	local maxWidth = 2.5
 
@@ -108,26 +108,26 @@ end
 
 --> Main Functions
 ----------------------------------------
-function WeightChanged()
+function StrengthChanged()
 	if Player.Character and Player.Character:FindFirstChild("Humanoid") then
-		PlayerDetails.Weight.Text = `{Weight.Value}lbs`
+		PlayerDetails.Strength.Text = `{Strength.Value}lbs`
 		local playerHumanoid = Player.Character.Humanoid
-		local weight = Weight.Value
+		local Strength = Strength.Value
 
-		if weight > FitThreshold then
+		if Strength > FitThreshold then
 			ChangeDescription("Fat")
 		else
 			ChangeDescription("Fit")
 		end
 
-		AdjustWeight(weight, MaxWeight, playerHumanoid)
+		AdjustStrength(Strength, MaxStrength, playerHumanoid)
 	end
 end
-Weight:GetPropertyChangedSignal("Value"):Connect(WeightChanged)
-WeightChanged()
+Strength:GetPropertyChangedSignal("Value"):Connect(StrengthChanged)
+StrengthChanged()
 
 script.Parent.Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
 PlayerDetails.PlayerName.Text = Player.DisplayName
-PlayerDetails.Weight.Text = `{Weight.Value}lbs`
+PlayerDetails.Strength.Text = `{Strength.Value}lbs`
 PlayerDetails.Adornee = Player.Character:WaitForChild("Head")
 PlayerDetails.Parent = Player.Character

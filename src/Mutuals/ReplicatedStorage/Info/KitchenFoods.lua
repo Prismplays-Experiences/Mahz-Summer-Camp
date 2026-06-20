@@ -2,48 +2,48 @@ return {
 	Foods = {
 		["Apple"] = {
 			Name = "Apple",
-			DefaultWeightLoss = 10,
+			DefaultStrengthGain = 10,
 		},
 		["Carrot"] = {
 			Name = "Carrot",
-			DefaultWeightLoss = 8,
+			DefaultStrengthGain = 8,
 		},
 		["Potato"] = {
 			Name = "Potato",
-			DefaultWeightLoss = 4,
+			DefaultStrengthGain = 4,
 		},
 		["Tomato"] = {
 			Name = "Tomato",
-			DefaultWeightLoss = 7,
+			DefaultStrengthGain = 7,
 		},
 		["Onion"] = {
 			Name = "Onion",
-			DefaultWeightLoss = 5,
+			DefaultStrengthGain = 5,
 		},
 		["Burger"] = {
 			Name = "Burger",
-			DefaultWeightLoss = -15, -- makes you gain weight
+			DefaultStrengthGain = -15, -- makes you gain Strength
 		},
 		["Fries"] = {
 			Name = "Fries",
-			DefaultWeightLoss = -10,
+			DefaultStrengthGain = -10,
 		},
 		["IceCream"] = {
 			Name = "IceCream",
-			DefaultWeightLoss = -12,
+			DefaultStrengthGain = -12,
 		},
 		["Pizza"] = {
 			Name = "Pizza",
-			DefaultWeightLoss = -18,
+			DefaultStrengthGain = -18,
 		},
 	},
 
 	Info = {
-		["HighFoodWeightLoss"] = 35,
-		["FoodWeightLossIntervalMin"] = 2,
-		["FoodWeightLossIntervalMax"] = 100, -- determine max interval based on the day
-		["WeightIntervalResolution"] = 10,
-		["MaxWeightLoss"] = 100,
-		["MinWeightLoss"] = 2,
+		["HighFoodStrengthGain"] = 35,
+		["FoodStrengthGainIntervalMin"] = 2,
+		["FoodStrengthGainIntervalMax"] = 100, -- determine max interval based on the day
+		["StrengthIntervalResolution"] = 10,
+		["MaxStrengthGain"] = 100,
+		["MinStrengthGain"] = 2,
 	},
 }

@@ -71,7 +71,7 @@ function InstructorMessage:PlayMessage(Message, EndTransition)
 	end
 	task.wait(2)
 	self.Client.CameraControl:FireAll(true, self.NewInstructor, CenterPoint, randomPoint, Message, EndTransition)
-	WalktoSpot(self.NewInstructor, { randomPoint["1"], randomPoint["2"], CenterPoint }, true)
+	WalktoSpot(self.NewInstructor, { randomPoint["1"], CenterPoint }, true)
 	task.spawn(function()
 		task.wait(35)
 		self.NewInstructor:Destroy()

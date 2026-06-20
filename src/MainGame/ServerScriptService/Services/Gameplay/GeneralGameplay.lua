@@ -104,7 +104,7 @@ function GeneralGameplay:KnitStart()
 	self.ClockService = Knit.GetService("ClockService")
 	self.BedService = Knit.GetService("BedService")
 	self.TargetService = Knit.GetService("TargetService")
-	self.StageService = Knit.GetService("StageService")
+	-- self.StageService = Knit.GetService("StageService")
 	self.LifeService = Knit.GetService("LifeService")
 	self.KitchenService = Knit.GetService("KitchenService")
 	self.EventsService = Knit.GetService("EventsService")
@@ -147,8 +147,8 @@ function GeneralGameplay:KnitStart()
 		self.TargetReachedPlayers = {}
 
 		if self.ClockService.Days == GeneralInfo.MaxDays + 1 then
-			self.StageService:WeightPlayers(true, false)
-			self.StageService:Winners(true)
+			-- self.StageService:StrengthPlayers(true, false)
+			-- self.StageService:Winners(true)
 			task.wait(5)
 			local winners = self:GetWinners()
 			for _, player in pairs(winners) do
@@ -161,7 +161,7 @@ function GeneralGameplay:KnitStart()
 				shared.SkipDay = false
 				sendtobed()
 			else
-				self.StageService:WeightPlayers(true, false, sendtobed)
+				-- self.StageService:StrengthPlayers(true, false, sendtobed)
 			end
 		end
 

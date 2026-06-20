@@ -15,14 +15,14 @@ local MarketService = require("@Modules/MarketService")
 ----------------------------------------
 local Player = game.Players.LocalPlayer
 local leaderstats = Player:WaitForChild("leaderstats")
-local WeightValue = leaderstats:WaitForChild("Weight")
+local StrengthValue = leaderstats:WaitForChild("Strength")
 local PlayerGui = Player.PlayerGui
 local Main = PlayerGui:WaitForChild("Main")
 local HUD = Main:WaitForChild("HUD")
 local Core = Main:WaitForChild("Core")
 local Timer = Core:WaitForChild("Timer")
-local TargetWeightTxt = Core:WaitForChild("TargetWeight")
-local WeightTxt = Core:WaitForChild("Weight")
+local TargetStrengthTxt = Core:WaitForChild("TargetStrength")
+local StrengthTxt = Core:WaitForChild("Strength")
 local EnergyBoost = Core:WaitForChild("BoostPopup")
 local EnergyBoostUIScale = EnergyBoost:WaitForChild("UIScale")
 
@@ -146,17 +146,17 @@ function GeneralControllers:KnitStart()
 	GeneralGameplay.DisableControls:Connect(function()
 		self.PlayerModule:Disable()
 	end)
-	TargetService.DisplayTarget:Connect(function(Target, WeightRequired, Day)
+	TargetService.DisplayTarget:Connect(function(Target, StrengthRequired, Day)
 		TargetReached = false
-		if WeightValue.Value < WeightRequired then
-			WeightRequired = math.clamp(WeightRequired - Target / 2, GeneralInfo.Weight, math.huge)
+		if StrengthValue.Value < StrengthRequired then
+			StrengthRequired = math.clamp(StrengthRequired - Target / 2, GeneralInfo.Strength, math.huge)
 		end
-		self.Target = WeightRequired
-		HUD:WaitForChild("TargetWeight").Text = `Your Target: {WeightRequired}lbs`
-		HUD:WaitForChild("TargetWeight").TextColor3 = Color3.fromRGB(253, 255, 133)
+		self.Target = StrengthRequired
+		HUD:WaitForChild("TargetStrength").Text = `Your Target: {StrengthRequired}lbs`
+		HUD:WaitForChild("TargetStrength").TextColor3 = Color3.fromRGB(253, 255, 133)
 		Core:WaitForChild("Day").Text = `Day {Day}`
 		TargetFrame:WaitForChild("Target").Text =
-			`Lose {math.clamp(WeightValue.Value - WeightRequired, Target, math.huge)}lbs`
+			`Lose {math.clamp(StrengthValue.Value - StrengthRequired, Target, math.huge)}lbs`
 		TargetFrame:WaitForChild("Header").Text = `Day {Day} target`
 		self.Day = Day
 		local Close = OpenFrame(TargetFrame)
@@ -168,7 +168,7 @@ function GeneralControllers:KnitStart()
 			task.wait(2)
 			TweenUiScale(EnergyBoostUIScale, 1)
 		end)
-		TargetWeightTxt.Text = `Your Target: {WeightRequired}lbs`
+		TargetStrengthTxt.Text = `Your Target: {StrengthRequired}lbs`
 		self.WorkoutsHandler:ControlProximityPrompts(true)
 	end)
 	EnergyBoost:WaitForChild("No").MouseButton1Click:Connect(function()
@@ -186,22 +186,22 @@ function GeneralControllers:KnitStart()
 			:await()
 	end)
 
-	-- Weight Value Update
-	WeightTxt.Text = `Weight: {WeightValue.Value}lbs`
-	TargetWeightTxt.Text = `Your Target: {self.Target}lbs`
+	-- Strength Value Update
+	StrengthTxt.Text = `Strength: {StrengthValue.Value}lbs`
+	TargetStrengthTxt.Text = `Your Target: {self.Target}lbs`
 	self.Target = self.Target or 0
 
-	-- Update Weight Text
+	-- Update Strength Text
 
-	WeightTxt.Text = `Weight: {WeightValue.Value}lbs`
-	WeightValue:GetPropertyChangedSignal("Value"):Connect(function()
-		if WeightValue.Value <= self.Target and not TargetReached then
+	StrengthTxt.Text = `Strength: {StrengthValue.Value}lbs`
+	StrengthValue:GetPropertyChangedSignal("Value"):Connect(function()
+		if StrengthValue.Value <= self.Target and not TargetReached then
 			TargetReached = true
-			HUD:WaitForChild("TargetWeight").TextColor3 = Color3.fromRGB(0, 255, 0)
+			HUD:WaitForChild("TargetStrength").TextColor3 = Color3.fromRGB(0, 255, 0)
 			GeneralGameplay:TargetReached()
 			SendNotification(`Target accomplished!`, Color3.fromRGB(0, 255, 0), 3, true, SoundEffects.Won)
 		end
-		WeightTxt.Text = `Weight: {WeightValue.Value}lbs`
+		StrengthTxt.Text = `Strength: {StrengthValue.Value}lbs`
 	end)
 
 	GeneralGameplay.CountdownValue:Observe(function(Value)

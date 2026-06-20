@@ -20,7 +20,7 @@ local Main = PlayerGui:WaitForChild("Main")
 local HUD = Main:WaitForChild("HUD")
 local InjuryRecoverybtn = HUD:WaitForChild("InjuryRecovery")
 local GameplayFrames = Main:WaitForChild("Gameplay")
-local WeightLossBtn = GameplayFrames:WaitForChild("WeightLoss")
+local StrengthGainBtn = GameplayFrames:WaitForChild("StrengthGain")
 
 local ModuleAssets = Main:WaitForChild("ModuleAssets")
 local BillboardStorage = ModuleAssets:WaitForChild("Billboards")
@@ -48,17 +48,17 @@ local IAPDATA = require("@Info/IAPDATA")
 local Player = game.Players.LocalPlayer
 local LockedCap = Player:WaitForChild("PrivateStats"):WaitForChild("LockedCap")
 
-local WeightLossIncrements = {
+local StrengthGainIncrements = {
 	[1] = nil,
-	[1.2] = MarketModule.ProductIds["1.2xWeightLoss"].Id,
-	[1.4] = MarketModule.ProductIds["1.4xWeightLoss"].Id,
-	[1.6] = MarketModule.ProductIds["1.6xWeightLoss"].Id,
-	[1.8] = MarketModule.ProductIds["1.8xWeightLoss"].Id,
-	[2] = MarketModule.ProductIds["2xWeightLoss"].Id,
-	[2.4] = MarketModule.ProductIds["2.4xWeightLoss"].Id,
-	[2.8] = MarketModule.ProductIds["2.8xWeightLoss"].Id,
-	[3.2] = MarketModule.ProductIds["3.2xWeightLoss"].Id,
-	[4] = MarketModule.ProductIds["4xWeightLoss"].Id,
+	[1.2] = MarketModule.ProductIds["1.2xStrengthGain"].Id,
+	[1.4] = MarketModule.ProductIds["1.4xStrengthGain"].Id,
+	[1.6] = MarketModule.ProductIds["1.6xStrengthGain"].Id,
+	[1.8] = MarketModule.ProductIds["1.8xStrengthGain"].Id,
+	[2] = MarketModule.ProductIds["2xStrengthGain"].Id,
+	[2.4] = MarketModule.ProductIds["2.4xStrengthGain"].Id,
+	[2.8] = MarketModule.ProductIds["2.8xStrengthGain"].Id,
+	[3.2] = MarketModule.ProductIds["3.2xStrengthGain"].Id,
+	[4] = MarketModule.ProductIds["4xStrengthGain"].Id,
 }
 
 --> Knit Setup
@@ -76,9 +76,9 @@ local WorkoutsHandler = Knit.CreateController({
 
 --> Utility Functions
 ----------------------------------------
-local function GetWeightLossColor(multiplier)
+local function GetStrengthGainColor(multiplier)
 	local keys = {}
-	for k in pairs(WeightLossIncrements) do
+	for k in pairs(StrengthGainIncrements) do
 		table.insert(keys, k)
 	end
 	table.sort(keys)
@@ -128,7 +128,7 @@ function CheckIfAlive(Plr)
 	return true
 end
 
-function GetNextWeightLossIncrement(currentMultiplier, increments)
+function GetNextStrengthGainIncrement(currentMultiplier, increments)
 	local keys = {}
 
 	-- Collect and sort keys
@@ -328,7 +328,7 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 	self.GeneralService:TagSlot(slot, true)
 	self.TaggedSlot = slot
 	local WorkoutName = slot.Parent.Name
-	HUD:WaitForChild("TargetWeight").Visible = true
+	HUD:WaitForChild("TargetStrength").Visible = true
 	HUD:WaitForChild("LifesFrame").Visible = false
 	GameplayFrames.Visible = true
 	self:ControlProximityPrompts(false)
@@ -376,8 +376,8 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 			local timeElapsed = tick() - elapsed
 
 			-- Calculate time contribution to reach total 2.0 at 60s
-			local timeWeight = 2.0 - baseScore - auraBonus
-			local timeBonus = (timeElapsed / 120) * timeWeight
+			local timeStrength = 2.0 - baseScore - auraBonus
+			local timeBonus = (timeElapsed / 120) * timeStrength
 
 			-- Final rate
 			local rate = baseScore + timeBonus + auraBonus
@@ -417,12 +417,12 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 		self.InjuryLogic.Value = boolean
 	end)
 	self.AnimTrackSignal = Data.AnimTrack:GetMarkerReachedSignal("RepCount"):Connect(function()
-		self:LoseWeight(math.random(Data.MinWeightLoss, Data.MaxWeightLoss) * (Data.Resolution or 1))
+		self:LoseStrength(math.random(Data.MinStrengthGain, Data.MaxStrengthGain) * (Data.Resolution or 1))
 	end)
 end
 
-function WorkoutsHandler:LoseWeight(Value)
-	self.WeightControl:DecreaseWeight(Value, true):andThen(function(status, value)
+function WorkoutsHandler:LoseStrength(Value)
+	self.StrengthControl:DecreaseStrength(Value, true):andThen(function(status, value)
 		if status then
 			local suffix = ` ({value / Value}x)`
 			if value / value <= 1 then
@@ -442,7 +442,7 @@ function WorkoutsHandler:StopWorkout()
 	self.InjuryLogic.Value = false
 	GameplayFrames.Visible = false
 	self.AurasService:RemoveAura()
-	HUD:WaitForChild("TargetWeight").Visible = false
+	HUD:WaitForChild("TargetStrength").Visible = false
 	HUD:WaitForChild("LifesFrame").Visible = true
 	pcall(function()
 		self.GeneralController.PlayerModule:Enable()
@@ -546,7 +546,7 @@ function WorkoutsHandler:KnitStart()
 	self.GeneralController = Knit.GetController("GeneralControllers")
 	self.GeneralService = Knit.GetService("GeneralGameplay")
 	self.MusicController = Knit.GetController("MusicController")
-	self.WeightControl = Knit.GetService("WeightControl")
+	self.StrengthControl = Knit.GetService("StrengthControl")
 	self.AurasService = Knit.GetService("AurasService")
 
 	--load minigames
@@ -642,14 +642,14 @@ function WorkoutsHandler:KnitStart()
 
 	self:ControlProximityPrompts(true)
 
-	WeightLossBtn.MouseButton1Click:Connect(function()
-		local currentWeightLoss = Player:GetAttribute("WeightLossMultiplier") or 1
-		local nextWeightLoss, productId = GetNextWeightLossIncrement(currentWeightLoss, WeightLossIncrements)
-		if WeightLossIncrements[nextWeightLoss] then
+	StrengthGainBtn.MouseButton1Click:Connect(function()
+		local currentStrengthGain = Player:GetAttribute("StrengthGainMultiplier") or 1
+		local nextStrengthGain, productId = GetNextStrengthGainIncrement(currentStrengthGain, StrengthGainIncrements)
+		if StrengthGainIncrements[nextStrengthGain] then
 			MarketplaceService:PromptProductPurchase(Players.LocalPlayer, productId)
 		else
 			SendNotification(
-				"Maximum weight loss multiplier reached!",
+				"Maximum Strength Gain multiplier reached!",
 				Color3.fromRGB(255, 0, 0),
 				2,
 				false,
@@ -658,20 +658,20 @@ function WorkoutsHandler:KnitStart()
 		end
 	end)
 
-	local function WeightLossMultiplierChanged()
-		local currentWeightLoss = Player:GetAttribute("WeightLossMultiplier") or 1
-		local nextWeightLoss, _ = GetNextWeightLossIncrement(currentWeightLoss, WeightLossIncrements)
-		WeightLossBtn:WaitForChild("Amount").Text = `{nextWeightLoss}x Weight Loss`
-		WeightLossBtn.BackgroundColor3 = GetWeightLossColor(nextWeightLoss)
-		if currentWeightLoss >= 4 then
-			WeightLossBtn.Visible = false
+	local function StrengthGainMultiplierChanged()
+		local currentStrengthGain = Player:GetAttribute("StrengthGainMultiplier") or 1
+		local nextStrengthGain, _ = GetNextStrengthGainIncrement(currentStrengthGain, StrengthGainIncrements)
+		StrengthGainBtn:WaitForChild("Amount").Text = `{nextStrengthGain}x Strength Gain`
+		StrengthGainBtn.BackgroundColor3 = GetStrengthGainColor(nextStrengthGain)
+		if currentStrengthGain >= 4 then
+			StrengthGainBtn.Visible = false
 		else
-			WeightLossBtn.Visible = true
+			StrengthGainBtn.Visible = true
 		end
 	end
 
-	Player:GetAttributeChangedSignal("WeightLossMultiplier"):Connect(WeightLossMultiplierChanged)
-	WeightLossMultiplierChanged()
+	Player:GetAttributeChangedSignal("StrengthGainMultiplier"):Connect(StrengthGainMultiplierChanged)
+	StrengthGainMultiplierChanged()
 	-- self:ControlProximityPrompts(false)
 
 	for _, billboard in WorkoutBillboards:GetChildren() do

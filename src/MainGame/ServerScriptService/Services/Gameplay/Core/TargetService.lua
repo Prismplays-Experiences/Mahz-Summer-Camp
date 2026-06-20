@@ -10,7 +10,7 @@ local GeneralInfo = require("@Info/GeneralInfo")
 ----------------------------------------
 local TargetService = Knit.CreateService({
 	Name = "TargetService",
-	TotalWeightLost = 0,
+	TotalStrengthLost = 0,
 	Client = {
 		DisplayTarget = Knit.CreateSignal(),
 	},
@@ -23,45 +23,45 @@ function GetDays()
 	return ClockService.Days
 end
 
-function CreateTarget(Day, IdealWeight, MaxDays)
+function CreateTarget(Day, IdealStrength, MaxDays)
 	MaxDays = MaxDays or GeneralInfo.MaxDays
 	local k = 0.15 -- curve steepness
 	local roundTo = 5
 
-	local rawWeights = {}
+	local rawStrengths = {}
 	local totalRaw = 0
 
-	-- Step 1: Generate exponential weights
+	-- Step 1: Generate exponential Strengths
 	for i = 1, MaxDays do
 		local w = math.exp(k * i)
-		table.insert(rawWeights, w)
+		table.insert(rawStrengths, w)
 		totalRaw += w
 	end
 
-	-- Step 2: Scale and round weights
-	local scale = IdealWeight / totalRaw
-	local scaledWeights = {}
-	local roundedWeights = {}
+	-- Step 2: Scale and round Strengths
+	local scale = IdealStrength / totalRaw
+	local scaledStrengths = {}
+	local roundedStrengths = {}
 	local totalRounded = 0
 
 	for i = 1, MaxDays do
-		local scaled = rawWeights[i] * scale
-		scaledWeights[i] = scaled
+		local scaled = rawStrengths[i] * scale
+		scaledStrengths[i] = scaled
 		local rounded = math.floor((scaled / roundTo) + 0.5) * roundTo
-		roundedWeights[i] = rounded
+		roundedStrengths[i] = rounded
 		totalRounded += rounded
 	end
 
-	-- Step 3: Fix rounding error by adjusting largest weights
-	local difference = IdealWeight - totalRounded
+	-- Step 3: Fix rounding error by adjusting largest Strengths
+	local difference = IdealStrength - totalRounded
 	local adjustmentStep = roundTo * (difference > 0 and 1 or -1)
 	local remaining = math.abs(difference)
 
 	while remaining > 0 do
 		for i = MaxDays, 1, -1 do
-			local newValue = roundedWeights[i] + adjustmentStep
+			local newValue = roundedStrengths[i] + adjustmentStep
 			if newValue >= 0 then
-				roundedWeights[i] = newValue
+				roundedStrengths[i] = newValue
 				remaining -= roundTo
 				if remaining <= 0 then
 					break
@@ -71,12 +71,12 @@ function CreateTarget(Day, IdealWeight, MaxDays)
 	end
 
 	-- Step 4: Return the value for the requested day
-	return roundedWeights[Day]
+	return roundedStrengths[Day]
 end
 
 -- for day = 1, 24 do
--- 	local loss = CreateTarget(day, GeneralInfo.Weight, 24)
--- 	print(string.format("Day %02d: Lose %.2f lbs", day, loss))
+-- 	local Gain = CreateTarget(day, GeneralInfo.Strength, 24)
+-- 	print(string.format("Day %02d: Lose %.2f lbs", day, Gain))
 -- end
 
 --> Main Functions
@@ -85,14 +85,14 @@ function TargetService:KnitInit() end
 
 function TargetService:SetTarget()
 	local Day = GetDays()
-	local IdealWeight = GeneralInfo.Weight - GeneralInfo.EndWeight
-	self.TargetWeight = CreateTarget(Day, IdealWeight, GeneralInfo.MaxDays)
-	self.TotalWeightLost += self.TargetWeight
-	self.Client.DisplayTarget:FireAll(self.TargetWeight, GeneralInfo.Weight - self.TotalWeightLost, Day)
+	local IdealStrength = GeneralInfo.Strength - GeneralInfo.EndStrength
+	self.TargetStrength = CreateTarget(Day, IdealStrength, GeneralInfo.MaxDays)
+	self.TotalStrengthLost += self.TargetStrength
+	self.Client.DisplayTarget:FireAll(self.TargetStrength, GeneralInfo.Strength - self.TotalStrengthLost, Day)
 end
 
 function TargetService:GetTarget()
-	return GeneralInfo.Weight - self.TotalWeightLost
+	return GeneralInfo.Strength - self.TotalStrengthLost
 end
 
 return TargetService

@@ -80,7 +80,7 @@ end
 
 function KitchenService:ApplyFoodDetails(Food)
 	local FoodInfo = KitchenFoodInfo.Foods[Food.Name]
-	local WeightLoss, IsHighFood = self:CalculateFoodWeightLoss(Food)
+	local StrengthGain, IsHighFood = self:CalculateFoodStrengthGain(Food)
 	local ProximityPrompt = Instance.new("ProximityPrompt")
 	self.FoodSpawnTrove:Add(ProximityPrompt)
 	ProximityPrompt.ActionText = FoodInfo.Name
@@ -97,31 +97,31 @@ function KitchenService:ApplyFoodDetails(Food)
 		HighFoodEffect(Food)
 	end
 
-	return ProximityPrompt, WeightLoss, IsHighFood
+	return ProximityPrompt, StrengthGain, IsHighFood
 end
 
-function KitchenService:CalculateFoodWeightLoss(Food)
+function KitchenService:CalculateFoodStrengthGain(Food)
 	local FoodInfo = KitchenFoodInfo.Foods[Food.Name]
 	if not FoodInfo then
 		warn("Food info not found for: " .. Food.Name)
 		return 0
 	end
 
-	local WeightLoss = FoodInfo.DefaultWeightLoss
-	local MinInterval = KitchenFoodInfo.Info.FoodWeightLossIntervalMin
-	local MaxInterval = KitchenFoodInfo.Info.FoodWeightLossIntervalMax
+	local StrengthGain = FoodInfo.DefaultStrengthGain
+	local MinInterval = KitchenFoodInfo.Info.FoodStrengthGainIntervalMin
+	local MaxInterval = KitchenFoodInfo.Info.FoodStrengthGainIntervalMax
 	local DayPercentage = self.ClockService.Days / GeneralInfo.MaxDays
 	MaxInterval = math.round(DayPercentage * MaxInterval)
-	local WeightLossInterval = math.random(MinInterval, MaxInterval) / KitchenFoodInfo.Info.WeightIntervalResolution
+	local StrengthGainInterval = math.random(MinInterval, MaxInterval) / KitchenFoodInfo.Info.StrengthIntervalResolution
 
-	WeightLoss = math.clamp(WeightLoss * WeightLossInterval, -math.huge, KitchenFoodInfo.Info.MaxWeightLoss)
-	local HighFoodVal = KitchenFoodInfo.Info.HighFoodWeightLoss * (DayPercentage + 1.5)
+	StrengthGain = math.clamp(StrengthGain * StrengthGainInterval, -math.huge, KitchenFoodInfo.Info.MaxStrengthGain)
+	local HighFoodVal = KitchenFoodInfo.Info.HighFoodStrengthGain * (DayPercentage + 1.5)
 	local IsHighFood = false
-	if WeightLoss > HighFoodVal then
+	if StrengthGain > HighFoodVal then
 		IsHighFood = true
 	end
 
-	return WeightLoss, IsHighFood
+	return StrengthGain, IsHighFood
 end
 
 function KitchenService:SpawnFoods(FoodCount)
@@ -137,11 +137,11 @@ function KitchenService:SpawnFoods(FoodCount)
 			Food.Position = SpawnPoint.Position
 		end
 
-		local ProximityPrompt, WeightLoss, IsHighFood = self:ApplyFoodDetails(Food)
+		local ProximityPrompt, StrengthGain, IsHighFood = self:ApplyFoodDetails(Food)
 		self.FoodSpawnTrove:Connect(ProximityPrompt.Triggered, function(player)
-			local Status = self.WeightControl:DecreaseWeight(player, WeightLoss, true)
+			local Status = self.StrengthControl:DecreaseStrength(player, StrengthGain, true)
 			if Status then
-				self.Client.FoodEaten:Fire(player, Food.Name, WeightLoss, IsHighFood)
+				self.Client.FoodEaten:Fire(player, Food.Name, StrengthGain, IsHighFood)
 			end
 			Food:Destroy()
 		end)
@@ -184,7 +184,7 @@ function KitchenService:KnitStart()
 	self.ListOfFood = {}
 	self.FoodSpawnTrove = Trove.new()
 	self.ClockService = Knit.GetService("ClockService")
-	self.WeightControl = Knit.GetService("WeightControl")
+	self.StrengthControl = Knit.GetService("StrengthControl")
 end
 
 function KitchenService:_clearListOfFood()

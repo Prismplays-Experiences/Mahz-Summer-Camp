@@ -1,17 +1,17 @@
 local Knit = require("@Packages/Knit")
 return {
 	Suppliments = {
-		WeightGainShield = {
+		StrengthGainShield = {
 			Cost = 75,
 			ProductId = 3346296359,
-			Name = "Weight Gain Shield",
-			Description = "Protects from weight gain",
+			Name = "Strength Gain Shield",
+			Description = "Protects from Strength gain",
 			Image = "rbxassetid://101769566551705",
-			ToolName = "WeightGainShield",
+			ToolName = "StrengthGainShield",
 			Duration = 60,
 			func = function(Player)
 				local SupplimentsService = Knit.GetService("SupplimentsService")
-				SupplimentsService:UseSuppliment(Player, game.ServerStorage.Suppliments.WeightGainShield, 60)
+				SupplimentsService:UseSuppliment(Player, game.ServerStorage.Suppliments.StrengthGainShield, 60)
 			end,
 			Rarity = "Common",
 		},
@@ -50,7 +50,7 @@ return {
 			ProductId = 3346296362,
 			Name = "Fiber Supplement",
 			Multipler = 2,
-			Description = "2x weight loss from food",
+			Description = "2x Strength Gain from food",
 			Image = "rbxassetid://71958273625233",
 			ToolName = "FiberSupplement",
 			Duration = 2 * 60,
@@ -65,7 +65,7 @@ return {
 			ProductId = 3346296368,
 			Multiplier = 2,
 			Name = "Hyper Shred Max",
-			Description = "2x weight loss, 2x Workout Speed, 2x Health Recovery",
+			Description = "2x Strength Gain, 2x Workout Speed, 2x Health Recovery",
 			Image = "rbxassetid://126794628962455",
 			ToolName = "HyperShredMax",
 			Duration = 1 * 60,
@@ -81,7 +81,7 @@ return {
 			ProductId = 3346296361,
 			Name = "Fat Burner",
 			Multiplier = 1.5,
-			Description = "1.5x weight loss from workouts",
+			Description = "1.5x Strength Gain from workouts",
 			Image = "rbxassetid://92795872550388",
 			ToolName = "FatBurner",
 			Duration = 1.5 * 60,

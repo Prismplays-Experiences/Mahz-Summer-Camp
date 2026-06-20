@@ -78,19 +78,19 @@ end
 function FoodController:KnitStart()
 	self.KitchenService = Knit.GetService("KitchenService")
 
-	self.KitchenService.FoodEaten:Connect(function(_, weightLoss, isHighFood)
-		weightLoss = RoundTo2DecimalPlaces(weightLoss)
-		if weightLoss < 0 then
-			weightLoss = math.abs(weightLoss)
+	self.KitchenService.FoodEaten:Connect(function(_, StrengthGain, isHighFood)
+		StrengthGain = RoundTo2DecimalPlaces(StrengthGain)
+		if StrengthGain < 0 then
+			StrengthGain = math.abs(StrengthGain)
 			SoundEffects.BadFood:Play()
-			ShortNotification("-" .. weightLoss .. " energy", Color3.fromRGB(255, 0, 0), true)
-		elseif weightLoss > 0 and not isHighFood then
+			ShortNotification("-" .. StrengthGain .. " energy", Color3.fromRGB(255, 0, 0), true)
+		elseif StrengthGain > 0 and not isHighFood then
 			SoundEffects.EatSound:Play()
-			ShortNotification("+" .. weightLoss .. " energy", Color3.fromRGB(0, 255, 0), true)
+			ShortNotification("+" .. StrengthGain .. " energy", Color3.fromRGB(0, 255, 0), true)
 		else
 			SoundEffects.SuperFood:Play()
 			ShortNotification("SUPER FOOD!", Color3.fromRGB(255, 235, 51), true)
-			ShortNotification("+" .. weightLoss .. " energy", Color3.fromRGB(0, 255, 0), true)
+			ShortNotification("+" .. StrengthGain .. " energy", Color3.fromRGB(0, 255, 0), true)
 		end
 	end)
 

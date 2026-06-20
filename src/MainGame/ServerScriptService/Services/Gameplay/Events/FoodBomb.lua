@@ -34,7 +34,7 @@ local FoodBomb = Knit.CreateService({
 	Client = {
 		EventSubStatus = Knit.CreateProperty(""),
 		EventStatus = Knit.CreateProperty(""),
-		WeightGained = Knit.CreateSignal(),
+		StrengthGained = Knit.CreateSignal(),
 	},
 })
 
@@ -43,7 +43,7 @@ local FoodBomb = Knit.CreateService({
 FoodBomb.ExplodeTime = 65
 FoodBomb.PlayerWithFood = nil
 FoodBomb.Trove = Trove.new()
-FoodBomb.MaxWeightGained = 250
+FoodBomb.MaxStrengthGained = 250
 FoodBomb.MinPlayers = 2
 FoodBomb.LockWorkoutMachines = true
 FoodBomb.YieldClock = true
@@ -376,10 +376,10 @@ function FoodBomb:Start()
 		Food:Destroy()
 		task.spawn(function()
 			local progress = math.sqrt(self.ClockService.Days / GeneralInfo.MaxDays)
-			local WeightGained = self.MaxWeightGained * progress
-			local Status = self.WeightControl:DecreaseWeight(LastPlayer, -WeightGained, true)
+			local StrengthGained = self.MaxStrengthGained * progress
+			local Status = self.StrengthControl:DecreaseStrength(LastPlayer, -StrengthGained, true)
 			if Status then
-				self.Client.WeightGained:Fire(LastPlayer, WeightGained)
+				self.Client.StrengthGained:Fire(LastPlayer, StrengthGained)
 			end
 		end)
 		task.wait(3)
@@ -401,7 +401,7 @@ function FoodBomb:KnitStart()
 	self.GeneralService = Knit.GetService("GeneralGameplay")
 	self.ClockService = Knit.GetService("ClockService")
 	self.EventsService = Knit.GetService("EventsService")
-	self.WeightControl = Knit.GetService("WeightControl")
+	self.StrengthControl = Knit.GetService("StrengthControl")
 end
 
 return FoodBomb

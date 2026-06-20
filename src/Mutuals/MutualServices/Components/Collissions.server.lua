@@ -8,6 +8,11 @@ PhysicsService:RegisterCollisionGroup(BorderCollissionGroup)
 PhysicsService:RegisterCollisionGroup(PlayerCollissionGroup)
 PhysicsService:RegisterCollisionGroup(NPCCollision)
 
+PhysicsService:RegisterCollisionGroup('Doors')
+PhysicsService:RegisterCollisionGroup('DoorsWalkThrough')
+PhysicsService:CollisionGroupSetCollidable("Doors", "DoorsWalkThrough", false)
+
+
 PhysicsService:CollisionGroupSetCollidable(PlayerCollissionGroup, PlayerCollissionGroup, false)
 PhysicsService:CollisionGroupSetCollidable(PlayerCollissionGroup, NPCCollision, false)
 PhysicsService:CollisionGroupSetCollidable(NPCCollision, NPCCollision, false)

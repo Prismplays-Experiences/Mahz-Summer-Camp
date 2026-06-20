@@ -1,44 +1,44 @@
 local GeneralInfo = require(game.ReplicatedStorage.Info.GeneralInfo)
 
-function CreateTarget(Day, IdealWeight, MaxDays)
+function CreateTarget(Day, IdealStrength, MaxDays)
 	MaxDays = MaxDays or GeneralInfo.MaxDays
 	local k = 0.15 -- curve steepness
 	local roundTo = 5
 
-	local rawWeights = {}
+	local rawStrengths = {}
 	local totalRaw = 0
 
-	-- Step 1: Generate exponential weights
+	-- Step 1: Generate exponential Strengths
 	for i = 1, MaxDays do
 		local w = math.exp(k * i)
-		table.insert(rawWeights, w)
+		table.insert(rawStrengths, w)
 		totalRaw += w
 	end
 
-	-- Step 2: Scale and round weights
-	local scale = IdealWeight / totalRaw
-	local scaledWeights = {}
-	local roundedWeights = {}
+	-- Step 2: Scale and round Strengths
+	local scale = IdealStrength / totalRaw
+	local scaledStrengths = {}
+	local roundedStrengths = {}
 	local totalRounded = 0
 
 	for i = 1, MaxDays do
-		local scaled = rawWeights[i] * scale
-		scaledWeights[i] = scaled
+		local scaled = rawStrengths[i] * scale
+		scaledStrengths[i] = scaled
 		local rounded = math.floor((scaled / roundTo) + 0.5) * roundTo
-		roundedWeights[i] = rounded
+		roundedStrengths[i] = rounded
 		totalRounded += rounded
 	end
 
-	-- Step 3: Fix rounding error by adjusting largest weights
-	local difference = IdealWeight - totalRounded
+	-- Step 3: Fix rounding error by adjusting largest Strengths
+	local difference = IdealStrength - totalRounded
 	local adjustmentStep = roundTo * (difference > 0 and 1 or -1)
 	local remaining = math.abs(difference)
 
 	while remaining > 0 do
 		for i = MaxDays, 1, -1 do
-			local newValue = roundedWeights[i] + adjustmentStep
+			local newValue = roundedStrengths[i] + adjustmentStep
 			if newValue >= 0 then
-				roundedWeights[i] = newValue
+				roundedStrengths[i] = newValue
 				remaining -= roundTo
 				if remaining <= 0 then
 					break
@@ -48,7 +48,7 @@ function CreateTarget(Day, IdealWeight, MaxDays)
 	end
 
 	-- Step 4: Return the value for the requested day
-	return roundedWeights[Day]
+	return roundedStrengths[Day]
 end
 
 return {
@@ -57,17 +57,17 @@ return {
 		"You got chunky...",
 		"and pudgy...",
 		`now you have {GeneralInfo.MaxDays} days to get shredded!`,
-		`Lose {GeneralInfo.Weight} lbs or... it's game over.`,
+		`Lose {GeneralInfo.Strength} lbs or... it's game over.`,
 		`You are tasked with losing {math.round(
-			CreateTarget(1, GeneralInfo.Weight - GeneralInfo.EndWeight, GeneralInfo.MaxDays)
+			CreateTarget(1, GeneralInfo.Strength - GeneralInfo.EndStrength, GeneralInfo.MaxDays)
 		)} lbs today!`,
 		"Go Now!",
 	},
 
 	-- Day1 = {
 	--     'Arise Fellas!',
-	--     `You are tasked with losing {math.round(CreateTarget(1, GeneralInfo.Weight- GeneralInfo.EndWeight, GeneralInfo.MaxDays))} lbs today!`,
-	--     `Use the workout equipments to lose weight.`,
+	--     `You are tasked with losing {math.round(CreateTarget(1, GeneralInfo.Strength- GeneralInfo.EndStrength, GeneralInfo.MaxDays))} lbs today!`,
+	--     `Use the workout equipments to lose Strength.`,
 	--     'LETS GOO!!',
 	-- },
 	Day2 = {
