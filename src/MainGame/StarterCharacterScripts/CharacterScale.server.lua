@@ -110,7 +110,7 @@ end
 ----------------------------------------
 function StrengthChanged()
 	if Player.Character and Player.Character:FindFirstChild("Humanoid") then
-		PlayerDetails.Strength.Text = `{Strength.Value}lbs`
+		PlayerDetails.Strength.Text = `{Strength.Value}`
 		local playerHumanoid = Player.Character.Humanoid
 		local Strength = Strength.Value
 
@@ -128,6 +128,6 @@ StrengthChanged()
 
 script.Parent.Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
 PlayerDetails.PlayerName.Text = Player.DisplayName
-PlayerDetails.Strength.Text = `{Strength.Value}lbs`
+PlayerDetails.Strength.Text = `{Strength.Value}`
 PlayerDetails.Adornee = Player.Character:WaitForChild("Head")
 PlayerDetails.Parent = Player.Character

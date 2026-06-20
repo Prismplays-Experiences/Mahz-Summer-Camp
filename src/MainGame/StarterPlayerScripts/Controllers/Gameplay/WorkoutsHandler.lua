@@ -18,6 +18,7 @@ local ItemsToHide = ScriptingProperties:WaitForChild("ItemsToHide")
 local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
 local Main = PlayerGui:WaitForChild("Main")
 local HUD = Main:WaitForChild("HUD")
+local Core = Main:WaitForChild("Core")
 local InjuryRecoverybtn = HUD:WaitForChild("InjuryRecovery")
 local GameplayFrames = Main:WaitForChild("Gameplay")
 local StrengthGainBtn = GameplayFrames:WaitForChild("StrengthGain")
@@ -330,6 +331,7 @@ function WorkoutsHandler:StartWorkout(slot, Data)
 	local WorkoutName = slot.Parent.Name
 	HUD:WaitForChild("TargetStrength").Visible = true
 	HUD:WaitForChild("LifesFrame").Visible = false
+	Core.Visible = false
 	GameplayFrames.Visible = true
 	self:ControlProximityPrompts(false)
 	pcall(function()
@@ -441,6 +443,7 @@ function WorkoutsHandler:StopWorkout()
 	self.InWorkout = false
 	self.InjuryLogic.Value = false
 	GameplayFrames.Visible = false
+	Core.Visible = true
 	self.AurasService:RemoveAura()
 	HUD:WaitForChild("TargetStrength").Visible = false
 	HUD:WaitForChild("LifesFrame").Visible = true

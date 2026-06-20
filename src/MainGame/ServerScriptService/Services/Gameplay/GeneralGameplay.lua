@@ -24,7 +24,7 @@ local SoundEffects = ReplicatedStorage:WaitForChild("Models"):WaitForChild("Soun
 ----------------------------------------
 local Testing = false
 
-local WAITING_TIME_FOR_STUDIO = 15
+local WAITING_TIME_FOR_STUDIO = 30
 
 --> Knit Setup
 ----------------------------------------
@@ -92,6 +92,7 @@ end
 function GeneralGameplay:Countdown(seconds)
 	self.Client.CountdownValue:Set(seconds)
 	for i = seconds, 1, -1 do
+		print("Countdown: " .. i)
 		self.Client.CountdownValue:Set(i)
 		task.wait(1)
 	end

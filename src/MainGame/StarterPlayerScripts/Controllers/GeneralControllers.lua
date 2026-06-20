@@ -152,11 +152,11 @@ function GeneralControllers:KnitStart()
 			StrengthRequired = math.clamp(StrengthRequired - Target / 2, GeneralInfo.Strength, math.huge)
 		end
 		self.Target = StrengthRequired
-		HUD:WaitForChild("TargetStrength").Text = `Your Target: {StrengthRequired}lbs`
+		HUD:WaitForChild("TargetStrength").Text = `Your Target: {StrengthRequired}💪`
 		HUD:WaitForChild("TargetStrength").TextColor3 = Color3.fromRGB(253, 255, 133)
 		Core:WaitForChild("Day").Text = `Day {Day}`
 		TargetFrame:WaitForChild("Target").Text =
-			`Lose {math.clamp(StrengthValue.Value - StrengthRequired, Target, math.huge)}lbs`
+			`Lose {math.clamp(StrengthValue.Value - StrengthRequired, Target, math.huge)}💪`
 		TargetFrame:WaitForChild("Header").Text = `Day {Day} target`
 		self.Day = Day
 		local Close = OpenFrame(TargetFrame)
@@ -168,7 +168,7 @@ function GeneralControllers:KnitStart()
 			task.wait(2)
 			TweenUiScale(EnergyBoostUIScale, 1)
 		end)
-		TargetStrengthTxt.Text = `Your Target: {StrengthRequired}lbs`
+		TargetStrengthTxt.Text = `Your Target: {StrengthRequired}💪`
 		self.WorkoutsHandler:ControlProximityPrompts(true)
 	end)
 	EnergyBoost:WaitForChild("No").MouseButton1Click:Connect(function()
@@ -187,8 +187,8 @@ function GeneralControllers:KnitStart()
 	end)
 
 	-- Strength Value Update
-	StrengthTxt.Text = `Strength: {StrengthValue.Value}lbs`
-	TargetStrengthTxt.Text = `Your Target: {self.Target}lbs`
+	StrengthTxt.Text = `Strength: {StrengthValue.Value}💪`
+	TargetStrengthTxt.Text = `Your Target: {self.Target}💪`
 	self.Target = self.Target or 0
 
 	-- Update Strength Text

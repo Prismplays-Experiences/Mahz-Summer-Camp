@@ -4,8 +4,8 @@ return {
 		StrengthGainShield = {
 			Cost = 75,
 			ProductId = 3346296359,
-			Name = "Strength Gain Shield",
-			Description = "Protects from Strength gain",
+			Name = "Strength Loss Shield",
+			Description = "Protects from Strength loss",
 			Image = "rbxassetid://101769566551705",
 			ToolName = "StrengthGainShield",
 			Duration = 60,

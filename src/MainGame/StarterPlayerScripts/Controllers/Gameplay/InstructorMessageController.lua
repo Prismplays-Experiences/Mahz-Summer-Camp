@@ -213,6 +213,7 @@ end
 --> Main Functions
 ----------------------------------------
 function InstructorMessageController:KnitStart()
+	print("Instructor COntroller Started")
 	local InstructorService = Knit.GetService("InstructorMessage")
 	self.MusicController = Knit.GetController("MusicController")
 	self.GeneralController = Knit.GetController("GeneralControllers")

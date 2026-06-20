@@ -16,6 +16,7 @@ local Main = PlayerGui:WaitForChild("Main")
 local Frames = Main:WaitForChild("Frames")
 local MainFrame = Frames:WaitForChild("Shop")
 local Core = Main:WaitForChild("Core")
+local StrengthPurchases = Core:WaitForChild("StrengthPurchases")
 
 --> Knit Setup
 ----------------------------------------
@@ -102,10 +103,10 @@ function Shop:KnitStart()
 			end
 		end)
 	end
-	print("heere")
-	ProductBtn(Core:WaitForChild("Plus100"), MarketService.ProductIds.Plus100.Id)
-	ProductBtn(Core:WaitForChild("Plus500"), MarketService.ProductIds.Plus500.Id)
-	ProductBtn(Core:WaitForChild("Plus1000"), MarketService.ProductIds.Plus1000.Id)
+
+	ProductBtn(StrengthPurchases:WaitForChild("Plus100"), MarketService.ProductIds.Plus100.Id)
+	ProductBtn(StrengthPurchases:WaitForChild("Plus500"), MarketService.ProductIds.Plus500.Id)
+	ProductBtn(StrengthPurchases:WaitForChild("Plus1000"), MarketService.ProductIds.Plus1000.Id)
 	ProductBtn(Core:WaitForChild("SkipDay"), MarketService.ProductIds.SkipDay.Id)
 end
 

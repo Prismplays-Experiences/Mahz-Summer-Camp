@@ -63,7 +63,7 @@ function StrengthControl:DecreaseStrength(Player, Value, FoodGain)
 		Value *= DailyEnergyBoost
 		Value *= StarterPackBoost
 	end
-	if Player:HasTag("StrengthGainShield") and Value < 0 then
+	if Player:HasTag("StrengthLossShield") and Value < 0 then
 		CanAdd = false
 	end
 
@@ -76,7 +76,7 @@ function StrengthControl:DecreaseStrength(Player, Value, FoodGain)
 	else
 		SendNotification(
 			Player,
-			"Protected by Strength Gain shield!",
+			"Protected by Strength Loss shield!",
 			Color3.fromRGB(106, 255, 0),
 			3,
 			false,

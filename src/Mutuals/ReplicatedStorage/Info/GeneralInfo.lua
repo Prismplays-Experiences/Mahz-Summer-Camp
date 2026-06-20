@@ -11,10 +11,10 @@ return {
 	LobbyPlaceId = 76881617650041,
 
 	WorkoutStartDays = {
-		BenchPress = { Day = 15, UnlockIndex = "BenchPressUnlock", LevelColor = Color3.fromRGB(221, 63, 0) },
-		Dips = { Day = 18, UnlockIndex = "DipsUnlock", LevelColor = Color3.fromRGB(221, 0, 0) },
-		DumbellCurl = { Day = 10, UnlockIndex = "DumbellCurlUnlock", LevelColor = Color3.fromRGB(221, 203, 0) },
+		BenchPress = { Day = 10, UnlockIndex = "BenchPressUnlock", LevelColor = Color3.fromRGB(221, 63, 0) },
+		Dips = { Day = 15, UnlockIndex = "DipsUnlock", LevelColor = Color3.fromRGB(221, 0, 0) },
+		DumbellCurl = { Day = 3, UnlockIndex = "DumbellCurlUnlock", LevelColor = Color3.fromRGB(221, 203, 0) },
 		Pushups = { Day = 1, UnlockIndex = nil, LevelColor = Color3.fromRGB(48, 221, 0) },
-		Treadmill = { Day = 3, UnlockIndex = "TreadmillUnlock", LevelColor = Color3.fromRGB(109, 221, 57) },
+		Treadmill = { Day = 18, UnlockIndex = "TreadmillUnlock", LevelColor = Color3.fromRGB(109, 221, 57) },
 	},
 }
